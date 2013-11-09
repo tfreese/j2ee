@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="propertiesArray">
+            <list>
+                <props>
+                    <!--prop key="server.url">http://localhost:8080/de.freese.spring.webservice.server</prop-->
+                    <prop key="server.url">http://localhost:8080/spring</prop>
+                    <!--prop key="server.url">http://localhost:8080/spring-webservice-server</prop-->					
+                </props>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Spring API -->
+    <bean id="holidayWebService" class="de.freese.webservice.client.HolidayWebService">
+        <property name="webServiceTemplate" ref="webServiceTemplate" />
+    </bean>
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <!--constructor-arg ref="messageFactory"/ -->
+        <property name="defaultUri" value="${server.url}/ws-jax-rcp/holidayService" />
+        <property name="marshaller" ref="xmlMarshaller" />
+        <property name="unmarshaller" ref="xmlUnmarshaller" />
+        <!--property name="messageSender">
+        <bean class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
+        <property name="credentials">
+        <bean class="org.apache.commons.httpclient.UsernamePasswordCredentials">
+        <constructor-arg value="john"/>
+        <constructor-arg value="secret"/>
+        </bean>
+        </property>
+        </bean>
+        </property -->
+    </bean>
+
+    <bean id="xmlMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="marshallerProperties">
+            <map>
+                <entry key="jaxb.formatted.output">
+                    <value type="boolean">true</value>
+                </entry>
+            </map>
+        </property>
+        <property name="contextPath" value="de.freese.spring.common.model" />
+        <!--property name="classesToBeBound">
+        <list>
+        <value>de.freese.Tupel2</value>
+        </list>
+        </property -->
+    </bean>
+    <alias name="xmlMarshaller" alias="xmlUnmarshaller" />
+
+    <!-- Apache CXF API -->
+    <jaxws:client id="holidayWebService2"
+                  serviceClass="de.freese.spring.common.ws.IHolidayService2" address="${server.url}/ws-jax-cxf/holidayService2" />
+
+    <!-- Alternative zu CXF-API -->
+    <bean id="clientFactoryHolidayWebService21" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+        <property name="serviceClass" value="de.freese.spring.common.ws.IHolidayService2" />
+        <property name="address" value="${server.url}/ws-jax-cxf/holidayService2" />
+    </bean>
+    <bean id="holidayWebService21" class="de.freese.spring.common.ws.IHolidayService2"
+          factory-bean="clientFactoryHolidayWebService21" factory-method="create" />
+
+    <!-- Spring Alternative zu CXF-API -->
+    <bean id="holidayWebService22"
+          class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+        <property name="serviceInterface" value="de.freese.spring.common.ws.IHolidayService2" />
+        <!--property name="namespaceUri" value="http://mycompany.com/hr/schemas"/ -->
+        <!--property name="wsdlDocumentUrl" value="${server.url}/ws-jax-cxf/holidayService2?wsdll"/ -->
+        <property name="serviceName" value="HolidayWebServiceEndpointWSService" />
+        <property name="endpointAddress" value="${server.url}/ws-jax-cxf/holidayService2" />
+    </bean>
+
+</beans>

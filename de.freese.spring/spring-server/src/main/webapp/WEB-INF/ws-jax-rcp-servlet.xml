@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="holidayServiceEndPoint" class="de.freese.spring.server.ws.HolidayWebServiceEndpointRPC"/>
+	
+	<bean id="holidayService"
+		class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+		<property name="portTypeName" value="HolidayServicePort" />
+		<property name="locationUri" value="holidayService" />
+		<property name="requestSuffix" value="-Request" />
+		<property name="responseSuffix" value="-Response" />
+		<property name="schema">
+			<bean class="org.springframework.xml.xsd.SimpleXsdSchema">
+				<property name="xsd" value="classpath:holiday.xsd" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="validatingInterceptor"
+		class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+		<property name="schema" value="classpath:holiday.xsd" />
+		<property name="validateRequest" value="true" />
+		<property name="validateResponse" value="true" />
+	</bean>
+
+	<bean id="loggingInterceptor"
+		class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor">
+		<property name="loggerName" value="de.freese.spring.server.ws" />
+		<property name="logRequest" value="true" />
+		<property name="logResponse" value="true" />
+	</bean>
+
+	<bean
+		class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
+		<description>An endpoint mapping strategy that looks for @Endpoint and
+			@PayloadRoot annotations.
+		</description>
+		<property name="interceptors">
+			<list>
+				<bean class="de.freese.spring.server.ws.HolidayEndpointInterceptor" />
+				<ref bean="loggingInterceptor" />
+				<ref bean="validatingInterceptor" />
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.ws.server.endpoint.adapter.MarshallingMethodEndpointAdapter">
+		<description>Enables the MessageDispatchServlet to invoke methods
+			requiring OXM marshalling.
+		</description>
+		<constructor-arg ref="xmlMarshaller" />
+	</bean>
+
+</beans>

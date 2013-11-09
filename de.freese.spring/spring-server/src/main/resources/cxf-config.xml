@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<!-- Das CXF-Servlet hat keinen eigenen ApplicationContext -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<bean id="holidayServiceEndPoint2" class="de.freese.spring.server.ws.HolidayWebServiceEndpointWS"/>
+	<jaxws:endpoint id="holidayService2" implementor="#holidayServiceEndPoint2" address="/holidayService2"/>
+		
+	<!--bean id="holidayServiceEndPoint2" class="org.apache.cxf.jaxws.JaxWsServerFactoryBean">
+		<property name="serviceClass" value="de.freese.spring.common.ws.IHolidayService2"/>
+		<property name="serviceBean" value="de.freese.spring.server.ws.HolidayWebServiceEndpointWS"/>
+		<property name="address" value="/holidayService2"/>
+	</bean>
+	<bean id="holidayService2" class="org.apache.cxf.endpoint.Server"
+		factory-bean="holidayServiceEndPoint2" factory-method="create"/-->
+						
+	<!--HelloWorldImpl implementor = new HelloWorldImpl();
+	JaxWsServerFactoryBean svrFactory = new org.apache.cxf.jaxws.JaxWsServerFactoryBean();
+	svrFactory.setServiceClass(HelloWorld.class);
+	svrFactory.setAddress("http://localhost:9000/helloWorld");
+	svrFactory.setServiceBean(implementor);
+	svrFactory.getInInterceptors().add(new LoggingInInterceptor());
+	svrFactory.getOutInterceptors().add(new LoggingOutInterceptor());
+	svrFactory.create();-->		
+
+</beans>
