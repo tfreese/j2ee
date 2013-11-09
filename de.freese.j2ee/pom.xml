@@ -17,7 +17,7 @@
 
 	<profiles>
 		<profile>
-			<id>dist-webdav</id>
+			<id>deploy-webdav</id>
 			<build>
 				<plugins>
 					<plugin>
