@@ -1,0 +1,40 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory><!-- name="testJPA" (mit JNDI)-->
+		<property name="hibernate.connection.url">jdbc:hsqldb:mem:memoryDB</property><!--jdbc:hsqldb:file:hsqldb/hibernateJPA;create=true-->
+		<property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password"></property>
+		<property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+		
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>		
+		<property name="hibernate.cache.use_minimal_puts">false</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<!--property name="hibernate.cache.region.factory_class">org.hibernate.cache.internal.NoCachingRegionFactory</property-->
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
+		<property name="hibernate.cache.region_prefix">hibernate.test</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_structured_entries">true</property>
+		<property name="hibernate.default_batch_fetch_size">32</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.generate_statistics">true</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+		<property name="hibernate.jdbc.batch_size">50</property>
+		<property name="hibernate.jdbc.batch_versioned_data">true</property>
+		<property name="hibernate.jdbc.use_streams_for_binary">true</property>
+		<property name="hibernate.order_inserts">true</property>
+		<property name="hibernate.order_updates">true</property>		
+		<property name="hibernate.query.substitutions">yes 1, no 0</property>			
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>	
+		<property name="hibernate.transaction.flush_before_completion">true</property>
+		
+		<!--mapping package="de.freese.jpa.model"/-->
+        <mapping class="de.freese.jpa.model.Person"/>
+        <mapping class="de.freese.jpa.model.Address"/>
+		<!--mapping resource="test/animals/orm.xml"/-->				
+	</session-factory>
+</hibernate-configuration>

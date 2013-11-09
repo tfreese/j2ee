@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="j2eeJPA" transaction-type="JTA">
+        <!--RESOURCE_LOCAL, JTA-->
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>jdbc/hsqldb-memory</jta-data-source>
+        <!--non-jta-data-source>jdbc/hsqldb-memory</non-jta-data-source-->     
+		<class>de.freese.j2ee.model.Kunde</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+		<validation-mode>AUTO</validation-mode>
+		<properties>
+							
+			<property name="hibernate.bytecode.use_reflection_optimizer" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />		
+			<property name="hibernate.cache.use_minimal_puts" value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+			<!--property name="hibernate.cache.region.factory_class" VALUE="org.hibernate.cache.internal.NoCachingRegionFactory" /-->
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
+			<property name="hibernate.cache.region_prefix" value="hibernate.test" />
+			<property name="hibernate.cache.use_second_level_cache" value="false" />
+			<property name="hibernate.cache.use_structured_entries" value="true" />
+			<property name="hibernate.default_batch_fetch_size" value="32" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.generate_statistics" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.jdbc.batch_size" value="50" />
+			<property name="hibernate.jdbc.batch_versioned_data" value="true" />
+			<property name="hibernate.jdbc.use_streams_for_binary" value="true" />
+			<property name="hibernate.order_inserts" value="true" />
+			<property name="hibernate.order_updates" value="true" />		
+			<property name="hibernate.query.substitutions" value="yes 1, no 0" />			
+			<property name="hibernate.show_sql" value="true" />	
+			<property name="hibernate.transaction.jta.platform"
+				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+			<property name="hibernate.transaction.flush_before_completion" value="true" />				
+				
+			<!--property name="javax.persistence.validation.group.pre-persist" value="java.lang.Character,java.io.File"/>
+			<property name="javax.persistence.validation.group.pre-update" value="javax.swing.filechooser.FileSystemView"/>
+			<property name="javax.persistence.validation.group.pre-remove" value="javax.swing.filechooser.FileSystemView"/-->
+			
+			<!--property name="javax.persistence.jdbc.driver" value="..."/> 
+			<property name="javax.persistence.jdbc.url" value="..."/>
+			<property name="javax.persistence.jdbc.user" value="..."/>
+			<property name="javax.persistence.jdbc.password" value="..."/-->   			
+		</properties>
+	</persistence-unit>
+</persistence>
