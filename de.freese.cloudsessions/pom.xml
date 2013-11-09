@@ -20,7 +20,7 @@
 
 	<profiles>
 		<profile>
-			<id>dist-webdav</id>
+			<id>deploy-webdav</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -103,7 +103,7 @@
 							<goal>stop</goal>
 						</goals>
 					</execution>
-				</executions>				
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
