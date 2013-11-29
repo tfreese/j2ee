@@ -43,33 +43,45 @@ public class KundeDAO
 	 */
 	public void delete(final long id) throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			String sql = "delete from kunde where pk = ?";
-			stmt = con.prepareStatement(sql);
-			stmt.setLong(1, id);
 
-			stmt.executeUpdate();
-		}
-		finally
-		{
-			// Erst Statement schliessen.
-			if (stmt != null)
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				stmt.close();
-			}
+				stmt.setLong(1, id);
 
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+				stmt.executeUpdate();
 			}
 		}
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// String sql = "delete from kunde where pk = ?";
+		// stmt = con.prepareStatement(sql);
+		// stmt.setLong(1, id);
+		//
+		// stmt.executeUpdate();
+		// }
+		// finally
+		// {
+		// // Erst Statement schliessen.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
 	}
 
 	/**
@@ -87,13 +99,8 @@ public class KundeDAO
 	 */
 	public void insert(final Kunde kunde) throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			// TODO: Achtung !!!
 			// Hier machen wir es uns einfach und erzeugen den PrimaryKey selbst.
 			// In der Praxis wird dies über Sequences der Datenbank gemacht !!!
@@ -101,27 +108,52 @@ public class KundeDAO
 			kunde.setPk(pk);
 
 			String sql = "insert into kunde (pk, nachname, vorname) values (?, ?, ?)";
-			stmt = con.prepareStatement(sql);
-			stmt.setLong(1, pk);
-			stmt.setString(2, kunde.getNachName());
-			stmt.setString(3, kunde.getVorname());
 
-			stmt.executeUpdate();
-		}
-		finally
-		{
-			// Erst Statement schliessen.
-			if (stmt != null)
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				stmt.close();
-			}
+				stmt.setLong(1, pk);
+				stmt.setString(2, kunde.getNachName());
+				stmt.setString(3, kunde.getVorname());
 
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+				stmt.executeUpdate();
 			}
 		}
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// // TODO: Achtung !!!
+		// // Hier machen wir es uns einfach und erzeugen den PrimaryKey selbst.
+		// // In der Praxis wird dies über Sequences der Datenbank gemacht !!!
+		// long pk = this.sequence.getAndIncrement();
+		// kunde.setPk(pk);
+		//
+		// String sql = "insert into kunde (pk, nachname, vorname) values (?, ?, ?)";
+		// stmt = con.prepareStatement(sql);
+		// stmt.setLong(1, pk);
+		// stmt.setString(2, kunde.getNachName());
+		// stmt.setString(3, kunde.getVorname());
+		//
+		// stmt.executeUpdate();
+		// }
+		// finally
+		// {
+		// // Erst Statement schliessen.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
 	}
 
 	/**
@@ -132,54 +164,81 @@ public class KundeDAO
 	 */
 	public List<Kunde> selectAll() throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
 		List<Kunde> kunden = new ArrayList<Kunde>();
 
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			String sql = "select * from kunde";
-			stmt = con.prepareStatement(sql);
-			rs = stmt.executeQuery();
 
-			while (rs.next())
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				Kunde kunde = new Kunde();
+				try (ResultSet rs = stmt.executeQuery())
+				{
+					while (rs.next())
+					{
+						Kunde kunde = new Kunde();
 
-				// Der Zugriff über Spaltennamen ist sicherer als über Indices !
-				kunde.setPk(rs.getLong("PK"));
-				kunde.setNachName(rs.getString("NACHNAME"));
-				kunde.setVorname(rs.getString("VORNAME"));
+						// Der Zugriff über Spaltennamen ist sicherer als über Indices !
+						kunde.setPk(rs.getLong("PK"));
+						kunde.setNachName(rs.getString("NACHNAME"));
+						kunde.setVorname(rs.getString("VORNAME"));
 
-				kunden.add(kunde);
-			}
-		}
-		finally
-		{
-			// Erst ResultSet schliessen.
-			if (rs != null)
-			{
-				rs.close();
-			}
-
-			// Dann das Statement.
-			if (stmt != null)
-			{
-				stmt.close();
-			}
-
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+						kunden.add(kunde);
+					}
+				}
 			}
 		}
 
 		return kunden;
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		// ResultSet rs = null;
+		//
+		// List<Kunde> kunden = new ArrayList<Kunde>();
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// String sql = "select * from kunde";
+		// stmt = con.prepareStatement(sql);
+		// rs = stmt.executeQuery();
+		//
+		// while (rs.next())
+		// {
+		// Kunde kunde = new Kunde();
+		//
+		// // Der Zugriff über Spaltennamen ist sicherer als über Indices !
+		// kunde.setPk(rs.getLong("PK"));
+		// kunde.setNachName(rs.getString("NACHNAME"));
+		// kunde.setVorname(rs.getString("VORNAME"));
+		//
+		// kunden.add(kunde);
+		// }
+		// }
+		// finally
+		// {
+		// // Erst ResultSet schliessen.
+		// if (rs != null)
+		// {
+		// rs.close();
+		// }
+		//
+		// // Dann das Statement.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
+		//
+		// return kunden;
 	}
 
 	/**
@@ -191,53 +250,80 @@ public class KundeDAO
 	 */
 	public Kunde selectByID(final long pk) throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
 		Kunde kunde = null;
 
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			String sql = "select * from kunde where pk = ?";
-			stmt = con.prepareStatement(sql);
-			stmt.setLong(1, pk);
-			rs = stmt.executeQuery();
 
-			if (rs.next())
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				kunde = new Kunde();
+				stmt.setLong(1, pk);
 
-				// Der Zugriff über Spaltennamen ist sicherer als über Indices !
-				kunde.setPk(rs.getLong("PK"));
-				kunde.setNachName(rs.getString("NACHNAME"));
-				kunde.setVorname(rs.getString("VORNAME"));
-			}
-		}
-		finally
-		{
-			// Erst ResultSet schliessen.
-			if (rs != null)
-			{
-				rs.close();
-			}
+				try (ResultSet rs = stmt.executeQuery())
+				{
+					if (rs.next())
+					{
+						kunde = new Kunde();
 
-			// Dann das Statement.
-			if (stmt != null)
-			{
-				stmt.close();
-			}
-
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+						// Der Zugriff über Spaltennamen ist sicherer als über Indices !
+						kunde.setPk(rs.getLong("PK"));
+						kunde.setNachName(rs.getString("NACHNAME"));
+						kunde.setVorname(rs.getString("VORNAME"));
+					}
+				}
 			}
 		}
 
 		return kunde;
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		// ResultSet rs = null;
+		//
+		// Kunde kunde = null;
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// String sql = "select * from kunde where pk = ?";
+		// stmt = con.prepareStatement(sql);
+		// stmt.setLong(1, pk);
+		// rs = stmt.executeQuery();
+		//
+		// if (rs.next())
+		// {
+		// kunde = new Kunde();
+		//
+		// // Der Zugriff über Spaltennamen ist sicherer als über Indices !
+		// kunde.setPk(rs.getLong("PK"));
+		// kunde.setNachName(rs.getString("NACHNAME"));
+		// kunde.setVorname(rs.getString("VORNAME"));
+		// }
+		// }
+		// finally
+		// {
+		// // Erst ResultSet schliessen.
+		// if (rs != null)
+		// {
+		// rs.close();
+		// }
+		//
+		// // Dann das Statement.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
+		//
+		// return kunde;
 	}
 
 	/**
@@ -249,55 +335,84 @@ public class KundeDAO
 	 */
 	public List<Kunde> selectByNachName(final String nachname) throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
 		List<Kunde> kunden = new ArrayList<Kunde>();
 
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			String sql = "select * from kunde where nachname = ?";
-			stmt = con.prepareStatement(sql);
-			stmt.setString(1, nachname);
-			rs = stmt.executeQuery();
 
-			while (rs.next())
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				Kunde kunde = new Kunde();
+				stmt.setString(1, nachname);
 
-				// Der Zugriff über Spaltennamen ist sicherer als über Indices !
-				kunde.setPk(rs.getLong("PK"));
-				kunde.setNachName(rs.getString("NACHNAME"));
-				kunde.setVorname(rs.getString("VORNAME"));
+				try (ResultSet rs = stmt.executeQuery())
+				{
+					while (rs.next())
+					{
+						Kunde kunde = new Kunde();
 
-				kunden.add(kunde);
-			}
-		}
-		finally
-		{
-			// Erst ResultSet schliessen.
-			if (rs != null)
-			{
-				rs.close();
-			}
+						// Der Zugriff über Spaltennamen ist sicherer als über Indices !
+						kunde.setPk(rs.getLong("PK"));
+						kunde.setNachName(rs.getString("NACHNAME"));
+						kunde.setVorname(rs.getString("VORNAME"));
 
-			// Dann das Statement.
-			if (stmt != null)
-			{
-				stmt.close();
-			}
-
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+						kunden.add(kunde);
+					}
+				}
 			}
 		}
 
 		return kunden;
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		// ResultSet rs = null;
+		//
+		// List<Kunde> kunden = new ArrayList<Kunde>();
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// String sql = "select * from kunde where nachname = ?";
+		// stmt = con.prepareStatement(sql);
+		// stmt.setString(1, nachname);
+		// rs = stmt.executeQuery();
+		//
+		// while (rs.next())
+		// {
+		// Kunde kunde = new Kunde();
+		//
+		// // Der Zugriff über Spaltennamen ist sicherer als über Indices !
+		// kunde.setPk(rs.getLong("PK"));
+		// kunde.setNachName(rs.getString("NACHNAME"));
+		// kunde.setVorname(rs.getString("VORNAME"));
+		//
+		// kunden.add(kunde);
+		// }
+		// }
+		// finally
+		// {
+		// // Erst ResultSet schliessen.
+		// if (rs != null)
+		// {
+		// rs.close();
+		// }
+		//
+		// // Dann das Statement.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
+		//
+		// return kunden;
 	}
 
 	/**
@@ -316,34 +431,48 @@ public class KundeDAO
 	 */
 	public void update(final Kunde kunde) throws Exception
 	{
-		Connection con = null;
-		PreparedStatement stmt = null;
-
-		try
+		try (Connection con = getConnection())
 		{
-			con = getConnection();
-
 			String sql = "update kunde set nachname = ?, vorname = ? where pk = ?";
-			stmt = con.prepareStatement(sql);
-			stmt.setString(1, kunde.getNachName());
-			stmt.setString(2, kunde.getVorname());
-			stmt.setLong(3, kunde.getPk());
 
-			stmt.executeUpdate();
-		}
-		finally
-		{
-			// Erst Statement schliessen.
-			if (stmt != null)
+			try (PreparedStatement stmt = con.prepareStatement(sql))
 			{
-				stmt.close();
-			}
+				stmt.setString(1, kunde.getNachName());
+				stmt.setString(2, kunde.getVorname());
+				stmt.setLong(3, kunde.getPk());
 
-			// Dann die Connection.
-			if (con != null)
-			{
-				con.close();
+				stmt.executeUpdate();
 			}
 		}
+
+		// Connection con = null;
+		// PreparedStatement stmt = null;
+		//
+		// try
+		// {
+		// con = getConnection();
+		//
+		// String sql = "update kunde set nachname = ?, vorname = ? where pk = ?";
+		// stmt = con.prepareStatement(sql);
+		// stmt.setString(1, kunde.getNachName());
+		// stmt.setString(2, kunde.getVorname());
+		// stmt.setLong(3, kunde.getPk());
+		//
+		// stmt.executeUpdate();
+		// }
+		// finally
+		// {
+		// // Erst Statement schliessen.
+		// if (stmt != null)
+		// {
+		// stmt.close();
+		// }
+		//
+		// // Dann die Connection.
+		// if (con != null)
+		// {
+		// con.close();
+		// }
+		// }
 	}
 }
