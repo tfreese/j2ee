@@ -8,7 +8,7 @@
 		<version>0.0.1</version>
 	</parent>
 
-	<artifactId>j2ee-examples</artifactId>
+	<artifactId>j2ee</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 

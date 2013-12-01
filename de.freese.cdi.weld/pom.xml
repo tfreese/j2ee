@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>de.freese.cdi</groupId>
-	<artifactId>de.freese.cdi</artifactId>
+	<artifactId>cdi-weld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 

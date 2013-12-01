@@ -41,15 +41,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>target</name>
+			<type>2</type>
+			<locationURI>TARGET_DIR/de.freese.spring-spring-server</locationURI>
+		</link>
+		<link>
 			<name>webapp</name>
 			<type>2</type>
 			<locationURI>copy_PROJECT_LOC/src/main/webapp</locationURI>
 		</link>
 	</linkedResources>
-	<variableList>
-		<variable>
-			<name>copy_PROJECT_LOC</name>
-			<value>$%7BPARENT-2-ECLIPSE_HOME%7D/home/tommy/git/spring/de.freese.spring/spring-server</value>
-		</variable>
-	</variableList>
 </projectDescription>

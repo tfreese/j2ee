@@ -41,15 +41,14 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>target</name>
+			<type>2</type>
+			<locationURI>TARGET_DIR/de.freese-j2ee</locationURI>
+		</link>
+		<link>
 			<name>webapp</name>
 			<type>2</type>
 			<locationURI>PROJECT_LOC/src/main/webapp</locationURI>
 		</link>
 	</linkedResources>
-	<variableList>
-		<variable>
-			<name>copy_PROJECT_LOC</name>
-			<value>$%7BPARENT-2-ECLIPSE_HOME%7D/home/tommy/git/misc/j2ee-examples</value>
-		</variable>
-	</variableList>
 </projectDescription>
