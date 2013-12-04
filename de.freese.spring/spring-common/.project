@@ -33,11 +33,4 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>target</name>
-			<type>2</type>
-			<locationURI>TARGET_DIR/de.freese.spring-spring-common</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

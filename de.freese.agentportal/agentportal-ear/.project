@@ -22,11 +22,4 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>target</name>
-			<type>2</type>
-			<locationURI>TARGET_DIR/de.freese.agentportal-agentportal-ear</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

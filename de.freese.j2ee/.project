@@ -41,11 +41,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>target</name>
-			<type>2</type>
-			<locationURI>TARGET_DIR/de.freese-j2ee</locationURI>
-		</link>
-		<link>
 			<name>webapp</name>
 			<type>2</type>
 			<locationURI>PROJECT_LOC/src/main/webapp</locationURI>
