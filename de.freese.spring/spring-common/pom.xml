@@ -88,14 +88,4 @@
 		</plugins>
 	</build>
 
-	<dependencies>
-		<!--dependency>
-			<groupId>org.codehaus.janino</groupId>
-			<artifactId>janino</artifactId>
-		</dependency-->	
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-	</dependencies>
 </project>

@@ -93,33 +93,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>spring-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>maven-cobertura-plugin</artifactId>
-					<groupId>maven-plugins</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>maven-findbugs-plugin</artifactId>
-					<groupId>maven-plugins</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xom</artifactId>
-					<groupId>xom</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency-->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -133,10 +110,6 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
@@ -144,18 +117,6 @@
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-core</artifactId>
 		</dependency> 
-		
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-nop</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 </project>
