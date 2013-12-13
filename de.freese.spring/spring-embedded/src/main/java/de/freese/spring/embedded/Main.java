@@ -1,6 +1,7 @@
 package de.freese.spring.embedded;
 
 import com.mysema.query.codegen.JavaTypeMappings;
+import com.mysema.query.sql.codegen.ExtendedBeanSerializer;
 import com.mysema.query.sql.codegen.MetaDataExporter;
 import java.io.File;
 import java.sql.Connection;
@@ -21,6 +22,8 @@ public class Main
 	 */
 	public static void main(final String[] args) throws Exception
 	{
+		// System.setProperty("org.slf4j.simpleLogger.log.org.springframework.jdbc.core.JdbcTemplate", "debug");
+
 		try (AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-config.xml"))
 		{
 			applicationContext.registerShutdownHook();
@@ -46,10 +49,11 @@ public class Main
 			exporter.setNamePrefix("Q");
 			// exporter.setNamingStrategy(namingStrategy);
 			exporter.setTypeMappings(new JavaTypeMappings());
-			// exporter.setBeanSerializer(new BeanSerializer());
+			exporter.setBeanSerializer(new ExtendedBeanSerializer());
 			exporter.setPackageName("de.freese.spring.embedded.domain");
 			exporter.setTargetFolder(new File("src/main/generated"));
 			exporter.setColumnAnnotations(true);
+			exporter.setValidationAnnotations(true);
 			exporter.setExportTables(true);
 			exporter.setExportViews(false);
 			exporter.setTableNamePattern("MY_%");
