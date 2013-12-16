@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author Thomas Freese
  */
-public class Main
+public class MainJDBC
 {
 	/**
 	 * @param args String[]

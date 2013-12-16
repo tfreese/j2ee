@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 /**
  * @author Thomas Freese
  */
-public class Main
+public class MainEmbedded
 {
 	/**
 	 * @param args String[]

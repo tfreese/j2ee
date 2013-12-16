@@ -3,6 +3,7 @@
  */
 package de.freese.spring.integration.cafe;
 
+import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,7 +42,7 @@ public class TestCafe
 		// context.getBean("coldDrinks");
 		Cafe cafe = (Cafe) context.getBean("cafe");
 
-		for (int i = 1; i <= 20; i++)
+		for (int i = 1; i <= 12; i++)
 		{
 			Order order = new Order(i);
 			order.addItem(DrinkType.LATTE, false);
@@ -55,7 +56,7 @@ public class TestCafe
 	/**
      *
      */
-	// @Test
+	@Test
 	public void testCafeDemoWithAnnotationSupport()
 	{
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-annotation.xml");
@@ -66,7 +67,7 @@ public class TestCafe
 	/**
      *
      */
-	// @Test
+	@Test
 	public void testCafeDemoWithXmlSupport()
 	{
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("cafeDemo-xml.xml");
