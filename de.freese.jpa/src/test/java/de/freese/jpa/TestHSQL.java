@@ -159,7 +159,6 @@ public class TestHSQL
 
 			try (ResultSet result = this.statement.executeQuery("call next value for test_seq"))
 			{
-
 				while (result.next())
 				{
 					pk = result.getInt(1);

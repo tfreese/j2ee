@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.ejb.EntityManagerFactoryImpl;
+import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
 import org.springframework.util.StopWatch;

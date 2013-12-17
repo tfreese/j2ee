@@ -4,8 +4,8 @@
 package de.freese.jpa.util;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 /**
  * @author Thomas Freese
@@ -30,9 +30,9 @@ public final class HibernateUtil
 			// configuration.setProperties(properties);
 			configuration.configure();
 
-			ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder().applySettings(configuration.getProperties());
+			StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
 
-			sessionFactory = configuration.buildSessionFactory(serviceRegistryBuilder.buildServiceRegistry());
+			sessionFactory = configuration.buildSessionFactory(serviceRegistryBuilder.build());
 		}
 		catch (Throwable th)
 		{

@@ -40,6 +40,7 @@ public class TestAnnotationHibernate
 		testJPA.statistics();
 
 		testJPA.close();
+		System.exit(0);
 	}
 
 	/**
