@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0000999999975" prefWidth="600.0000999999975" style="-fx-border-color: #000000;&#10;-fx-border-width: 1 1 1 1;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.freese.acc.client.TradeViewController">
+  <children>
+    <AnchorPane id="Logo" layoutX="1.0" layoutY="1.0" prefHeight="106.0" prefWidth="598.0" style="-fx-background-color: #757575;&#10;-fx-border-color: #999999;&#10;-fx-border-width: 0 0 4 0;">
+      <children>
+        <ImageView fitHeight="55.250003051757815" fitWidth="116.3157958984375" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="/cofinpro-logo.png" />
+          </image>
+        </ImageView>
+      </children>
+    </AnchorPane>
+    <AnchorPane id="MainContent" layoutX="1.0" layoutY="107.0" minHeight="276.0" prefHeight="276.0" prefWidth="598.0" style="-fx-background-color: linear-gradient(#757575 0%, #FFFFFF 100%);">
+      <Button fx:id="quit" layoutX="39.0" layoutY="327.0" mnemonicParsing="false" onAction="#quit" prefWidth="111.0" text="Beenden" />
+      <Button fx:id="buy" layoutX="300.0" layoutY="327.0" mnemonicParsing="false" onAction="#buy" prefWidth="111.0" text="Kaufen" />
+      <Button fx:id="sell" layoutX="448.0" layoutY="327.0" mnemonicParsing="false" text="Verkaufen" />
+      <Label layoutX="39.0" layoutY="44.0" text="Bestand des Depots:" />
+      <Label fx:id="balance" layoutX="314.0" layoutY="44.0" prefWidth="245.0" text="" />
+      <TableView id="securities" fx:id="securityTable" layoutX="39.0" layoutY="87.0" prefHeight="214.0" prefWidth="520.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Name" fx:id="nameColumn" />
+          <TableColumn prefWidth="75.0" text="Datum" fx:id="dateColumn" />
+          <TableColumn prefWidth="75.0" text="Kurs" fx:id="rateColumn" />
+        </columns>
+      </TableView>
+    </AnchorPane>
+  </children>
+</AnchorPane>

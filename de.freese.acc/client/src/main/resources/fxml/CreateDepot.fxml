@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="600.0" style="-fx-border-color: #000000;&#10;-fx-border-width: 10 10 10 10;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.freese.acc.client.CreateDepotController">
+  <children>
+    <AnchorPane id="Logo" layoutX="1.0" layoutY="1.0" prefHeight="106.0" prefWidth="598.0" style="-fx-background-color: #757575;&#10;-fx-border-color: #999999;&#10;-fx-border-width: 0 0 4 0;">
+      <children>
+        <ImageView fitHeight="55.250003051757815" fitWidth="116.3157958984375" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="/cofinpro-logo.png" />
+          </image>
+        </ImageView>
+      </children>
+    </AnchorPane>
+    <AnchorPane id="MainContent" layoutX="1.0" layoutY="107.0" minHeight="276.0" prefHeight="276.0" prefWidth="598.0" style="-fx-background-color: linear-gradient(#757575 0%, #FFFFFF 100%);">
+      <children>
+        <Label layoutX="82.0" layoutY="38.0" text="E-Mail Adresse" />
+        <TextField fx:id="eMailAddress" layoutX="82.0" layoutY="83.0" onKeyReleased="#checkEMailAddress" prefWidth="200.0" />
+        <Label layoutX="325.0" layoutY="38.0" text="Passwort" />
+        <PasswordField fx:id="password" layoutX="325.0" layoutY="83.0" prefWidth="200.0" />
+        <Label fx:id="label" layoutX="20.0" layoutY="151.0" prefHeight="24.0" prefWidth="560.0" text="" />
+        <Button fx:id="create" layoutX="92.0" layoutY="210.0" minHeight="29.0" mnemonicParsing="false" onAction="#createDepot" prefHeight="-42.0" prefWidth="180.0" text="Depot erstellen" />
+        <Button fx:id="quit" layoutX="335.0" layoutY="210.0" minHeight="29.0" mnemonicParsing="false" onAction="#quit" prefHeight="-42.0" prefWidth="180.0" text="Beenden" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
