@@ -20,6 +20,7 @@
 				<configuration>
 					<version>6</version>
 					<finalName>acc</finalName>
+					<defaultJavaBundleDir>lib/</defaultJavaBundleDir>
 				</configuration>
 			</plugin>
 			<plugin>

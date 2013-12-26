@@ -79,6 +79,7 @@ public class Security implements Serializable
 		{
 			return null;
 		}
+
 		return this.rates.get(this.rates.size() - 1);
 	}
 

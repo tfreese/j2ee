@@ -68,16 +68,17 @@ public class DepotStorageBean implements IDepotStorage
 	{
 		System.out.println("DepotStorageBean.notifyClients()");
 
-		try
+		try (Connection connection = this.connectionFactory.createConnection())
 		{
-			Connection connection = this.connectionFactory.createConnection();
-			Session session = connection.createSession(true, 0);
-			MessageProducer messageProducer = session.createProducer(this.topic);
-			connection.start();
-			messageProducer.send(session.createObjectMessage(depot));
-			messageProducer.close();
-			session.close();
-			connection.close();
+			try (Session session = connection.createSession(true, 0))
+			{
+				try (MessageProducer messageProducer = session.createProducer(this.topic))
+				{
+					connection.start();
+					messageProducer.send(session.createTextMessage("Securities updated."));
+				}
+			}
+
 			System.out.println("Sending successful!");
 		}
 		catch (JMSException ex)

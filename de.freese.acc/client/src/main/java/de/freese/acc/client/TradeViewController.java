@@ -99,6 +99,8 @@ public class TradeViewController extends AnchorPane implements Initializable, Me
 	 */
 	public TradeViewController()
 	{
+		super();
+
 		setupJMS();
 	}
 

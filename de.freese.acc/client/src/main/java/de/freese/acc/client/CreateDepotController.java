@@ -106,6 +106,7 @@ public class CreateDepotController extends AnchorPane implements Initializable, 
 	@Override
 	public void initialize(final URL arg0, final ResourceBundle arg1)
 	{
+		// Empty
 	}
 
 	/**

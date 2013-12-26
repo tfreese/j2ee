@@ -58,6 +58,7 @@ public class SecurityRateGeneratorBean
 	{
 		Rate latestRate = security.getLatestRate();
 		float rateChange = determineRateChange(latestRate.getRate());
+
 		return new Rate(new Date(), rateChange);
 	}
 
@@ -75,7 +76,7 @@ public class SecurityRateGeneratorBean
 			sign = -1;
 		}
 
-		float rateChange = (latestRate * 0.1f) * sign * (random.nextInt(100) / 100f);
+		float rateChange = (latestRate * 0.1f) * sign * (random.nextInt(100) / 100.0f);
 
 		return latestRate + rateChange;
 	}
@@ -107,16 +108,17 @@ public class SecurityRateGeneratorBean
 	{
 		System.out.println("SecurityRateGeneratorBean.notifyClients()");
 
-		try
+		try (Connection connection = this.connectionFactory.createConnection())
 		{
-			Connection connection = this.connectionFactory.createConnection();
-			Session session = connection.createSession(true, 0);
-			MessageProducer messageProducer = session.createProducer(this.topic);
-			connection.start();
-			messageProducer.send(session.createTextMessage("Securities updated."));
-			messageProducer.close();
-			session.close();
-			connection.close();
+			try (Session session = connection.createSession(true, 0))
+			{
+				try (MessageProducer messageProducer = session.createProducer(this.topic))
+				{
+					connection.start();
+					messageProducer.send(session.createTextMessage("Securities updated."));
+				}
+			}
+
 			System.out.println("Sending successful!");
 		}
 		catch (JMSException ex)

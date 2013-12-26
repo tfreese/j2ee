@@ -62,5 +62,4 @@ public class NumericTextField extends TextField
 			}
 		});
 	}
-
 }
