@@ -4,7 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:p="http://primefaces.org/ui"><!-- xmlns:c="http://java.sun.com/jsp/jstl/core" -->
+	
+<h:head>  
+</h:head>
+	
 <h:body>
 	<h1>JSF 2 convertDate example</h1>
 	
@@ -12,17 +16,16 @@
 		<h:panelGrid columns="3">
  
 		  Receipt Date : 
-		 <h:inputText id="date" value="#{receipt.date}" size="20"
-				required="true" label="Receipt Date">
-
-				<f:convertDateTime pattern="d-M-yyyy" />
-			</h:inputText>
+		 	<p:inputText id="date" value="#{receipt.date}" size="20" required="true" label="Receipt Date">
+				<f:convertDateTime pattern="dd-MM-yyyy" />
+			</p:inputText>
+			<!-- p:tooltip for="date" value="Pattern: dd-MM-yyyy" showEffect="fade" hideEffect="fade" /-->
 
 			<h:message for="date" style="color:red" />
 
 		</h:panelGrid>
 
-		<h:commandButton value="Submit" action="dateFormatted" />
+		<p:commandButton value="Submit" action="dateFormatted" />
 	</h:form>
 
 </h:body>
