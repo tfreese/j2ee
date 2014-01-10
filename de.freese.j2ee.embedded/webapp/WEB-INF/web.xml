@@ -26,23 +26,7 @@
 	<context-param>
 	    <param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
 	    <param-value>false</param-value>
-	</context-param>
-    <context-param>
-        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <param-name>com.sun.faces.enableMissingResourceLibraryDetection</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <!--context-param>
-        <param-name>primefaces.THEME</param-name>
-        <param-value>#{userSettingsController.currentTheme.name}</param-value>
-    </context-param-->
+	</context-param>	 	
 		
 	<!-- Spring -->
 	<!--context-param>
