@@ -5,15 +5,14 @@ package javaee.demo;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 
 /**
  * @author Thomas Freese (AUEL)
  */
-@ManagedBean(name = "receipt")
-@SessionScoped
+@ManagedBean(name = "receiptBean")
+@RequestScoped
 public class ReceiptBean implements Serializable
 {
 	/**
@@ -32,6 +31,8 @@ public class ReceiptBean implements Serializable
 	public ReceiptBean()
 	{
 		super();
+
+		this.date = new Date();
 	}
 
 	/**

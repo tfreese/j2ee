@@ -1,38 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/template/masterLayout.xhtml">
 
-<h:head>
-</h:head>
+	<ui:param name="pageTitle" value="DateFormat1" />
+	<ui:param name="pageHeader" value="#{messages.title_demo_date}" />
 
-<h:body>
-	<h1>"#{messages.title_demo_date}"</h1>
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="3">
 
-	<h:form>
-		<h:panelGrid columns="3">
+				<h:outputLabel value="#{messages.receipt_date}"
+					style="font-weight:bold" />
 
-			<h:outputLabel value="#{messages.receipt_date}"
-				style="font-weight:bold" />
+				<p:inputText id="date" value="#{receiptBean.date}" size="20"
+					required="true">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</p:inputText>
+				<p:tooltip for="date" value="#{messages.receipt_format}"
+					showEffect="fade" hideEffect="fade" />
 
-			<p:inputText id="date" value="#{receipt.date}" size="20"
-				required="true">
-				<f:convertDateTime pattern="dd-MM-yyyy" />
-			</p:inputText>
-			<p:tooltip for="date" value="#{messages.receipt_format}"
-				showEffect="fade" hideEffect="fade" />
+				<h:message for="date" style="color:red" />
 
-			<h:message for="date" style="color:red" />
+			</h:panelGrid>
 
-		</h:panelGrid>
+			<p:commandButton value="Submit" action="dateFormatted" />
+			<!--?faces-redirect=true-->
+		</h:form>
+	</ui:define>
 
-		<p:commandButton value="Submit" action="dateFormatted" />
-	</h:form>
-
-</h:body>
-</html>
+</ui:composition>

@@ -49,4 +49,13 @@ public class SpringBean implements Serializable
 	{
 		this.value = value;
 	}
+
+	// FacesContext fc = FacesContext.getCurrentInstance();
+	// Application a = fc.getApplication();
+	// if (a.getProjectStage() == ProjectStage.Development) {
+	// // Beliebiger Code
+	// }
+	// if (fc.isProjectStage(ProjectStage.Development)) {
+	// // Beliebiger Code
+	// }
 }

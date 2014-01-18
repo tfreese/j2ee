@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<!-- f:view contentType="text/html" locale="en"-->
+<f:view contentType="text/html">
+	<h:head>
+		<!--f:facet name="first"-->
+		<title>#{pageTitle}</title>
+		<!--title><ui:insert name="title">JSF-Test</ui:insert></title-->
+
+		<meta charset="UTF-8" />
+		<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<!--IE Browserkompatibilität-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<!--/f:facet-->
+
+		<!-- h:outputStylesheet name="common-style.css" library="css"/-->
+	</h:head>
+
+	<h:body>
+		<!--style="border-width: 2px; border-color: black; border-style: solid;"-->
+		<div id="header">
+			<ui:insert name="header">
+				<ui:include src="/template/header.xhtml">
+					<ui:param name="defaultHeader" value="#{pageHeader}"></ui:param>
+				</ui:include>
+			</ui:insert>
+		</div>
+		<div id="content">
+			<ui:insert name="content">
+				<ui:include src="/template/content.xhtml" />
+			</ui:insert>
+		</div>
+		<div id="footer">
+			<ui:insert name="footer">
+				<ui:include src="/template/footer.xhtml" />
+			</ui:insert>
+		</div>
+	</h:body>
+</f:view>
+</html>
