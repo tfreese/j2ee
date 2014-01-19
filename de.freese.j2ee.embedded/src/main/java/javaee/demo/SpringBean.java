@@ -4,6 +4,8 @@
 package javaee.demo;
 
 import java.io.Serializable;
+import javax.faces.application.Application;
+import javax.faces.context.FacesContext;
 
 /**
  * @author Thomas Freese
@@ -31,6 +33,22 @@ public class SpringBean implements Serializable
 	/**
 	 * @return the value
 	 */
+	public String getProjectStage()
+	{
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Application app = fc.getApplication();
+
+		return app.getProjectStage().toString();
+
+		// if (fc.isProjectStage(ProjectStage.Development))
+		// {
+		// // Code
+		// }
+	}
+
+	/**
+	 * @return the value
+	 */
 	public String getValue()
 	{
 		if (this.value == null)
@@ -49,13 +67,4 @@ public class SpringBean implements Serializable
 	{
 		this.value = value;
 	}
-
-	// FacesContext fc = FacesContext.getCurrentInstance();
-	// Application a = fc.getApplication();
-	// if (a.getProjectStage() == ProjectStage.Development) {
-	// // Beliebiger Code
-	// }
-	// if (fc.isProjectStage(ProjectStage.Development)) {
-	// // Beliebiger Code
-	// }
 }
