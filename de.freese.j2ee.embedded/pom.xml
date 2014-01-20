@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -14,7 +13,7 @@
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Projekt fuer Embedded J2EE Beispiele</description>
-	
+
 	<repositories>
 		<repository>
 			<id>primefaces</id>
@@ -28,8 +27,8 @@
 				<enabled>false</enabled>
 				<updatePolicy>daily</updatePolicy>
 			</snapshots>
-		</repository>		
-	</repositories>	
+		</repository>
+	</repositories>
 
 	<profiles>
 		<profile>
@@ -79,7 +78,7 @@
 							<httpConnector>
 								<!-- -Djetty.port=8282 verwenden oder über Properties konfigurieren !-->
 								<port>8282</port>
-							</httpConnector>							
+							</httpConnector>
 						</configuration>
 						<dependencies>
 							<dependency>
@@ -128,28 +127,36 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.primefaces.extensions</groupId>
-		    <artifactId>primefaces-extensions</artifactId>
+			<groupId>org.primefaces.extensions</groupId>
+			<artifactId>primefaces-extensions</artifactId>
 		</dependency>
-		<dependency>  
-		    <groupId>org.primefaces.themes</groupId>  
-		    <artifactId>all-themes</artifactId>
-		    <scope>runtime</scope>  
-		</dependency> 				
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<scope>runtime</scope>  
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<scope>runtime</scope>  
-		</dependency>				
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>		
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
