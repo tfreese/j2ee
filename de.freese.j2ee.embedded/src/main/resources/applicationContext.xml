@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+	<!-- Authorisierung über PreAuthenticatedAuthenticationProvider, d.h. die Authentifizierung ist bereits durch eine andere Stelle erfolgt. -->
+	
 	<bean id="mySpringBean" class="javaee.demo.SpringBean" scope="session" />
 	
-	<!-- Für genaue Debugausgaben der Sicherheitsprüfung, bitte die folgende Einstellung aktivieren. -->
-	<security:debug />
+	<!--security:debug /-->
 	
 	<!-- Dieser Provider löst bei Nichterfüllung der Anforderungen (Status, Rollen) einen 403 Fehler aus. -->
 	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
-	<bean id="myUserDetailsService" class="javaee.demo.MyUserDetailsService" />
-	<!--bean id="myFilter" class="javaee.demo.MyPreAuthenticatedProcessingFilter" /-->
+	<bean id="myFilter" class="javaee.demo.MyPreAuthenticatedProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
 
 	<bean id="preAuthProvider" class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
 		<property name="preAuthenticatedUserDetailsService">
-			<bean id="userDetailsServiceWrapper" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
-				<property name="userDetailsService" ref="myUserDetailsService" />
-			</bean>
+			<bean id="userDetailsServiceWrapper" class="javaee.demo.MyAuthenticationUserDetailsService" />
 		</property>
 	</bean>
 
@@ -28,16 +31,31 @@
 		<security:authentication-provider ref="preAuthProvider" />
 	</security:authentication-manager>
 	
-	<!-- Festlegung der zu schützenden Seiten; welche Rollen werden mindestens 
-		benötigt. Es wird davon ausgegengen, dass ein vorgelagertes System die eigentliche 
-		Authentisierung durchgeführt hat. -->
-	<!--security:http auto-config="false" entry-point-ref="authenticationEntryPoint">
-		<security:intercept-url pattern="/*" access="ROLE_A, ROLE_B" />
+	<security:http use-expressions="true" auto-config="false" entry-point-ref="authenticationEntryPoint">
+		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_A','ROLE_C')" />		
+		<!--security:intercept-url pattern="/**" access="permitAll"/-->
+		
+		<!-- Alle Bedingungen mit 'and','or' verknüpfbar -->
+		<!-- 	hasAnyRole('ROLE_A','ROLE_B')
+				hasRole('ROLE_A')
+				hasIpAddress(IP Address)
+				isAnonymous()
+				isAuthenticated()
+				isFullyAuthenticated() <= sans remember-me
+				isRememberMe()
+				permitAll
+				denyAll
+				principal <= Objet utilisateur -->	
+		
+		<!-- Mit use-expressions="false" -->
+		<!--security:intercept-url pattern="/**" access="ROLE_A, ROLE_C" /-->
+		<!--security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/--><!--IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED_FULLY-->		
+				
 		<security:custom-filter position="PRE_AUTH_FILTER" ref="myFilter" />
 		<security:session-management>
 			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
 		</security:session-management>
 		<security:logout delete-cookies="JSESSIONID" />
-	</security:http-->
+	</security:http>
 
 </beans>

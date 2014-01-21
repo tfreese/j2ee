@@ -27,7 +27,7 @@ public class MyPreAuthenticatedProcessingFilter extends AbstractPreAuthenticated
 	@Override
 	protected Object getPreAuthenticatedCredentials(final HttpServletRequest request)
 	{
-		return request;
+		return "";
 	}
 
 	/**
@@ -36,6 +36,6 @@ public class MyPreAuthenticatedProcessingFilter extends AbstractPreAuthenticated
 	@Override
 	protected Object getPreAuthenticatedPrincipal(final HttpServletRequest request)
 	{
-		return "";
+		return request;
 	}
 }
