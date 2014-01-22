@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<bean id="mySpringBean" class="javaee.demo.SpringBean" scope="session" />
+	<bean id="loginController" class="javaee.demo.LoginController" scope="request">
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+	
+	<!--security:debug /-->
+
+	<bean id="userDetailsService" class="javaee.demo.MyAuthenticationUserDetailsService" />
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="userDetailsService">
+			<security:password-encoder base64="false" hash="sha" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<security:http use-expressions="true" auto-config="false">
+		<security:intercept-url pattern="/secured/*" access="hasAnyRole('ROLE_A','ROLE_C')" />
+		<security:intercept-url pattern="/*" access="permitAll" />
+
+		<security:form-login login-processing-url="/j_spring_security_check" login-page="/login.xhtml" default-target-url="/secured/date.xhtml"
+			authentication-failure-url="/login.xhtml" />
+
+		<security:session-management invalid-session-url="/login.xhtml">
+			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+		</security:session-management>
+		<security:logout delete-cookies="JSESSIONID" logout-success-url="/" logout-url="/" />
+	</security:http>
+
+</beans>

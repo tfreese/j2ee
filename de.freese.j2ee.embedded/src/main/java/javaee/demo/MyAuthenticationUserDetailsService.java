@@ -13,13 +13,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 /**
  * @author Thomas Freese
  */
-public class MyAuthenticationUserDetailsService implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken>
+public class MyAuthenticationUserDetailsService implements UserDetailsService, AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken>
 {
 	/**
 	 * Erstellt ein neues {@link MyAuthenticationUserDetailsService} Object.
@@ -27,6 +28,24 @@ public class MyAuthenticationUserDetailsService implements AuthenticationUserDet
 	public MyAuthenticationUserDetailsService()
 	{
 		super();
+	}
+
+	/**
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 */
+	@Override
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
+	{
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+
+		for (String role : Arrays.asList("ROLE_A", "ROLE_B"))
+		{
+			authorities.add(new SimpleGrantedAuthority(role));
+		}
+
+		UserDetails userDetails = new User(username, "7c4a8d09ca3762af61e59520943dc26494f8941b", authorities);
+
+		return userDetails;
 	}
 
 	/**
@@ -44,15 +63,6 @@ public class MyAuthenticationUserDetailsService implements AuthenticationUserDet
 		// String userID = request.getHeader("My-UserID");
 		String userID = "täschtd";
 
-		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-
-		for (String role : Arrays.asList("ROLE_A", "ROLE_B"))
-		{
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-
-		UserDetails userDetails = new User(userID, "password", authorities);
-
-		return userDetails;
+		return loadUserByUsername(userID);
 	}
 }

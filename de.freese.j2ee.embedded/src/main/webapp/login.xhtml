@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/template/masterLayout.xhtml">
+
+	<ui:param name="pageTitle" value="Login" />
+	<ui:param name="pageHeader" value="Login" />
+
+	<ui:define name="content">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> 
+        <!-- onsubmit="document.getElementById('loginForm').action='j_spring_security_check';"-->
+        <h:form id="loginForm" prependId="false">
+            <p:panelGrid columns="2">  
+                <h:outputLabel for="j_username" value="User: " />  
+                <p:inputText id="j_username" required="true" value="#{loginController.userName}"/>
+                  
+                <h:outputLabel for="j_password" value="Password: " />
+                <p:password  id="j_password" required="true" feedback="true" value="#{loginController.password}"/>
+                  
+                <h:outputLabel for="_spring_security_remember_me" value="Remember me: " />
+                
+    			<p:selectBooleanCheckbox id="_spring_security_remember_me" /> 
+                <p:commandButton id="submit" value="Login" action="#{loginController.login}" />               
+            </p:panelGrid> 
+        </h:form>
+            
+        <!--form name="loginForm" action="j_spring_security_check" method="POST"> 
+            <h:panelGrid columns="2">  
+                <h:outputLabel for="j_username" value="User: " />  
+                <h:inputText id="j_username" required="true" value="#{loginController.userName}"/>
+                  
+                <h:outputLabel for="j_password" value="Password: " />
+                <h:inputSecret   id="j_password" required="true" value="#{loginController.password}"/>  
+                <h:outputLabel for="_spring_security_remember_me" value="Remember me: " /-->
+                
+    			<!--h:selectBooleanCheckbox id="_spring_security_remember_me" /--> 
+                <!--h:commandButton type="submit" value="Login"/>              
+            </h:panelGrid> 
+        </form-->        
+        
+        <!--form name="loginForm" action="j_spring_security_check" method="POST">  
+			<table>
+				<tr>
+					<td>User:</td>
+					<td><input type="text" name="j_username" /></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password" name="j_password" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input name="submit" type="submit" value="Login" /></td>
+				</tr>
+			</table>
+        </form-->         
+	</ui:define>
+
+</ui:composition>

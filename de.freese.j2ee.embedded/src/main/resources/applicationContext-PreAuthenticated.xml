@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:security="http://www.springframework.org/schema/security"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<!-- Authorisierung über PreAuthenticatedAuthenticationProvider, d.h. die Authentifizierung ist bereits durch eine andere Stelle erfolgt. -->
-	
+
 	<bean id="mySpringBean" class="javaee.demo.SpringBean" scope="session" />
 	
 	<!--security:debug /-->
@@ -30,10 +27,10 @@
 	<security:authentication-manager alias="authenticationManager">
 		<security:authentication-provider ref="preAuthProvider" />
 	</security:authentication-manager>
-	
+
 	<security:http use-expressions="true" auto-config="false" entry-point-ref="authenticationEntryPoint">
-		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_A','ROLE_C')" />		
-		<!--security:intercept-url pattern="/**" access="permitAll"/-->
+		<security:intercept-url pattern="/secured/*" access="hasAnyRole('ROLE_A','ROLE_C')" />
+		<security:intercept-url pattern="/*" access="permitAll" />
 		
 		<!-- Alle Bedingungen mit 'and','or' verknüpfbar -->
 		<!-- 	hasAnyRole('ROLE_A','ROLE_B')
@@ -48,9 +45,9 @@
 				principal <= Objet utilisateur -->	
 		
 		<!-- Mit use-expressions="false" -->
-		<!--security:intercept-url pattern="/**" access="ROLE_A, ROLE_C" /-->
-		<!--security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/--><!--IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED_FULLY-->		
-				
+		<!--security:intercept-url pattern="/secured" access="ROLE_A, ROLE_C" /-->
+		<!--security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/--><!--IS_AUTHENTICATED_REMEMBERED, IS_AUTHENTICATED_FULLY-->
+
 		<security:custom-filter position="PRE_AUTH_FILTER" ref="myFilter" />
 		<security:session-management>
 			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
