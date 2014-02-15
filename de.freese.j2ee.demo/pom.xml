@@ -3,17 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.freese</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>0.0.1</version>
+		<groupId>de.freese.j2ee</groupId>
+		<artifactId>j2ee-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>j2ee</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>j2ee-demo</artifactId>
 	<packaging>war</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
-	<description>Projekt fuer J2EE Beispiele</description>
+	<description>Projekt für J2EE Beispiele</description>
 
 	<profiles>
 		<profile>
@@ -116,18 +115,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>	
-		
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 </project>

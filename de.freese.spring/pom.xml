@@ -2,18 +2,16 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.freese</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>0.0.1</version>
+		<groupId>de.freese.j2ee</groupId>
+		<artifactId>j2ee-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>de.freese.spring</groupId>
 	<artifactId>spring-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -30,12 +28,6 @@
 		<module>spring-embedded</module>
 	</modules>
 	
-	<scm>
-		<url>${project.url}</url>
-		<connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
-		<developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
-	</scm>
-	
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -46,18 +38,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-nop</artifactId>
-			<scope>test</scope>
 		</dependency>					
 	</dependencies>
 	
