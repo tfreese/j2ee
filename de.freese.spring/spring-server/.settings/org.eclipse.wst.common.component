@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/" source-path="/webapp"/>
+        <dependent-module archiveName="spring-common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/de.freese.spring.common/de.freese.spring.common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="de.freese.spring.server"/>
         <property name="java-output-path" value="/de.freese.spring.server/target/classes"/>
     </wb-module>
