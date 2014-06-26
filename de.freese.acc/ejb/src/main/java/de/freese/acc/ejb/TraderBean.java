@@ -1,12 +1,12 @@
 package de.freese.acc.ejb;
 
-import de.freese.acc.ejb.client.ITrader;
-import de.freese.acc.model.Depot;
-import de.freese.acc.model.Security;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import de.freese.acc.ejb.client.ITrader;
+import de.freese.acc.model.Depot;
+import de.freese.acc.model.Security;
 
 /**
  * @author Thomas Freese

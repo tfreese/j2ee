@@ -4,7 +4,6 @@
 
 package de.freese.webservice.client;
 
-import de.freese.spring.common.model.MyEmployee;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpEntity;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import de.freese.spring.common.model.MyEmployee;
 
 /**
  * @author Thomas Freese
@@ -53,7 +53,7 @@ public class RESTClient
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
 		ResponseEntity<MyEmployee> result =
-				restTemplate.exchange("http://localhost:8080/spring/rest/movie/emp/{name}", HttpMethod.GET, entity, MyEmployee.class, "test");
+				restTemplate.exchange("http://localhost:8080/de.freese.spring/rest/movie/emp/{name}", HttpMethod.GET, entity, MyEmployee.class, "test");
 		System.out.println(result.toString());
 		MyEmployee employee = result.getBody();
 
