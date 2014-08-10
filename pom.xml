@@ -19,7 +19,7 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-		<module>de.freese.acc</module>
+		<!--module>de.freese.acc</module-->
 		<module>de.freese.agentportal</module>
 		<module>de.freese.cdi.weld</module>
 		<module>de.freese.cloudsessions</module>
