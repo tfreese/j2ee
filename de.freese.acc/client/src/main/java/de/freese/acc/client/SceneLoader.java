@@ -34,6 +34,7 @@ public class SceneLoader
 	}
 
 	/**
+	 * @param <T> Konkreter Typ
 	 * @return Object
 	 */
 	public <T> T getController()

@@ -36,10 +36,15 @@
 			<artifactId>ejb-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>javafx</artifactId>
-		</dependency>
+		</dependency-->
+        <!-- Als Ersatz für die Oracle Version, bis Java 1.8 -->
+        <dependency>
+            <groupId>net.java.openjfx.backport</groupId>
+            <artifactId>openjfx-78-backport</artifactId>
+        </dependency>		
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
