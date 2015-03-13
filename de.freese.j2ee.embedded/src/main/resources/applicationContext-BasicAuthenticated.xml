@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<bean id="mySpringBean" class="javaee.demo.SpringBean" scope="session" />
-	
-	<!--security:debug /-->
+    <bean id="mySpringBean" class="javaee.demo.SpringBean" scope="session" />
 
-	<bean id="userDetailsService" class="javaee.demo.MyAuthenticationUserDetailsService" />
+    <!--security:debug /-->
 
-	<security:authentication-manager alias="authenticationManager">
-		<security:authentication-provider user-service-ref="userDetailsService">
-			<security:password-encoder base64="false" hash="sha" />
-			<!--password="123456"-->
-			<!--security:user-service id="userDetailsService">
-				<security:user name="tommy" password="7c4a8d09ca3762af61e59520943dc26494f8941b" authorities="ROLE_A,ROLE_B" />
-			</security:user-service-->
-		</security:authentication-provider>
-	</security:authentication-manager>
+    <bean id="userDetailsService" class="javaee.demo.MyAuthenticationUserDetailsService" />
 
-	<security:http use-expressions="true" auto-config="true">
-		<security:intercept-url pattern="/secured/*" access="hasAnyRole('ROLE_A','ROLE_C')" />
-		<security:intercept-url pattern="/*" access="permitAll" />
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="userDetailsService">
+            <security:password-encoder base64="false" hash="sha-256" />
+        </security:authentication-provider>
 
-		<security:http-basic />
+        <!-- Hartcodierter Login -->
+        <!--password=tommy (echo -n tommy | sha256sum)-->
+        <!--security:authentication-provider>
+            <security:password-encoder base64="false" hash="sha-256" />
+            <security:user-service id="userDetailsService">
+                <security:user name="tommy" password="044f4b3501cd8e8131d40c057893f4fdff66bf4032ecae159e0c892a28cf6c8e" authorities="ROLE_A,ROLE_B" />
+            </security:user-service>
+        </security:authentication-provider-->
+    </security:authentication-manager>
 
-		<security:session-management>
-			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
-		</security:session-management>
-		<security:logout delete-cookies="JSESSIONID" logout-success-url="/" />
-	</security:http>
+    <security:http use-expressions="true" auto-config="true">
+        <security:intercept-url pattern="/secured/*" access="hasAnyRole('ROLE_A','ROLE_C')" />
+        <security:intercept-url pattern="/*" access="permitAll" />
+
+        <security:http-basic />
+
+        <security:session-management>
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" />
+        </security:session-management>
+        <security:logout delete-cookies="JSESSIONID" logout-success-url="/" />
+    </security:http>
 
 </beans>

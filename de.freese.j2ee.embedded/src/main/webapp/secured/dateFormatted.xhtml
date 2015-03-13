@@ -1,34 +1,31 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	template="/template/masterLayout.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/template/masterLayout.xhtml">
 
-	<ui:param name="pageTitle" value="DateFormat2" />
-	<ui:param name="pageHeader" value="#{messages.title_demo_date}" />
+    <ui:param name="pageTitle" value="DateFormat2" />
+    <ui:param name="pageHeader" value="#{messages.title_demo_date}" />
 
-	<ui:define name="content">
-		<h:outputLabel value="#{messages.receipt_date}: "
-			style="font-weight:bold" />
+    <ui:define name="content">
+        <h:outputLabel value="#{messages.receipt_date}: " style="font-weight:bold" />
 
-		<h:outputText value="#{receipt.date}">
-			<f:convertDateTime pattern="dd-MM-yyyy" />
-		</h:outputText>
-		<br />
+        <h:outputText value="#{receipt.date}">
+            <f:convertDateTime pattern="dd-MM-yyyy" />
+        </h:outputText>
+        <br />
 
-		<h:form id="form">
-			<p:calendar value="#{receiptBean.date}" mode="inline" id="inlineCal" />
-		</h:form>
-		<br />
+        <h:form id="form">
+            <p:calendar value="#{receiptBean.date}" mode="inline" id="inlineCal" />
+        </h:form>
+        <br />
 
-		<h:outputLabel value="Content of SpringBean: #{mySpringBean.value}"
-			style="font-weight:bold" />
-		<br />
-		<h:outputLabel value="ProjectStage: #{mySpringBean.projectStage}"
-			style="font-weight:bold" />
-	</ui:define>
+        <h:outputLabel value="Content of SpringBean: #{mySpringBean.value}" style="font-weight:bold" />
+        <br />
+        <h:outputLabel value="ProjectStage: #{mySpringBean.projectStage}" style="font-weight:bold" />
+    </ui:define>
 
 </ui:composition>
