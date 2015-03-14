@@ -1,57 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>0.0.1</version>
-	</parent>
+    <parent>
+        <groupId>de.freese</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>0.0.1</version>
+    </parent>
 
-	<groupId>de.freese.j2ee</groupId>
-	<artifactId>j2ee-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>de.freese.j2ee</groupId>
+    <artifactId>j2ee-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>${project.groupId}:${project.artifactId}</name>
-	<description>Alles was mit J2EE Technologien.</description>
-	<inceptionYear>2011</inceptionYear>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Alles was mit J2EE Technologien.</description>
+    <inceptionYear>2011</inceptionYear>
 
-	<modules>
-		<!--module>de.freese.acc</module-->
-		<module>de.freese.agentportal</module>
-		<module>de.freese.cdi.weld</module>
-		<module>de.freese.cloudsessions</module>
-		<module>de.freese.j2ee.demo</module>
-		<module>de.freese.j2ee.embedded</module>
-		<module>de.freese.jpa</module>
-		<module>de.freese.spring</module>
-	</modules>
-	
-	<scm>
-		<url>${project.url}</url>
-		<connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
-		<developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
-	</scm>	
+    <modules>
+        <!--module>de.freese.acc</module-->
+        <module>de.freese.agentportal</module>
+        <module>de.freese.cdi.weld</module>
+        <module>de.freese.cloudsessions</module>
+        <module>de.freese.j2ee.demo</module>
+        <module>de.freese.j2ee.embedded</module>
+        <module>de.freese.jpa</module>
+        <module>de.freese.spring</module>
+        <module>de.freese.ejb.embedded</module>
+    </modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-nop</artifactId>
-			<scope>test</scope>
-		</dependency>		
-	</dependencies>
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>

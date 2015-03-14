@@ -10,11 +10,11 @@
     <artifactId>j2ee-embedded</artifactId>
     <packaging>war</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.groupId} - ${project.artifactId}</name>
     <description>Projekt fuer Embedded J2EE Beispiele</description>
 
     <!--extensions und themes nicht im central-->
-    <!--repositories>
+    <repositories>
         <repository>
             <id>primefaces</id>
             <name>primefaces</name>
@@ -28,7 +28,7 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
-    </repositories-->
+    </repositories>
 
     <profiles>
         <profile>
@@ -100,7 +100,7 @@
             <id>glassfish</id>
             <build>
                 <plugins>
-                    <plugin><!--embedded-glassfish:run-->
+                    <plugin><!--embedded-glassfish:run--><!--glassfish:run-->
                         <groupId>org.glassfish.embedded</groupId>
                         <artifactId>maven-embedded-glassfish-plugin</artifactId>
                         <configuration>
@@ -108,7 +108,16 @@
                             <port>8282</port>
                             <contextRoot>${project.artifactId}</contextRoot>
                             <name>${project.name}</name>
+                            <autoDelete>true</autoDelete>
                         </configuration>
+                        <!--executions>
+                        <execution>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                        </executions-->
                     </plugin>
                 </plugins>
             </build>

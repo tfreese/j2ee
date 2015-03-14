@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>j2ee-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>j2ee-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<groupId>de.freese.spring</groupId>
-	<artifactId>spring-parent</artifactId>
-	<packaging>pom</packaging>
+    <groupId>de.freese.spring</groupId>
+    <artifactId>spring-parent</artifactId>
+    <packaging>pom</packaging>
 
-	<name>${project.groupId}:${project.artifactId}</name>
-	<description>Parent für Springprojekte.</description>
-	<url>https://github.com/tfreese/spring</url>
-	<inceptionYear>2013</inceptionYear>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Parent für Springprojekte.</description>
+    <url>https://github.com/tfreese/spring</url>
+    <inceptionYear>2013</inceptionYear>
 
-	<modules>
-		<module>spring-common</module>
-		<module>spring-server</module>
-		<module>spring-client</module>
-		<module>spring-config</module>
-		<module>spring-integration</module>
-		<module>spring-embedded</module>
-	</modules>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>				
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>					
-	</dependencies>
-	
+    <modules>
+        <module>spring-common</module>
+        <module>spring-server</module>
+        <module>spring-client</module>
+        <module>spring-config</module>
+        <module>spring-integration</module>
+        <module>spring-embedded</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 </project>
