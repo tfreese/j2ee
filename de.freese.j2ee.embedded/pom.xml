@@ -13,10 +13,10 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Projekt fuer Embedded J2EE Beispiele</description>
 
-    <repositories>
+    <!--extensions und themes nicht im central-->
+    <!--repositories>
         <repository>
-            <id>primefaces</id><!--extensions und themes nicht im central-->
-
+            <id>primefaces</id>
             <name>primefaces</name>
             <url>http://repository.primefaces.org/</url>
             <releases>
@@ -28,7 +28,7 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories-->
 
     <profiles>
         <profile>
@@ -208,7 +208,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
-                    <artifactId>spring-expression</artifactId> 
+                    <artifactId>spring-expression</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
