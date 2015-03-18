@@ -14,7 +14,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.groupId} - ${project.artifactId}</name>
     <description>Alles was mit J2EE Technologien.</description>
     <inceptionYear>2011</inceptionYear>
 
@@ -28,6 +28,7 @@
         <module>de.freese.jpa</module>
         <module>de.freese.spring</module>
         <module>de.freese.ejb.embedded</module>
+        <module>de.freese.ejbspring</module>
     </modules>
 
     <scm>

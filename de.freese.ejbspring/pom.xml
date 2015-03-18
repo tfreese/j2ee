@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>j2ee-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>de.freese.ejbspring</groupId>
+    <artifactId>ejbspring-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Vermischung von EJB und dem Spring-Framework</description>
+    <inceptionYear>2015</inceptionYear>
+
+    <modules>
+        <module>ejbspring-facade</module>
+        <module>ejbspring-webapp</module>
+        <module>ejbspring-ear</module> 
+    </modules>
+
+    <dependencies>
+    </dependencies>
+
+</project>
