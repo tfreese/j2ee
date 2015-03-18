@@ -17,7 +17,7 @@
     <inceptionYear>2015</inceptionYear>
 
     <modules>
-        <module>ejbspring-facade</module>
+        <module>ejbspring-logic</module>
         <module>ejbspring-webapp</module>
         <module>ejbspring-ear</module> 
     </modules>

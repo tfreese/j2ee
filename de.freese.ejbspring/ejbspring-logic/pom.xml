@@ -9,10 +9,21 @@
     </parent>
 
     <groupId>de.freese.ejbspring</groupId>
-    <artifactId>ejbspring-facade</artifactId>
+    <artifactId>ejbspring-logic</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Vermischung von EJB und dem Spring-Framework- facade</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+    </dependencies>
 </project>
