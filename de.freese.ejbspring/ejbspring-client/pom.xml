@@ -8,11 +8,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ejbspring-logic</artifactId>
+    <artifactId>ejbspring-client</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Vermischung von EJB und dem Spring-Framework - logic</description>
+    <description>Vermischung von EJB und dem Spring-Framework - client</description>
 
     <dependencies>
         <dependency>
@@ -21,13 +21,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <type>pom</type>
         </dependency>
     </dependencies>
 </project>

@@ -8,31 +8,31 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>de.freese.ejbspring</groupId>
     <artifactId>ejbspring-ear</artifactId>
     <packaging>ear</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Vermischung von EJB und dem Spring-Framework- ear</description>
+    <description>Vermischung von EJB und dem Spring-Framework - ear</description>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>2.9.1</version><!--2.10 erzeugt Fehler-->
                 <configuration>
-                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <defaultLibBundleDir>/lib</defaultLibBundleDir>
+                    <skinnyWars>true</skinnyWars>
                     <modules>
                         <ejbModule>
                             <groupId>de.freese.ejbspring</groupId>
                             <artifactId>ejbspring-logic</artifactId>
                         </ejbModule>
-                        <!--webModule>
-                            <groupId>com.softexploration.lab.ejbspring</groupId>
-                            <artifactId>com.softexploration.lab.ejbspring.transfer.webapp</artifactId>
+                        <webModule>
+                            <groupId>de.freese.ejbspring</groupId>
+                            <artifactId>ejbspring-webapp</artifactId>
                             <contextRoot>webapp</contextRoot>
-                        </webModule-->
+                        </webModule>
                     </modules>
                 </configuration>
             </plugin>
@@ -45,6 +45,20 @@
             <artifactId>ejbspring-logic</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>de.freese.ejbspring</groupId>
+            <artifactId>ejbspring-webapp</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
         </dependency>
     </dependencies>
 

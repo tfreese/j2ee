@@ -8,12 +8,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>de.freese.ejbspring</groupId>
     <artifactId>ejbspring-webapp</artifactId>
     <packaging>war</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Vermischung von EJB und dem Spring-Framework- webapp</description>
+    <description>Vermischung von EJB und dem Spring-Framework - webapp</description>
 
     <build>
         <plugins>
@@ -22,7 +21,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <!--packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes-->
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
@@ -36,9 +35,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.freese.ejbspring</groupId>
+            <artifactId>ejbspring-facade</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
 
