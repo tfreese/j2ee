@@ -71,8 +71,8 @@ public class MoneyTransferServlet extends HttpServlet
 
             if (this.moneyTransferFacadeSpring != null)
             {
-                moneyTransferResponseSpring = this.moneyTransferFacadeSpring.transfer(
-                        new MoneyTransferRequestImpl("test", 4321.0D));
+//                moneyTransferResponseSpring = this.moneyTransferFacadeSpring.transfer(
+//                        new MoneyTransferRequestImpl("test", 4321.0D));
             }
 
             out.println("<!DOCTYPE html>");
