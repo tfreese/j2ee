@@ -23,7 +23,9 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-ejb-client-bom</artifactId>
+            <version>${version.wildfly-ejb-client-bom}</version>
             <type>pom</type>
+            <!--scope>import</scope-->
         </dependency>
     </dependencies>
 </project>

@@ -23,14 +23,18 @@
                 <configuration>
                     <defaultLibBundleDir>/lib</defaultLibBundleDir>
                     <skinnyWars>true</skinnyWars>
+                    <!--finalName>ejbspring-ear.ear</finalName-->
+                    <!--applicationName>ejbspring-ear</applicationName-->
                     <modules>
                         <ejbModule>
                             <groupId>de.freese.ejbspring</groupId>
                             <artifactId>ejbspring-logic</artifactId>
+                            <!--bundleFileName>ejbspring-logic.jar</bundleFileName-->
                         </ejbModule>
                         <webModule>
                             <groupId>de.freese.ejbspring</groupId>
                             <artifactId>ejbspring-webapp</artifactId>
+                            <!--bundleFileName>ejbspring-webapp.war</bundleFileName-->
                             <contextRoot>webapp</contextRoot>
                         </webModule>
                     </modules>
