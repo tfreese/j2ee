@@ -17,14 +17,15 @@
     <!--
     SpringBean bekommt EJB-Service.
     -->
-    <!--jee:local-slsb id="ejbMoneyTransferServiceSLSB"
-    business-interface="de.freese.ejbspring.service.IMoneyTransferService"
-    jndi-name="ejb/EJBMoneyTransferFacadeSLSB" resource-ref="true" lookup-home-on-startup="true" /-->
+    <jee:local-slsb id="ejbMoneyTransferServiceSLSB"
+                    business-interface="de.freese.ejbspring.service.IMoneyTransferService"
+                    jndi-name="ejb:EJBMoneyTransferServiceSLSB!de.freese.ejbspring.service.IMoneyTransferService"
+                    resource-ref="true" lookup-home-on-startup="true" />
     <!--jee:jndi-lookup id="ejbMoneyTransferServiceSLSB2"
     jndi-name="EJBMoneyTransferServiceSLSB" resource-ref="true" /-->
 
     <bean id="springMoneyTransferFacade" class="de.freese.ejbspring.facade.impl.SpringMoneyTransferFacade">
-        <property name="moneyService" ref="springMoneyTransferService" />
+        <property name="moneyService" ref="ejbMoneyTransferServiceSLSB" />
     </bean>
 
 </beans>

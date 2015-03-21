@@ -34,7 +34,7 @@ public class MoneyTransferServlet extends HttpServlet
     /**
      *
      */
-    @EJB
+    @EJB(name = "ejbMoneyTransferServiceSLSB")
     private IMoneyTransferFacade moneyTransferFacadeEJB = null;
 
     /**
@@ -82,14 +82,19 @@ public class MoneyTransferServlet extends HttpServlet
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet MoneyTransferServlet at " + request.getContextPath() + "</h1>");
-            out.println(
-                    "MoneyTransferFacadeEJB is: " + moneyTransferFacadeEJB == null ? "null" : moneyTransferFacadeEJB.getClass().getName() + "</br>");
-            out.println(
-                    "MoneyTransferResponseEJB is: " + moneyTransferResponseEJB == null ? "null" : moneyTransferResponseEJB.getKontostand() + "</br>");
-            out.println(
-                    "MoneyTransferFacadeSpring is: " + moneyTransferFacadeSpring == null ? "null" : moneyTransferFacadeSpring.getClass().getName() + "</br>");
-            out.println(
-                    "MoneyTransferResponseSpring is: " + moneyTransferResponseSpring == null ? "null" : moneyTransferResponseSpring.getKontostand() + "</br>");
+
+            if (moneyTransferResponseEJB != null)
+            {
+                out.println("MoneyTransferFacadeEJB is: " + moneyTransferFacadeEJB.getClass().getName() + "</br>");
+                out.println("MoneyTransferResponseEJB is: " + moneyTransferResponseEJB.getKontostand() + "</br>");
+            }
+
+            if (moneyTransferResponseSpring != null)
+            {
+                out.println("MoneyTransferFacadeSpring is: " + moneyTransferFacadeSpring.getClass().getName() + "</br>");
+                out.println("MoneyTransferResponseSpring is: " + moneyTransferResponseSpring.getKontostand() + "</br>");
+            }
+
             out.println("</body>");
             out.println("</html>");
         }

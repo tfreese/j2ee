@@ -7,13 +7,12 @@ import de.freese.ejbspring.facade.IMoneyTransferFacade;
 import de.freese.ejbspring.facade.IMoneyTransferFacadeRemote;
 import de.freese.ejbspring.facade.IMoneyTransferRequest;
 import de.freese.ejbspring.facade.IMoneyTransferResponse;
-import de.freese.ejbspring.service.IMoneyTransferService;
+import de.freese.ejbspring.service.impl.SpringMoneyTransferService;
 import javax.ejb.Local;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 /**
@@ -21,7 +20,8 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
  *
  * @author Thomas Freese
  */
-@Stateless(name = "EJBMoneyTransferFacadeSLSB", mappedName = "ejb/EJBMoneyTransferFacadeSLSB")
+//@Stateless(name = "EJBMoneyTransferFacadeSLSB", mappedName = "ejb/EJBMoneyTransferFacadeSLSB")
+@Stateless()
 @Local(IMoneyTransferFacade.class)
 @Remote(IMoneyTransferFacadeRemote.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
@@ -31,10 +31,7 @@ public class EJBMoneyTransferFacadeSLSB implements IMoneyTransferFacade, IMoneyT
      *
      */
     @Autowired
-    @Qualifier("springMoneyTransferService")
-    //@Inject
-    //@Named("springMoneyTransferService")
-    private IMoneyTransferService moneyService;
+    private SpringMoneyTransferService moneyService;
 
     /**
      * Erstellt ein neues Object.
