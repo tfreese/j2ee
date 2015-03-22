@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <!--
+    Der JMS-Context wird über den ResourceAdapter SpringContextResourceAdapter
+    im Projekt ejbspring-jmx-resource initialisiert und ist eingenständig
+    und nicht als Root-ApplicationContext nutzbar.
+    Zugriff sollte nur über JMS oder Remote-Endpoints erfolgen.
+    -->
+
+    <!--context:property-placeholder location="classpath:META-INF/app.properties" /-->
+
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <constructor-arg value="tcp://localhost:12345" />
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory" />
+    </bean>
+
+    <bean id="transferDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="transfer.request.destination" />
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+    </bean>
+
+    <bean id="transferFacade" class="de.freese.ejbspring.jms.DefaultMoneyTransferFacade" />
+
+    <bean id="transferListener" class="de.freese.ejbspring.jms.TransferListener">
+        <property name="transferFacade" ref="transferFacade" />
+        <property name="jmsTemplate" ref="jmsTemplate" />
+    </bean>
+
+    <bean id="transferListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="transferDestination" />
+        <property name="messageListener" ref="transferListener" />
+    </bean>
+</beans>

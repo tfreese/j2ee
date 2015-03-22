@@ -1,5 +1,5 @@
 // Erzeugt: 20.03.2015
-package de.freese.ejbspring.client;
+package de.freese.ejbspring.client.ejb;
 
 import de.freese.ejbspring.facade.IMoneyTransferFacadeRemote;
 import java.util.Properties;

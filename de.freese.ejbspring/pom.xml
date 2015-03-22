@@ -34,6 +34,8 @@
         <module>ejbspring-webapp</module>
         <module>ejbspring-ear</module>
         <module>ejbspring-client</module>
+        <module>ejbspring-jms</module>
+        <module>ejbspring-jms-resource</module>
     </modules>
 
     <!--build>
