@@ -6,6 +6,9 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+/**
+ * @author Thomas Freese
+ */
 public class MoneyTransferRequest implements Runnable
 {
     /**
@@ -14,10 +17,9 @@ public class MoneyTransferRequest implements Runnable
     private final Double betrag;
 
     /**
-     *
-     * @param betrag
+     * @param betrag Double
      */
-    public MoneyTransferRequest(Double betrag)
+    public MoneyTransferRequest(final Double betrag)
     {
         super();
 
@@ -25,32 +27,25 @@ public class MoneyTransferRequest implements Runnable
     }
 
     /**
-     *
+     * @see java.lang.Runnable#run()
      */
     @Override
     public void run()
     {
         try
         {
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-                    System.getProperty("broker.url", "tcp://localhost:12345"));
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(System.getProperty("broker.url", "tcp://localhost:12345"));
 
             Connection connection = connectionFactory.createConnection();
             connection.start();
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            MessageProducer producer = session.createProducer(session
-                    .createQueue(System.getProperty(
-                                    "transfer.request.destination",
-                                    "transfer.request.destination")));
+            MessageProducer producer =
+                    session.createProducer(session.createQueue(System.getProperty("transfer.request.destination", "transfer.request.destination")));
 
-            TextMessage message = session
-                    .createTextMessage(betrag != null ? betrag.toString()
-                                    : null);
-            message.setJMSReplyTo(session.createQueue(System.getProperty(
-                    "transfer.response.destination",
-                    "transfer.response.destination")));
+            TextMessage message = session.createTextMessage(this.betrag != null ? this.betrag.toString() : null);
+            message.setJMSReplyTo(session.createQueue(System.getProperty("transfer.response.destination", "transfer.response.destination")));
 
             producer.send(message);
 

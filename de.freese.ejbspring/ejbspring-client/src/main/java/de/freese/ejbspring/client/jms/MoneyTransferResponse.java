@@ -7,28 +7,36 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+/**
+ * @author Thomas Freese
+ */
 public class MoneyTransferResponse implements Runnable
 {
     /**
-     *
+     * Erstellt ein neues {@link MoneyTransferResponse} Object.
+     */
+    public MoneyTransferResponse()
+    {
+        super();
+    }
+
+    /**
+     * @see java.lang.Runnable#run()
      */
     @Override
     public void run()
     {
         try
         {
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-                    System.getProperty("broker.url", "tcp://localhost:12345"));
+            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(System.getProperty("broker.url", "tcp://localhost:12345"));
 
             Connection connection = connectionFactory.createConnection();
             connection.start();
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            MessageConsumer consumer = session.createConsumer(session
-                    .createQueue(System.getProperty(
-                                    "transfer.response.destination",
-                                    "transfer.response.destination")));
+            MessageConsumer consumer =
+                    session.createConsumer(session.createQueue(System.getProperty("transfer.response.destination", "transfer.response.destination")));
 
             Message message = consumer.receive();
 
