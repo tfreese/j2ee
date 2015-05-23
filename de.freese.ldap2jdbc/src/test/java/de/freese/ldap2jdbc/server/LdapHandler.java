@@ -10,6 +10,7 @@ import java.nio.charset.CharsetEncoder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.ldap2jdbc.asn1.MyBERTags;
 import de.freese.littlemina.core.IoHandler;
 import de.freese.littlemina.core.buffer.IoBuffer;
 import de.freese.littlemina.core.session.IoSession;
@@ -25,9 +26,9 @@ public class LdapHandler implements IoHandler
      * The end of line character sequence used by most IETF protocols. That is a carriage return followed by a newline: "\r\n" (NETASCII_EOL)
      */
     private static final byte[] CRLF = new byte[]
-            {
-        0x0D, 0x0A
-            };
+    {
+            0x0D, 0x0A
+    };
 
     /**
      *
@@ -85,6 +86,21 @@ public class LdapHandler implements IoHandler
         }
 
         LOGGER.debug(request);
+
+        com.sun.jndi.ldap.BerEncoder be = new com.sun.jndi.ldap.BerEncoder(64);
+        be.beginSeq(MyBERTags.SEQUENCE);
+        // be.encodeString("success", true);
+        // be.encodeInt(0x00, MyBERTags.ENUMERATED);
+        be.encodeString("cn=ldap,ou=users,dc=freese,dc=de", true);
+        be.encodeOctetString("simple".getBytes(), MyBERTags.OCTET_STRING);
+        be.endSeq();
+        // res.status = replyBer.parseEnumeration();
+        // res.matchedDN = replyBer.parseString(isLdapv3);
+        // res.errorMessage = replyBer.parseString(isLdapv3);
+
+        IoBuffer buffer = IoBuffer.allocate(64);
+        buffer.put(be.getTrimmedBuf());
+        session.write(buffer);
 
         // request = request.replace("\r\n", "");
         // String[] splits = request.split("[ ]");

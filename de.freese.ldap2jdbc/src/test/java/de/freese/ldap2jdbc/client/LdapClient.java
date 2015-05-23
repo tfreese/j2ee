@@ -51,17 +51,17 @@ public class LdapClient
         env.put(Context.PROVIDER_URL, "ldap://localhost:3899");
         env.put(Context.SECURITY_PRINCIPAL, "cn=ldap,ou=users,dc=freese,dc=de");
         env.put(Context.SECURITY_CREDENTIALS, "...");
-        // env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_AUTHENTICATION, "none");
+        env.put(Context.SECURITY_AUTHENTICATION, "simple");
+        // env.put(Context.SECURITY_AUTHENTICATION, "none");
         // env.put(Context.SECURITY_PROTOCOL, "ssl");
 
         InitialDirContext context = new InitialDirContext(env);
 
         // Specify the attributes to return
         String returnedAtts[] =
-            {
-                "*"
-            };
+        {
+            "*"
+        };
 
         SearchControls searchCtls = new SearchControls();
         searchCtls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
