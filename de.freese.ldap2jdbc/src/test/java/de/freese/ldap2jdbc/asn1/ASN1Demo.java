@@ -3,6 +3,8 @@
  */
 package de.freese.ldap2jdbc.asn1;
 
+import de.freese.ldap2jdbc.BerDecoder;
+
 /**
  * @author Thomas Freese
  * @see "http://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One"
@@ -10,6 +12,10 @@ package de.freese.ldap2jdbc.asn1;
  * @see "https://tools.ietf.org/html/rfc4511#section-4.2"
  * @see "http://www.geocities.co.jp/SiliconValley-SanJose/3377/asn1JS.html"
  * @see "https://lapo.it/asn1js"
+ * @see "http://www.ietf.org/rfc/rfc2251.txt"
+ * @see "https://www.ietf.org/rfc/rfc1777.txt"
+ * @see "http://www.vijaymukhi.com/vmis/berldap.htm"
+ * @see "https://technet.microsoft.com/en-us/library/cc755809(v=ws.10).aspx#w2k3tr_adsrh_how_kgcq"
  * @see com.sun.jndi.ldap.LdapClient
  */
 public class ASN1Demo
@@ -82,14 +88,14 @@ public class ASN1Demo
                 0x2E
                         };
 
-        com.sun.jndi.ldap.BerDecoder bd = new com.sun.jndi.ldap.BerDecoder(request, 0, request.length);
-        bd.parseSeq(null);
+        BerDecoder bd = new BerDecoder(request);
+        System.out.println("Sequence: " + bd.parseSeq(null));
         System.out.println("MSG-ID: " + bd.parseInt());
         // System.out.println(new String(bd.parseOctetString(com.sun.jndi.ldap.LdapClient.LDAP_REQ_BIND, null)));
         // System.out.println(new String(bd.parseOctetString(0x60, null)));
 
         // Sequence LDAP_REQ_BIND (0x60)
-        bd.parseSeq(null);
+        System.out.println("Sequence: " + bd.parseSeq(null));
         System.out.println("LDAP-Version: " + bd.parseInt());
         System.out.println("DN: " + bd.parseString(true));
         System.out.println("Passwort: " + bd.parseStringWithTag(0x80, false, null));
@@ -103,7 +109,7 @@ public class ASN1Demo
                 {
                 0x30, 0x06, 0x02, 0x01, 0x02, 0x50, 0x01, 0x01
                 };
-        bd = new com.sun.jndi.ldap.BerDecoder(request, 0, request.length);
+        bd = new BerDecoder(request);
         System.out.println("Sequence: " + bd.parseSeq(null));
         System.out.println("MSG-ID: " + bd.parseInt());
         System.out.println("Sequence: " + bd.parseSeq(null));

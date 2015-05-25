@@ -5,6 +5,7 @@ package de.freese.ldap2jdbc.client;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import javax.naming.Context;
@@ -48,9 +49,9 @@ public class LdapClient
     {
         Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, "ldap://localhost:3899");
+        env.put(Context.PROVIDER_URL, "ldap://localhost:389");
         env.put(Context.SECURITY_PRINCIPAL, "cn=ldap,ou=users,dc=freese,dc=de");
-        env.put(Context.SECURITY_CREDENTIALS, "...");
+        env.put(Context.SECURITY_CREDENTIALS, "ldapuser");
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         // env.put(Context.SECURITY_AUTHENTICATION, "none");
         // env.put(Context.SECURITY_PROTOCOL, "ssl");
@@ -76,93 +77,17 @@ public class LdapClient
 
         while (search.hasMoreElements())
         {
-            SearchResult searchResult = search.nextElement();
-            System.out.println(searchResult.toString());
-            results.add(searchResult);
+            results.add(search.nextElement());
         }
 
         search.close();
 
-        // Collections.sort(results, new SearchResultComparator());
-        //
-        // try (PrintWriter pw = new PrintWriter("/tmp/ldap-backup.ldif"))
-        // {
-        // for (SearchResult searchResult : results)
-        // {
-        // // System.out.println(searchResult.getAttributes().get("mobile"));
-        // String cn = getValue(searchResult, "cn");
-        // String uid = getValue(searchResult, "uid");
-        // String sn = getValue(searchResult, "sn");
-        // String givenName = getValue(searchResult, "givenName");
-        //
-        // // Prüfen, ob cn aus Vor- und Nachname besteht.
-        // if (cn.contains(" "))
-        // {
-        // pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
-        // }
-        // else if (StringUtils.isNotBlank(givenName))
-        // {
-        // pw.printf("dn: cn=%s %s,ou=addressbook,dc=freese,dc=de%n", givenName, sn);
-        // }
-        // else if (StringUtils.isNotBlank(uid))
-        // {
-        // pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", uid);
-        // }
-        // else
-        // {
-        // pw.printf("dn: cn=%s,ou=addressbook,dc=freese,dc=de%n", cn);
-        // }
-        //
-        // // pw.println("objectClass: top");
-        // // pw.println("objectClass: person");
-        // // pw.println("objectClass: organizationalPerson");
-        // // pw.println("objectClass: inetOrgPerson");
-        // // pw.println("objectClass: evolutionPerson");
-        // writeMultiValue(pw, searchResult, "objectClass");
-        // pw.printf("sn: %s%n", sn);
-        // pw.printf("givenName: %s%n", givenName);
-        // writeSingleValue(pw, searchResult, "displayName"); // Spitzname
-        // writeSingleValue(pw, searchResult, "description");
-        //
-        // pw.println("# Persönlich");
-        //
-        // writeMultiValue(pw, searchResult, "homePhone");
-        // writeMultiValue(pw, searchResult, "mobile");
-        // writeMultiValue(pw, searchResult, "mail");
-        // writeSingleValue(pw, searchResult, "homePostalAddress");
-        // writeSingleValue(pw, searchResult, "birthDate");
-        // writeSingleValue(pw, searchResult, "note");
-        //
-        // pw.println("# Beruflich");
-        //
-        // writeSingleValue(pw, searchResult, "title");
-        // writeSingleValue(pw, searchResult, "businessRole"); // Beruf
-        // writeSingleValue(pw, searchResult, "o"); // Firma
-        // writeSingleValue(pw, searchResult, "ou"); // Abteilung
-        // writeSingleValue(pw, searchResult, "roomNumber"); // Büro
-        // writeSingleValue(pw, searchResult, "assistantName"); // Assistent
-        // writeSingleValue(pw, searchResult, "managerName"); // Vorgesetzter
-        // writeMultiValue(pw, searchResult, "telephoneNumber");
-        // writeSingleValue(pw, searchResult, "postalAddress");
-        //
-        // pw.println("# Sonstiges");
-        //
-        // writeSingleValue(pw, searchResult, "initials");
-        // writeSingleValue(pw, searchResult, "uid");
-        // writeSingleValue(pw, searchResult, "otherPostalAddress");
-        // writeSingleValue(pw, searchResult, "labeledURI"); // Homepage
-        // writeSingleValue(pw, searchResult, "spouseName"); // Ehepartner
-        //
-        // // Passwörter nur mit Admin auslesbar.
-        // writeSingleValue(pw, searchResult, "userPassword");
-        //
-        // pw.println();
-        // }
-        // }
-        // catch (Exception ex)
-        // {
-        // System.err.println(ex);
-        // }
+        Collections.sort(results, new SearchResultComparator());
+
+        for (SearchResult searchResult : results)
+        {
+            System.out.println(searchResult.toString());
+        }
 
         context.close();
     }

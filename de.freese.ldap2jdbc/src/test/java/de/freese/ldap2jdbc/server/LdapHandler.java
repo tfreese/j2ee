@@ -7,10 +7,11 @@ package de.freese.ldap2jdbc.server;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.ldap2jdbc.asn1.MyBERTags;
+import de.freese.ldap2jdbc.BerDecoder;
+import de.freese.ldap2jdbc.BerEncoder;
+import de.freese.ldap2jdbc.LdapTags;
 import de.freese.littlemina.core.IoHandler;
 import de.freese.littlemina.core.buffer.IoBuffer;
 import de.freese.littlemina.core.session.IoSession;
@@ -26,9 +27,9 @@ public class LdapHandler implements IoHandler
      * The end of line character sequence used by most IETF protocols. That is a carriage return followed by a newline: "\r\n" (NETASCII_EOL)
      */
     private static final byte[] CRLF = new byte[]
-    {
-            0x0D, 0x0A
-    };
+            {
+        0x0D, 0x0A
+            };
 
     /**
      *
@@ -73,71 +74,80 @@ public class LdapHandler implements IoHandler
 
         IoBuffer inputBuffer = session.getBuffer();
         // String request = inputBuffer.getString(this.decoder);
-        String request = inputBuffer.getHexDump();
+        // String request = inputBuffer.getHexDump();
 
-        if (StringUtils.isBlank(request))
+        // if (StringUtils.isBlank(request))
+        // {
+        // // Hack für das richtige schliessen ohne etwas zu schreiben.
+        // session.write(null);
+        //
+        // session.close();
+        //
+        // return;
+        // }
+
+        // LOGGER.debug(request);
+
+        byte[] data = inputBuffer.array();
+        BerDecoder bd = new BerDecoder(data);
+        BerEncoder be = new BerEncoder(64);
+
+        bd.parseSeq(null);
+        int msgID = bd.parseInt();
+        int request = bd.parseSeq(null);
+
+        LOGGER.info("MsgID={}, Request={}/0x{}", msgID, request, Integer.toHexString(request));
+
+        if (request == LdapTags.LDAP_BIND_REQUEST)
         {
-            // Hack für das richtige schliessen ohne etwas zu schreiben.
-            session.write(null);
+            // https://www.ietf.org/rfc/rfc1777.txt
+            int ldapVersion = bd.parseInt();
+            String dn = bd.parseString(true);
+            String passwort = bd.parseStringWithTag(LdapTags.ASN_CONTEXT, false, null);
 
-            session.close();
+            LOGGER.info("Ldap-Version={}, DB={}, Passwort={}", ldapVersion, dn, passwort);
 
-            return;
+            be.beginSeq(LdapTags.ASN_SEQUENCE | LdapTags.ASN_CONSTRUCTOR); // BindResponse 0x01
+            be.encodeInt(msgID);
+            be.beginSeq(LdapTags.LDAP_BIND_RESPONSE); // BindResponse
+            be.encodeInt(LdapTags.LDAP_SUCCESS, LdapTags.ASN_ENUMERATED);
+            be.encodeOctetString("cn=ldap,ou=users,dc=freese,dc=de".getBytes(), LdapTags.ASN_OCTET_STRING); // LDAPDN
+            be.encodeString("", true); // ErrorMessage
+            be.endSeq();
+            be.endSeq();
+        }
+        else if ((request == LdapTags.LDAP_UNBIND_REQUEST) || (request == LdapTags.LDAP_ABANDON_REQUEST))
+        {
+            // Abbruch
+        }
+        else
+        {
+            // Alles andere ist nicht imlementiert -> Fehlermeldung
+            be.beginSeq(LdapTags.ASN_SEQUENCE | LdapTags.ASN_CONSTRUCTOR);
+            be.encodeInt(msgID);
+            be.beginSeq(LdapTags.LDAP_SEARCH_RESPONSE); // Response
+            be.encodeInt(LdapTags.LDAP_OPERATIONS_ERROR, LdapTags.ASN_ENUMERATED);
+            be.encodeOctetString("cn=ldap,ou=users,dc=freese,dc=de".getBytes(), LdapTags.ASN_OCTET_STRING); // LDAPDN
+            be.encodeString("not implemented", true); // ErrorMessage
+            be.endSeq();
+            be.endSeq();
         }
 
-        LOGGER.debug(request);
+        if (be.getDataLen() > 0)
+        {
+            IoBuffer buffer = IoBuffer.allocate(64);
+            buffer.put(be.getTrimmedBuf());
+            buffer.flip();
+            session.write(buffer);
+        }
+        else
+        {
+            session.write(null);
+            session.close();
+        }
 
-        com.sun.jndi.ldap.BerEncoder be = new com.sun.jndi.ldap.BerEncoder(64);
-        be.beginSeq(MyBERTags.SEQUENCE);
-        // be.encodeString("success", true);
-        // be.encodeInt(0x00, MyBERTags.ENUMERATED);
-        be.encodeString("cn=ldap,ou=users,dc=freese,dc=de", true);
-        be.encodeOctetString("simple".getBytes(), MyBERTags.OCTET_STRING);
-        be.endSeq();
-        // res.status = replyBer.parseEnumeration();
-        // res.matchedDN = replyBer.parseString(isLdapv3);
-        // res.errorMessage = replyBer.parseString(isLdapv3);
-
-        IoBuffer buffer = IoBuffer.allocate(64);
-        buffer.put(be.getTrimmedBuf());
-        session.write(buffer);
-
-        // request = request.replace("\r\n", "");
-        // String[] splits = request.split("[ ]");
-        // String uid = splits[0];
-        // String command = "";
-        //
-        // if (splits.length >= 2)
-        // {
-        // command = splits[1];
-        // }
-        //
-        // LOGGER.info(request);
-        //
-        // IoBuffer buffer = IoBuffer.allocate(64);
-        //
-        // // String response = "* BYE Autologout\r\n";
-        //
-        // if (command.startsWith("CAPABILITY"))
-        // {
-        // // Meldung des 1und1 Servers
-        // buffer.putString(
-        // "* CAPABILITY IMAP4rev1 LITERAL+ ID CHILDREN QUOTA IDLE NAMESPACE UIDPLUS UNSELECT SORT THREAD=ORDEREDSUBJECT ENABLE WITHIN AUTH=LOGIN AUTH=PLAIN",
-        // this.encoder);
-        // buffer.put(CRLF);
-        // buffer.putString(uid, this.encoder);
-        // buffer.putString(" OK CAPABILITY completed", this.encoder);
-        // buffer.put(CRLF);
-        // }
-        // else
-        // {
-        // buffer.putString("* BAD command unknown", this.encoder);
-        // buffer.put(CRLF);
-        // }
-        //
-        // buffer.flip();
-        //
-        // session.write(buffer);
+        be = null;
+        bd = null;
     }
 
     /**

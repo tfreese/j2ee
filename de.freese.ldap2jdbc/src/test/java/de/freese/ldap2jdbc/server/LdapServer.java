@@ -9,7 +9,7 @@ import de.freese.littlemina.core.acceptor.NioSocketAcceptor;
 /**
  * @author Thomas Freese
  */
-public class TestLDAP
+public class LdapServer
 {
     /**
      * @param args String[]

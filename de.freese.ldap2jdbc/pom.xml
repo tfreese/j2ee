@@ -23,6 +23,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpg-jdk15on</artifactId>
 		</dependency>
@@ -31,12 +36,12 @@
 			<artifactId>slf4j-simple</artifactId>
 			<scope>runtime</scope>
 		</dependency-->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 </project>
