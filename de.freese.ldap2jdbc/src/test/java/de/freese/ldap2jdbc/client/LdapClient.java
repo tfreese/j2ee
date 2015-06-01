@@ -49,7 +49,7 @@ public class LdapClient
     {
         Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.PROVIDER_URL, "ldap://localhost:389");
+        env.put(Context.PROVIDER_URL, "ldap://localhost:3899");
         env.put(Context.SECURITY_PRINCIPAL, "cn=ldap,ou=users,dc=freese,dc=de");
         env.put(Context.SECURITY_CREDENTIALS, "ldapuser");
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
@@ -60,9 +60,9 @@ public class LdapClient
 
         // Specify the attributes to return
         String returnedAtts[] =
-        {
-            "*"
-        };
+            {
+                "*"
+            };
 
         SearchControls searchCtls = new SearchControls();
         searchCtls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
