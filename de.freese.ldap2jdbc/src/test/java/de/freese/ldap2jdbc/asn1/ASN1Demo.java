@@ -36,57 +36,57 @@ public class ASN1Demo
         // };
         byte[] request =
                 new byte[]
-                        {
-                0x30,
-                0x2F,
-                0x02,
-                0x01,
-                0x01,
-                0x60,
-                0x2A,
-                0x02,
-                0x01,
-                0x03,
-                0x04,
-                0x20,
-                0x63,
-                0x6E,
-                0x3D,
-                0x6C,
-                0x64,
-                0x61,
-                0x70,
-                0x2C,
-                0x6F,
-                0x75,
-                0x3D,
-                0x75,
-                0x73,
-                0x65,
-                0x72,
-                0x73,
-                0x2C,
-                0x64,
-                0x63,
-                0x3D,
-                0x66,
-                0x72,
-                0x65,
-                0x65,
-                0x73,
-                0x65,
-                0x2C,
-                0x64,
-                0x63,
-                0x3D,
-                0x64,
-                0x65,
-                (byte) 0x80,
-                0x03,
-                0x2E,
-                0x2E,
-                0x2E
-                        };
+                {
+                        0x30,
+                        0x2F,
+                        0x02,
+                        0x01,
+                        0x01,
+                        0x60,
+                        0x2A,
+                        0x02,
+                        0x01,
+                        0x03,
+                        0x04,
+                        0x20,
+                        0x63,
+                        0x6E,
+                        0x3D,
+                        0x6C,
+                        0x64,
+                        0x61,
+                        0x70,
+                        0x2C,
+                        0x6F,
+                        0x75,
+                        0x3D,
+                        0x75,
+                        0x73,
+                        0x65,
+                        0x72,
+                        0x73,
+                        0x2C,
+                        0x64,
+                        0x63,
+                        0x3D,
+                        0x66,
+                        0x72,
+                        0x65,
+                        0x65,
+                        0x73,
+                        0x65,
+                        0x2C,
+                        0x64,
+                        0x63,
+                        0x3D,
+                        0x64,
+                        0x65,
+                        (byte) 0x80,
+                        0x03,
+                        0x2E,
+                        0x2E,
+                        0x2E
+                };
 
         BerDecoder bd = new BerDecoder(request);
         System.out.println("Sequence: " + bd.parseSeq(null));
@@ -106,9 +106,9 @@ public class ASN1Demo
 
         // 2. Request 30 06 02 01 02 50 01 01
         request = new byte[]
-                {
+        {
                 0x30, 0x06, 0x02, 0x01, 0x02, 0x50, 0x01, 0x01
-                };
+        };
         bd = new BerDecoder(request);
         System.out.println("Sequence: " + bd.parseSeq(null));
         System.out.println("MSG-ID: " + bd.parseInt());
@@ -129,10 +129,13 @@ public class ASN1Demo
         ldapAuthenticate();
         System.out.println();
 
+        // 30 63 02 01 02 63 41 04 1E 6F 75 3D 61 64 64 72 65 73 73 62 6F 6F 6B 2C 64 63 3D 66 72 65 65 73 65 2C 64 63 3D 64 65 0A 01 01 0A 01 03 02 01 00 02 01
+        // 00 01 01 00 87 0B 6F 62 6A 65 63 74 63 6C 61 73 73 30 03 04 01 2A A0 1B 30 19 04 17 32 2E 31 36 2E 38 34 30 2E 31 2E 31 31 33 37 33 30 2E 33 2E 34 2E
+        // 32
         byte[] request = new byte[]
-        {
+                {
                 0x61, 0x42, 0x41
-        };
+                };
         BerDecoder bd = new BerDecoder(request);
         int seq = bd.parseSeq(null);
         System.out.printf("Sequence: %d/%x %n", seq, seq);

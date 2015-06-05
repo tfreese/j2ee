@@ -88,6 +88,7 @@ public class LdapHandler implements IoHandler
 
         // LOGGER.debug(request);
 
+        String hexDump = inputBuffer.getHexDump();
         byte[] data = inputBuffer.array();
         BerDecoder bd = new BerDecoder(data);
         BerEncoder be = new BerEncoder(64);
@@ -126,30 +127,39 @@ public class LdapHandler implements IoHandler
             int sizeLimit = bd.parseInt();
             int timeLimit = bd.parseInt();
             boolean attrsOnly = bd.parseBoolean();
-            // String filter = bd.parseStringWithTag(LdapTags.ASN_CONTEXT, true, null);
+            int objectclass = bd.parseSeq(null); // 135=LDAP_FILTER_PRESENT
+
+            if (objectclass == 135) // AttributeDescription = LDAPString = OCTET STRING
+            {
+                // String filter = bd.parseStringWithTag(LdapTags.ASN_CONTEXT, true, null);
+                // String filter = bd.parseString(true);
+                // byte[] filter = bd.parseOctetString(objectclass, null);
+                String filter = bd.parseStringWithTag(objectclass, true, null);
+                LOGGER.info("SEARCH_REQUEST: filter={}", new String(filter));
+            }
 
             // Client: [40, 111, 98, 106, 101, 99, 116, 99, 108, 97, 115, 115, 61, 42, 41]
             // Server: [111, 98, 106, 101, 99, 116, 99, 108, 97, 115, 115]
-            byte[] filter = bd.parseOctetString(135, null);
-            // System.out.println(new String(filter));
-
-            int[] attrlength = new int[]
-                    {
-                    1
-                    };
-            bd.parseSeq(attrlength);
-            String[] attrs = new String[attrlength[0]];
-
-            for (int i = 0; i < attrs.length; i++)
-            {
-                attrs[i] = bd.parseString(true);
-            }
+            // byte[] filter = bd.parseOctetString(135, null);
+            // // System.out.println(new String(filter));
+            //
+            // int[] attrlength = new int[]
+            // {
+            // 1
+            // };
+            // bd.parseSeq(attrlength);
+            // String[] attrs = new String[attrlength[0]];
+            //
+            // for (int i = 0; i < attrs.length; i++)
+            // {
+            // attrs[i] = bd.parseString(true);
+            // }
 
             // ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
             // ber.encodeStringArray(attrs, isLdapv3);
             // ber.endSeq();
 
-            LOGGER.info("SEARCH_REQUEST: {}", dn);
+            LOGGER.info("SEARCH_REQUEST: dn={}", dn);
         }
         else if ((request == LdapTags.LDAP_UNBIND_REQUEST) || (request == LdapTags.LDAP_ABANDON_REQUEST))
         {
