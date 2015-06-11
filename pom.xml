@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Alles was mit J2EE Technologien.</description>
+    <description>Alles was mit J2EE Technologien zu tun hat.</description>
     <inceptionYear>2011</inceptionYear>
 
     <modules>
@@ -29,7 +29,7 @@
         <module>de.freese.ejb.embedded</module>
         <module>de.freese.ejbspring</module>
         <module>de.freese.ldap2jdbc</module>
-  </modules>
+    </modules>
 
     <scm>
         <url>${project.url}</url>

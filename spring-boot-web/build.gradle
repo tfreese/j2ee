@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter() // Für gradle-versions-plugin
+    }
+    dependencies {
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.10.1'
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.4.RELEASE")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'com.github.ben-manes.versions' // Für Task dependencyUpdates
+apply from: System.properties['user.home']+'/.gradle/global-properties.groovy'
+
+defaultTasks 'tasks'
+group = 'de.efreest'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    compile("com.sun.faces:jsf-api:$versions.jsf_api")
+    compile("com.sun.faces:jsf-impl:$versions.jsf_api")
+    compile("org.primefaces:primefaces:$versions.primefaces")
+    runtime("org.primefaces.extensions:primefaces-extensions:$versions.primefaces_extensions")
+    runtime("org.primefaces.themes:all-themes:$versions.primefaces_allthemes")
+    compile("org.springframework.boot:spring-boot-starter-web:$versions.spring_boot") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty:$versions.spring_boot")
+}
