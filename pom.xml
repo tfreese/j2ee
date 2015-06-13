@@ -29,6 +29,8 @@
         <module>de.freese.ejb.embedded</module>
         <module>de.freese.ejbspring</module>
         <module>de.freese.ldap2jdbc</module>
+        <module>spring-boot-web</module>
+        <module>de.freese.spring-ldap</module>
     </modules>
 
     <scm>
