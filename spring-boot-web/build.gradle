@@ -18,7 +18,6 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'com.github.ben-manes.versions' // Für Task dependencyUpdates
-apply from: System.properties['user.home']+'/.gradle/global-properties.groovy'
 
 defaultTasks 'tasks'
 group = 'de.efreest'
