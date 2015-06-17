@@ -33,10 +33,10 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
     @Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application)
     {
-        return application.sources(new Class[]
-        {
+        return application.sources(new Class<?>[]
+                {
                 Main.class, Initializer.class
-        });
+                });
     }
 
     /**
