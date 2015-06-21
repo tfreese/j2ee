@@ -7,7 +7,6 @@ buildscript {
 apply from: System.properties['user.home']+'/.gradle/java.gradle'
 apply plugin: 'spring-boot'
 
-defaultTasks 'tasks'
 group = 'de.efreest'
 version = '0.0.1-SNAPSHOT'
 
