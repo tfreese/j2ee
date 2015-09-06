@@ -32,10 +32,10 @@
         <module>ejspring-facade</module>
         <module>ejbspring-logic</module>
         <module>ejbspring-webapp</module>
-        <module>ejbspring-ear</module>
         <module>ejbspring-client</module>
         <module>ejbspring-jms</module>
         <module>ejbspring-jms-resource</module>
+        <module>ejbspring-ear</module>
     </modules>
 
     <!--build>
