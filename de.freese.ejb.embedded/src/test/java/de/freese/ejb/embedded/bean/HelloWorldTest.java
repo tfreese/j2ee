@@ -1,10 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the template in
+ * the editor.
  */
 package de.freese.ejb.embedded.bean;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,53 +14,74 @@ import javax.naming.Context;
 import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
  * @author Thomas Freese
  */
 public class HelloWorldTest
 {
-    private static EJBContainer ejbContainer = null;
-
+    /**
+     *
+     */
     private static Context ctx = null;
 
-    public HelloWorldTest()
-    {
-        super();
-    }
+    /**
+     *
+     */
+    private static EJBContainer ejbContainer = null;
 
+    /**
+     *
+     */
     @BeforeClass
     public static void setUpClass()
     {
         Map<String, Object> properties = new HashMap<>();
         properties.put(EJBContainer.MODULES, new File("target/classes"));
         ejbContainer = EJBContainer.createEJBContainer(properties);
-//        ejbContainer = EJBContainer.createEJBContainer();
+        // ejbContainer = EJBContainer.createEJBContainer();
         ctx = ejbContainer.getContext();
     }
 
+    /**
+     *
+     */
     @AfterClass
     public static void tearDownClass()
     {
         ejbContainer.close();
     }
 
+    /**
+     * Erstellt ein neues {@link HelloWorldTest} Object.
+     */
+    public HelloWorldTest()
+    {
+        super();
+    }
+
+    /**
+     *
+     */
     @Before
     public void setUp()
     {
     }
 
+    /**
+     *
+     */
     @After
     public void tearDown()
     {
     }
 
+    /**
+     *
+     */
     @Test
     public void testHelloWorld()
     {
