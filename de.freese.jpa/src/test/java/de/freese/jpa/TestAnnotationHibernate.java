@@ -3,8 +3,6 @@
  */
 package de.freese.jpa;
 
-import de.freese.jpa.model.Person;
-import de.freese.jpa.util.HibernateUtil;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.hibernate.Criteria;
@@ -13,184 +11,184 @@ import org.hibernate.Transaction;
 import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
 import org.springframework.util.StopWatch;
+import de.freese.jpa.model.Person;
+import de.freese.jpa.util.HibernateUtil;
 
 /**
  * @author Thomas Freese
  */
 public class TestAnnotationHibernate
 {
-	/**
-	 * @param args String[]
-	 * @throws Exception Falls was schief geht
-	 */
-	public static void main(final String[] args) throws Exception
-	{
-		TestAnnotationHibernate testJPA = new TestAnnotationHibernate();
-
-		// testJPA.deleteAll();
-
-		testJPA.insert();
-
-		testJPA.show();
-		TimeUnit.SECONDS.sleep(3);
-		testJPA.show();
-		TimeUnit.SECONDS.sleep(3);
-		testJPA.show();
-
-		testJPA.statistics();
-
-		testJPA.close();
-		System.exit(0);
-	}
-
-	/**
-     * 
+    /**
+     * @param args String[]
+     * @throws Exception Falls was schief geht
      */
-	private StopWatch timer = new StopWatch();
+    public static void main(final String[] args) throws Exception
+    {
+        TestAnnotationHibernate testJPA = new TestAnnotationHibernate();
 
-	/**
-	 * Creates a new {@link TestAnnotationHibernate} object.
-	 */
-	public TestAnnotationHibernate()
-	{
-		super();
-	}
+        // testJPA.deleteAll();
 
-	/**
-	 * 
-	 */
-	public void close()
-	{
-		// Session session = HibernateUtil.getSessionFactory().openSession();
-		//
-		// Query query = session.createSQLQuery("SHUTDOWN COMPACT");
-		// query.executeUpdate();
-		// session.close();
-		HibernateUtil.getSessionFactory().close();
-	}
+        testJPA.insert();
 
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public void deleteAll()
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();
+        testJPA.show();
+        TimeUnit.SECONDS.sleep(3);
+        testJPA.show();
+        TimeUnit.SECONDS.sleep(3);
+        testJPA.show();
 
-		Criteria criteria = session.createCriteria(Person.class);
-		List<Person> result = criteria.list();
+        testJPA.statistics();
 
-		for (Person person : result)
-		{
-			session.delete(person);
-		}
+        testJPA.close();
+        System.exit(0);
+    }
 
-		session.close();
-	}
+    /**
+     *
+     */
+    private StopWatch timer = new StopWatch();
 
-	/**
-	 * 
-	 */
-	public void insert()
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+    /**
+     * Creates a new {@link TestAnnotationHibernate} object.
+     */
+    public TestAnnotationHibernate()
+    {
+        super();
+    }
 
-		try
-		{
-			for (int i = 0; i < 100; i++)
-			{
-				Person person1 = new Person();
+    /**
+     *
+     */
+    public void close()
+    {
+        // Session session = HibernateUtil.getSessionFactory().openSession();
+        //
+        // Query query = session.createSQLQuery("SHUTDOWN COMPACT");
+        // query.executeUpdate();
+        // session.close();
+        HibernateUtil.getSessionFactory().close();
+    }
 
-				person1.setName("" + System.currentTimeMillis());
-				person1.setVorName("" + System.currentTimeMillis());
-				session.persist(person1);
+    /**
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public void deleteAll()
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession())
+        {
+            Criteria criteria = session.createCriteria(Person.class);
+            List<Person> result = criteria.list();
 
-				// if ((i % 10) == 0)
-				// { //10, same as the JDBC batch size
-				// //flush a batch of inserts and release memory:
-				// session.flush();
-				// session.clear();
-				// }
-				// if (false)
-				// {
-				// throw new Exception("RollbackTest");
-				// }
+            for (Person person : result)
+            {
+                session.delete(person);
+            }
+        }
+    }
 
-				TimeUnit.MILLISECONDS.sleep(10);
-			}
+    /**
+     *
+     */
+    public void insert()
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession())
+        {
+            Transaction tx = session.beginTransaction();
 
-			tx.commit();
-		}
-		catch (Throwable th)
-		{
-			th.printStackTrace();
+            try
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    Person person1 = new Person();
 
-			// tx.rollback();
-		}
-		finally
-		{
-			session.close();
-		}
-	}
+                    person1.setName("" + System.currentTimeMillis());
+                    person1.setVorName("" + System.currentTimeMillis());
+                    session.persist(person1);
 
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public void show()
-	{
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
+                    // if ((i % 10) == 0)
+                    // { //10, same as the JDBC batch size
+                    // //flush a batch of inserts and release memory:
+                    // session.flush();
+                    // session.clear();
+                    // }
+                    // if (false)
+                    // {
+                    // throw new Exception("RollbackTest");
+                    // }
 
-		Criteria criteria = session.createCriteria(Person.class);
-		criteria.setCacheable(true);
+                    TimeUnit.MILLISECONDS.sleep(10);
+                }
 
-		this.timer.start();
-		List<Person> result = criteria.list();
-		this.timer.stop();
+                tx.commit();
+            }
+            catch (Throwable th)
+            {
+                th.printStackTrace();
 
-		System.out.println(this.timer.shortSummary());
-		// this.timer.reset();
+                // tx.rollback();
+            }
+        }
+    }
 
-		for (Person person : result)
-		{
-			// System.out.println(person);
-			person.toString();
-		}
+    /**
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public void show()
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession())
+        {
+            Transaction tx = session.beginTransaction();
 
-		tx.commit();
-		session.close();
-	}
+            Criteria criteria = session.createCriteria(Person.class);
+            criteria.setCacheable(true);
 
-	/**
-	 * 
-	 */
-	public void statistics()
-	{
-		Statistics stats = HibernateUtil.getSessionFactory().getStatistics();
+            this.timer.start();
+            List<Person> result = criteria.list();
+            this.timer.stop();
 
-		double queryCacheHitCount = stats.getQueryCacheHitCount();
-		double queryCacheMissCount = stats.getQueryCacheMissCount();
-		double queryCacheHitRatio = queryCacheHitCount / (queryCacheHitCount + queryCacheMissCount);
+            System.out.println(this.timer.shortSummary());
+            // this.timer.reset();
 
-		System.out.println("SQL Query Hit Count: " + queryCacheHitCount);
-		System.out.println("SQL Query Miss Count: " + queryCacheMissCount);
-		System.out.println("SQL Query Hit ratio %: " + (queryCacheHitRatio * 100));
+            for (Person person : result)
+            {
+                // System.out.println(person);
+                person.toString();
+            }
 
-		EntityStatistics entityStats = stats.getEntityStatistics(Person.class.getName());
-		long inserts = entityStats.getInsertCount();
-		long updates = entityStats.getUpdateCount();
-		long deletes = entityStats.getDeleteCount();
-		long fetches = entityStats.getFetchCount();
-		long loads = entityStats.getLoadCount();
-		long changes = inserts + updates + deletes;
+            tx.commit();
+        }
+    }
 
-		System.out.println(Person.class.getName() + " fetches " + fetches + " times");
-		System.out.println(Person.class.getName() + " loads " + loads + " times");
-		System.out.println(Person.class.getName() + " inserts " + inserts + " times");
-		System.out.println(Person.class.getName() + " updates " + updates + " times");
-		System.out.println(Person.class.getName() + " deletes " + deletes + " times");
-		System.out.println(Person.class.getName() + " changed " + changes + " times");
-	}
+    /**
+     *
+     */
+    public void statistics()
+    {
+        Statistics stats = HibernateUtil.getSessionFactory().getStatistics();
+
+        double queryCacheHitCount = stats.getQueryCacheHitCount();
+        double queryCacheMissCount = stats.getQueryCacheMissCount();
+        double queryCacheHitRatio = queryCacheHitCount / (queryCacheHitCount + queryCacheMissCount);
+
+        System.out.println("SQL Query Hit Count: " + queryCacheHitCount);
+        System.out.println("SQL Query Miss Count: " + queryCacheMissCount);
+        System.out.println("SQL Query Hit ratio %: " + (queryCacheHitRatio * 100));
+
+        EntityStatistics entityStats = stats.getEntityStatistics(Person.class.getName());
+        long inserts = entityStats.getInsertCount();
+        long updates = entityStats.getUpdateCount();
+        long deletes = entityStats.getDeleteCount();
+        long fetches = entityStats.getFetchCount();
+        long loads = entityStats.getLoadCount();
+        long changes = inserts + updates + deletes;
+
+        System.out.println(Person.class.getName() + " fetches " + fetches + " times");
+        System.out.println(Person.class.getName() + " loads " + loads + " times");
+        System.out.println(Person.class.getName() + " inserts " + inserts + " times");
+        System.out.println(Person.class.getName() + " updates " + updates + " times");
+        System.out.println(Person.class.getName() + " deletes " + deletes + " times");
+        System.out.println(Person.class.getName() + " changed " + changes + " times");
+    }
 }

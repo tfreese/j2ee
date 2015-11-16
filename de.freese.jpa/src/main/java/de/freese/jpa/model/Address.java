@@ -28,96 +28,96 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "ADDRESS")
 public class Address implements Serializable
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 2678405627217507543L;
-
-	/**
-     * 
+    /**
+     *
      */
-	@Id
-	@Column(name = "ADDRESS_PK", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-	@SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ")
-	private Long oid = null;
+    private static final long serialVersionUID = 2678405627217507543L;
 
-	/**
-	 *
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PERSON_FK")
-	private Person person = null;
+    /**
+     *
+     */
+    @Id
+    @Column(name = "ADDRESS_PK", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ", initialValue = 1, allocationSize = 10)
+    private Long oid = null;
 
-	/**
-	 *
-	 */
-	@Column(name = "STREET", nullable = false)
-	private String street = null;
+    /**
+     *
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_FK")
+    private Person person = null;
 
-	/**
-	 * Erstellt ein neues {@link Address} Object.
-	 */
-	public Address()
-	{
-		super();
-	}
+    /**
+     *
+     */
+    @Column(name = "STREET", nullable = false)
+    private String street = null;
 
-	/**
-	 * @return Long
-	 */
-	public Long getOID()
-	{
-		return this.oid;
-	}
+    /**
+     * Erstellt ein neues {@link Address} Object.
+     */
+    public Address()
+    {
+        super();
+    }
 
-	/**
-	 * @return {@link Person}
-	 */
-	public Person getPerson()
-	{
-		return this.person;
-	}
+    /**
+     * @return Long
+     */
+    public Long getOID()
+    {
+        return this.oid;
+    }
 
-	/**
-	 * @return String
-	 */
+    /**
+     * @return {@link Person}
+     */
+    public Person getPerson()
+    {
+        return this.person;
+    }
 
-	public String getStreet()
-	{
-		return this.street;
-	}
+    /**
+     * @return String
+     */
 
-	/**
-	 * @param oid Long
-	 */
-	public void setOID(final Long oid)
-	{
-		this.oid = oid;
-	}
+    public String getStreet()
+    {
+        return this.street;
+    }
 
-	/**
-	 * @param person {@link Person}
-	 */
-	void setPerson(final Person person)
-	{
-		this.person = person;
-	}
+    /**
+     * @param oid Long
+     */
+    public void setOID(final Long oid)
+    {
+        this.oid = oid;
+    }
 
-	/**
-	 * @param street String
-	 */
-	public void setStreet(final String street)
-	{
-		this.street = street;
-	}
+    /**
+     * @param person {@link Person}
+     */
+    void setPerson(final Person person)
+    {
+        this.person = person;
+    }
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
-	{
-		return getOID() + ": " + getStreet();
-	}
+    /**
+     * @param street String
+     */
+    public void setStreet(final String street)
+    {
+        this.street = street;
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return getOID() + ": " + getStreet();
+    }
 }

@@ -32,142 +32,142 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "PERSON", uniqueConstraints =
 {
-	@UniqueConstraint(columnNames =
-	{
-			"name", "vorName"
-	})
+    @UniqueConstraint(columnNames =
+    {
+            "name", "vorName"
+    })
 })
 public class Person implements Serializable
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 413810580854319964L;
-
-	/**
-	 *
-	 */
-	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade =
-	{
-			CascadeType.PERSIST, CascadeType.REMOVE
-	})
-	@OrderBy("street desc")
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "hibernate.test")
-	@Fetch(FetchMode.SELECT)
-	private List<Address> addresses = new ArrayList<>();
-
-	/**
-     * 
+    /**
+     *
      */
-	@Column(name = "NAME", nullable = false)
-	private String name = null;
+    private static final long serialVersionUID = 413810580854319964L;
 
-	/**
-     * 
+    /**
+     *
      */
-	@Id
-	@Column(name = "PERSON_PK", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-	@SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ", initialValue = 1, allocationSize = 1)
-	private Long oid = null;
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade =
+    {
+            CascadeType.PERSIST, CascadeType.REMOVE
+    })
+    @OrderBy("street desc")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "hibernate.test")
+    @Fetch(FetchMode.SELECT)
+    private List<Address> addresses = new ArrayList<>();
 
-	/**
-     * 
+    /**
+     *
      */
-	@Column(name = "VORNAME", nullable = false)
-	private String vorName = null;
+    @Column(name = "NAME", nullable = false)
+    private String name = null;
 
-	/**
-	 * Creates a new {@link Person} object.
-	 */
-	public Person()
-	{
-		super();
-	}
+    /**
+     *
+     */
+    @Id
+    @Column(name = "PERSON_PK", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ", initialValue = 1, allocationSize = 10)
+    private Long oid = null;
 
-	/**
-	 * @param address {@link Address}
-	 */
-	public void addAddress(final Address address)
-	{
-		this.addresses.add(address);
-		address.setPerson(this);
-	}
+    /**
+     *
+     */
+    @Column(name = "VORNAME", nullable = false)
+    private String vorName = null;
 
-	/**
-	 * @return List<Address>
-	 */
+    /**
+     * Creates a new {@link Person} object.
+     */
+    public Person()
+    {
+        super();
+    }
 
-	public List<Address> getAddresses()
-	{
-		return this.addresses;
-	}
+    /**
+     * @param address {@link Address}
+     */
+    public void addAddress(final Address address)
+    {
+        this.addresses.add(address);
+        address.setPerson(this);
+    }
 
-	/**
-	 * @return String
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
+    /**
+     * @return List<Address>
+     */
 
-	/**
-	 * initialValue=Startwert, allocationSize=Schritte der Nummern
-	 * 
-	 * @return Long
-	 */
-	public Long getOID()
-	{
-		return this.oid;
-	}
+    public List<Address> getAddresses()
+    {
+        return this.addresses;
+    }
 
-	/**
-	 * @return String
-	 */
-	public String getVorName()
-	{
-		return this.vorName;
-	}
+    /**
+     * @return String
+     */
+    public String getName()
+    {
+        return this.name;
+    }
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode()
-	{
-		return getOID().hashCode();
-	}
+    /**
+     * initialValue=Startwert, allocationSize=Schritte der Nummern
+     * 
+     * @return Long
+     */
+    public Long getOID()
+    {
+        return this.oid;
+    }
 
-	/**
-	 * @param name String
-	 */
-	public void setName(final String name)
-	{
-		this.name = name;
-	}
+    /**
+     * @return String
+     */
+    public String getVorName()
+    {
+        return this.vorName;
+    }
 
-	/**
-	 * @param oid Long
-	 */
-	public void setOID(final Long oid)
-	{
-		this.oid = oid;
-	}
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        return getOID().hashCode();
+    }
 
-	/**
-	 * @param vorName String
-	 */
-	public void setVorName(final String vorName)
-	{
-		this.vorName = vorName;
-	}
+    /**
+     * @param name String
+     */
+    public void setName(final String name)
+    {
+        this.name = name;
+    }
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString()
-	{
-		return getOID() + ": " + getName() + ", " + getVorName();
-	}
+    /**
+     * @param oid Long
+     */
+    public void setOID(final Long oid)
+    {
+        this.oid = oid;
+    }
+
+    /**
+     * @param vorName String
+     */
+    public void setVorName(final String vorName)
+    {
+        this.vorName = vorName;
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return getOID() + ": " + getName() + ", " + getVorName();
+    }
 }
