@@ -9,23 +9,30 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * @author Thomas Freese
  */
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hibernate.test")
 @Entity
-@Table(name = "ADDRESS")
+@Table(name = "T_ADDRESS", uniqueConstraints =
+{
+    @UniqueConstraint(name = "UNQ_PERSON_STREET", columnNames =
+    {
+            "PERSON_ID", "STREET"
+    })
+})
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
 public class Address implements Serializable
 {
     /**
@@ -34,25 +41,26 @@ public class Address implements Serializable
     private static final long serialVersionUID = 2678405627217507543L;
 
     /**
-     *
+     * SequenceGeneratoren wiederzuverwenden über orm.xml
      */
     @Id
-    @Column(name = "ADDRESS_PK", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-    @SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ", initialValue = 1, allocationSize = 10)
-    private Long oid = null;
+    @Column(name = "ID", unique = true, nullable = false)
+    // @SequenceGenerator(name = "seq_gen_address", sequenceName = "OBJECT_SEQ", initialValue = 10, allocationSize = 10)
+    // @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_gen", strategy = GenerationType.SEQUENCE)
+    private long id = -1;
 
     /**
      *
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERSON_FK")
+    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "fk_person"))
     private Person person = null;
 
     /**
      *
      */
-    @Column(name = "STREET", nullable = false)
+    @Column(name = "STREET", length = 50, nullable = false)
     private String street = null;
 
     /**
@@ -64,11 +72,11 @@ public class Address implements Serializable
     }
 
     /**
-     * @return Long
+     * @return long
      */
-    public Long getOID()
+    public long getID()
     {
-        return this.oid;
+        return this.id;
     }
 
     /**
@@ -89,11 +97,11 @@ public class Address implements Serializable
     }
 
     /**
-     * @param oid Long
+     * @param id long
      */
-    public void setOID(final Long oid)
+    public void setID(final long id)
     {
-        this.oid = oid;
+        this.id = id;
     }
 
     /**
@@ -118,6 +126,6 @@ public class Address implements Serializable
     @Override
     public String toString()
     {
-        return getOID() + ": " + getStreet();
+        return getID() + ": " + getStreet();
     }
 }

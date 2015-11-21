@@ -6,6 +6,8 @@ package de.freese.jpa.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,9 +16,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.QueryHint;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
@@ -27,16 +31,26 @@ import org.hibernate.annotations.FetchMode;
 /**
  * @author Thomas Freese
  */
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hibernate.test")
 @Entity
-@Table(name = "PERSON", uniqueConstraints =
+@Table(name = "T_PERSON", uniqueConstraints =
 {
-    @UniqueConstraint(columnNames =
+    @UniqueConstraint(name = "UNQ_NAME_VORNAME", columnNames =
     {
-            "name", "vorName"
+            "NAME", "VORNAME"
     })
 })
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
+@NamedQueries(
+        {
+            @NamedQuery(name = "allPersons", query = "from Person order by id asc", hints =
+                {
+                    @QueryHint(name = "org.hibernate.cacheable", value = "true")
+                }), @NamedQuery(name = "personByVorname", query = "from Person where vorname=:vorname order by name asc", hints =
+            {
+                        @QueryHint(name = "org.hibernate.cacheable", value = "true")
+            })
+        })
 public class Person implements Serializable
 {
     /**
@@ -52,29 +66,31 @@ public class Person implements Serializable
             CascadeType.PERSIST, CascadeType.REMOVE
     })
     @OrderBy("street desc")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "hibernate.test")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
     private List<Address> addresses = new ArrayList<>();
 
     /**
+     * SequenceGeneratoren wiederzuverwenden über orm.xml
+     */
+    @Id
+    @Column(name = "ID", unique = true, nullable = false)
+    // @SequenceGenerator(name = "seq_gen_person", sequenceName = "OBJECT_SEQ", initialValue = 10, allocationSize = 10)
+    // @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_gen", strategy = GenerationType.SEQUENCE)
+    @Access(AccessType.FIELD)
+    private long id = -1;
+
+    /**
      *
      */
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "NAME", length = 50, nullable = false)
     private String name = null;
 
     /**
      *
      */
-    @Id
-    @Column(name = "PERSON_PK", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-    @SequenceGenerator(name = "seq", sequenceName = "OBJECT_SEQ", initialValue = 1, allocationSize = 10)
-    private Long oid = null;
-
-    /**
-     *
-     */
-    @Column(name = "VORNAME", nullable = false)
+    @Column(name = "VORNAME", length = 50, nullable = false)
     private String vorName = null;
 
     /**
@@ -83,6 +99,20 @@ public class Person implements Serializable
     public Person()
     {
         super();
+    }
+
+    /**
+     * Creates a new {@link Person} object.
+     *
+     * @param name String
+     * @param vorname String
+     */
+    public Person(final String name, final String vorname)
+    {
+        super();
+
+        this.name = name;
+        this.vorName = vorname;
     }
 
     /**
@@ -104,21 +134,19 @@ public class Person implements Serializable
     }
 
     /**
+     * @return long
+     */
+    public long getID()
+    {
+        return this.id;
+    }
+
+    /**
      * @return String
      */
     public String getName()
     {
         return this.name;
-    }
-
-    /**
-     * initialValue=Startwert, allocationSize=Schritte der Nummern
-     * 
-     * @return Long
-     */
-    public Long getOID()
-    {
-        return this.oid;
     }
 
     /**
@@ -135,7 +163,15 @@ public class Person implements Serializable
     @Override
     public int hashCode()
     {
-        return getOID().hashCode();
+        return Long.valueOf(getID()).hashCode();
+    }
+
+    /**
+     * @param id long
+     */
+    public void setID(final long id)
+    {
+        this.id = id;
     }
 
     /**
@@ -144,14 +180,6 @@ public class Person implements Serializable
     public void setName(final String name)
     {
         this.name = name;
-    }
-
-    /**
-     * @param oid Long
-     */
-    public void setOID(final Long oid)
-    {
-        this.oid = oid;
     }
 
     /**
@@ -168,6 +196,6 @@ public class Person implements Serializable
     @Override
     public String toString()
     {
-        return getOID() + ": " + getName() + ", " + getVorName();
+        return getID() + ": " + getName() + ", " + getVorName();
     }
 }
