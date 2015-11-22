@@ -10,6 +10,7 @@
 		</persistence-unit-defaults>
 	</persistence-unit-metadata-->
 
-	<sequence-generator name="seq_gen" sequence-name="OBJECT_SEQ" initial-value="10" allocation-size="10" />
+    <!-- Workaround für Hibernate-Bug: SequenceGeneratoren können über Annotations nicht wiederverwendet werden -->
+	<sequence-generator name="seq_gen" sequence-name="OBJECT_SEQ" initial-value="10" allocation-size="10"  />
 
 </entity-mappings>

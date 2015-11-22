@@ -26,10 +26,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "T_ADDRESS", uniqueConstraints =
 {
-    @UniqueConstraint(name = "UNQ_PERSON_STREET", columnNames =
-    {
-            "PERSON_ID", "STREET"
-    })
+        @UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames =
+            {
+                "PERSON_ID", "STREET"
+            })
 })
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
@@ -54,7 +54,7 @@ public class Address implements Serializable
      *
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "fk_person"))
+    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PERSON"), nullable = false)
     private Person person = null;
 
     /**
@@ -69,6 +69,18 @@ public class Address implements Serializable
     public Address()
     {
         super();
+    }
+
+    /**
+     * Erstellt ein neues {@link Address} Object.
+     *
+     * @param street String
+     */
+    public Address(final String street)
+    {
+        super();
+
+        setStreet(street);
     }
 
     /**
@@ -126,6 +138,15 @@ public class Address implements Serializable
     @Override
     public String toString()
     {
-        return getID() + ": " + getStreet();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Address [id=");
+        builder.append(this.id);
+        builder.append(", street=");
+        builder.append(this.street);
+        builder.append(", person=");
+        builder.append(this.person.getID());
+        builder.append("]");
+
+        return builder.toString();
     }
 }

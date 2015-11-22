@@ -34,23 +34,23 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "T_PERSON", uniqueConstraints =
 {
-    @UniqueConstraint(name = "UNQ_NAME_VORNAME", columnNames =
-    {
-            "NAME", "VORNAME"
-    })
+        @UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames =
+            {
+                "NAME", "VORNAME"
+            })
 })
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
 @NamedQueries(
+{
+        @NamedQuery(name = "allPersons", query = "from Person order by id asc", hints =
         {
-            @NamedQuery(name = "allPersons", query = "from Person order by id asc", hints =
-                {
-                    @QueryHint(name = "org.hibernate.cacheable", value = "true")
-                }), @NamedQuery(name = "personByVorname", query = "from Person where vorname=:vorname order by name asc", hints =
-            {
-                        @QueryHint(name = "org.hibernate.cacheable", value = "true")
-            })
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
+        }), @NamedQuery(name = "personByVorname", query = "from Person where vorname=:vorname order by name asc", hints =
+        {
+            @QueryHint(name = "org.hibernate.cacheable", value = "true")
         })
+})
 public class Person implements Serializable
 {
     /**
@@ -62,11 +62,11 @@ public class Person implements Serializable
      *
      */
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade =
-    {
+        {
             CascadeType.PERSIST, CascadeType.REMOVE
-    })
+        })
     @OrderBy("street desc")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "collections")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
     private List<Address> addresses = new ArrayList<>();
 
@@ -111,8 +111,8 @@ public class Person implements Serializable
     {
         super();
 
-        this.name = name;
-        this.vorName = vorname;
+        setName(name);
+        setVorName(vorname);
     }
 
     /**
@@ -196,6 +196,17 @@ public class Person implements Serializable
     @Override
     public String toString()
     {
-        return getID() + ": " + getName() + ", " + getVorName();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Person [id=");
+        builder.append(this.id);
+        builder.append(", name=");
+        builder.append(this.name);
+        builder.append(", vorName=");
+        builder.append(this.vorName);
+        builder.append(", addresses=");
+        builder.append(this.addresses);
+        builder.append("]");
+
+        return builder.toString();
     }
 }

@@ -12,9 +12,9 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses(
-{
-            TestHibernate.class, TestJPA.class
-})
+        {
+        TestHibernate.class, TestJPA.class, TestNativeHSQL.class
+        })
 public class AllTests
 {
     // /**
