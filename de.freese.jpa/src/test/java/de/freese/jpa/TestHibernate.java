@@ -1,13 +1,19 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -128,6 +134,7 @@ public class TestHibernate extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test2SelectAll()
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test2SelectAll()
@@ -173,9 +180,63 @@ public class TestHibernate extends AbstractTest
 
             query.setString("vorname", vorname);
 
-            List<Person> persons = query.list();
+            Person person = (Person) query.uniqueResult();
 
-            validateTest3SelectVorname(persons, vorname);
+            validateTest3SelectVorname(Arrays.asList(person), vorname);
+
+            // session.getTransaction().commit();
+        }
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test4NativeQuery()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Test
+    public void test4NativeQuery()
+    {
+        List<Person> persons = new ArrayList<>();
+
+        try (Session session = SESSIONFACTORY.openSession())
+        {
+            // session.beginTransaction();
+
+            // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
+            // !!! Kein Caching bei Named-Queries !!!
+            Query query = session.getNamedQuery("allPersons.native");
+            // query.addScalar("id", LongType.INSTANCE).addScalar("name", StringType.INSTANCE).addScalar("vorname", StringType.INSTANCE);
+            // query.setCacheable(true).setCacheRegion("person");
+
+            List<Object[]> rows = query.list();
+
+            for (Object[] row : rows)
+            {
+                Person person = new Person((String) row[1], (String) row[2]);
+                person.setID(((BigInteger) row[0]).longValue());
+
+                persons.add(person);
+            }
+
+            SQLQuery sqlQuery = session.createSQLQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+            sqlQuery.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
+            sqlQuery.setCacheable(true).setCacheRegion("address");
+
+            for (Person person : persons)
+            {
+                sqlQuery.setLong("person_id", person.getID());
+                rows = sqlQuery.list();
+
+                for (Object[] row : rows)
+                {
+                    Address address = new Address((String) row[1]);
+                    address.setID((long) row[0]);
+
+                    person.addAddress(address);
+                }
+            }
+
+            validateTest2SelectAll(persons);
 
             // session.getTransaction().commit();
         }
@@ -185,7 +246,7 @@ public class TestHibernate extends AbstractTest
      *
      */
     @Test
-    public void test4Statistics()
+    public void test99Statistics()
     {
         dumpStatistics(System.out, SESSIONFACTORY);
     }

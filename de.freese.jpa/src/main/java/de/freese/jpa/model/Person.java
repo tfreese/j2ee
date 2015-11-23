@@ -16,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,11 +47,12 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "allPersons", query = "from Person order by id asc", hints =
         {
             @QueryHint(name = "org.hibernate.cacheable", value = "true")
-        }), @NamedQuery(name = "personByVorname", query = "from Person where vorname=:vorname order by name asc", hints =
+        }), @NamedQuery(name = "personByVorname", query = "from Person where vorname = :vorname order by name asc", hints =
         {
             @QueryHint(name = "org.hibernate.cacheable", value = "true")
         })
 })
+@NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 public class Person implements Serializable
 {
     /**

@@ -175,9 +175,9 @@ public abstract class AbstractTest
         // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
         // Set<String> clazzes = metaData.keySet();
         Class<?>[] clazzes = new Class<?>[]
-        {
+                {
                 Person.class, Address.class
-        };
+                };
 
         for (Class<?> clazz : clazzes)
         {
@@ -214,6 +214,11 @@ public abstract class AbstractTest
      *
      */
     public abstract void test3SelectVorname();
+
+    /**
+     *
+     */
+    public abstract void test4NativeQuery();
 
     /**
      * @param persons {@link List}

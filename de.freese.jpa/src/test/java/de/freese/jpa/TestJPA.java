@@ -1,6 +1,9 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 
 /**
@@ -118,6 +122,7 @@ public class TestJPA extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test2SelectAll()
      */
+    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test2SelectAll()
@@ -130,8 +135,7 @@ public class TestJPA extends AbstractTest
         query = entityManager.createNamedQuery("allPersons");
         // Caching muss explizit aktiviert werden
         // query = entityManager.createQuery("from Person order by id asc");
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE);
-        // //query.setHint(QueryHints.CACHE_REGION, "person");
+        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
         List<Person> persons = query.getResultList();
 
@@ -158,14 +162,67 @@ public class TestJPA extends AbstractTest
         query = entityManager.createNamedQuery("personByVorname");
         // Caching muss explizit aktiviert werden
         // query = entityManager.createQuery("from Person where vorname=:vorname order by name asc");
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE);
-        // //query.setHint(QueryHints.CACHE_REGION, "person");
+        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
         query.setParameter("vorname", vorname);
 
-        List<Person> persons = query.getResultList();
+        Person person = (Person) query.getSingleResult();
 
-        validateTest3SelectVorname(persons, vorname);
+        validateTest3SelectVorname(Arrays.asList(person), vorname);
+
+        // entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test4NativeQuery()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Test
+    public void test4NativeQuery()
+    {
+        List<Person> persons = new ArrayList<>();
+
+        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
+
+        // entityManager.getTransaction().begin();
+
+        // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
+        // !!! Scalare Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
+        // !!! Kein Caching bei Native-Queries !!!
+        Query query = entityManager.createNamedQuery("allPersons.native");
+        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
+
+        List<Object[]> rows = query.getResultList();
+
+        for (Object[] row : rows)
+        {
+            Person person = new Person((String) row[1], (String) row[2]);
+            person.setID(((BigInteger) row[0]).longValue());
+
+            persons.add(person);
+        }
+
+        query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
+
+        for (Person person : persons)
+        {
+            query.setParameter("person_id", person.getID());
+            rows = query.getResultList();
+
+            for (Object[] row : rows)
+            {
+                Address address = new Address((String) row[1]);
+                address.setID(((BigInteger) row[0]).longValue());
+
+                person.addAddress(address);
+            }
+        }
+
+        validateTest2SelectAll(persons);
 
         // entityManager.getTransaction().commit();
         entityManager.close();
@@ -175,7 +232,7 @@ public class TestJPA extends AbstractTest
      *
      */
     @Test
-    public void test4Statistics()
+    public void test99Statistics()
     {
         dumpStatistics(System.out, ((EntityManagerFactoryImpl) ENTITYMANAGERFACTORY).getSessionFactory());
     }

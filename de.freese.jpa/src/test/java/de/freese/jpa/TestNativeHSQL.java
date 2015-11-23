@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -31,10 +30,10 @@ public class TestNativeHSQL extends AbstractTest
      */
     private static Connection CONNECTION = null;
 
-    /**
-     *
-     */
-    private final static LinkedList<Long> ID_BLOCK = new LinkedList<>();
+    // /**
+    // *
+    // */
+    // private final static LinkedList<Long> ID_BLOCK = new LinkedList<>();
 
     /**
      * @throws Exception Falls was schief geht.
@@ -305,5 +304,14 @@ public class TestNativeHSQL extends AbstractTest
         }
 
         validateTest3SelectVorname(persons, vorname);
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test4NativeQuery()
+     */
+    @Override
+    public void test4NativeQuery()
+    {
+        // Nur für Hibernate- und JPA-Tests relevant.
     }
 }
