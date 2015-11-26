@@ -27,34 +27,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<compilerVersion>1.8</compilerVersion>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-toolchains-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>toolchain</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<toolchains>
-						<jdk>
-							<version>1.8</version>
-							<vendor>sun</vendor>
-						</jdk>
-					</toolchains>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -64,15 +36,6 @@
 			<artifactId>ejb-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-		</dependency-->
-        <!-- Als Ersatz für die Oracle Version, bis Java 1.8 -->
-        <!--dependency>
-            <groupId>net.java.openjfx.backport</groupId>
-            <artifactId>openjfx-78-backport</artifactId>
-        </dependency-->
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>

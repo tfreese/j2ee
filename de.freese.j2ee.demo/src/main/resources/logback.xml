@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="false" scan="false" scanPeriod="60 seconds">
 
 	<!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
 	<!-- - %-5level[%thread]-->

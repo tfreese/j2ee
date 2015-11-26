@@ -14,15 +14,15 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ejb-plugin</artifactId>
-				<configuration>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
                     <!--jarName>ejb</jarName-->             
-					<ejbVersion>3.2</ejbVersion>
-					<generateClient>false</generateClient>
-				</configuration>				
-			</plugin>
+                    <ejbVersion>3.2</ejbVersion>
+                    <generateClient>false</generateClient>
+                </configuration>                
+            </plugin>
 		</plugins>
 	</build>
 
