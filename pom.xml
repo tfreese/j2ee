@@ -30,6 +30,7 @@
         <module>de.freese.ejbspring</module>
         <module>de.freese.ldap2jdbc</module>
         <module>spring-boot-web</module>
+        <module>wildfly</module>
     </modules>
 
     <scm>
