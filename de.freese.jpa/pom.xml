@@ -53,17 +53,17 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.mysema.querydsl</groupId>
+                <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>export</goal>
+                            <goal>export</goal><!--none,export-->
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
+                <configuration>                
                     <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
                     <!--jdbcUrl>jdbc:hsqldb:file:D:\efreest\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl-->
                     <jdbcUrl>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</jdbcUrl>
@@ -78,7 +78,8 @@
                     <validationAnnotations>true</validationAnnotations>
                     <exportBeans>true</exportBeans>
                     <exportViews>false</exportViews>
-                    <!--beanSerializerClass>de.freese.jdbc.metadata.MyBeanSerializer</beanSerializerClass-->
+                    <!--Code muss schon beim Build vorhanden sein -> Auslagern in eigenes Projekt-->
+                    <!--beanSerializerClass>de.freese.jpa.jdbc.MyBeanSerializer</beanSerializerClass-->
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -150,11 +151,11 @@
     <dependencies>
         <!-- compile scope -->
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql-codegen</artifactId>
         </dependency>
         <dependency>

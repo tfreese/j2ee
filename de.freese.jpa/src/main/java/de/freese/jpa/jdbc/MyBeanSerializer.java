@@ -24,11 +24,11 @@ import com.mysema.codegen.model.Parameter;
 import com.mysema.codegen.model.Type;
 import com.mysema.codegen.model.TypeCategory;
 import com.mysema.codegen.model.Types;
-import com.mysema.query.codegen.EntityType;
-import com.mysema.query.codegen.Property;
-import com.mysema.query.codegen.Serializer;
-import com.mysema.query.codegen.SerializerConfig;
-import com.mysema.util.BeanUtils;
+import com.querydsl.codegen.EntityType;
+import com.querydsl.codegen.Property;
+import com.querydsl.codegen.Serializer;
+import com.querydsl.codegen.SerializerConfig;
+import com.querydsl.core.util.BeanUtils;
 
 /**
  * @author Thomas Freese
@@ -300,8 +300,7 @@ public class MyBeanSerializer implements Serializer
             }
 
             /**
-             * @see com.mysema.query.codegen.Serializer#serialize(com.mysema.query.codegen.EntityType, com.mysema.query.codegen.SerializerConfig,
-             *      com.mysema.codegen.CodeWriter)
+             * @see com.querydsl.codegen.Serializer#serialize(com.querydsl.codegen.EntityType, com.querydsl.codegen.SerializerConfig, com.mysema.codegen.CodeWriter)
              */
             @Override
             public void serialize(final EntityType model, final SerializerConfig serializerConfig, final CodeWriter writer) throws IOException

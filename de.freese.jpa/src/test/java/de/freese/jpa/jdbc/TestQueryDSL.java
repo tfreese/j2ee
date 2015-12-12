@@ -23,11 +23,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import com.mysema.query.sql.Configuration;
-import com.mysema.query.sql.HSQLDBTemplates;
-import com.mysema.query.sql.SQLBindings;
-import com.mysema.query.sql.SQLQuery;
-import com.mysema.query.sql.SQLQueryFactory;
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.HSQLDBTemplates;
+import com.querydsl.sql.SQLBindings;
+import com.querydsl.sql.SQLQuery;
+import com.querydsl.sql.SQLQueryFactory;
 import de.freese.sql.querydsl.QTPerson;
 import de.freese.sql.querydsl.TPerson;
 
@@ -142,8 +142,9 @@ public class TestQueryDSL
     {
         QTPerson p = QTPerson.tPerson;
 
-        SQLQuery query = QUERY_FACTORY.from(p).where(p.name.contains("ee"));
-        List<TPerson> result = query.list(p);
+        // SQLQuery<String> query = QUERY_FACTORY.select(p.name).from(p).where(p.name.contains("ee"));
+        SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.name.contains("ee"));
+        List<TPerson> result = query.fetch();
 
         Assert.assertNotNull(result);
         Assert.assertTrue(result.size() >= 1);
@@ -158,8 +159,8 @@ public class TestQueryDSL
     {
         QTPerson p = QTPerson.tPerson;
 
-        SQLQuery query = QUERY_FACTORY.from(p).where(p.name.contains("ee"));
-        SQLBindings bindings = query.getSQL(p); // PreparedStatement
+        SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.name.contains("ee"));
+        SQLBindings bindings = query.getSQL(); // PreparedStatement
         // String normalizedQuery = bindings.getSQL().replace('\n', ' ');
         // System.out.println(normalizedQuery);
 
@@ -182,9 +183,9 @@ public class TestQueryDSL
         TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = TX_MANAGER.getTransaction(transactionDefinition);
 
-        SQLQuery query = QUERY_FACTORY.from(p).where(p.myId.eq(1L));
+        SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.myId.eq(1L));
 
-        TPerson result = query.singleResult(p);
+        TPerson result = query.fetchOne();
         TX_MANAGER.commit(transactionStatus);
 
         Assert.assertNotNull(result);
@@ -199,8 +200,8 @@ public class TestQueryDSL
     {
         QTPerson p = QTPerson.tPerson;
 
-        SQLQuery query = QUERY_FACTORY.from(p).where(p.myId.eq(1L));
-        SQLBindings bindings = query.getSQL(p); // PreparedStatement
+        SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.myId.eq(1L));
+        SQLBindings bindings = query.getSQL(); // PreparedStatement
         // String normalizedQuery = bindings.getSQL().replace('\n', ' ');
         // System.out.println(normalizedQuery);
 
@@ -219,8 +220,8 @@ public class TestQueryDSL
     {
         QTPerson p = QTPerson.tPerson;
 
-        SQLQuery query = QUERY_FACTORY.from(p).where(p.name.contains("ee"));
-        ResultSet resultSet = query.getResults(p);
+        SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.name.contains("ee"));
+        ResultSet resultSet = query.getResults();
         // ResultSet resultSet = query.clone(DATA_SOURCE.getConnection()).getResults(p);
 
         ResultSetExtractor<List<TPerson>> resultSetExtractor = new RowMapperResultSetExtractor<>(new PersonRowMapper());

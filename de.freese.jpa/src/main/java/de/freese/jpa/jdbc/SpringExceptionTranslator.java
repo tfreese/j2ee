@@ -25,7 +25,7 @@ import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
  *
  * @author Thomas Freese
  */
-public class SpringExceptionTranslator implements com.mysema.query.sql.SQLExceptionTranslator
+public class SpringExceptionTranslator implements com.querydsl.sql.SQLExceptionTranslator
 {
 
     /**
@@ -54,7 +54,7 @@ public class SpringExceptionTranslator implements com.mysema.query.sql.SQLExcept
     }
 
     /**
-     * @see com.mysema.query.sql.SQLExceptionTranslator#translate(java.sql.SQLException)
+     * @see com.querydsl.sql.SQLExceptionTranslator#translate(java.sql.SQLException)
      */
     @Override
     public RuntimeException translate(final SQLException e)
@@ -63,7 +63,7 @@ public class SpringExceptionTranslator implements com.mysema.query.sql.SQLExcept
     }
 
     /**
-     * @see com.mysema.query.sql.SQLExceptionTranslator#translate(java.lang.String, java.util.List, java.sql.SQLException)
+     * @see com.querydsl.sql.SQLExceptionTranslator#translate(java.lang.String, java.util.List, java.sql.SQLException)
      */
     @Override
     public RuntimeException translate(final String sql, final List<Object> bindings, final SQLException e)
