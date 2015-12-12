@@ -63,7 +63,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>                
+                <configuration>
                     <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
                     <!--jdbcUrl>jdbc:hsqldb:file:D:\efreest\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl-->
                     <jdbcUrl>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</jdbcUrl>
@@ -155,10 +155,6 @@
             <artifactId>querydsl-sql</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.querydsl</groupId>
-            <artifactId>querydsl-sql-codegen</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
         </dependency>
@@ -199,6 +195,10 @@
 
 
         <!-- test scope -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql-codegen</artifactId>
+        </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
