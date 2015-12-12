@@ -6,15 +6,18 @@ package de.freese.jpa;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import de.freese.jpa.jdbc.TestJOOQL;
+import de.freese.jpa.jdbc.TestNativeHSQL;
+import de.freese.jpa.jdbc.TestQueryDSL;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(Suite.class)
 @SuiteClasses(
-        {
-        TestHibernate.class, TestJPA.class, TestNativeHSQL.class
-        })
+{
+            TestHibernate.class, TestJPA.class, TestNativeHSQL.class, TestJOOQL.class, TestQueryDSL.class
+})
 public class AllTests
 {
     // /**

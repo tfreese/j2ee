@@ -1,8 +1,9 @@
 /**
  *
  */
-package de.freese.jpa;
+package de.freese.jpa.jdbc;
 
+import de.freese.jpa.AbstractTest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

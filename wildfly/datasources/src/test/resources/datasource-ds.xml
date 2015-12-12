@@ -6,6 +6,7 @@ and should NOT be used in a production environment! -->
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
+	
     <!-- The datasource is bound into JNDI at this location.-->
 	<datasource jndi-name="java:jboss/datasources/datasources"
 		pool-name="datasources" enabled="true" use-java-context="true">
