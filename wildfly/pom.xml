@@ -14,25 +14,33 @@
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Parent der Wildfly Demos</description>
-    <!-- https://github.com/wildfly/quickstart -->
+    <url>>https://github.com/wildfly/quickstart</url>
     <!-- https://github.com/heckenmann/arquillian-wildfly-embedded -->
     <!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
     <!-- http://www.javacodegeeks.com/2014/06/java-ee7-and-maven-project-for-newbies-part-5-unit-testing-using-arquillian-wildfly-8.html -->
-    <!--https://docs.jboss.org/wildfly/plugins/maven/latest/examples/run-example.html-->
+    <!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/run-example.html -->
 
     <modules>
         <module>datasources</module>
         <module>ejb-in-cdi</module>
+        <module>servlet-secured</module>
+        <module>servlet-async</module>
+        <module>ejbspring</module>
     </modules>
 
     <properties>
         <version.wildfly>10.0.0.CR4</version.wildfly><!-- 8.2.1.Final, 9.0.2.Final, ${version.wildfly} -->
+        <version.wildfly.plugin>1.1.0.Alpha4</version.wildfly.plugin>
     </properties>
 
     <build>
         <pluginManagement>
             <plugins>
-
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${version.wildfly.plugin}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>

@@ -16,6 +16,7 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -239,6 +240,30 @@ public class TestHibernate extends AbstractTest
             validateTest2SelectAll(persons);
 
             // session.getTransaction().commit();
+        }
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Test
+    public void test5ImportSQL()
+    {
+        try (Session session = SESSIONFACTORY.openSession())
+        {
+            session.beginTransaction();
+
+            SQLQuery sqlQuery = session.createSQLQuery("select * from roles order by id asc");
+            List<Object[]> rows = sqlQuery.list();
+
+            Assert.assertNotNull(rows);
+            Assert.assertEquals(2, rows.size());
+            Assert.assertEquals(1, rows.get(0)[0]);
+            Assert.assertEquals("quickstarts", rows.get(0)[1]);
+
+            session.getTransaction().commit();
         }
     }
 

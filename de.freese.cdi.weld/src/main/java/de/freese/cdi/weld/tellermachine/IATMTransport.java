@@ -1,7 +1,6 @@
 /**
  * Created: 30.09.2012
  */
-
 package de.freese.cdi.weld.tellermachine;
 
 /**
@@ -9,8 +8,8 @@ package de.freese.cdi.weld.tellermachine;
  */
 public interface IATMTransport
 {
-	/**
-	 * @param packet byte[]
-	 */
-	public void communicateWithBank(byte[] packet);
+    /**
+     * @param packet byte[]
+     */
+    public void communicateWithBank(byte[] packet);
 }

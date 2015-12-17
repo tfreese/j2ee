@@ -26,7 +26,6 @@
         <module>de.freese.j2ee.embedded</module>
         <module>de.freese.jpa</module>
         <module>de.freese.spring</module>
-        <module>de.freese.ejb.embedded</module>
         <module>de.freese.ejbspring</module>
         <module>de.freese.ldap2jdbc</module>
         <module>spring-boot-web</module>

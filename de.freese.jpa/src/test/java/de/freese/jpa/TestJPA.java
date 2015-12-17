@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -225,6 +226,27 @@ public class TestJPA extends AbstractTest
         validateTest2SelectAll(persons);
 
         // entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    @Test
+    public void test5ImportSQL()
+    {
+        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+
+        Query query = entityManager.createNativeQuery("select * from roles order by id asc");
+        List<Object[]> rows = query.getResultList();
+
+        Assert.assertNotNull(rows);
+        Assert.assertEquals(2, rows.size());
+        Assert.assertEquals(1, rows.get(0)[0]);
+        Assert.assertEquals("quickstarts", rows.get(0)[1]);
+
         entityManager.close();
     }
 

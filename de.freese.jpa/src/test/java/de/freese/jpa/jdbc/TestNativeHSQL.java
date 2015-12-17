@@ -3,7 +3,6 @@
  */
 package de.freese.jpa.jdbc;
 
-import de.freese.jpa.AbstractTest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,10 +12,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
+import de.freese.jpa.AbstractTest;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 
@@ -61,6 +64,8 @@ public class TestNativeHSQL extends AbstractTest
         // Verbindung mit der Datenbank aufnehmen
         CONNECTION = DriverManager.getConnection("jdbc:hsqldb:mem:test", "sa", "");
         CONNECTION.setAutoCommit(false);
+
+        ScriptUtils.executeSqlScript(CONNECTION, new ClassPathResource("import.sql"));
 
         try (Statement statement = CONNECTION.createStatement())
         {
@@ -311,8 +316,44 @@ public class TestNativeHSQL extends AbstractTest
      * @see de.freese.jpa.AbstractTest#test4NativeQuery()
      */
     @Override
+    @Test
     public void test4NativeQuery()
     {
         // Nur für Hibernate- und JPA-Tests relevant.
+    }
+
+    /**
+     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
+     */
+    @Override
+    @Test
+    public void test5ImportSQL()
+    {
+        try (Statement statement = CONNECTION.createStatement())
+        {
+            List<Object[]> rows = new ArrayList<>();
+
+            try (ResultSet resultSet = statement.executeQuery("select * from roles order by id asc"))
+            {
+                while (resultSet.next())
+                {
+                    Object[] row = new Object[]
+                    {
+                            resultSet.getInt("ID"), resultSet.getString("NAME")
+                    };
+
+                    rows.add(row);
+                }
+            }
+
+            Assert.assertNotNull(rows);
+            Assert.assertEquals(2, rows.size());
+            Assert.assertEquals(1, rows.get(0)[0]);
+            Assert.assertEquals("quickstarts", rows.get(0)[1]);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
     }
 }

@@ -48,6 +48,7 @@ public abstract class AbstractTest
 
         // Schema erzeugen
         config.setProperty(AvailableSettings.HBM2DDL_AUTO, "create-drop");
+        // config.setProperty(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
         // SQL-Format
         config.setProperty(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
@@ -219,6 +220,11 @@ public abstract class AbstractTest
      *
      */
     public abstract void test4NativeQuery();
+
+    /**
+     * Prüft die Inhalte der import.sql.
+     */
+    public abstract void test5ImportSQL();
 
     /**
      * @param persons {@link List}
