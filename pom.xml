@@ -18,7 +18,6 @@
     <inceptionYear>2011</inceptionYear>
 
     <modules>
-        <!--module>de.freese.acc</module-->
         <module>de.freese.agentportal</module>
         <module>de.freese.cdi.weld</module>
         <module>de.freese.cloudsessions</module>
@@ -26,7 +25,6 @@
         <module>de.freese.j2ee.embedded</module>
         <module>de.freese.jpa</module>
         <module>de.freese.spring</module>
-        <module>de.freese.ejbspring</module>
         <module>de.freese.ldap2jdbc</module>
         <module>spring-boot-web</module>
         <module>wildfly</module>

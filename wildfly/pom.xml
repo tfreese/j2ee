@@ -26,6 +26,7 @@
         <module>servlet-secured</module>
         <module>servlet-async</module>
         <module>ejbspring</module>
+        <module>ejb-remote</module>
     </modules>
 
     <properties>
@@ -72,33 +73,6 @@
                     </toolchains>
                 </configuration>
             </plugin-->
-            <!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
-                                    <version>${version.wildfly}</version>
-                                    <type>zip</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.parent.basedir}/target</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -108,9 +82,9 @@
                     <forkCount>4</forkCount>
                     <reuseForks>true</reuseForks>
                     <systemPropertyVariables>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                        <jboss.home>${project.parent.basedir}/target/wildfly-${version.wildfly}</jboss.home>
-                        <module.path>${project.parent.basedir}/target/wildfly-${version.wildfly}</module.path>
+                        <!--java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager-->
+                        <jboss.home>/tmp/wildfly-${version.wildfly}</jboss.home>
+                        <module.path>/tmp/wildfly-${version.wildfly}</module.path>
                     </systemPropertyVariables>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>

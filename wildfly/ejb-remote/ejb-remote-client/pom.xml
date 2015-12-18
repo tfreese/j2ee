@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese.wildfly</groupId>
+        <artifactId>ejb-remote</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ejb-remote-client</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für EJB-Remotezugriff - Clientseite</description>
+
+    <build>
+        <plugins>
+            <!-- build standalone exe jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>de.freese.wildfly.ejb.remote.client.RemoteEJBClient</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Implementation-Build-By>${project.organization.name}</Implementation-Build-By>
+                            <Implementation-Build>${maven.build.timestamp}</Implementation-Build>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Add the maven exec plug-in to allow us to run a java program
+            via maven -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId> 
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <workingDirectory>${project.build.directory}/exec-working-directory</workingDirectory>
+                    <arguments>
+                        <!-- automatically creates the classpath using all
+                        project dependencies, also adding the project build directory -->
+                        <argument>-classpath</argument>
+                        <classpath>
+                        </classpath>
+                        <argument>de.freese.wildfly.ejb.remote.client.RemoteEJBClient</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+            <!-- The WildFly plug-in deploys your apps to a local WildFly container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wildfly</groupId>
+                <artifactId>wildfly-ejb-client-bom</artifactId>
+                <version>${version.wildfly}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- We depend on the EJB remote business interfaces  of this application -->
+        <dependency>
+            <groupId>de.freese.wildfly</groupId>
+            <artifactId>ejb-remote-server</artifactId>
+            <type>ejb-client</type>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Import the transaction spec API, we use runtime scope because
+        we aren't using any direct reference to the spec API in our client code -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Import the EJB API, we use runtime scope because we aren't using
+        any direct reference to EJB spec API in our client code -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Include the ejb client jars -->
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-ejb-client-bom</artifactId>
+            <type>pom</type>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+</project>
