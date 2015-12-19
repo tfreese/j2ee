@@ -73,6 +73,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- runtime scope -->
         <!-- test scope -->
     </dependencies>
 </project>

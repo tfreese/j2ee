@@ -18,7 +18,7 @@ public class TestServiceBean implements ITestServiceBeanLocal
     }
 
     /**
-     * @see de.efreest.arquillianTest.ITestServiceBeanLocal#getString(java.lang.String)
+     * @see de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal#getString(java.lang.String)
      */
     @Override
     public String getString(final String s)

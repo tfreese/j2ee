@@ -69,6 +69,7 @@
 
     <dependencies>
         <!-- compile scope -->
+        <!-- runtime scope -->
         <!-- provided scope -->
         <dependency>
             <groupId>javax</groupId>

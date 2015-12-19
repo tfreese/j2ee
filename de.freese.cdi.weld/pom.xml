@@ -13,7 +13,7 @@
 	<artifactId>cdi-weld</artifactId>
 	<packaging>jar</packaging>
 
-	<name>${project.groupId}:${project.artifactId}</name>
+	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>CDI Demo mit WELD</description>
 	<inceptionYear>2012</inceptionYear>
 
@@ -22,20 +22,15 @@
 	</properties>
 
 	<dependencies>
-		<!--dependency>
-			<groupId>org.apache.deltaspike.cdictrl</groupId>
-			<artifactId>deltaspike-cdictrl-api</artifactId>
-			<version>${version.deltaspike}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.deltaspike.cdictrl</groupId>
-			<artifactId>deltaspike-cdictrl-weld</artifactId>
-			<version>${version.deltaspike}</version>
-		</dependency-->
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se</artifactId>
-		</dependency>	
+        <!-- compile scope -->
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+        </dependency>
+                
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope --> 		
 	</dependencies>
 
 </project>

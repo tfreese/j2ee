@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>de.freese.j2ee</groupId>
+		<artifactId>j2ee-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-    <groupId>de.freese.wildfly</groupId>
-    <artifactId>wildfly-parent</artifactId>
-    <packaging>pom</packaging>
+	<groupId>de.freese.wildfly</groupId>
+	<artifactId>wildfly-parent</artifactId>
+	<packaging>pom</packaging>
 
-    <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Parent der Wildfly Demos</description>
-    <url>>https://github.com/wildfly/quickstart</url>
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Parent der Wildfly Demos</description>
+	<url>>https://github.com/wildfly/quickstart</url>
     <!-- https://github.com/heckenmann/arquillian-wildfly-embedded -->
     <!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
     <!-- http://www.javacodegeeks.com/2014/06/java-ee7-and-maven-project-for-newbies-part-5-unit-testing-using-arquillian-wildfly-8.html -->
     <!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/run-example.html -->
 
-    <modules>
-        <module>datasources</module>
-        <module>ejb-in-cdi</module>
-        <module>servlet-secured</module>
-        <module>servlet-async</module>
-        <module>ejbspring</module>
-        <module>ejb-remote</module>
-    </modules>
+	<modules>
+		<module>datasources</module>
+		<module>ejb-in-cdi</module>
+		<module>servlet-secured</module>
+		<module>servlet-async</module>
+		<module>ejbspring</module>
+		<module>ejb-remote</module>
+	</modules>
 
-    <properties>
-        <version.wildfly>10.0.0.CR4</version.wildfly><!-- 8.2.1.Final, 9.0.2.Final, ${version.wildfly} -->
-        <version.wildfly.plugin>1.1.0.Alpha4</version.wildfly.plugin>
-    </properties>
+	<properties>
+		<version.wildfly>10.0.0.CR4</version.wildfly><!-- 8.2.1.Final, 9.0.2.Final, ${version.wildfly} -->
+		<version.wildfly.plugin>1.1.0.Alpha4</version.wildfly.plugin>
+	</properties>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>${version.wildfly.plugin}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
             <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -73,35 +74,57 @@
                     </toolchains>
                 </configuration>
             </plugin-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
                     <!--jvm>/opt/jdk-1.8/bin/java</jvm--> <!-- ${jdkHome} siehe toolchains.xml, JAVA_HOME=/opt/jdk-1.8 M2_HOME=/opt/maven /opt/maven/bin/mvn test-->
                     <!-- Fork every test because it will launch a separate AS instance -->
-                    <forkCount>4</forkCount>
-                    <reuseForks>true</reuseForks>
-                    <systemPropertyVariables>
+					<forkCount>4</forkCount>
+					<reuseForks>true</reuseForks>
+					<systemPropertyVariables>
                         <!--java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager-->
-                        <jboss.home>/tmp/wildfly-${version.wildfly}</jboss.home>
-                        <module.path>/tmp/wildfly-${version.wildfly}</module.path>
-                    </systemPropertyVariables>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+						<jboss.home>/tmp/wildfly-${version.wildfly}</jboss.home>
+						<module.path>/tmp/wildfly-${version.wildfly}</module.path>
+					</systemPropertyVariables>
+					<redirectTestOutputToFile>false</redirectTestOutputToFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.wildfly}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.wildfly.bom</groupId>
+				<artifactId>wildfly-javaee7-with-tools</artifactId>
+				<version>${version.wildfly}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+        <!-- compile scope -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		        
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>test</scope>
+        </dependency>                
+	</dependencies>
 
 </project>

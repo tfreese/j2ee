@@ -13,10 +13,11 @@
     <artifactId>spring-config</artifactId>
     <packaging>jar</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.groupId} - ${project.artifactId}</name>
     <description>Test Projekt für die Spring Java-Konfiguration.</description>
 
     <dependencies>
+        <!-- compile scope -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
@@ -29,5 +30,14 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
+                
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>            
     </dependencies>
 </project>

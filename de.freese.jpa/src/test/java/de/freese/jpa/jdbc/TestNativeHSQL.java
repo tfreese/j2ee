@@ -71,8 +71,8 @@ public class TestNativeHSQL extends AbstractTest
         {
             try
             {
-                statement.execute("alter table T_ADDRESS drop constraint FK_PERSON");
-                statement.execute("drop table T_ADDRESS if exists");
+                // statement.execute("alter table T_ADDRESS drop constraint FK_PERSON");
+                statement.execute("drop table T_ADDRESS if exists CASCADE");
                 statement.execute("drop table T_PERSON if exists");
                 statement.execute("drop sequence OBJECT_SEQ");
             }
@@ -338,9 +338,9 @@ public class TestNativeHSQL extends AbstractTest
                 while (resultSet.next())
                 {
                     Object[] row = new Object[]
-                    {
+                            {
                             resultSet.getInt("ID"), resultSet.getString("NAME")
-                    };
+                            };
 
                     rows.add(row);
                 }

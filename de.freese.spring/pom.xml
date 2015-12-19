@@ -14,7 +14,7 @@
     <artifactId>spring-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>${project.groupId} - ${project.artifactId}</name>
     <description>Parent für Springprojekte.</description>
     <url>https://github.com/tfreese/spring</url>
     <inceptionYear>2013</inceptionYear>
@@ -25,21 +25,18 @@
         <module>spring-client</module>
         <module>spring-config</module>
         <module>spring-integration</module>
-        <module>spring-embedded</module>
     </modules>
 
     <dependencies>
+        <!-- compile scope -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
-
-        <!-- Test -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <scope>test</scope>
-        </dependency>
+                
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->     
     </dependencies>
 
 </project>

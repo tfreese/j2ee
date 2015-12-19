@@ -15,9 +15,9 @@ import de.freese.jpa.jdbc.TestQueryDSL;
  */
 @RunWith(Suite.class)
 @SuiteClasses(
-{
-            TestHibernate.class, TestJPA.class, TestNativeHSQL.class, TestJOOQL.class, TestQueryDSL.class
-})
+        {
+        TestHibernate.class, TestJPA.class, TestNativeHSQL.class, TestJOOQL.class, TestQueryDSL.class
+        })
 public class AllTests
 {
     // /**
