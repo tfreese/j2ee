@@ -19,16 +19,16 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<modules>
-		<module>de.freese.agentportal</module>
-		<module>de.freese.cdi.weld</module>
-		<module>de.freese.cloudsessions</module>
-		<module>de.freese.j2ee.demo</module>
-		<module>de.freese.j2ee.embedded</module>
-		<module>de.freese.jpa</module>
-		<module>de.freese.spring</module>
-		<module>de.freese.ldap2jdbc</module>
+		<module>agentportal-parent</module>
+		<module>spring-parent</module>
 		<module>spring-boot-web</module>
 		<module>wildfly</module>
+		<module>j2ee-demo</module>
+		<module>j2ee-embedded</module>
+		<module>cdi-weld</module>
+		<module>cloudsessions</module>
+		<module>jpa</module>
+		<module>ldap2jdbc</module>
 	</modules>
 
 	<scm>
@@ -40,34 +40,110 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>${version:com.amazonaws:aws-java-sdk}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-sql</artifactId>
+				<version>${version:com.querydsl:querydsl}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.querydsl</groupId>
+				<artifactId>querydsl-sql-codegen</artifactId>
+				<version>${version:com.querydsl:querydsl}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>${version:com.sun.faces:jsf}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${version:com.sun.faces:jsf}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${version:com.thoughtworks.xstream:xstream}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${version:commons-codec:commons-codec}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version:javax:javaee-web-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-web-api</artifactId>
+				<version>${version:javax:javaee-web-api}</version>
+			</dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${version:javax.persistence:persistence-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${version:javax.servlet:javax.servlet-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.transaction</groupId>
+                <artifactId>jta</artifactId>
+                <version>${version:javax.transaction:jta}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${version:javax.validation:validation-api}</version>
+            </dependency>                                    			
+			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>${version.junit}</version>
+				<version>${version:junit:junit}</version>
 			</dependency>
+            <dependency>
+                <groupId>net.sf.trove4j</groupId>
+                <artifactId>trove4j</artifactId>
+                <version>${version:net.sf.trove4j:trove4j}</version>
+            </dependency> 			
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>${version.slf4j}</version>
+				<version>${version:org.slf4j:slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${version.slf4j}</version>
+				<version>${version:org.slf4j:slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-nop</artifactId>
-				<version>${version.slf4j}</version>
+				<version>${version:org.slf4j:slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-simple</artifactId>
-				<version>${version.slf4j}</version>
+				<version>${version:org.slf4j:slf4j}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
-				<version>${version.slf4j}</version>
+				<version>${version:org.slf4j:slf4j}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

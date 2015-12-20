@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.j2ee</groupId>
+		<artifactId>agentportal-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>agentportal-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Demo für J2EE Security (EAR-Modul).</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<defaultJavaBundleDir>lib</defaultJavaBundleDir>
+					<modules>
+						<!--ejbModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>agentportal-ejb</artifactId>
+						</ejbModule-->
+						<webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>agentportal-server</artifactId>
+							<contextRoot>secretnews</contextRoot>
+						</webModule>
+						<!--webModule>
+							<groupId>${project.parent.groupId}</groupId>
+							<artifactId>agentportal-ws</artifactId>
+							<contextRoot>secretws</contextRoot>
+						</webModule-->
+					</modules>
+				</configuration>
+			</plugin>
+			<!--plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>debug-properties</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy file="${project.build.directory}/${project.artifactId}-${project.version}.ear"
+								 tofile="D:/jboss-6.1.0.Final/server/default/deploy/${project.artifactId}.ear"
+								 overwrite="true" verbose="true"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin-->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>agentportal-server</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+</project>
