@@ -72,21 +72,21 @@ public class TestNativeHSQL extends AbstractTest
             try
             {
                 // statement.execute("alter table T_ADDRESS drop constraint FK_PERSON");
-                statement.execute("drop table T_ADDRESS if exists CASCADE");
-                statement.execute("drop table T_PERSON if exists");
-                statement.execute("drop sequence OBJECT_SEQ");
+                statement.execute("DROP table T_ADDRESS if exists CASCADE");
+                statement.execute("DROP table T_PERSON if exists CASCADE");
+                statement.execute("DROP sequence OBJECT_SEQ if exists");
             }
             catch (SQLSyntaxErrorException ex)
             {
                 // Ohne Objekte gibs Fehler, was im Memory-DB Modus immer passiert.
             }
 
-            statement.execute("create sequence OBJECT_SEQ AS BIGINT start with 10 increment by 1");
-            statement.execute("create table T_ADDRESS (ID bigint not null, STREET varchar(50) not null, PERSON_ID bigint not null, primary key (ID))");
-            statement.execute("create table T_PERSON  (ID bigint not null, NAME varchar(50) not null, VORNAME varchar(50) not null, primary key (ID))");
-            statement.execute("alter table T_ADDRESS add constraint UNQ_ADDRESS_PERSON_STREET unique (PERSON_ID, STREET)");
-            statement.execute("alter table T_ADDRESS add constraint FK_PERSON foreign key (PERSON_ID) references T_PERSON");
-            statement.execute("alter table T_PERSON add constraint UNQ_PERSON_NAME_VORNAME unique (NAME, VORNAME)");
+            statement.execute("CREATE sequence OBJECT_SEQ AS BIGINT start with 10 increment by 1");
+            statement.execute("CREATE MEMORY table T_ADDRESS (ID bigint not null, STREET varchar(50) not null, PERSON_ID bigint not null, primary key (ID))");
+            statement.execute("CREATE MEMORY table T_PERSON  (ID bigint not null, NAME varchar(50) not null, VORNAME varchar(50) not null, primary key (ID))");
+            statement.execute("ALTER table T_ADDRESS add constraint UNQ_ADDRESS_PERSON_STREET unique (PERSON_ID, STREET)");
+            statement.execute("ALTER table T_ADDRESS add constraint FK_PERSON foreign key (PERSON_ID) references T_PERSON");
+            statement.execute("ALTER table T_PERSON add constraint UNQ_PERSON_NAME_VORNAME unique (NAME, VORNAME)");
         }
     }
 
@@ -338,9 +338,9 @@ public class TestNativeHSQL extends AbstractTest
                 while (resultSet.next())
                 {
                     Object[] row = new Object[]
-                            {
+                    {
                             resultSet.getInt("ID"), resultSet.getString("NAME")
-                            };
+                    };
 
                     rows.add(row);
                 }
