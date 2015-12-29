@@ -1,5 +1,5 @@
 // Erzeugt: 15.12.2015
-package de.freese.wildfly.datasources;
+package de.freese.wildfly.ejbspring;
 
 import java.io.File;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
@@ -42,8 +42,8 @@ public class ShrinkwrapResolver
 
         Assert.assertNotNull(libs);
 
-        // Sollte nur org.slf4j:slf4j-api sein.
-        Assert.assertTrue(libs.length == 1);
+        // Sollte org.slf4j:slf4j-api und 6 Libs von Spring sein.
+        Assert.assertTrue(libs.length == 7);
         Assert.assertTrue(libs[0].getName().startsWith("slf4j-api"));
     }
 
