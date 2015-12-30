@@ -30,18 +30,13 @@
         <module>ejb-remote</module>
     </modules>
 
-    <properties>
-        <version.wildfly>10.0.0.CR4</version.wildfly><!-- 8.2.1.Final, 9.0.2.Final, ${version.wildfly} -->
-        <version.wildfly.plugin>1.1.0.Alpha5</version.wildfly.plugin>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${version.wildfly.plugin}</version>
+                    <version>${version:org.wildfly.plugins:wildfly-maven-plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -84,8 +79,8 @@
                     <reuseForks>true</reuseForks>
                     <systemPropertyVariables>
                         <!--java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager-->
-                        <jboss.home>/tmp/wildfly-${version.wildfly}</jboss.home>
-                        <module.path>/tmp/wildfly-${version.wildfly}</module.path>
+                        <jboss.home>/tmp/wildfly-${version:org.wildfly:wildfly-dist}</jboss.home>
+                        <module.path>/tmp/wildfly-${version:org.wildfly:wildfly-dist}</module.path>
                     </systemPropertyVariables>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
@@ -98,7 +93,7 @@
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>wildfly-javaee7-with-tools</artifactId>
-                <version>${version.wildfly}</version>
+                <version>${version:org.wildfly.bom:wildfly-javaee7-with-tools}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -34,7 +34,7 @@
                                 <artifactItem>
                                     <groupId>org.wildfly</groupId>
                                     <artifactId>wildfly-dist</artifactId>
-                                    <version>${version.wildfly}</version>
+                                    <version>${version:org.wildfly:wildfly-dist}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>/tmp</outputDirectory>
@@ -57,8 +57,8 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
-                    <jbossHome>/tmp/wildfly-${version.wildfly}</jbossHome>
-                    <modules-path>/tmp/wildfly-${version.wildfly}/modules</modules-path>
+                    <jbossHome>/tmp/wildfly-${version:org.wildfly:wildfly-dist}</jbossHome>
+                    <modules-path>/tmp/wildfly-${version:org.wildfly:wildfly-dist}/modules</modules-path>
                     <!-- CLI Skripte dürfen pro Server-Instanz nur einmal ausgeführt werden -->
                     <!--before-deployment>
                         <scripts>
