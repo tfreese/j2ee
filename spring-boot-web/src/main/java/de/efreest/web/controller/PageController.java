@@ -5,23 +5,30 @@
 package de.efreest.web.controller;
 
 import java.io.Serializable;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import javax.faces.bean.RequestScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-// @ManagedBean(name = "pageController")
-// @RequestScoped
-@Controller("pageController")
-@Scope("request")
+@ManagedBean(name = "pageController")
+@RequestScoped
+//@Controller("pageController")
+//@Scope("request")
 public class PageController implements Serializable
 {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger("PageController");
 
     /**
      * Wird durch f:param gesetzt.
@@ -35,6 +42,8 @@ public class PageController implements Serializable
     public PageController()
     {
         super();
+
+        LOGGER.info("create PageController");
     }
 
     /**
@@ -79,6 +88,8 @@ public class PageController implements Serializable
      */
     public String showPage()
     {
+        LOGGER.info("showPage");
+
         if ("1".equals(this.pageID))
         {
             return "page1";

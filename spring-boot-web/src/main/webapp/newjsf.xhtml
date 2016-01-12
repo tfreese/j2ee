@@ -28,6 +28,18 @@
                 <f:param name="productID" value="10" />
             </p:commandButton>
         </h:form>
+
+        <br/><br/>
+        <a href="info" >info spring-boot-web</a>
+        <br/><br/>
+        <a href="health" >health spring-boot-web</a>
+        <br/><br/>
+        <a href="metrics" >metrics spring-boot-web</a>
+        <br/><br/>
+        <!--form action="http://localhost:8088/spring-boot-web/shutdown" method="post" id="form_shutdown"-->
+        <form action="shutdown" method="post" id="form_shutdown">
+            <button type="submit">shutdown spring-boot-web</button>
+        </form>
     </h:body>
 </html>
 
