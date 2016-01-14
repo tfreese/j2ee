@@ -19,7 +19,7 @@
     </application>
 
     <lifecycle>
-        <!--phase-listener>org.springframework.web.jsf.DelegatingPhaseListenerMulticaster</phase-listener-->
+        <phase-listener>org.springframework.web.jsf.DelegatingPhaseListenerMulticaster</phase-listener>
     </lifecycle>
 
     <navigation-rule>

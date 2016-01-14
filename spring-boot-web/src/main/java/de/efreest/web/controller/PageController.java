@@ -5,19 +5,19 @@
 package de.efreest.web.controller;
 
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author Thomas Freese
  */
-@ManagedBean(name = "pageController")
-@RequestScoped
-//@Controller("pageController")
-//@Scope("request")
+//@ManagedBean(name = "pageController")
+//@RequestScoped
+@Controller("pageController")
+@Scope("request")
 public class PageController implements Serializable
 {
     /**

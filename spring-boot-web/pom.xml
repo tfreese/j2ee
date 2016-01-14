@@ -32,6 +32,16 @@
     </repositories>
 
     <build>
+        <!--resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.propeties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources-->
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -61,12 +71,20 @@
     </build>
 
     <dependencies>
-        <!-- compile scope -->
         <!--javax.faces.LogStrings-->
+        <!-- compile scope -->
+        <!--dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
+                <!--exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -75,12 +93,6 @@
         </dependency>
 
         <!-- runtime scope -->
-        <!--dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>javax.servlet.jsp-api</artifactId>
-            <version>2.3.1</version>
-            <scope>runtime</scope>
-        </dependency-->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -96,6 +108,16 @@
             <artifactId>all-themes</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!--dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
+        </dependency-->
         <dependency>
             <!-- Für die endpoints, siehe application.properties -->
             <groupId>org.springframework.boot</groupId>
@@ -126,6 +148,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- Verhindert Fehlermeldungen wie "JSP-Version des Containers ist Älter als ..." -->
             <groupId>org.glassfish.web</groupId>
             <artifactId>el-impl</artifactId>
             <version>2.2</version>
