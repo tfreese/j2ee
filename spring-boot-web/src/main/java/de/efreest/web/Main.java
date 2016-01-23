@@ -84,6 +84,31 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
     }
 
 //    /**
+//     *
+//     * @return EmbeddedServletContainerFactory
+//     */
+//    @Bean
+//    public EmbeddedServletContainerFactory embeddedServletContainerFactory()
+//    {
+//        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
+//        factory.addServerCustomizers(server ->
+//        {
+////            QueuedThreadPool threadPool = server.getBean(QueuedThreadPool.class);
+//            ThreadPool threadPool = server.getThreadPool();
+//
+//            if (threadPool instanceof QueuedThreadPool)
+//            {
+//                ((QueuedThreadPool) threadPool).setMinThreads(4);
+//                ((QueuedThreadPool) threadPool).setMaxThreads(4);
+//            }
+//            else if (threadPool instanceof ExecutorThreadPool)
+//            {
+//            }
+//        });
+//
+//        return factory;
+//    }
+//    /**
 //     * Allows the use of @Scope("view") on Spring @Component, @Service and @Controller
 //     * beans
 //     */
