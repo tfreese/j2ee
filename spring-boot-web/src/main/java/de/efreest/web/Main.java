@@ -3,6 +3,7 @@ package de.efreest.web;
 
 import com.sun.faces.config.ConfigureListener;
 import javax.faces.webapp.FacesServlet;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,7 +32,13 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
      */
     public static void main(final String[] args)
     {
-        ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
+//        ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
+//        ctx.registerShutdownHook();
+
+        SpringApplication app = new SpringApplication(Main.class);
+        app.setBannerMode(Banner.Mode.OFF);
+
+        ConfigurableApplicationContext ctx = app.run(args);
         ctx.registerShutdownHook();
     }
 

@@ -67,7 +67,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin> <!-- spring-boot:run, spring-boot:repackage für executable jar -->
+            <plugin> <!-- spring-boot:run, "package spring-boot:repackage" für executable jar -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
