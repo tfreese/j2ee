@@ -270,12 +270,12 @@
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-core</artifactId>
-                <version>${version:org.springframework:spring}</version>
+                <version>${version:org.springframework.integration:spring-integration}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-stream</artifactId>
-                <version>${version:org.springframework:spring}</version>
+                <version>${version:org.springframework.integration:spring-integration}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
@@ -305,7 +305,7 @@
         <!-- compile scope -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId> 
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
         <!-- runtime scope -->
