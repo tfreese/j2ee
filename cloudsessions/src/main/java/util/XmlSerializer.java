@@ -1,58 +1,63 @@
 package util;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 
 /**
  * @author Thomas Freese
  */
 public class XmlSerializer
 {
-	/**
-	 * @param xml String
-	 * @return Object
-	 */
-	public static Object fromXML(final String xml)
-	{
-		return fromXML(xml, null);
-	}
+    /**
+     *
+     */
+    private static final XStream XSTREAM = new XStream(new XppDriver());
 
-	/**
-	 * @param xml String
-	 * @param clz Class
-	 * @return Object
-	 */
-	public static Object fromXML(final String xml, final Class<?> clz)
-	{
-		if (xml == null)
-		{
-			return null;
-		}
+    /**
+     * @param xml String
+     *
+     * @return Object
+     */
+    public static Object fromXML(final String xml)
+    {
+        return fromXML(xml, null);
+    }
 
-		XStream xstream = new XStream(new DomDriver());
-		Object o = xstream.fromXML(xml);
+    /**
+     * @param xml String
+     * @param clz Class
+     *
+     * @return Object
+     */
+    public static Object fromXML(final String xml, final Class<?> clz)
+    {
+        if (xml == null)
+        {
+            return null;
+        }
 
-		if ((clz != null) && (clz.isInstance(o) == false))
-		{
-			throw new RuntimeException("instance isn't " + clz.getName());
-		}
+        Object o = XSTREAM.fromXML(xml);
 
-		return o;
-	}
+        if ((clz != null) && (clz.isInstance(o) == false))
+        {
+            throw new RuntimeException("instance isn't " + clz.getName());
+        }
 
-	/**
-	 * @param o Object
-	 * @return String
-	 */
-	public static String toXML(final Object o)
-	{
-		if (o == null)
-		{
-			return null;
-		}
+        return o;
+    }
 
-		XStream xstream = new XStream(new DomDriver());
+    /**
+     * @param o Object
+     *
+     * @return String
+     */
+    public static String toXML(final Object o)
+    {
+        if (o == null)
+        {
+            return null;
+        }
 
-		return xstream.toXML(o);
-	}
+        return XSTREAM.toXML(o);
+    }
 }
