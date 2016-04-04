@@ -1,68 +1,68 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>j2ee-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>j2ee-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>agentportal-parent</artifactId>
-	<packaging>pom</packaging>
+    <artifactId>agentportal-parent</artifactId>
+    <packaging>pom</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Demo für J2EE Security.</description>
-	<url>https://github.com/tfreese/agentportal</url>
-	<inceptionYear>2012</inceptionYear>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für J2EE Security.</description>
+    <url>https://github.com/tfreese/agentportal</url>
+    <inceptionYear>2012</inceptionYear>
 
-	<modules>
-		<module>agentportal-common</module>
-		<module>agentportal-server</module>
-		<module>agentportal-client</module>
-		<module>agentportal-ear</module>
-	</modules>
+    <modules>
+        <module>agentportal-common</module>
+        <module>agentportal-server</module>
+        <module>agentportal-client</module>
+        <module>agentportal-ear</module>
+    </modules>
 
-	<scm>
-		<url>${project.url}</url>
-		<connection>scm:git:git://github.com/tfreese/agentportal.git</connection>
-		<developerConnection>scm:git:https://github.com/tfreese/agentportal.git</developerConnection>
-	</scm>
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/agentportal.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/agentportal.git</developerConnection>
+    </scm>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<id>assembly-parent</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>assembly.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>assembly-parent</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution> 
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
 
-	<dependencies>
+    <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->
         <!-- provided scope -->
         <!-- test scope -->
-	</dependencies>
+    </dependencies>
 
 </project>

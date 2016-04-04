@@ -71,6 +71,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <layout>ZIP</layout>
+                    <mainClass>de.efreest.web.Main</mainClass>
+                    <!-- java -jar -Dloader.main=de.efreest.web.OtherMain target/test-0.0.1-SNAPSHOT.jar -->
                     <!--jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                     </jvmArguments-->
