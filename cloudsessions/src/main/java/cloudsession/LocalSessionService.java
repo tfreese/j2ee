@@ -17,11 +17,11 @@ public class LocalSessionService implements ICloudSession
     /**
      *
      */
-    //private final File propFile = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties").toFile();
+    // private final File propFile = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties").toFile();
     private final File propFile = Paths.get("/tmp", "cloudsession.properties").toFile();
 
     /**
-     * Erstellt ein neues {@link DummySessionService} Object.
+     * Erstellt ein neues {@link LocalSessionService} Object.
      */
     public LocalSessionService()
     {
@@ -57,8 +57,7 @@ public class LocalSessionService implements ICloudSession
 
     /**
      * @param sessionID String
-     * @param name      String
-     *
+     * @param name String
      * @return String
      */
     private String getPropsKey(final String sessionID, final String name)
@@ -110,8 +109,7 @@ public class LocalSessionService implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#setSessionValue(java.lang.String, java.lang.String,
-     * java.lang.Object)
+     * @see cloudsession.ICloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
      */
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)
