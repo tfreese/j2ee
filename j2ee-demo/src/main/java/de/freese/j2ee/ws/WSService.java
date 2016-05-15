@@ -1,7 +1,6 @@
 /**
  * Created: 17.05.2013
  */
-
 package de.freese.j2ee.ws;
 
 import de.freese.j2ee.model.Kunde;
@@ -31,48 +30,48 @@ import org.slf4j.LoggerFactory;
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public class WSService
 {
-	/**
- *
- */
-	private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
 
-	/**
- *
- */
-	@Resource
-	private WebServiceContext context = null;
+    /**
+     *
+     */
+    @Resource
+    private WebServiceContext context = null;
 
-	/**
- *
- */
-	@Inject
-	@MyEntityManager
-	private EntityManager entityManager = null;
+    /**
+     *
+     */
+    @Inject
+    @MyEntityManager
+    private EntityManager entityManager = null;
 
-	/**
-	 * Erstellt ein neues {@link WSService} Object.
-	 */
-	public WSService()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link WSService} Object.
+     */
+    public WSService()
+    {
+        super();
+    }
 
-	/**
-	 * @return {@link List}
-	 */
-	@SuppressWarnings("unchecked")
-	@WebMethod(operationName = "getKunden")
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public KundeList getData()
-	{
-		LOGGER.info("");
+    /**
+     * @return {@link List}
+     */
+    @SuppressWarnings("unchecked")
+    @WebMethod(operationName = "getKunden")
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public KundeList getData()
+    {
+        LOGGER.info("");
 
-		Query query = this.entityManager.createQuery("select k from Kunde k");
-		List<Kunde> kunden = query.getResultList();
+        Query query = this.entityManager.createQuery("select k from Kunde k");
+        List<Kunde> kunden = query.getResultList();
 
-		KundeList kundeList = new KundeList();
-		kundeList.setKunden(kunden);
+        KundeList kundeList = new KundeList();
+        kundeList.setKunden(kunden);
 
-		return kundeList;
-	}
+        return kundeList;
+    }
 }

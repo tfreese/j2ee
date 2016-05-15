@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>spring-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>spring-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>spring-common</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>spring-common</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Demo für Spring-Services (Common-Modul).</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für Spring-Services (Common-Modul).</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<configuration>
-					<packageName>de.freese.spring.common.model</packageName>
-					<outputDirectory>${basedir}/src/main/generated</outputDirectory>
-					<schemaDirectory>${basedir}/src/main/resources</schemaDirectory>
-					<schemaFiles>holiday.xsd</schemaFiles>
-				</configuration>
-				<executions>
-					<execution>
-						<id>xsdtojava</id>
-						<!--phase>generate-sources</phase-->
-						<phase>none</phase>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!--plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-xjc-plugin</artifactId>
-				<version>2.6.0</version>
-				<configuration>
-					<extensions>
-						<extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.6.0</extension>
-					</extensions>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>xsdtojava</goal>
-						</goals>
-						<configuration>
-							<sourceRoot>${basedir}/src/main/generated</sourceRoot>
-							<xsdOptions>
-								<xsdOption>
-									<xsd>${basedir}/src/main/resources/holiday.xsd</xsd>
-									<packagename>de.freese.webservice.common.beans</packagename>
-								</xsdOption>
-							</xsdOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin-->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-sources</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${basedir}/src/main/generated</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <configuration>
+                    <packageName>de.freese.spring.common.model</packageName>
+                    <outputDirectory>${basedir}/src/main/generated</outputDirectory>
+                    <schemaDirectory>${basedir}/src/main/resources</schemaDirectory>
+                    <schemaFiles>holiday.xsd</schemaFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>xsdtojava</id>
+                        <!--phase>generate-sources</phase-->
+                        <phase>none</phase>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-xjc-plugin</artifactId>
+                    <version>2.6.0</version>
+                    <configuration>
+                            <extensions>
+                                    <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.6.0</extension>
+                            </extensions>
+                    </configuration>
+                    <executions>
+                            <execution>
+                                    <id>generate-sources</id>
+                                    <phase>generate-sources</phase>
+                                    <goals>
+                                            <goal>xsdtojava</goal>
+                                    </goals>
+                                    <configuration>
+                                            <sourceRoot>${basedir}/src/main/generated</sourceRoot>
+                                            <xsdOptions>
+                                                    <xsdOption>
+                                                            <xsd>${basedir}/src/main/resources/holiday.xsd</xsd>
+                                                            <packagename>de.freese.webservice.common.beans</packagename>
+                                                    </xsdOption>
+                                            </xsdOptions>
+                                    </configuration>
+                            </execution>
+                    </executions>
+            </plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/generated</source>
+                            </sources>
+                        </configuration> 
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->
         <!-- provided scope -->
-        <!-- test scope -->    
+        <!-- test scope -->
     </dependencies>
-    
+
 </project>

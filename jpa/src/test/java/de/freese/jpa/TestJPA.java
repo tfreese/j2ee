@@ -1,6 +1,8 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,8 +23,6 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -55,10 +55,11 @@ public class TestJPA extends AbstractTest
         Properties properties = getHibernateProperties();
         Map<String, Object> config = new HashMap<>();
 
-        for (Object key : properties.keySet())
-        {
-            config.put((String) key, properties.getProperty((String) key));
-        }
+        properties.keySet().stream().forEach((key)
+                ->
+                {
+                    config.put((String) key, properties.getProperty((String) key));
+        });
 
         // resources/META-INF/persistence.xml
         try
@@ -108,11 +109,12 @@ public class TestJPA extends AbstractTest
         entityManager.getTransaction().begin();
 
         List<Person> persons = createPersons();
-
-        for (Person person : persons)
-        {
-            entityManager.persist(person);
+        persons.stream().forEach((person)
+                ->
+                {
+                    entityManager.persist(person);
         }
+        );
 
         validateTest1Insert(persons);
 
@@ -189,7 +191,6 @@ public class TestJPA extends AbstractTest
         // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
 
         // entityManager.getTransaction().begin();
-
         // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
         // !!! Scalare Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
         // !!! Kein Caching bei Native-Queries !!!
@@ -197,14 +198,14 @@ public class TestJPA extends AbstractTest
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
         List<Object[]> rows = query.getResultList();
+        rows.stream().forEach((row)
+                ->
+                {
+                    Person person = new Person((String) row[1], (String) row[2]);
+                    person.setID(((BigInteger) row[0]).longValue());
 
-        for (Object[] row : rows)
-        {
-            Person person = new Person((String) row[1], (String) row[2]);
-            person.setID(((BigInteger) row[0]).longValue());
-
-            persons.add(person);
-        }
+                    persons.add(person);
+        });
 
         query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
@@ -213,14 +214,14 @@ public class TestJPA extends AbstractTest
         {
             query.setParameter("person_id", person.getID());
             rows = query.getResultList();
+            rows.stream().forEach((row)
+                    ->
+                    {
+                        Address address = new Address((String) row[1]);
+                        address.setID(((BigInteger) row[0]).longValue());
 
-            for (Object[] row : rows)
-            {
-                Address address = new Address((String) row[1]);
-                address.setID(((BigInteger) row[0]).longValue());
-
-                person.addAddress(address);
-            }
+                        person.addAddress(address);
+            });
         }
 
         validateTest2SelectAll(persons);

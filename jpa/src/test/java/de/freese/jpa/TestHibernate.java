@@ -1,6 +1,8 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -116,15 +116,20 @@ public class TestHibernate extends AbstractTest
 
             List<Person> persons = createPersons();
 
-            for (Person person : persons)
-            {
-                session.save(person);
-
-                for (Address address : person.getAddresses())
-                {
-                    session.save(address);
-                }
-            }
+            persons.stream().map((person)
+                    ->
+                    {
+                        session.save(person);
+                        return person;
+            }).forEach((person)
+                    ->
+                    {
+                        person.getAddresses().stream().forEach((address)
+                                ->
+                                {
+                                    session.save(address);
+                        });
+            });
 
             validateTest1Insert(persons);
 
@@ -210,14 +215,14 @@ public class TestHibernate extends AbstractTest
             // query.setCacheable(true).setCacheRegion("person");
 
             List<Object[]> rows = query.list();
+            rows.stream().forEach((row)
+                    ->
+                    {
+                        Person person = new Person((String) row[1], (String) row[2]);
+                        person.setID(((BigInteger) row[0]).longValue());
 
-            for (Object[] row : rows)
-            {
-                Person person = new Person((String) row[1], (String) row[2]);
-                person.setID(((BigInteger) row[0]).longValue());
-
-                persons.add(person);
-            }
+                        persons.add(person);
+            });
 
             SQLQuery sqlQuery = session.createSQLQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
             sqlQuery.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
@@ -228,13 +233,14 @@ public class TestHibernate extends AbstractTest
                 sqlQuery.setLong("person_id", person.getID());
                 rows = sqlQuery.list();
 
-                for (Object[] row : rows)
-                {
-                    Address address = new Address((String) row[1]);
-                    address.setID((long) row[0]);
+                rows.stream().forEach((row)
+                        ->
+                        {
+                            Address address = new Address((String) row[1]);
+                            address.setID((long) row[0]);
 
-                    person.addAddress(address);
-                }
+                            person.addAddress(address);
+                });
             }
 
             validateTest2SelectAll(persons);
