@@ -17,7 +17,7 @@ import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
  * <pre>
  * {
  *     &#064;code
- *     Configuration configuration = new Configuration(templates);
+ *     Configuration configuration = new com.querydsl.sql.Configuration(templates);
  *     configuration.setExceptionTranslator(new SpringExceptionTranslator());
  * }
  * </pre>

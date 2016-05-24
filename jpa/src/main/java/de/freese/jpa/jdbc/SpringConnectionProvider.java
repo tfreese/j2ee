@@ -16,7 +16,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  * {
  *     &#064;code
  *     Provider&lt;Connection&gt; provider = new SpringConnectionProvider(dataSource());
- *     SQLQueryFactory queryFactory = SQLQueryFactory(configuration, provider);
+ *     SQLQueryFactory queryFactory = com.querydsl.sql.SQLQueryFactory(configuration, provider);
  * }
  * </pre>
  * <p>
