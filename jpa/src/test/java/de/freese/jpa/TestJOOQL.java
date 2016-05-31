@@ -1,5 +1,5 @@
 // Erzeugt: 09.12.2015
-package de.freese.jpa.jdbc;
+package de.freese.jpa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,10 +22,13 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import de.freese.jpa.jdbc.PersonRowMapper;
 import de.freese.sql.jooql.tables.TPerson;
 import de.freese.sql.jooql.tables.records.TPersonRecord;
 
@@ -70,10 +73,15 @@ public class TestJOOQL
     {
         DATA_SOURCE = new SingleConnectionDataSource();
         DATA_SOURCE.setDriverClassName("org.hsqldb.jdbcDriver");
-        DATA_SOURCE.setUrl("jdbc:hsqldb:file:hsqldb/hsqldb;create=false;shutdown=true");
+        DATA_SOURCE.setUrl("jdbc:hsqldb:mem:test");
         DATA_SOURCE.setUsername("sa");
         DATA_SOURCE.setPassword("");
         DATA_SOURCE.setSuppressClose(true);
+
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
+        populator.addScript(new ClassPathResource("hsqldb-data.sql"));
+        populator.execute(DATA_SOURCE);
 
         JDBC_TEMPLATE = new JdbcTemplate(DATA_SOURCE);
 

@@ -16,7 +16,6 @@ import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -116,11 +115,11 @@ public class TestHibernate extends AbstractTest
 
             List<Person> persons = createPersons();
 
-            persons.stream().map((person) -> {
+            persons.stream().map(person -> {
                 session.save(person);
                 return person;
-            }).forEach((person) -> {
-                person.getAddresses().stream().forEach((address) -> {
+            }).forEach(person -> {
+                person.getAddresses().forEach(address -> {
                     session.save(address);
                 });
             });
@@ -209,7 +208,7 @@ public class TestHibernate extends AbstractTest
             // query.setCacheable(true).setCacheRegion("person");
 
             List<Object[]> rows = query.list();
-            rows.stream().forEach((row) -> {
+            rows.forEach(row -> {
                 Person person = new Person((String) row[1], (String) row[2]);
                 person.setID(((BigInteger) row[0]).longValue());
 
@@ -220,46 +219,21 @@ public class TestHibernate extends AbstractTest
             sqlQuery.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
             sqlQuery.setCacheable(true).setCacheRegion("address");
 
-            for (Person person : persons)
-            {
+            persons.forEach(person -> {
                 sqlQuery.setLong("person_id", person.getID());
-                rows = sqlQuery.list();
+                List<Object[]> addresses = sqlQuery.list();
 
-                rows.stream().forEach((row) -> {
-                    Address address = new Address((String) row[1]);
-                    address.setID((long) row[0]);
+                addresses.forEach(value -> {
+                    Address address = new Address((String) value[1]);
+                    address.setID((long) value[0]);
 
                     person.addAddress(address);
                 });
-            }
+            });
 
             validateTest2SelectAll(persons);
 
             // session.getTransaction().commit();
-        }
-    }
-
-    /**
-     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    @Test
-    public void test5ImportSQL()
-    {
-        try (Session session = SESSIONFACTORY.openSession())
-        {
-            session.beginTransaction();
-
-            SQLQuery sqlQuery = session.createSQLQuery("select * from roles order by id asc");
-            List<Object[]> rows = sqlQuery.list();
-
-            Assert.assertNotNull(rows);
-            Assert.assertEquals(2, rows.size());
-            Assert.assertEquals(1, rows.get(0)[0]);
-            Assert.assertEquals("quickstarts", rows.get(0)[1]);
-
-            session.getTransaction().commit();
         }
     }
 

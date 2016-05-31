@@ -3,8 +3,6 @@
  */
 package de.freese.jpa;
 
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +16,8 @@ import org.hibernate.stat.Statistics;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -53,7 +53,7 @@ public abstract class AbstractTest
         config.setProperty(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.setProperty(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.setProperty(AvailableSettings.GENERATE_STATISTICS,
-                           Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
+                Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
 
         // Caching
         // config.setProperty(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory");
@@ -112,7 +112,7 @@ public abstract class AbstractTest
     }
 
     /**
-     * @param ps             {@link PrintStream}
+     * @param ps {@link PrintStream}
      * @param sessionFactory {@link SessionFactory}
      */
     protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory)
@@ -175,7 +175,7 @@ public abstract class AbstractTest
         // Set<String> clazzes = metaData.keySet();
         Class<?>[] clazzes = new Class<?>[]
         {
-            Person.class, Address.class
+                Person.class, Address.class
         };
 
         for (Class<?> clazz : clazzes)
@@ -218,11 +218,6 @@ public abstract class AbstractTest
      *
      */
     public abstract void test4NativeQuery();
-
-    /**
-     * Prüft die Inhalte der import.sql.
-     */
-    public abstract void test5ImportSQL();
 
     /**
      * @param persons {@link List}

@@ -1,8 +1,6 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,12 +15,13 @@ import javax.persistence.Query;
 import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -55,10 +54,8 @@ public class TestJPA extends AbstractTest
         Properties properties = getHibernateProperties();
         Map<String, Object> config = new HashMap<>();
 
-        properties.keySet().stream().forEach((key)
-                ->
-                {
-                    config.put((String) key, properties.getProperty((String) key));
+        properties.keySet().forEach(key -> {
+            config.put((String) key, properties.getProperty((String) key));
         });
 
         // resources/META-INF/persistence.xml
@@ -109,12 +106,9 @@ public class TestJPA extends AbstractTest
         entityManager.getTransaction().begin();
 
         List<Person> persons = createPersons();
-        persons.stream().forEach((person)
-                ->
-                {
-                    entityManager.persist(person);
-        }
-        );
+        persons.forEach(person -> {
+            entityManager.persist(person);
+        });
 
         validateTest1Insert(persons);
 
@@ -198,13 +192,11 @@ public class TestJPA extends AbstractTest
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
         List<Object[]> rows = query.getResultList();
-        rows.stream().forEach((row)
-                ->
-                {
-                    Person person = new Person((String) row[1], (String) row[2]);
-                    person.setID(((BigInteger) row[0]).longValue());
+        rows.forEach(row -> {
+            Person person = new Person((String) row[1], (String) row[2]);
+            person.setID(((BigInteger) row[0]).longValue());
 
-                    persons.add(person);
+            persons.add(person);
         });
 
         query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
@@ -214,40 +206,17 @@ public class TestJPA extends AbstractTest
         {
             query.setParameter("person_id", person.getID());
             rows = query.getResultList();
-            rows.stream().forEach((row)
-                    ->
-                    {
-                        Address address = new Address((String) row[1]);
-                        address.setID(((BigInteger) row[0]).longValue());
+            rows.forEach(row -> {
+                Address address = new Address((String) row[1]);
+                address.setID(((BigInteger) row[0]).longValue());
 
-                        person.addAddress(address);
+                person.addAddress(address);
             });
         }
 
         validateTest2SelectAll(persons);
 
         // entityManager.getTransaction().commit();
-        entityManager.close();
-    }
-
-    /**
-     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    @Test
-    public void test5ImportSQL()
-    {
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
-
-        Query query = entityManager.createNativeQuery("select * from roles order by id asc");
-        List<Object[]> rows = query.getResultList();
-
-        Assert.assertNotNull(rows);
-        Assert.assertEquals(2, rows.size());
-        Assert.assertEquals(1, rows.get(0)[0]);
-        Assert.assertEquals("quickstarts", rows.get(0)[1]);
-
         entityManager.close();
     }
 

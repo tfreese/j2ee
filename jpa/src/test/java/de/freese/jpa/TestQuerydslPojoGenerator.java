@@ -1,13 +1,12 @@
 /**
  *
  */
-package de.freese.jpa.jdbc;
+package de.freese.jpa;
 
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,10 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import com.querydsl.codegen.JavaTypeMappings;
 import com.querydsl.sql.codegen.MetaDataExporter;
+import de.freese.jpa.jdbc.MyBeanSerializer;
 
 /**
  * Erzeugt aus den DB-Metadaten die Entities.
@@ -28,12 +30,12 @@ import com.querydsl.sql.codegen.MetaDataExporter;
  *         <p>
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestMetaDataExporter
+public class TestQuerydslPojoGenerator
 {
     /**
      *
      */
-    private static DataSource DATASOURCE = null;
+    private static SingleConnectionDataSource DATASOURCE = null;
 
     /**
      *
@@ -41,7 +43,7 @@ public class TestMetaDataExporter
     @AfterClass
     public static void afterClass()
     {
-        ((SingleConnectionDataSource) DATASOURCE).destroy();
+        DATASOURCE.destroy();
     }
 
     /**
@@ -50,20 +52,23 @@ public class TestMetaDataExporter
     @BeforeClass
     public static void beforeClass()
     {
-        SingleConnectionDataSource ds = new SingleConnectionDataSource();
-        ds.setDriverClassName("org.hsqldb.jdbcDriver");
-        ds.setUrl("jdbc:hsqldb:file:hsqldb/hsqldb;create=false;shutdown=true");
-        ds.setUsername("sa");
-        ds.setPassword("");
-        ds.setSuppressClose(true);
+        DATASOURCE = new SingleConnectionDataSource();
+        DATASOURCE.setDriverClassName("org.hsqldb.jdbcDriver");
+        DATASOURCE.setUrl("jdbc:hsqldb:mem:test");
+        DATASOURCE.setUsername("sa");
+        DATASOURCE.setPassword("");
+        DATASOURCE.setSuppressClose(true);
 
-        DATASOURCE = ds;
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
+        populator.addScript(new ClassPathResource("hsqldb-data.sql"));
+        populator.execute(DATASOURCE);
     }
 
     /**
      *
      */
-    public TestMetaDataExporter()
+    public TestQuerydslPojoGenerator()
     {
         super();
     }

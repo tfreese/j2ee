@@ -1,7 +1,7 @@
 /**
  *
  */
-package de.freese.jpa.jdbc;
+package de.freese.jpa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,14 +12,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
-import de.freese.jpa.AbstractTest;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 
@@ -65,16 +63,17 @@ public class TestNativeHSQL extends AbstractTest
         CONNECTION = DriverManager.getConnection("jdbc:hsqldb:mem:test", "sa", "");
         CONNECTION.setAutoCommit(false);
 
-        ScriptUtils.executeSqlScript(CONNECTION, new ClassPathResource("import.sql"));
+        ScriptUtils.executeSqlScript(CONNECTION, new ClassPathResource("hsqldb-schema.sql"));
+        ScriptUtils.executeSqlScript(CONNECTION, new ClassPathResource("hsqldb-data.sql"));
 
         try (Statement statement = CONNECTION.createStatement())
         {
             try
             {
                 // statement.execute("alter table T_ADDRESS drop constraint FK_PERSON");
-                statement.execute("DROP table T_ADDRESS if exists CASCADE");
-                statement.execute("DROP table T_PERSON if exists CASCADE");
-                statement.execute("DROP sequence OBJECT_SEQ if exists");
+                statement.execute("DROP table if exists T_ADDRESS  CASCADE");
+                statement.execute("DROP table if exists T_PERSON  CASCADE");
+                statement.execute("DROP sequence if exists OBJECT_SEQ");
             }
             catch (SQLSyntaxErrorException ex)
             {
@@ -106,13 +105,11 @@ public class TestNativeHSQL extends AbstractTest
     {
         long id = -1;
 
-        try (Statement statement = CONNECTION.createStatement())
+        try (Statement statement = CONNECTION.createStatement();
+             ResultSet resultSet = statement.executeQuery("call next value for OBJECT_SEQ"))
         {
-            try (ResultSet resultSet = statement.executeQuery("call next value for OBJECT_SEQ"))
-            {
-                resultSet.next();
-                id = resultSet.getInt(1);
-            }
+            resultSet.next();
+            id = resultSet.getInt(1);
         }
 
         return id;
@@ -254,17 +251,15 @@ public class TestNativeHSQL extends AbstractTest
     {
         List<Person> persons = new ArrayList<>();
 
-        try (Statement statement = CONNECTION.createStatement())
+        try (Statement statement = CONNECTION.createStatement();
+             ResultSet resultSet = statement.executeQuery("select * from T_PERSON order by id asc"))
         {
-            try (ResultSet resultSet = statement.executeQuery("select * from T_PERSON order by id asc"))
+            while (resultSet.next())
             {
-                while (resultSet.next())
-                {
-                    Person person = new Person(resultSet.getString("NAME"), resultSet.getString("VORNAME"));
-                    person.setID(resultSet.getLong("ID"));
+                Person person = new Person(resultSet.getString("NAME"), resultSet.getString("VORNAME"));
+                person.setID(resultSet.getLong("ID"));
 
-                    persons.add(person);
-                }
+                persons.add(person);
             }
 
             selectAddresses(persons);
@@ -320,40 +315,5 @@ public class TestNativeHSQL extends AbstractTest
     public void test4NativeQuery()
     {
         // Nur für Hibernate- und JPA-Tests relevant.
-    }
-
-    /**
-     * @see de.freese.jpa.AbstractTest#test5ImportSQL()
-     */
-    @Override
-    @Test
-    public void test5ImportSQL()
-    {
-        try (Statement statement = CONNECTION.createStatement())
-        {
-            List<Object[]> rows = new ArrayList<>();
-
-            try (ResultSet resultSet = statement.executeQuery("select * from roles order by id asc"))
-            {
-                while (resultSet.next())
-                {
-                    Object[] row = new Object[]
-                    {
-                            resultSet.getInt("ID"), resultSet.getString("NAME")
-                    };
-
-                    rows.add(row);
-                }
-            }
-
-            Assert.assertNotNull(rows);
-            Assert.assertEquals(2, rows.size());
-            Assert.assertEquals(1, rows.get(0)[0]);
-            Assert.assertEquals("quickstarts", rows.get(0)[1]);
-        }
-        catch (Exception ex)
-        {
-            throw new RuntimeException(ex);
-        }
     }
 }
