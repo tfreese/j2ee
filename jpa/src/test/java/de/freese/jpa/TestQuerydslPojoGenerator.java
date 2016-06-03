@@ -61,7 +61,7 @@ public class TestQuerydslPojoGenerator
 
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
-        populator.addScript(new ClassPathResource("hsqldb-data.sql"));
+        // populator.addScript(new ClassPathResource("hsqldb-data.sql"));
         populator.execute(DATASOURCE);
     }
 

@@ -158,7 +158,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
-                <version>${version:org.hibernate:hibernate}</version>
+                <version>${version:org.hibernate:hibernate-entitymanager}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>jboss-transaction-api_1.1_spec</artifactId>
