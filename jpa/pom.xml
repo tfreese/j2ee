@@ -1,222 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>j2ee-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>j2ee-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>jpa</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>jpa</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>JPA Demo Projekt</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>JPA Demo Projekt</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${project.basedir}/src/main/generated</directory>
-							<includes>
-								<include>**/*</include>
-								<!--include>**/*.java</include -->
-							</includes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-sources</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/generated</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.querydsl</groupId>
-				<artifactId>querydsl-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>export</goal> <!--none, export -->
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<skip>true</skip>
-					<jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
-					<!--jdbcUrl>jdbc:hsqldb:file:D:\efreest\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl -->
-					<!--Code muss schon beim Build vorhanden sein -> Auslagern in eigenes 
-						Projekt -->
-					<!--beanSerializerClass>de.freese.jpa.jdbc.MyBeanSerializer</beanSerializerClass -->
-					<jdbcUrl>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</jdbcUrl>
-					<packageName>de.freese.sql.querydsl</packageName>
-					<targetFolder>${project.basedir}/src/main/generated</targetFolder>
-					<jdbcUser>sa</jdbcUser>
-					<jdbcPassword></jdbcPassword>
-					<schemaPattern>PUBLIC</schemaPattern>
-					<tableNamePattern>T_%</tableNamePattern>
-					<namePrefix>Q</namePrefix>
-					<columnAnnotations>true</columnAnnotations>
-					<validationAnnotations>true</validationAnnotations>
-					<exportBeans>true</exportBeans>
-					<exportViews>false</exportViews>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.hsqldb</groupId>
-						<artifactId>hsqldb</artifactId>
-						<version>${version:org.hsqldb:hsqldb}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.jooq</groupId>
-				<artifactId>jooq-codegen-maven</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal> <!--none, generate -->
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<skip>true</skip>
-					<jdbc>
-						<driver>org.hsqldb.jdbcDriver</driver>
-						<url>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</url>
-						<user>sa</user>
-						<password></password>
-					</jdbc>
-					<generator>
-						<name>org.jooq.util.JavaGenerator</name>
-						<database>
-							<name>org.jooq.util.hsqldb.HSQLDBDatabase</name>
-							<includes>T_.*</includes>
-							<excludes></excludes>
-							<inputSchema>PUBLIC</inputSchema>
-						</database>
-						<generate>
-							<deprecated>false</deprecated>
-							<relations>true</relations>
-							<generatedAnnotation>true</generatedAnnotation>
-							<records>true</records>
-							<pojos>false</pojos>
-							<immutablePojos>false</immutablePojos>
-							<interfaces>true</interfaces>
-							<daos>false</daos>
-							<jpaAnnotations>true</jpaAnnotations>
-							<validationAnnotations>true</validationAnnotations>
-							<!--springAnnotations>true</springAnnotations -->
-							<globalObjectReferences>true</globalObjectReferences>
-							<fluentSetters>true</fluentSetters>
-						</generate>
-						<target>
-							<packageName>de.freese.sql.jooql</packageName>
-							<directory>${project.basedir}/src/main/generated</directory>
-						</target>
-					</generator>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.hsqldb</groupId>
-						<artifactId>hsqldb</artifactId>
-						<version>${version:org.hsqldb:hsqldb}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/src/main/generated</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/generated</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>export</goal> <!--none, export -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>true</skip>
+                    <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
+                    <!--jdbcUrl>jdbc:hsqldb:file:D:\efreest\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl -->
+                    <!--Code muss schon beim Build vorhanden sein -> Auslagern in eigenes
+                    Projekt -->
+                    <!--beanSerializerClass>de.freese.jpa.jdbc.MyBeanSerializer</beanSerializerClass -->
+                    <jdbcUrl>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</jdbcUrl>
+                    <packageName>de.freese.sql.querydsl</packageName>
+                    <targetFolder>${project.basedir}/src/main/generated</targetFolder>
+                    <jdbcUser>sa</jdbcUser>
+                    <jdbcPassword></jdbcPassword>
+                    <schemaPattern>PUBLIC</schemaPattern>
+                    <tableNamePattern>T_%</tableNamePattern>
+                    <namePrefix>Q</namePrefix>
+                    <columnAnnotations>true</columnAnnotations>
+                    <validationAnnotations>true</validationAnnotations>
+                    <exportBeans>true</exportBeans>
+                    <exportViews>false</exportViews>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>${version:org.hsqldb:hsqldb}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal> <!--none, generate -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>true</skip>
+                    <jdbc>
+                        <driver>org.hsqldb.jdbcDriver</driver>
+                        <url>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</url>
+                        <user>sa</user>
+                        <password></password>
+                    </jdbc>
+                    <generator>
+                        <name>org.jooq.util.JavaGenerator</name>
+                        <database>
+                            <name>org.jooq.util.hsqldb.HSQLDBDatabase</name>
+                            <includes>T_.*</includes>
+                            <excludes></excludes>
+                            <inputSchema>PUBLIC</inputSchema>
+                        </database>
+                        <generate>
+                            <deprecated>false</deprecated>
+                            <relations>true</relations>
+                            <generatedAnnotation>true</generatedAnnotation>
+                            <records>true</records>
+                            <pojos>false</pojos>
+                            <immutablePojos>false</immutablePojos>
+                            <interfaces>true</interfaces>
+                            <daos>false</daos>
+                            <jpaAnnotations>true</jpaAnnotations>
+                            <validationAnnotations>true</validationAnnotations>
+                            <!--springAnnotations>true</springAnnotations -->
+                            <globalObjectReferences>true</globalObjectReferences>
+                            <fluentSetters>true</fluentSetters>
+                        </generate>
+                        <target>
+                            <packageName>de.freese.sql.jooql</packageName>
+                            <directory>${project.basedir}/src/main/generated</directory>
+                        </target>
+                    </generator>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>${version:org.hsqldb:hsqldb}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencies>
-		<!-- compile scope -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-sql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
 
-		<!-- runtime scope -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <!-- runtime scope -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-		<!-- provided scope -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
-			<scope>provided</scope>
-		</dependency>
+        <!-- provided scope -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 
-		<!-- test scope -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-sql-codegen</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-			<scope>test</scope>
-		</dependency>
-				<dependency>
-			<groupId>org.jooq</groupId>
-			<artifactId>jooq-codegen</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- test scope -->
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-sql-codegen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-codegen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!--dependency> <groupId>net.sf.ehcache</groupId> <artifactId>ehcache</artifactId> 
-			</dependency -->
-	</dependencies>
+        <!--dependency> <groupId>net.sf.ehcache</groupId> <artifactId>ehcache</artifactId>
+        </dependency -->
+    </dependencies>
 
 </project>

@@ -20,7 +20,6 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import com.querydsl.codegen.JavaTypeMappings;
 import com.querydsl.sql.codegen.MetaDataExporter;
-import de.freese.jpa.jdbc.MyBeanSerializer;
 
 /**
  * Erzeugt aus den DB-Metadaten die Entities.
@@ -95,7 +94,7 @@ public class TestQuerydslPojoGenerator
     @Test
     public void createEntities() throws SQLException
     {
-        MyBeanSerializer serializer = new MyBeanSerializer();
+        MyQueryDSLBeanSerializer serializer = new MyQueryDSLBeanSerializer();
         serializer.addInterface(Serializable.class);
         serializer.setAddFullConstructor(false);
 
