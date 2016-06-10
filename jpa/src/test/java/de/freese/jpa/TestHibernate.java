@@ -5,12 +5,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
@@ -142,14 +142,14 @@ public class TestHibernate extends AbstractTest
         {
             // session.beginTransaction();
 
-            Query query = null;
+            Query<Person> query = null;
             // Caching aktiviert in Person Definition
             query = session.getNamedQuery("allPersons");
             // Caching muss explizit aktiviert werden
             // query = session.createQuery("from Person order by id asc");
             // query.setCacheable(true).setCacheRegion("person");
 
-            List<Person> persons = query.list();
+            List<Person> persons = query.getResultList();
 
             validateTest2SelectAll(persons);
 
@@ -170,16 +170,16 @@ public class TestHibernate extends AbstractTest
         {
             // session.beginTransaction();
 
-            Query query = null;
             // Caching aktiviert in Person Definition
+            Query<?> query = null;
             query = session.getNamedQuery("personByVorname");
             // Caching muss explizit aktiviert werden
             // query = session.createQuery("from Person where vorname=:vorname order by name asc");
             // query.setCacheable(true).setCacheRegion("person");
 
-            query.setString("vorname", vorname);
+            query.setParameter("vorname", vorname);
 
-            Person person = (Person) query.uniqueResult();
+            Person person = (Person) query.getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
 
@@ -203,11 +203,11 @@ public class TestHibernate extends AbstractTest
 
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
             // !!! Kein Caching bei Named-Queries !!!
-            Query query = session.getNamedQuery("allPersons.native");
+            Query<Object[]> query = session.getNamedQuery("allPersons.native");
             // query.addScalar("id", LongType.INSTANCE).addScalar("name", StringType.INSTANCE).addScalar("vorname", StringType.INSTANCE);
             // query.setCacheable(true).setCacheRegion("person");
 
-            List<Object[]> rows = query.list();
+            List<Object[]> rows = query.getResultList();
             rows.forEach(row -> {
                 Person person = new Person((String) row[1], (String) row[2]);
                 person.setID(((BigInteger) row[0]).longValue());
@@ -215,13 +215,13 @@ public class TestHibernate extends AbstractTest
                 persons.add(person);
             });
 
-            SQLQuery sqlQuery = session.createSQLQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
-            sqlQuery.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
-            sqlQuery.setCacheable(true).setCacheRegion("address");
+            NativeQuery<Object[]> nativeQuery = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+            nativeQuery.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
+            nativeQuery.setCacheable(true).setCacheRegion("address");
 
             persons.forEach(person -> {
-                sqlQuery.setLong("person_id", person.getID());
-                List<Object[]> addresses = sqlQuery.list();
+                nativeQuery.setParameter("person_id", person.getID());
+                List<Object[]> addresses = nativeQuery.getResultList();
 
                 addresses.forEach(value -> {
                     Address address = new Address((String) value[1]);
