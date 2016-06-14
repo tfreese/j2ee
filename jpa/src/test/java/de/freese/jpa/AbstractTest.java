@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import javax.persistence.metamodel.Metamodel;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.EntityStatistics;
@@ -171,32 +172,39 @@ public abstract class AbstractTest
         }
 
         // Objektspezifische Statistiken
-        // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
-        // Set<String> clazzes = metaData.keySet();
-        Class<?>[] clazzes = new Class<?>[]
-        {
-                Person.class, Address.class
-        };
+        Metamodel metamodel = sessionFactory.getMetamodel();
 
-        for (Class<?> clazz : clazzes)
-        {
-            String className = clazz.getName();
+        // Klassennamen sortieren
+        // @formatter:off
+        metamodel.getEntities().stream()
+            .map(entityType -> entityType.getJavaType().getName())
+            .sorted()
+            .forEach(className -> {
+            try
+            {
+                EntityStatistics entityStats = stats.getEntityStatistics(className);
 
-            EntityStatistics entityStats = stats.getEntityStatistics(className);
-            long inserts = entityStats.getInsertCount();
-            long updates = entityStats.getUpdateCount();
-            long deletes = entityStats.getDeleteCount();
-            long fetches = entityStats.getFetchCount();
-            long loads = entityStats.getLoadCount();
-            long changes = inserts + updates + deletes;
+                long inserts = entityStats.getInsertCount();
+                long updates = entityStats.getUpdateCount();
+                long deletes = entityStats.getDeleteCount();
+                long fetches = entityStats.getFetchCount();
+                long loads = entityStats.getLoadCount();
+                long changes = inserts + updates + deletes;
 
-            ps.println(className + " fetches " + fetches + " times");
-            ps.println(className + " loads " + loads + " times");
-            ps.println(className + " inserts " + inserts + " times");
-            ps.println(className + " updates " + updates + " times");
-            ps.println(className + " deletes " + deletes + " times");
-            ps.println(className + " changed " + changes + " times");
-        }
+                ps.println(className + " fetches " + fetches + " times");
+                ps.println(className + " loads   " + loads + " times");
+                ps.println(className + " inserts " + inserts + " times");
+                ps.println(className + " updates " + updates + " times");
+                ps.println(className + " deletes " + deletes + " times");
+                ps.println(className + " changed " + changes + " times");
+                ps.println();
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        });
+        // @formatter:on
     }
 
     /**
