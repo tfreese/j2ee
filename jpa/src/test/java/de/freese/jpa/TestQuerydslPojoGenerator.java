@@ -52,7 +52,7 @@ public class TestQuerydslPojoGenerator
     public static void beforeClass()
     {
         DATASOURCE = new SingleConnectionDataSource();
-        DATASOURCE.setDriverClassName("org.hsqldb.jdbcDriver");
+        DATASOURCE.setDriverClassName("oorg.hsqldb.jdbc.JDBCDriver");
         DATASOURCE.setUrl("jdbc:hsqldb:mem:test");
         DATASOURCE.setUsername("sa");
         DATASOURCE.setPassword("");

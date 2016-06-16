@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -112,6 +112,7 @@ public class TestJPA extends AbstractTest
 
         validateTest1Insert(persons);
 
+        entityManager.flush(); // ohne flush kein insert
         entityManager.getTransaction().commit();
         entityManager.close();
     }
@@ -226,6 +227,6 @@ public class TestJPA extends AbstractTest
     @Test
     public void test99Statistics()
     {
-        dumpStatistics(System.out, ((EntityManagerFactoryImpl) ENTITYMANAGERFACTORY).getSessionFactory());
+        dumpStatistics(System.out, (SessionFactoryImpl) ENTITYMANAGERFACTORY);
     }
 }

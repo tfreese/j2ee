@@ -41,7 +41,7 @@ public abstract class AbstractTest
         // Connection Properties
         // config.setProperty(AvailableSettings.DATASOURCE, "jdbc/DS");
         config.setProperty(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect");
-        config.setProperty(AvailableSettings.DRIVER, "org.hsqldb.jdbcDriver");
+        config.setProperty(AvailableSettings.DRIVER, "org.hsqldb.jdbc.JDBCDriver");
         config.setProperty(AvailableSettings.URL, "jdbc:hsqldb:mem:test");
         config.setProperty(AvailableSettings.USER, "sa");
         config.setProperty(AvailableSettings.PASS, "");

@@ -72,7 +72,7 @@ public class TestJOOQL
     public static void beforeClass() throws Exception
     {
         DATA_SOURCE = new SingleConnectionDataSource();
-        DATA_SOURCE.setDriverClassName("org.hsqldb.jdbcDriver");
+        DATA_SOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         DATA_SOURCE.setUrl("jdbc:hsqldb:mem:test");
         DATA_SOURCE.setUsername("sa");
         DATA_SOURCE.setPassword("");

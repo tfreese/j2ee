@@ -126,6 +126,7 @@ public class TestHibernate extends AbstractTest
 
             validateTest1Insert(persons);
 
+            session.flush(); // ohne flush kein insert
             session.getTransaction().commit();
         }
     }

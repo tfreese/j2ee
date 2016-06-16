@@ -51,7 +51,7 @@ public class TestJOOQLPojoGenerator
     public static void beforeClass()
     {
         DATASOURCE = new SingleConnectionDataSource();
-        DATASOURCE.setDriverClassName("org.hsqldb.jdbcDriver");
+        DATASOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         DATASOURCE.setUrl("jdbc:hsqldb:mem:test");
         DATASOURCE.setUsername("sa");
         DATASOURCE.setPassword("");
