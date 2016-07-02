@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

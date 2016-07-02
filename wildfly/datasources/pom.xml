@@ -20,7 +20,8 @@
             <!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId> 
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
                 <executions>
                     <execution>
                         <id>unpack</id>

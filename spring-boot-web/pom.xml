@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -13,23 +13,6 @@
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Demo für spring-boot-web mit JSF</description>
-
-    <!--extensions und themes nicht im central-->
-    <repositories>
-        <!--repository>
-            <id>primefaces</id>
-            <name>primefaces</name>
-            <url>http://repository.primefaces.org/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository-->
-    </repositories>
 
     <build>
         <resources>
@@ -55,6 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <!-- Skinny WAR ohne Jars -->
@@ -70,6 +54,7 @@
             <plugin> <!-- spring-boot:run, "package spring-boot:repackage" für executable jar -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${version:org.springframework.boot:spring-boot-maven-plugin}</version>
                 <configuration>
                     <layout>ZIP</layout>
                     <mainClass>de.efreest.web.Main</mainClass>

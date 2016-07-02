@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -22,12 +22,6 @@
         <module>agentportal-client</module>
         <module>agentportal-ear</module>
     </modules>
-
-    <scm>
-        <url>${project.url}</url>
-        <connection>scm:git:git://github.com/tfreese/agentportal.git</connection>
-        <developerConnection>scm:git:https://github.com/tfreese/agentportal.git</developerConnection>
-    </scm>
 
     <build>
         <plugins>
@@ -47,7 +41,7 @@
                                 <descriptor>assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
-                    </execution> 
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

@@ -10,13 +10,25 @@
     </parent>
 
     <groupId>de.freese.j2ee</groupId>
-    <artifactId>j2ee-parent</artifactId>
+    <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Alles was mit J2EE Technologien zu tun hat.</description>
+    <url>https://github.com/tfreese/j2ee</url>
     <inceptionYear>2011</inceptionYear>
+
+    <organization>
+        <name>Thomas Freese</name>
+        <url>https://github.com/tfreese/j2ee</url>
+    </organization>
+
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
+    </scm>
 
     <modules>
         <module>agentportal-parent</module>
@@ -30,12 +42,6 @@
         <module>jpa</module>
         <module>ldap2jdbc</module>
     </modules>
-
-    <scm>
-        <url>${project.url}</url>
-        <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
-        <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
-    </scm>
 
     <dependencyManagement>
         <dependencies>
@@ -185,7 +191,7 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq</artifactId>
                 <version>${version:org.jooq:jooq}</version>
-            </dependency>            
+            </dependency>
             <dependency>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen</artifactId>

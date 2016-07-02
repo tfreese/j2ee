@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -16,35 +16,12 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Beispiel zum Speichern von HTTP-Session in der Amazon Cloud.</description>
 
-    <profiles>
-        <profile>
-            <id>deploy-webdav</id> 
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <!-- Skinny WAR ohne Jars -->
-                            <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
+                <version>${version:org.eclipse.jetty:jetty-maven-plugin}</version>
                 <configuration>
                     <webApp>
                         <contextPath>/cloudsessions</contextPath>
@@ -67,34 +44,6 @@
                     </execution>
                     <execution>
                         <id>stop-jetty</id>
-                        <!--phase>post-integration-test</phase-->
-                        <phase>none</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin><!--embedded-glassfish:run-->
-                <groupId>org.glassfish.embedded</groupId>
-                <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                <configuration>
-                    <!--app>target/${project.artifactId}-${project.version}</app-->
-                    <port>8282</port>
-                    <contextRoot>${project.name}</contextRoot>
-                    <name>${project.name}</name>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>start-glassfish</id>
-                        <!--phase>pre-integration-test</phase-->
-                        <phase>none</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop-glassfish</id>
                         <!--phase>post-integration-test</phase-->
                         <phase>none</phase>
                         <goals>

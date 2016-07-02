@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -21,6 +21,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+                <version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
                 <configuration>
                     <skip>true</skip>
                     <filesets>
@@ -37,6 +38,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${version:org.codehaus.mojo:build-helper-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>add-sources</id>
@@ -55,6 +57,7 @@
             <plugin>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-maven-plugin</artifactId>
+                <version>${version:com.querydsl:querydsl-maven-plugin}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -94,6 +97,7 @@
             <plugin>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
+                <version>${version:org.jooq:jooq-codegen-maven}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>

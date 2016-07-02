@@ -16,35 +16,12 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Demo für Spring-Services (Server-Modul).</description>
 
-    <profiles>
-        <profile>
-            <id>deploy-webdav</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <!-- Skinny WAR ohne Jars -->
-                            <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
+                <version>${version:org.eclipse.jetty:jetty-maven-plugin}</version>
                 <configuration>
                     <webApp>
                         <contextPath>/spring</contextPath>
@@ -117,10 +94,10 @@
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
         </dependency>
-                
+
         <!-- runtime scope -->
         <!-- provided scope -->
-        <!-- test scope -->    
+        <!-- test scope -->
     </dependencies>
 
 </project>

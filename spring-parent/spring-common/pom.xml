@@ -21,6 +21,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>${version:org.codehaus.mojo:jaxb2-maven-plugin}</version>
                 <configuration>
                     <packageName>de.freese.spring.common.model</packageName>
                     <outputDirectory>${basedir}/src/main/generated</outputDirectory>
@@ -69,6 +70,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${version:org.codehaus.mojo:build-helper-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>add-sources</id>
@@ -80,7 +82,7 @@
                             <sources>
                                 <source>${basedir}/src/main/generated</source>
                             </sources>
-                        </configuration> 
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

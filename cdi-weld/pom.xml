@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>j2ee-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>cdi-weld</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>cdi-weld</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>CDI Demo mit WELD</description>
-	<inceptionYear>2012</inceptionYear>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>CDI Demo mit WELD</description>
+    <inceptionYear>2012</inceptionYear>
 
-	<properties>
-		<version.deltaspike>0.3-incubating</version.deltaspike>
-	</properties>
+    <properties>
+        <version.deltaspike>0.3-incubating</version.deltaspike>
+    </properties>
 
-	<dependencies>
+    <dependencies>
         <!-- compile scope -->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se</artifactId>
         </dependency>
-                
+
         <!-- runtime scope -->
         <!-- provided scope -->
-        <!-- test scope --> 		
-	</dependencies>
+        <!-- test scope -->
+    </dependencies>
 
 </project>

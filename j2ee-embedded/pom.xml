@@ -3,7 +3,7 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>j2ee-parent</artifactId>
+        <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -13,172 +13,8 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Projekt fuer Embedded J2EE Beispiele</description>
 
-    <!--extensions und themes nicht im central-->
-    <repositories>
-        <!--repository>
-            <id>primefaces</id>
-            <name>primefaces</name>
-            <url>http://repository.primefaces.org/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository-->
-    </repositories>
-
-    <profiles>
-        <profile>
-            <id>deploy-webdav</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
-                            <!-- Skinny WAR ohne Jars -->
-                            <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                            <archive>
-                                <manifest>
-                                    <addClasspath>true</addClasspath>
-                                    <classpathPrefix>lib/</classpathPrefix>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jetty</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin><!--jetty:run-->
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <configuration>
-                            <webApp>
-                                <contextPath>/${project.artifactId}</contextPath>
-                            </webApp>
-                            <!--webAppSourceDirectory>${basedir}/src/main/webapp</webAppSourceDirectory-->
-                            <!--war>target/${project.artifactId}-${project.version}</war -->
-                            <scanIntervalSeconds>10</scanIntervalSeconds>
-                            <!--scanTargets>
-                                    <scanTarget>${basedir}/src/main/webapp</scanTarget>
-                            </scanTargets-->
-                            <stopKey>STOP</stopKey>
-                            <stopPort>8005</stopPort>
-                            <httpConnector>
-                                <!-- -Djetty.port=8282 verwenden oder über Properties konfigurieren !-->
-                                <port>8282</port>
-                            </httpConnector>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.sun.faces</groupId>
-                                <artifactId>jsf-api</artifactId>
-                                <version>${version:com.sun.faces:jsf}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.sun.faces</groupId>
-                                <artifactId>jsf-impl</artifactId>
-                                <version>${version:com.sun.faces:jsf}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>glassfish</id>
-            <build>
-                <plugins>
-                    <plugin><!--embedded-glassfish:run--><!--glassfish:run-->
-                        <groupId>org.glassfish.embedded</groupId>
-                        <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                        <configuration>
-                            <!--app>target/${project.artifactId}-${project.version}</app-->
-                            <port>8282</port>
-                            <contextRoot>${project.artifactId}</contextRoot>
-                            <name>${project.name}</name>
-                            <autoDelete>true</autoDelete>
-                        </configuration>
-                        <!--executions>
-                        <execution>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                        </execution>
-                        </executions-->
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>cargo</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven2-plugin</artifactId>
-                        <configuration>
-                            <container>
-                                <containerId>jetty9x</containerId>
-                                <type>embedded</type>
-                            </container>
-                            <configuration>
-                                <home>${project.build.directory}/jetty9x</home>
-                                <properties>
-                                    <cargo.servlet.port>8282</cargo.servlet.port>
-                                    <cargo.logging>high</cargo.logging>
-                                </properties>
-                            </configuration>
-                            <deployables>
-                                <deployable>
-                                    <!--groupId>${project.groupId}</groupId>
-                                    <artifactId>${project.artifactId}</artifactId>
-                                    <type>${project.packaging}</type-->
-                                    <!--pingURL>http://localhost:port/mycontext/index.html</pingURL-->
-                                    <location>${project.build.directory}/${project.artifactId}-0.0.1-SNAPSHOT.${project.packaging}</location>
-                                    <properties>
-                                        <context>/${project.artifactId}</context>
-                                    </properties>
-                                </deployable>
-                            </deployables>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.sun.faces</groupId>
-                                <artifactId>jsf-api</artifactId>
-                                <version>${version:com.sun.faces:jsf}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>com.sun.faces</groupId>
-                                <artifactId>jsf-impl</artifactId>
-                                <version>${version:com.sun.faces:jsf}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <build>
-        <plugins>
-        </plugins>
-    </build>
-
     <dependencies>
-        <!-- compile scope -->      
+        <!-- compile scope -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -206,8 +42,8 @@
                     <artifactId>spring-expression</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>        
-                
+        </dependency>
+
         <!-- runtime scope -->
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
@@ -228,16 +64,16 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>runtime</scope>
-        </dependency>        
-                
+        </dependency>
+
         <!-- provided scope -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
-             
-        <!-- test scope -->     
+
+        <!-- test scope -->
     </dependencies>
 
 </project>
