@@ -172,6 +172,7 @@ public abstract class AbstractTest
         }
 
         // Objektspezifische Statistiken
+        @SuppressWarnings("deprecation")
         Metamodel metamodel = sessionFactory.getMetamodel();
 
         // Klassennamen sortieren

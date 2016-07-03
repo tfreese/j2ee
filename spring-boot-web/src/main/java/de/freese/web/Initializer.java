@@ -1,5 +1,5 @@
 // Erzeugt: 10.06.2015
-package de.efreest.web;
+package de.freese.web;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

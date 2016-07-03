@@ -1,13 +1,13 @@
 /**
  *
  */
-package de.freese.jpa.jdbc;
+package de.freese;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
-import de.freese.sql.querydsl.QTPerson;
-import de.freese.sql.querydsl.TPerson;
+import de.freese.querydsl.QTPerson;
+import de.freese.querydsl.TPerson;
 
 /**
  * @author Thomas Freese

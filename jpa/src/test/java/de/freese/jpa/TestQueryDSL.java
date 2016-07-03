@@ -30,10 +30,10 @@ import com.querydsl.sql.HSQLDBTemplates;
 import com.querydsl.sql.SQLBindings;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
-import de.freese.jpa.jdbc.PersonRowMapper;
+import de.freese.PersonRowMapper;
 import de.freese.jpa.jdbc.SpringExceptionTranslator;
-import de.freese.sql.querydsl.QTPerson;
-import de.freese.sql.querydsl.TPerson;
+import de.freese.querydsl.QTPerson;
+import de.freese.querydsl.TPerson;
 
 /**
  * Testcaste für QueryDSL.

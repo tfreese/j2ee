@@ -1,7 +1,6 @@
 // Erzeugt: 10.06.2015
-package de.efreest.web;
+package de.freese.web;
 
-import com.sun.faces.config.ConfigureListener;
 import javax.faces.webapp.FacesServlet;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -13,18 +12,19 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestContextListener;
+import com.sun.faces.config.ConfigureListener;
 
 /**
  * @author Thomas Freese
  */
 @SpringBootApplication
-//@Configuration
-//@EnableAutoConfiguration(exclude = // Spring MVC ausschalten, dann gehen die Endpoints aber nicht mehr.
-//{
-//    WebMvcAutoConfiguration.class, DispatcherServletAutoConfiguration.class
-//})
-//@ComponentScan("de.efreest.web.controller")
-//@PropertySource("classpath:application.properties") // Default, wird automatisch geladen
+// @Configuration
+// @EnableAutoConfiguration(exclude = // Spring MVC ausschalten, dann gehen die Endpoints aber nicht mehr.
+// {
+// WebMvcAutoConfiguration.class, DispatcherServletAutoConfiguration.class
+// })
+// @ComponentScan("de.freese.web.controller")
+// @PropertySource("classpath:application.properties") // Default, wird automatisch geladen
 public class Main extends SpringBootServletInitializer // implements ServletContextAware
 {
     /**
@@ -32,8 +32,8 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
      */
     public static void main(final String[] args)
     {
-//        ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
-//        ctx.registerShutdownHook();
+        // ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
+        // ctx.registerShutdownHook();
 
         SpringApplication app = new SpringApplication(Main.class);
         app.setBannerMode(Banner.Mode.OFF);
@@ -50,7 +50,7 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
     {
         return application.sources(new Class<?>[]
         {
-            Main.class, Initializer.class
+                Main.class, Initializer.class
         });
     }
 
@@ -90,45 +90,45 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
         return new ServletListenerRegistrationBean<>(new RequestContextListener());
     }
 
-//    /**
-//     *
-//     * @return EmbeddedServletContainerFactory
-//     */
-//    @Bean
-//    public EmbeddedServletContainerFactory embeddedServletContainerFactory()
-//    {
-//        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
-//        factory.addServerCustomizers(server ->
-//        {
-////            QueuedThreadPool threadPool = server.getBean(QueuedThreadPool.class);
-//            ThreadPool threadPool = server.getThreadPool();
-//
-//            if (threadPool instanceof QueuedThreadPool)
-//            {
-//                ((QueuedThreadPool) threadPool).setMinThreads(4);
-//                ((QueuedThreadPool) threadPool).setMaxThreads(4);
-//            }
-//            else if (threadPool instanceof ExecutorThreadPool)
-//            {
-//            }
-//        });
-//
-//        return factory;
-//    }
-//    /**
-//     * Allows the use of @Scope("view") on Spring @Component, @Service and @Controller
-//     * beans
-//     */
-//    @Bean
-//    public static CustomScopeConfigurer scopeConfigurer()
-//    {
-//        CustomScopeConfigurer configurer = new CustomScopeConfigurer();
-//        Map<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("view", new ViewScope());
-//        configurer.setScopes(hashMap);
-//
-//        return configurer;
-//    }
+    // /**
+    // *
+    // * @return EmbeddedServletContainerFactory
+    // */
+    // @Bean
+    // public EmbeddedServletContainerFactory embeddedServletContainerFactory()
+    // {
+    // JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
+    // factory.addServerCustomizers(server ->
+    // {
+    //// QueuedThreadPool threadPool = server.getBean(QueuedThreadPool.class);
+    // ThreadPool threadPool = server.getThreadPool();
+    //
+    // if (threadPool instanceof QueuedThreadPool)
+    // {
+    // ((QueuedThreadPool) threadPool).setMinThreads(4);
+    // ((QueuedThreadPool) threadPool).setMaxThreads(4);
+    // }
+    // else if (threadPool instanceof ExecutorThreadPool)
+    // {
+    // }
+    // });
+    //
+    // return factory;
+    // }
+    // /**
+    // * Allows the use of @Scope("view") on Spring @Component, @Service and @Controller
+    // * beans
+    // */
+    // @Bean
+    // public static CustomScopeConfigurer scopeConfigurer()
+    // {
+    // CustomScopeConfigurer configurer = new CustomScopeConfigurer();
+    // Map<String, Object> hashMap = new HashMap<>();
+    // hashMap.put("view", new ViewScope());
+    // configurer.setScopes(hashMap);
+    //
+    // return configurer;
+    // }
     //
     // @Bean
     // public ViewResolver getViewResolver()

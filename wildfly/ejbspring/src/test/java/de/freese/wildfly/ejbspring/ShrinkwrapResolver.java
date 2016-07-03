@@ -19,7 +19,7 @@ import org.junit.runners.MethodSorters;
  * </pre>
  * <p>
  *
- * @author Thomas Freese (AuVi)
+ * @author Thomas Freese
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ShrinkwrapResolver

@@ -11,7 +11,7 @@
 // import de.freese.ldap2jdbc.LdapTags;
 //
 // /**
-// * @author Thomas Freese (AuVi)
+// * @author Thomas Freese
 // * @see org.bouncycastle.asn1.ASN1InputStream
 // */
 // public class MyBERDecoder

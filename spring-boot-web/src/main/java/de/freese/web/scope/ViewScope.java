@@ -1,4 +1,4 @@
-package de.efreest.web.scope;
+package de.freese.web.scope;
 
 import java.util.Map;
 import javax.faces.context.FacesContext;

@@ -23,7 +23,7 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                     <filesets>
                         <fileset>
                             <directory>${project.basedir}/src/main/generated</directory>
@@ -69,7 +69,7 @@
                 <configuration>
                     <skip>true</skip>
                     <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver>
-                    <!--jdbcUrl>jdbc:hsqldb:file:D:\efreest\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl -->
+                    <!--jdbcUrl>jdbc:hsqldb:file:D:\freese\hsqldb\hsqldb;create=false;shutdown=true</jdbcUrl -->
                     <!--Code muss schon beim Build vorhanden sein -> Auslagern in eigenes
                     Projekt -->
                     <!--beanSerializerClass>de.freese.jpa.jdbc.MyBeanSerializer</beanSerializerClass -->
