@@ -191,7 +191,10 @@ public class TestHibernate extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test4NativeQuery()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(
+    {
+            "unchecked", "deprecation"
+    })
     @Override
     @Test
     public void test4NativeQuery()

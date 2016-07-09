@@ -73,7 +73,7 @@
                     <!--Code muss schon beim Build vorhanden sein -> Auslagern in eigenes
                     Projekt -->
                     <!--beanSerializerClass>de.freese.jpa.jdbc.MyBeanSerializer</beanSerializerClass -->
-                    <jdbcUrl>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</jdbcUrl>
+                    <jdbcUrl>jdbc:hsqldb:file:${project.basedir}/db/hsqldb;create=false;shutdown=true</jdbcUrl>
                     <packageName>de.freese.sql.querydsl</packageName>
                     <targetFolder>${project.basedir}/src/main/generated</targetFolder>
                     <jdbcUser>sa</jdbcUser>
@@ -110,7 +110,7 @@
                     <skip>true</skip>
                     <jdbc>
                         <driver>org.hsqldb.jdbcDriver</driver>
-                        <url>jdbc:hsqldb:file:${project.basedir}/hsqldb/hsqldb;create=false;shutdown=true</url>
+                        <url>jdbc:hsqldb:file:${project.basedir}/db/hsqldb;create=false;shutdown=true</url>
                         <user>sa</user>
                         <password></password>
                     </jdbc>
