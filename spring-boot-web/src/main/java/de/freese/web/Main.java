@@ -1,18 +1,16 @@
 // Erzeugt: 10.06.2015
 package de.freese.web;
 
+import com.sun.faces.config.ConfigureListener;
 import javax.faces.webapp.FacesServlet;
 import org.springframework.boot.Banner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestContextListener;
-import com.sun.faces.config.ConfigureListener;
 
 /**
  * @author Thomas Freese
@@ -35,11 +33,19 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
         // ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
         // ctx.registerShutdownHook();
 
-        SpringApplication app = new SpringApplication(Main.class);
-        app.setBannerMode(Banner.Mode.OFF);
-
-        ConfigurableApplicationContext ctx = app.run(args);
-        ctx.registerShutdownHook();
+        // SpringApplication app = new SpringApplication(Main.class);
+        // app.setBannerMode(Banner.Mode.OFF);
+        // app.setRegisterShutdownHook(true);
+        //
+        // ConfigurableApplicationContext ctx = app.run(args);
+        //
+        // @formatter:off
+        new SpringApplicationBuilder(Main.class)
+                .bannerMode(Banner.Mode.OFF)
+                .headless(true)
+                .registerShutdownHook(true)
+                .run(args);
+        // @formatter:on
     }
 
     /**
@@ -50,7 +56,7 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
     {
         return application.sources(new Class<?>[]
         {
-                Main.class, Initializer.class
+            Main.class, Initializer.class
         });
     }
 
