@@ -3,7 +3,7 @@ package de.freese.web;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -21,7 +21,7 @@ public class Initializer implements ServletContextInitializer
     }
 
     /**
-     * @see org.springframework.boot.context.embedded.ServletContextInitializer#onStartup(javax.servlet.ServletContext)
+     * @see org.springframework.boot.web.servlet.ServletContextInitializer#onStartup(javax.servlet.ServletContext)
      */
     @Override
     public void onStartup(final ServletContext sc) throws ServletException
