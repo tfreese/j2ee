@@ -1,6 +1,7 @@
 // Erzeugt: 10.06.2015
 package de.freese.web;
 
+import com.sun.faces.config.ConfigureListener;
 import javax.faces.webapp.FacesServlet;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +11,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestContextListener;
-import com.sun.faces.config.ConfigureListener;
 
 /**
  * @author Thomas Freese
@@ -44,6 +44,9 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
                 .bannerMode(Banner.Mode.OFF)
                 .headless(true)
                 .registerShutdownHook(true)
+                //.listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
+                //.web(false)
+                //.build(args)
                 .run(args);
         // @formatter:on
     }
@@ -56,7 +59,7 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
     {
         return application.sources(new Class<?>[]
         {
-                Main.class, Initializer.class
+            Main.class, Initializer.class
         });
     }
 
