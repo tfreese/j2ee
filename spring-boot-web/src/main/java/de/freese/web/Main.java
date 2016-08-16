@@ -15,6 +15,8 @@ import org.springframework.web.context.request.RequestContextListener;
 /**
  * @author Thomas Freese
  */
+// @SpringBootConfiguration
+// @EnableAutoConfiguration
 @SpringBootApplication
 // @Configuration
 // @EnableAutoConfiguration(exclude = // Spring MVC ausschalten, dann gehen die Endpoints aber nicht mehr.
@@ -33,11 +35,14 @@ public class Main extends SpringBootServletInitializer // implements ServletCont
         // ConfigurableApplicationContext ctx = SpringApplication.run(Main.class, args);
         // ctx.registerShutdownHook();
 
-        // SpringApplication app = new SpringApplication(Main.class);
-        // app.setBannerMode(Banner.Mode.OFF);
-        // app.setRegisterShutdownHook(true);
+        // SpringApplication application = new SpringApplication(Main.class);
+        // application.setBannerMode(Banner.Mode.OFF);
+        // application.setRegisterShutdownHook(true);
         //
-        // ConfigurableApplicationContext ctx = app.run(args);
+        // try (ConfigurableApplicationContext ctx = application.run(args))
+        // {
+        // ctx.registerShutdownHook();
+        // }
         //
         // @formatter:off
         new SpringApplicationBuilder(Main.class)
