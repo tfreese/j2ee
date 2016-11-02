@@ -15,22 +15,17 @@ public class CloudSessionCache implements ICloudSession
     /**
      *
      */
-    public static final String TIMEOUT = "timeout";
-
-    /**
-     *
-     */
     public static final int DEFAULT_LIVE_TIME = 15;
 
     /**
      *
      */
-    private final ICloudSession cs;
+    public static final String TIMEOUT = "timeout";
 
     /**
      *
      */
-    private int sessionLivetime = 0;
+    private final ICloudSession cs;
 
     /**
      *
@@ -43,9 +38,14 @@ public class CloudSessionCache implements ICloudSession
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
+     *
+     */
+    private int sessionLivetime = 0;
+
+    /**
      * Erstellt ein neues {@link CloudSessionCache} Object.
      *
-     * @param cs                    {@link ICloudSession}
+     * @param cs {@link ICloudSession}
      * @param sessionLivetimeInSecs int
      */
     public CloudSessionCache(final ICloudSession cs, final int sessionLivetimeInSecs)
@@ -55,7 +55,7 @@ public class CloudSessionCache implements ICloudSession
         this.cs = cs;
         this.sessionLivetime = sessionLivetimeInSecs;
 
-        if (sessionLivetime <= 0)
+        if (this.sessionLivetime <= 0)
         {
             this.sessionLivetime = DEFAULT_LIVE_TIME;
         }
@@ -63,9 +63,8 @@ public class CloudSessionCache implements ICloudSession
 
     /**
      * @param sessionID String
-     * @param name      String
-     * @param entry     {@link Map}
-     *
+     * @param name String
+     * @param entry {@link Map}
      * @return Object
      */
     private Object checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, Object> entry)
@@ -143,7 +142,7 @@ public class CloudSessionCache implements ICloudSession
 
     /**
      * @param sessionID String
-     * @param entry     {@link Map}
+     * @param entry {@link Map}
      */
     private void renewTimeout(final String sessionID, final Map<String, Object> entry)
     {
@@ -153,8 +152,8 @@ public class CloudSessionCache implements ICloudSession
         this.cs.setSessionValue(sessionID, TIMEOUT, timeout);
 
         this.logger.info("setting entry [{},{},{}]", new Object[]
-                 {
-                     sessionID, TIMEOUT, timeout
+        {
+                sessionID, TIMEOUT, timeout
         });
 
         // renew this cache timeout
@@ -168,8 +167,8 @@ public class CloudSessionCache implements ICloudSession
     public void setSessionValue(final String sessionID, final String name, final Object value)
     {
         this.logger.info("setting entry [{},{},{}]", new Object[]
-                 {
-                     sessionID, name, value
+        {
+                sessionID, name, value
         });
 
         Map<String, Object> entry = this.hash.get(sessionID);
@@ -191,7 +190,6 @@ public class CloudSessionCache implements ICloudSession
 
     /**
      * @param timeout Long
-     *
      * @return boolean
      */
     private boolean timeoutReached(final Long timeout)

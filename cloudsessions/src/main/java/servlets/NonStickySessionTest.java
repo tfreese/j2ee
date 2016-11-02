@@ -1,8 +1,5 @@
 package servlets;
 
-import cloudsession.CloudSessionCache;
-import cloudsession.ICloudSession;
-import cloudsession.LocalSessionService;
 import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -12,17 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import cloudsession.CloudSessionCache;
+import cloudsession.ICloudSession;
+import cloudsession.LocalSessionService;
 
 /**
  * @author Thomas Freese
  */
 public class NonStickySessionTest extends HttpServlet
 {
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
@@ -54,20 +49,24 @@ public class NonStickySessionTest extends HttpServlet
     private final ICloudSession cloudSession;
 
     /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
      * Erstellt ein neues {@link NonStickySessionTest} Object.
      */
     public NonStickySessionTest()
     {
         super();
 
-        //ICloudSession cs = new AmazonSessionService();
+        // ICloudSession cs = new AmazonSessionService();
         ICloudSession cs = new LocalSessionService();
         this.cloudSession = new CloudSessionCache(cs, CloudSessionCache.DEFAULT_LIVE_TIME);
     }
 
     /**
      * @param creationTime long
-     *
      * @return String
      */
     private String formatDate(final long creationTime)
@@ -79,8 +78,7 @@ public class NonStickySessionTest extends HttpServlet
     }
 
     /**
-     * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse)
+     * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public void service(final HttpServletRequest request, final HttpServletResponse response)
@@ -107,7 +105,7 @@ public class NonStickySessionTest extends HttpServlet
         StringBuilder html = new StringBuilder();
         html.append("<html>").append("\n");
         html.append("<font size=\"2\" face=\"courier\">").append("\n");
-		// out +=
+        // out +=
         // "Request Headers<br/>"+printHeaders(request)+"<br/><br/>"+printParameters(request)+
         // "<br/>session:"+request.getSession()+"<br/>";
         // out += "</font>";
@@ -126,33 +124,24 @@ public class NonStickySessionTest extends HttpServlet
 
             if (lat != null)
             {
-                html.append("lastAccessTime: [").append(new Date(lat))
-                        .append("]<br/>").append("\n");
-                html.append("verbleibende Zeit im cache: [")
-                        .append((((CloudSessionCache.DEFAULT_LIVE_TIME * 1000) + lat) - System
-                                 .currentTimeMillis())).append("] millis<br/>").append("\n");
+                html.append("lastAccessTime: [").append(new Date(lat)).append("]<br/>").append("\n");
+                html.append("verbleibende Zeit im cache: [").append((((CloudSessionCache.DEFAULT_LIVE_TIME * 1000) + lat) - System.currentTimeMillis()))
+                        .append("] millis<br/>").append("\n");
             }
             else
             {
                 html.append("lastAccessTime not in cache!!!<br/>").append("\n");
             }
 
-            this.cloudSession.setSessionValue(cookieSessionID, CREATION_TIME,
-                                              session.getCreationTime());
-            this.cloudSession.setSessionValue(cookieSessionID, LAST_ACCESS_TIME,
-                                              System.currentTimeMillis());
+            this.cloudSession.setSessionValue(cookieSessionID, CREATION_TIME, session.getCreationTime());
+            this.cloudSession.setSessionValue(cookieSessionID, LAST_ACCESS_TIME, System.currentTimeMillis());
 
-            html.append("cookieSessionID:[").append(cookieSessionID)
-                    .append("]<br/>\ncreationTime:[")
-                    .append(formatDate(session.getCreationTime())).append("]<br/>")
-                    .append("\n");
-            html.append("current Time:[").append(formatDate(System.currentTimeMillis()))
+            html.append("cookieSessionID:[").append(cookieSessionID).append("]<br/>\ncreationTime:[").append(formatDate(session.getCreationTime()))
                     .append("]<br/>").append("\n");
+            html.append("current Time:[").append(formatDate(System.currentTimeMillis())).append("]<br/>").append("\n");
 
-            html.append("<br/>request.getSession().getId() : [").append(session.getId())
-                    .append("]").append("\n");
-            html.append("<br/>cookieSessionID              : [").append(cookieSessionID)
-                    .append("]<br/>").append("\n");
+            html.append("<br/>request.getSession().getId() : [").append(session.getId()).append("]").append("\n");
+            html.append("<br/>cookieSessionID              : [").append(cookieSessionID).append("]<br/>").append("\n");
 
             if (!session.getId().equals(cookieSessionID))
             {
@@ -180,14 +169,12 @@ public class NonStickySessionTest extends HttpServlet
                 // cs.setSessionValue(cookieSessionID, "train", t);
                 //
                 this.cloudSession.setSessionValue(cookieSessionID, USER, reqUser);
-                html.append("set to session").append(cookieSessionID).append(" user:")
-                        .append(reqUser).append("<br/>").append("\n");
+                html.append("set to session").append(cookieSessionID).append(" user:").append(reqUser).append("<br/>").append("\n");
             }
             else
             {
                 String csUser = (String) this.cloudSession.getSessionValue(cookieSessionID, USER);
-                html.append("get from session").append(cookieSessionID).append(":").append(csUser)
-                        .append("<br/>").append("\n");
+                html.append("get from session").append(cookieSessionID).append(":").append(csUser).append("<br/>").append("\n");
                 // Train t = (Train)cs.getSessionValue(cookieSessionID, "train");
             }
         }
@@ -205,7 +192,7 @@ public class NonStickySessionTest extends HttpServlet
         }
     }
 
-	// private String printParameters(HttpServletRequest request) {
+    // private String printParameters(HttpServletRequest request) {
     // Enumeration<?> names = request.getParameterNames();
     // String res = "";
     // while (names.hasMoreElements()) {

@@ -1,10 +1,12 @@
 package cloudsession;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
 import java.util.Properties;
 import util.XmlSerializer;
@@ -18,7 +20,7 @@ public class LocalSessionService implements ICloudSession
      *
      */
     // private final File propFile = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties").toFile();
-    private final File propFile = Paths.get("/tmp", "cloudsession.properties").toFile();
+    private final Path propertiesPath = Paths.get("/tmp", "cloudsession.properties");
 
     /**
      * Erstellt ein neues {@link LocalSessionService} Object.
@@ -37,22 +39,23 @@ public class LocalSessionService implements ICloudSession
 
         try
         {
-            if (!this.propFile.exists())
+            if (!Files.exists(this.propertiesPath))
             {
-                this.propFile.createNewFile();
+                Files.createDirectories(this.propertiesPath.getParent());
+                Files.createFile(this.propertiesPath);
             }
 
-            try (FileInputStream fis = new FileInputStream(this.propFile))
+            try (InputStream fis = Files.newInputStream(this.propertiesPath, StandardOpenOption.READ))
             {
                 props.load(fis);
             }
-
-            return props;
         }
         catch (IOException ex)
         {
             throw new RuntimeException(ex);
         }
+
+        return props;
     }
 
     /**
@@ -127,7 +130,7 @@ public class LocalSessionService implements ICloudSession
     {
         try
         {
-            try (FileOutputStream fos = new FileOutputStream(this.propFile))
+            try (OutputStream fos = Files.newOutputStream(this.propertiesPath, StandardOpenOption.WRITE, StandardOpenOption.CREATE))
             {
                 props.store(fos, "comments");
             }
