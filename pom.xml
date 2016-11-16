@@ -127,6 +127,11 @@
                 <version>${version:net.sf.trove4j:trove4j}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version:org.apache.commons:commons-lang}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxws</artifactId>
                 <version>${version:org.apache.cxf:cxf}</version>

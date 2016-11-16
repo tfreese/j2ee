@@ -1,10 +1,7 @@
 /**
  * Created: 25.05.2015
  */
-
 package de.freese.ldap2jdbc;
-
-import org.apache.commons.codec.DecoderException;
 
 /**
  * @author Thomas Freese
@@ -31,6 +28,7 @@ public class BerDecoder
 
     /**
      * @return int
+     *
      * @see com.sun.jndi.ldap.BerDecoder#bytesLeft()
      */
     public int bytesLeft()
@@ -40,6 +38,7 @@ public class BerDecoder
 
     /**
      * @return int
+     *
      * @see com.sun.jndi.ldap.BerDecoder#getParsePosition()
      */
     public int getParsePosition()
@@ -49,10 +48,10 @@ public class BerDecoder
 
     /**
      * @return boolean
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseBoolean()
      */
-    public boolean parseBoolean() throws DecoderException
+    public boolean parseBoolean()
     {
         try
         {
@@ -60,16 +59,16 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseByte()
      */
-    public int parseByte() throws DecoderException
+    public int parseByte()
     {
         try
         {
@@ -77,16 +76,16 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseEnumeration()
      */
-    public int parseEnumeration() throws DecoderException
+    public int parseEnumeration()
     {
         try
         {
@@ -94,16 +93,16 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseInt()
      */
-    public int parseInt() throws DecoderException
+    public int parseInt()
     {
         try
         {
@@ -111,16 +110,16 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseLength()
      */
-    public int parseLength() throws DecoderException
+    public int parseLength()
     {
         try
         {
@@ -128,18 +127,19 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
-     * @param tag int
+     * @param tag  int
      * @param rlen int[]
+     *
      * @return byte[]
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseOctetString(int,int[])
      */
-    public byte[] parseOctetString(final int tag, final int[] rlen) throws DecoderException
+    public byte[] parseOctetString(final int tag, final int[] rlen)
     {
         try
         {
@@ -147,17 +147,18 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @param rlen int[]
+     *
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseSeq(int[])
      */
-    public int parseSeq(final int[] rlen) throws DecoderException
+    public int parseSeq(final int[] rlen)
     {
 
         try
@@ -166,17 +167,18 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @param decodeUTF8 boolean
+     *
      * @return String
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseString(boolean)
      */
-    public String parseString(final boolean decodeUTF8) throws DecoderException
+    public String parseString(final boolean decodeUTF8)
     {
         try
         {
@@ -184,19 +186,20 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
-     * @param tag int
+     * @param tag        int
      * @param decodeUTF8 boolean
-     * @param rlen int[]
+     * @param rlen       int[]
+     *
      * @return String
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#parseStringWithTag(int, boolean, int[])
      */
-    public String parseStringWithTag(final int tag, final boolean decodeUTF8, final int[] rlen) throws DecoderException
+    public String parseStringWithTag(final int tag, final boolean decodeUTF8, final int[] rlen)
     {
         try
         {
@@ -204,16 +207,16 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
     /**
      * @return int
-     * @throws DecoderException Falls was schief geht.
+     *
      * @see com.sun.jndi.ldap.BerDecoder#peekByte()
      */
-    public int peekByte() throws DecoderException
+    public int peekByte()
     {
         try
         {
@@ -221,7 +224,7 @@ public class BerDecoder
         }
         catch (Exception ex)
         {
-            throw new DecoderException(ex);
+            throw new RuntimeException(ex);
         }
     }
 

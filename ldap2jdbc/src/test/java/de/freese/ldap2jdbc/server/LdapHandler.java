@@ -4,17 +4,17 @@
  */
 package de.freese.ldap2jdbc.server;
 
+import de.freese.ldap2jdbc.BerDecoder;
+import de.freese.ldap2jdbc.BerEncoder;
+import de.freese.ldap2jdbc.LdapTags;
+import de.freese.littlemina.core.IoHandler;
+import de.freese.littlemina.core.buffer.AbstractIoBuffer;
+import de.freese.littlemina.core.session.IoSession;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.ldap2jdbc.BerDecoder;
-import de.freese.ldap2jdbc.BerEncoder;
-import de.freese.ldap2jdbc.LdapTags;
-import de.freese.littlemina.core.IoHandler;
-import de.freese.littlemina.core.buffer.IoBuffer;
-import de.freese.littlemina.core.session.IoSession;
 
 /**
  * {@link IoHandler} für das LDAP-Protokoll.
@@ -27,9 +27,9 @@ public class LdapHandler implements IoHandler
      * The end of line character sequence used by most IETF protocols. That is a carriage return followed by a newline: "\r\n" (NETASCII_EOL)
      */
     private static final byte[] CRLF = new byte[]
-            {
+    {
         0x0D, 0x0A
-            };
+    };
 
     /**
      *
@@ -72,7 +72,7 @@ public class LdapHandler implements IoHandler
     {
         LOGGER.debug(session.toString());
 
-        IoBuffer inputBuffer = session.getBuffer();
+        AbstractIoBuffer inputBuffer = session.getBuffer();
         // String request = inputBuffer.getString(this.decoder);
         // String request = inputBuffer.getHexDump();
 
@@ -85,9 +85,7 @@ public class LdapHandler implements IoHandler
         //
         // return;
         // }
-
         // LOGGER.debug(request);
-
         String hexDump = inputBuffer.getHexDump();
         byte[] data = inputBuffer.array();
         BerDecoder bd = new BerDecoder(data);
@@ -154,11 +152,9 @@ public class LdapHandler implements IoHandler
             // {
             // attrs[i] = bd.parseString(true);
             // }
-
             // ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
             // ber.encodeStringArray(attrs, isLdapv3);
             // ber.endSeq();
-
             LOGGER.info("SEARCH_REQUEST: dn={}", dn);
         }
         else if ((request == LdapTags.LDAP_UNBIND_REQUEST) || (request == LdapTags.LDAP_ABANDON_REQUEST))
@@ -180,7 +176,7 @@ public class LdapHandler implements IoHandler
 
         if (be.getDataLen() > 0)
         {
-            IoBuffer buffer = IoBuffer.allocate(64);
+            AbstractIoBuffer buffer = AbstractIoBuffer.allocate(64);
             buffer.put(be.getTrimmedBuf());
             buffer.flip();
             session.write(buffer);
