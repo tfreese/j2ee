@@ -113,7 +113,9 @@ public class TestQuerydslPojoGenerator
         exporter.setExportTables(true);
         exporter.setExportViews(false);
 
-        Connection connection = DataSourceUtils.getConnection(DATASOURCE);
-        exporter.export(connection.getMetaData());
+        try (Connection connection = DataSourceUtils.getConnection(DATASOURCE))
+        {
+            exporter.export(connection.getMetaData());
+        }
     }
 }

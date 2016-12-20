@@ -5,8 +5,6 @@ package de.freese.spring.config.dao;
 
 import java.util.List;
 import javax.sql.DataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -24,11 +22,6 @@ public class TestDAO implements ITestDAO// , InitializingBean
      *
      */
     private final JdbcTemplate jdbcTemplate;
-
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Erstellt ein neues {@link TestDAO} Object.

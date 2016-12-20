@@ -118,14 +118,16 @@ public class TestJOOQL
     {
         TPerson tPerson = TPerson.T_PERSON;
 
-        Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee"));
-        // System.out.println(select.getSQL(ParamType.INDEXED));
-        Result<TPersonRecord> result = select.fetch();
+        try (Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee")))
+        {
+            // System.out.println(select.getSQL(ParamType.INDEXED));
+            Result<TPersonRecord> result = select.fetch();
 
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.size() >= 1);
-        Assert.assertEquals(1L, result.get(0).getMyId().longValue());
-        // Assert.assertEquals(1L, result.get(0).getValue(tPerson.MY_ID).longValue());
+            Assert.assertNotNull(result);
+            Assert.assertTrue(result.size() >= 1);
+            Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+            // Assert.assertEquals(1L, result.get(0).getValue(tPerson.MY_ID).longValue());
+        }
     }
 
     /**
@@ -136,14 +138,16 @@ public class TestJOOQL
     {
         TPerson tPerson = TPerson.T_PERSON;
 
-        Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee"));
-        String sql = select.getSQL(ParamType.INLINED); // StaticStatement
+        try (Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee")))
+        {
+            String sql = select.getSQL(ParamType.INLINED); // StaticStatement
 
-        List<de.freese.querydsl.TPerson> springResult = JDBC_TEMPLATE.query(sql, new PersonRowMapper());
+            List<de.freese.querydsl.TPerson> springResult = JDBC_TEMPLATE.query(sql, new PersonRowMapper());
 
-        Assert.assertNotNull(springResult);
-        Assert.assertTrue(springResult.size() >= 1);
-        Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+            Assert.assertNotNull(springResult);
+            Assert.assertTrue(springResult.size() >= 1);
+            Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+        }
     }
 
     /**
@@ -154,11 +158,13 @@ public class TestJOOQL
     {
         TPerson tPerson = TPerson.T_PERSON;
 
-        Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.MY_ID.equal(1L));
-        TPersonRecord result = select.fetchOne();
+        try (Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.MY_ID.equal(1L)))
+        {
+            TPersonRecord result = select.fetchOne();
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1L, result.getMyId().longValue());
+            Assert.assertNotNull(result);
+            Assert.assertEquals(1L, result.getMyId().longValue());
+        }
     }
 
     /**
@@ -169,14 +175,16 @@ public class TestJOOQL
     {
         TPerson tPerson = TPerson.T_PERSON;
 
-        Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.MY_ID.equal(1L));
-        String sql = select.getSQL(ParamType.INDEXED); // PreparedStatement
+        try (Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.MY_ID.equal(1L)))
+        {
+            String sql = select.getSQL(ParamType.INDEXED); // PreparedStatement
 
-        List<de.freese.querydsl.TPerson> springResult = JDBC_TEMPLATE.query(sql, new PersonRowMapper(), 1L);
+            List<de.freese.querydsl.TPerson> springResult = JDBC_TEMPLATE.query(sql, new PersonRowMapper(), 1L);
 
-        Assert.assertNotNull(springResult);
-        Assert.assertTrue(springResult.size() >= 1);
-        Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+            Assert.assertNotNull(springResult);
+            Assert.assertTrue(springResult.size() >= 1);
+            Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+        }
     }
 
     /**
@@ -187,14 +195,16 @@ public class TestJOOQL
     {
         TPerson tPerson = TPerson.T_PERSON;
 
-        Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee"));
-        ResultSet resultSet = select.fetchResultSet();
+        try (Select<TPersonRecord> select = DSL_CONTEXT.selectFrom(tPerson).where(tPerson.NAME.contains("ee"));
+             ResultSet resultSet = select.fetchResultSet())
+        {
 
-        ResultSetExtractor<List<de.freese.querydsl.TPerson>> resultSetExtractor = new RowMapperResultSetExtractor<>(new PersonRowMapper());
-        List<de.freese.querydsl.TPerson> result = resultSetExtractor.extractData(resultSet);
+            ResultSetExtractor<List<de.freese.querydsl.TPerson>> resultSetExtractor = new RowMapperResultSetExtractor<>(new PersonRowMapper());
+            List<de.freese.querydsl.TPerson> result = resultSetExtractor.extractData(resultSet);
 
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.size() >= 1);
-        Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+            Assert.assertNotNull(result);
+            Assert.assertTrue(result.size() >= 1);
+            Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+        }
     }
 }

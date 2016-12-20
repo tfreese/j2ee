@@ -230,14 +230,16 @@ public class TestQueryDSL
         QTPerson p = QTPerson.tPerson;
 
         SQLQuery<TPerson> query = QUERY_FACTORY.select(p).from(p).where(p.name.contains("ee"));
-        ResultSet resultSet = query.getResults();
+
         // ResultSet resultSet = query.clone(DATA_SOURCE.getConnection()).getResults(p);
+        try (ResultSet resultSet = query.getResults())
+        {
+            ResultSetExtractor<List<TPerson>> resultSetExtractor = new RowMapperResultSetExtractor<>(new PersonRowMapper());
+            List<TPerson> result = resultSetExtractor.extractData(resultSet);
 
-        ResultSetExtractor<List<TPerson>> resultSetExtractor = new RowMapperResultSetExtractor<>(new PersonRowMapper());
-        List<TPerson> result = resultSetExtractor.extractData(resultSet);
-
-        Assert.assertNotNull(result);
-        Assert.assertTrue(result.size() >= 1);
-        Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+            Assert.assertNotNull(result);
+            Assert.assertTrue(result.size() >= 1);
+            Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+        }
     }
 }
