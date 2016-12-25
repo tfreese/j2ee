@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.freese.wildfly</groupId>
-        <artifactId>ejb-remote</artifactId>
+        <groupId>de.freese.j2ee.wildfly</groupId>
+        <artifactId>wildfly-ejb-remote</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ejb-remote-server</artifactId>
+    <artifactId>wildfly-ejb-remote-server</artifactId>
     <packaging>ejb</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>

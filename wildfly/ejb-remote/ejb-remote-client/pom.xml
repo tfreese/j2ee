@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.freese.wildfly</groupId>
-        <artifactId>ejb-remote</artifactId>
+        <groupId>de.freese.j2ee.wildfly</groupId>
+        <artifactId>wildfly-ejb-remote</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ejb-remote-client</artifactId>
+    <artifactId>wildfly-ejb-remote-client</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
@@ -99,8 +99,8 @@
     <dependencies>
         <!-- We depend on the EJB remote business interfaces  of this application -->
         <dependency>
-            <groupId>de.freese.wildfly</groupId>
-            <artifactId>ejb-remote-server</artifactId>
+            <groupId>de.freese.j2ee.wildfly</groupId>
+            <artifactId>wildfly-ejb-remote-server</artifactId>
             <type>ejb-client</type>
             <version>${project.version}</version>
         </dependency>
