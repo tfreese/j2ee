@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.freese.wildfly</groupId>
-        <artifactId>wildfly-parent</artifactId>
+        <groupId>de.freese.j2ee.wildfly</groupId>
+        <artifactId>wildfly</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ejbspring</artifactId>
+    <artifactId>wildfly-ejbspring</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>

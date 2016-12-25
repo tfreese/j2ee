@@ -4,11 +4,12 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>j2ee</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>agentportal-parent</artifactId>
+    <groupId>de.freese.j2ee.agentportal</groupId>
+    <artifactId>agentportal</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>

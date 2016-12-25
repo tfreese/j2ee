@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.freese.j2ee</groupId>
-		<artifactId>agentportal-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>de.freese.j2ee.agentportal</groupId>
+        <artifactId>agentportal</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>agentportal-common</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>agentportal-common</artifactId>
+    <packaging>jar</packaging>
 
-	<name>${project.groupId} - ${project.artifactId}</name>
-	<description>Demo für J2EE (Common-Modul).</description>
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für J2EE (Common-Modul).</description>
 
-	<dependencies>
+    <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->
         <!-- provided scope -->
@@ -30,5 +30,5 @@
         </dependency>
 
         <!-- test scope -->
-	</dependencies>
+    </dependencies>
 </project>

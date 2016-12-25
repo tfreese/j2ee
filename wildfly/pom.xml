@@ -5,12 +5,12 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>j2ee</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>de.freese.wildfly</groupId>
-    <artifactId>wildfly-parent</artifactId>
+    <groupId>de.freese.j2ee.wildfly</groupId>
+    <artifactId>wildfly</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>

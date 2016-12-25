@@ -6,11 +6,12 @@
 
     <parent>
         <groupId>de.freese.j2ee</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>j2ee</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-parent</artifactId>
+    <groupId>de.freese.j2ee.spring</groupId>
+    <artifactId>spring</artifactId>
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
@@ -23,6 +24,7 @@
         <module>spring-client</module>
         <module>spring-config</module>
         <module>spring-integration</module>
+        <module>spring-boot-web</module>
     </modules>
 
     <dependencies>
