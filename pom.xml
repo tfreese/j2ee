@@ -105,11 +105,11 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${version:javax.servlet:javax.servlet-api}</version>
             </dependency>
-            <dependency>
+            <!--dependency>
                 <groupId>javax.transaction</groupId>
                 <artifactId>jta</artifactId>
                 <version>${version:javax.transaction:jta}</version>
-            </dependency>
+            </dependency-->
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
