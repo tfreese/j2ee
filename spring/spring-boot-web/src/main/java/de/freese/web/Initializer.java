@@ -26,15 +26,18 @@ public class Initializer implements ServletContextInitializer
     @Override
     public void onStartup(final ServletContext sc) throws ServletException
     {
-        // sc.setInitParameter("com.sun.faces.forceLoadConfiguration", "TRUE");
+        sc.setInitParameter("javax.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
+        sc.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", "true");
         sc.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
         sc.setInitParameter("javax.faces.STATE_SAVING_METHOD", "server");
-        sc.setInitParameter("com.sun.faces.compressViewState", "true");
-        sc.setInitParameter("org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES", "false");
-        sc.setInitParameter("javax.faces.FACELETS_SKIP_COMMENTS", "true");
         sc.setInitParameter("javax.faces.VALIDATE_EMPTY_FIELDS", "true");
+ 
+        sc.setInitParameter("com.sun.faces.compressViewState", "true");
         sc.setInitParameter("com.sun.faces.enableMissingResourceLibraryDetection", "true");
-        sc.setInitParameter("javax.faces.CONFIG_FILES", "/WEB-INF/faces-config.xml");
+        //sc.setInitParameter("com.sun.faces.forceLoadConfiguration", "TRUE"); // Damit JSF ohne web.xml funktioniert.
+ 
+        sc.setInitParameter("org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES", "false");
+ 
         sc.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
         sc.setInitParameter("primefaces.THEME", "aristo");
     }

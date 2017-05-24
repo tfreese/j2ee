@@ -111,13 +111,20 @@
             <artifactId>javaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <!-- Verhindert Fehlermeldungen wie "JSP-Version des Containers ist Älter als ..." -->
+        
+        <!-- Verhindert Fehlermeldungen wie "JSP-Version des Containers ist Älter als ..." -->
+        <dependency>            
             <groupId>org.glassfish.web</groupId>
             <artifactId>el-impl</artifactId>
             <version>2.2</version>
             <scope>provided</scope>
         </dependency>
+        <!--dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>${version:org.apache.tomcat:tomcat}</version>
+            <scope>provided</scope>
+        </dependency-->        
         <!-- test scope -->
     </dependencies>
 
