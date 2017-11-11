@@ -6,13 +6,13 @@ package de.freese.wildfly.ejbspring.facade;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import de.freese.wildfly.ejbspring.IMoneyTransferRequest;
 import de.freese.wildfly.ejbspring.IMoneyTransferResponse;
 import de.freese.wildfly.ejbspring.MoneyTransferResponse;
 import de.freese.wildfly.ejbspring.service.IMoneyTransferService;
 import de.freese.wildfly.ejbspring.service.SpringMoneyTransferService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * EJB-Servicefacade zum Geldtransfer mit Spring-Service.
@@ -28,7 +28,7 @@ public class EJBMoneyTransferFacadeSLSB implements IMoneyTransferFacade
     /**
      *
      */
-    //@Resource(name = "springMoneyTransferService")
+    // @Resource(name = "springMoneyTransferService")
     @Autowired
     private SpringMoneyTransferService springMoneyService;
 

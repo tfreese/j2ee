@@ -58,6 +58,24 @@ public class TPersonRecord extends UpdatableRecordImpl<TPersonRecord> implements
         set(2, vorname);
     }
 
+    @Override
+    public Long component1()
+    {
+        return value1();
+    }
+
+    @Override
+    public String component2()
+    {
+        return value2();
+    }
+
+    @Override
+    public String component3()
+    {
+        return value3();
+    }
+
     /**
      * {@inheritDoc}
      */
