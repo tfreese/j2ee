@@ -32,12 +32,10 @@
 
     <modules>
         <module>agentportal</module>
-        <module>cdi-weld</module>
         <module>cloudsessions</module>
         <module>j2ee-demo</module>
         <module>j2ee-embedded</module>
         <module>jpa</module>
-        <module>ldap2jdbc</module>
         <module>spring</module>
         <module>wildfly</module>
     </modules>
@@ -185,11 +183,6 @@
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${version:org.hsqldb:hsqldb}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld.se</groupId>
-                <artifactId>weld-se</artifactId>
-                <version>${version:org.jboss.weld.se:weld-se}</version>
             </dependency>
             <dependency>
                 <groupId>org.jooq</groupId>
