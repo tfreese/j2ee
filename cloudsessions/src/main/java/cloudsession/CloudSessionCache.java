@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class CloudSessionCache implements ICloudSession
+public class CloudSessionCache implements CloudSession
 {
     /**
      *
@@ -25,7 +25,7 @@ public class CloudSessionCache implements ICloudSession
     /**
      *
      */
-    private final ICloudSession cs;
+    private final CloudSession cs;
 
     /**
      *
@@ -45,10 +45,10 @@ public class CloudSessionCache implements ICloudSession
     /**
      * Erstellt ein neues {@link CloudSessionCache} Object.
      *
-     * @param cs {@link ICloudSession}
+     * @param cs {@link CloudSession}
      * @param sessionLivetimeInSecs int
      */
-    public CloudSessionCache(final ICloudSession cs, final int sessionLivetimeInSecs)
+    public CloudSessionCache(final CloudSession cs, final int sessionLivetimeInSecs)
     {
         super();
 
@@ -96,7 +96,7 @@ public class CloudSessionCache implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#getSessionValue(java.lang.String, java.lang.String)
+     * @see cloudsession.CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
     public Object getSessionValue(final String sessionID, final String name)
@@ -131,7 +131,7 @@ public class CloudSessionCache implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#remove(java.lang.String)
+     * @see cloudsession.CloudSession#remove(java.lang.String)
      */
     @Override
     public void remove(final String sessionID)
@@ -161,7 +161,7 @@ public class CloudSessionCache implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
+     * @see cloudsession.CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
      */
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)

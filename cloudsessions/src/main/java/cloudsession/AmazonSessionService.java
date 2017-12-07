@@ -1,10 +1,12 @@
 package cloudsession;
 
+import java.io.IOException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClientBuilder;
 import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.BatchDeleteAttributesRequest;
 import com.amazonaws.services.simpledb.model.BatchPutAttributesRequest;
@@ -13,13 +15,12 @@ import com.amazonaws.services.simpledb.model.GetAttributesRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesResult;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
-import java.io.IOException;
-import util.XmlSerializer;
+import util.ObjectSerializer;
 
 /**
  * @author Thomas Freese
  */
-public class AmazonSessionService implements ICloudSession
+public class AmazonSessionService implements CloudSession
 {
     /**
      *
@@ -42,32 +43,30 @@ public class AmazonSessionService implements ICloudSession
 
         try
         {
-            credentials = new PropertiesCredentials(getClass().getClassLoader().getResourceAsStream(
-                    "AwsCredentials.properties"));
+            credentials = new PropertiesCredentials(getClass().getClassLoader().getResourceAsStream("AwsCredentials.properties"));
         }
         catch (IOException ex)
         {
             throw new AmazonServiceException(ex.getMessage());
         }
 
-        this.amazonClient = new AmazonSimpleDBClient(credentials);
+        // this.amazonClient = new AmazonSimpleDBClient(credentials);
+        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
     }
 
     /**
-     * @see cloudsession.ICloudSession#getSessionValue(java.lang.String, java.lang.String)
+     * @see cloudsession.CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
     public Object getSessionValue(final String sessionID, final String name)
     {
-        GetAttributesResult gar
-                = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN)
-                        .withItemName(sessionID));
+        GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
         for (Attribute a : gar.getAttributes())
         {
             if (a.getName().equals(name))
             {
-                return XmlSerializer.fromXML(a.getValue());
+                return ObjectSerializer.fromJSON(a.getValue());
             }
         }
 
@@ -75,27 +74,24 @@ public class AmazonSessionService implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#remove(java.lang.String)
+     * @see cloudsession.CloudSession#remove(java.lang.String)
      */
     @Override
     public void remove(final String sessionID)
     {
-        this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(
-                SESSIONS_DOMAIN).withItems(new DeletableItem().withName(sessionID)));
+        this.amazonClient
+                .batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(new DeletableItem().withName(sessionID)));
     }
 
     /**
-     * @see cloudsession.ICloudSession#setSessionValue(java.lang.String, java.lang.String,
-     * java.lang.Object)
+     * @see cloudsession.CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
      */
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)
     {
-        ReplaceableAttribute replAttr
-                = new ReplaceableAttribute().withName(name).withValue(XmlSerializer.toXML(value))
-                .withReplace(Boolean.TRUE);
+        ReplaceableAttribute replAttr = new ReplaceableAttribute().withName(name).withValue(ObjectSerializer.toJSON(value)).withReplace(Boolean.TRUE);
 
-        this.amazonClient.batchPutAttributes(new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN)
-                .withItems(new ReplaceableItem().withName(sessionID).withAttributes(replAttr)));
+        this.amazonClient.batchPutAttributes(
+                new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(new ReplaceableItem().withName(sessionID).withAttributes(replAttr)));
     }
 }

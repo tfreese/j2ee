@@ -86,12 +86,12 @@
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
-                <version>${version:javax:javaee-web-api}</version>
+                <version>${version:javax:javaee-api}</version>
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-web-api</artifactId>
-                <version>${version:javax:javaee-web-api}</version>
+                <version>${version:javax:javaee-api}</version>
             </dependency>
             <dependency>
                 <groupId>javax.persistence</groupId>

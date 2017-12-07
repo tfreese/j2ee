@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
  * 
  * @author Thomas Freese
  */
-public interface ICloudSession
+public interface CloudSession
 {
 	/**
 	 * @param sessionID String

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import cloudsession.CloudSession;
 import cloudsession.CloudSessionCache;
-import cloudsession.ICloudSession;
 import cloudsession.LocalSessionService;
 
 /**
@@ -46,7 +46,7 @@ public class NonStickySessionTest extends HttpServlet
     /**
      *
      */
-    private final ICloudSession cloudSession;
+    private final CloudSession cloudSession;
 
     /**
      *
@@ -60,8 +60,8 @@ public class NonStickySessionTest extends HttpServlet
     {
         super();
 
-        // ICloudSession cs = new AmazonSessionService();
-        ICloudSession cs = new LocalSessionService();
+        // CloudSession cs = new AmazonSessionService();
+        CloudSession cs = new LocalSessionService();
         this.cloudSession = new CloudSessionCache(cs, CloudSessionCache.DEFAULT_LIVE_TIME);
     }
 

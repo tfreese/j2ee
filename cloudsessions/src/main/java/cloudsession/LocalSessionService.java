@@ -9,12 +9,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
 import java.util.Properties;
-import util.XmlSerializer;
+import util.ObjectSerializer;
 
 /**
  * @author Thomas Freese
  */
-public class LocalSessionService implements ICloudSession
+public class LocalSessionService implements CloudSession
 {
     /**
      *
@@ -69,16 +69,16 @@ public class LocalSessionService implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#getSessionValue(java.lang.String, java.lang.String)
+     * @see cloudsession.CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
     public Object getSessionValue(final String sessionID, final String name)
     {
-        return XmlSerializer.fromXML(getProps().getProperty(getPropsKey(sessionID, name)));
+        return ObjectSerializer.fromJSON(getProps().getProperty(getPropsKey(sessionID, name)));
     }
 
     /**
-     * @see cloudsession.ICloudSession#remove(java.lang.String)
+     * @see cloudsession.CloudSession#remove(java.lang.String)
      */
     @Override
     public void remove(final String sessionID)
@@ -112,14 +112,14 @@ public class LocalSessionService implements ICloudSession
     }
 
     /**
-     * @see cloudsession.ICloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
+     * @see cloudsession.CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
      */
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)
     {
         Properties props = getProps();
         removeOldProps(props);
-        props.put(getPropsKey(sessionID, name), XmlSerializer.toXML(value));
+        props.put(getPropsKey(sessionID, name), ObjectSerializer.toJSON(value));
         storeProps(props);
     }
 
