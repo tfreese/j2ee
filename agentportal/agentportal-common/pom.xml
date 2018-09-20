@@ -26,8 +26,8 @@
         <!-- provided scope -->
         <dependency>
             <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>${version:javax.persistence:persistence-api}</version>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>${version:javax.persistence:javax.persistence-api}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
