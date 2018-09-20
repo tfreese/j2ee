@@ -1,0 +1,48 @@
+# memory settings
+-Xms128m
+-Xmx512m
+
+# Uncomment the following line to enable verbose garbage collection.
+#-verbose:gc
+#-Xverbosegclog:logs/verbosegc_%y.%m.%d_%H.%M.%S.0.log
+
+# Uncomment the following line to enable verbose output for class loading
+#-verbose:class
+
+# Specify an alternate verbose garbage collection log on IBM Java Virtual Machines only.
+# Xdump options (use kill -3 to create some dumps)
+#-Xdump:java+heap+system:events=user
+
+# debug
+#-XshowSettings:all
+
+# security variables
+#-Dcom.ibm.crypto.provider.doAESInHardware=true
+#-Dcom.ibm.jsse2.disableSSLv3=true
+#-Dcom.ibm.crypto.provider.AESNITrace=true
+#-Dcom.ibm.jsse2.sp800-131=transition
+
+# java tempdir
+#-Djava.io.tmpdir=/appl/webappl/star/java.io.tmpdir
+
+
+# Remote debugging
+-Dwas.debug.mode=true
+-Dcom.ibm.websphere.ras.inject.at.transform=true
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777
+
+-Duser.language=de
+-Duser.region=DE
+
+# Specify additional verbose garbage collection options on HotSpot Java Virtual Machines only.
+#-XX:+PrintGCDetails
+#-XX:+PrintGCTimeStamps
+#-XX:+PrintHeapAtGC
+
+# Encoding
+-Ddefault.client.encoding=UTF-8
+-Dfile.encoding=UTF-8
+
+# debug Connection Settings
+#-Djavax.net.debug=all
+

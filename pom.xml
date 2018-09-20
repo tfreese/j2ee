@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
+    <groupId>de.freese.j2ee</groupId>
+    <artifactId>j2ee</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Alles was mit J2EE Technologien zu tun hat.</description>
+    <url>https://github.com/tfreese/j2ee</url>
+    <inceptionYear>2011</inceptionYear>
+
+    <organization>
+        <name>Thomas Freese</name>
+        <url>https://github.com/tfreese/j2ee</url>
+    </organization>
+
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
+    </scm>
+
+    <modules>
+        <module>agentportal</module>
+        <module>cloudsessions</module>
+        <module>j2ee-demo</module>
+        <module>jpa</module>
+        <module>wildfly</module>
+        <module>liberty</module>
+    </modules>
+
+    <dependencies>
+        <!-- compile scope -->
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+        <!--dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version:junit:junit}</version>
+            <scope>test</scope>
+        </dependency-->
+    </dependencies>
+
+</project>

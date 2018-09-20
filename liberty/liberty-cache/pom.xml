@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.j2ee.liberty</groupId>
+		<artifactId>liberty</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>liberty-cache</artifactId>
+	<packaging>war</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Demo für DynaCache in WLP</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/libs</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<stripVersion>false</stripVersion>
+							<includeScope>compile</includeScope>
+							<includeScope>runtime</includeScope>
+							<skip>false</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warName>${project.artifactId}</warName>
+					<packagingExcludes>pom.xml, WEB-INF/lib/*.jar</packagingExcludes>
+					<!--webResources>
+						<resource>
+							<directory>${basedir}/config</directory>
+							<targetPath>WEB-INF/classes</targetPath>
+							<includes>
+								<include>hazelcast.xml</include>
+							</includes>
+						</resource>
+					</webResources-->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- compile scope -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version:ch.qos.logback:logback}</version>
+        </dependency>		
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast-all</artifactId>
+			<version>${version:com.hazelcast:hazelcast}</version>
+		</dependency>
+
+		<!-- runtime scope -->
+		<!-- provided scope -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${version:javax:javaee-api}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.wasdev.maven.tools.targets</groupId>
+			<artifactId>liberty-apis</artifactId>
+			<version>${version:io.openliberty:openliberty-runtime}</version>
+			<scope>provided</scope>
+			<type>pom</type>
+		</dependency>
+
+		<!-- test scope -->
+	</dependencies>
+
+</project>

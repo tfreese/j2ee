@@ -1,0 +1,88 @@
+# ==============================================================================
+# Aufruf unter Linux mit: jboss-cli.sh --file=jBossConfigure.cli
+# ==============================================================================
+
+connect
+
+# ==============================================================================
+# Logging
+# ==============================================================================
+/subsystem=logging/console-handler=MY:add
+/subsystem=logging/console-handler=MY:write-attribute(name=level,value=ALL)
+/subsystem=logging/console-handler=MY:write-attribute(name=autoflush,value=true)
+/subsystem=logging/console-handler=MY:write-attribute(name=formatter,value="%d{HH:mm:ss,SSS} %-5p [%c.%M] %s%n")
+/subsystem=logging/logger=my:add
+/subsystem=logging/logger=my:write-attribute(name=level,value=DEBUG)
+/subsystem=logging/logger=my:write-attribute(name=use-parent-handlers,value=false)
+/subsystem=logging/logger=my:add-handler(name=MY)
+
+# ==============================================================================
+# Konfiguration der Datenbank-Anbindungen
+# ==============================================================================
+# ------------------------------------------------------------------------------
+# HSQLDB
+# ------------------------------------------------------------------------------
+module add \
+	--name=org.hsqldb \
+	--resources=/appl/jboss/deployments/hsqldb-2.3.2.jar \
+	--dependencies=javax.api,javax.transaction.api,javax.servlet.api
+
+/subsystem=datasources/jdbc-driver=hsqldb:add( \
+	driver-module-name=org.hsqldb, \
+	driver-name=hsqldb, \
+	driver-class-name=org.hsqldb.jdbc.JDBCDriver)
+
+/subsystem=datasources/data-source=MyHsqldbDS:add( \
+	driver-name="hsqldb", \
+	connection-url="jdbc:hsqldb:hsql://localhost:1527/mydb", \
+	jndi-name="java:/jdbc/MyHsqldbDS", \
+	use-java-context=true, \
+	user-name="sa", \
+	password="sa")
+
+# ------------------------------------------------------------------------------
+# MySQL
+# ------------------------------------------------------------------------------
+module add \
+	--name=mysql \
+	--resources=/appl/jboss/deployments/mysql-connector-java-5.1.35.jar \
+	--dependencies=javax.api,javax.transaction.api,javax.servlet.api
+
+/subsystem=datasources/jdbc-driver=mysql:add( \
+	driver-module-name=mysql, \
+	driver-name=mysql, \
+	driver-class-name=com.mysql.jdbc.Driver)
+
+/subsystem=datasources/data-source=MySqlDS:add( \
+	driver-name="mysql", \
+	connection-url="jdbc:mysql://localhost:3306/kontakte", \
+	jndi-name="java:/jdbc/MySqlDS", \
+	user-name="kontakte", \
+	password="kontakte")
+
+# ------------------------------------------------------------------------------
+# Oracle
+# ------------------------------------------------------------------------------
+module add \
+	--name=com.oracle \
+	--resources=/appl/jboss/deployments/ojdbc6-11.2.0.4.jar \
+	--dependencies=javax.api,javax.transaction.api,javax.servlet.api
+
+/subsystem=datasources/jdbc-driver=oracle:add( \
+	driver-module-name=com.oracle, \
+	driver-name=oracle, \
+	driver-class-name=oracle.jdbc.OracleDriver)
+
+#/subsystem=datasources/data-source=OqpQuSiDS:add( \
+#	driver-name="oracle", \
+#	connection-url="jdbc:oracle:thin:@HOST:1560:SERVICE", \
+#	jndi-name="java:/jdbc/SERVICE", \
+#	user-name="USER", \
+#	password="PSW")
+
+# ==============================================================================
+# Restarbeiten
+# ==============================================================================
+reload
+
+quit

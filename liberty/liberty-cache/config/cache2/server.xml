@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<server description="Liberty DynaCache-Konfiguration">
+
+	<featureManager>
+		<feature>concurrent-1.0</feature>
+		<feature>distributedMap-1.0</feature>
+		<feature>ejb-3.2</feature>
+		<feature>jaxrs-2.0</feature>
+		<feature>jndi-1.0</feature>
+		<!--feature>usr:hazelcast-dynacache</feature-->
+	</featureManager>
+	
+
+	<variable name="APPL_NAME" value="cache_demo2" />
+	<variable name="HTTP_PORT" value="9092" />
+	<variable name="HTTPS_PORT" value="9492" />	
+	
+	<library id="applicationLib">
+		<fileset dir="${server.config.dir}/apps_libs" includes="*.*" />
+		<folder dir="${server.config.dir}/apps_resources" />
+	</library>
+	
+	<logging consoleLogLevel="INFO" maxFileSize="50" maxFiles="10" traceFormat="ADVANCED" />
+
+	<!-- cacheProviderName="hazelcast-dynacache" -->
+	<distributedMap id="cache/test" jndiName="cache/test" memorySizeInEntries="1000" />
+
+	<httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${HTTP_PORT}" httpsPort="${HTTPS_PORT}">
+		<tcpOptions soReuseAddr="true" />
+	</httpEndpoint>
+
+	<webApplication id="${APPL_NAME}" name="${APPL_NAME}" location="liberty-cache.war" contextRoot="cache">
+		<classloader commonLibraryRef="applicationLib" />
+	</webApplication>
+
+</server>

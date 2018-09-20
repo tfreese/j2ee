@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese.j2ee.liberty</groupId>
+        <artifactId>liberty</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>liberty-config</artifactId>
+    <packaging>war</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für Liberty-Konfiguration</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>compile</includeScope>
+                            <includeScope>runtime</includeScope>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <packagingExcludes>pom.xml</packagingExcludes>
+                    <warName>${project.artifactId}</warName>
+                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <!--skinnyWars>true</skinnyWars --><!-- funktioniert nicht -->
+                    <!--packagingExcludes>WEB-INF/lib/hsqldb-*.jar</packagingExcludes -->
+                    <!--dependentWarExcludes>**/images</dependentWarExcludes -->
+
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/config/javaee</directory>
+                            <targetPath>META-INF</targetPath>
+                            <includes>
+                                <include>ejb-jar.xml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>${basedir}/config/javaee</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>beans.xml</include>
+                            </includes>
+                        </resource>                        
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <configuration>
+                    <assemblyArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>${version:io.openlibertyopenliberty-runtime}</version>
+                        <type>zip</type>
+                    </assemblyArtifact>
+                    <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
+                    <serverName>demo</serverName>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>stop-server-before-clean</id>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>stop-server</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-server</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <!--goal>install-server</goal -->
+                            <goal>create-server</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version:ch.qos.logback:logback}</version>
+        </dependency>
+
+        <!-- runtime scope -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${version:org.hsqldb:hsqldb}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- provided scope -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${version:javax:javaee-api}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- test scope -->
+    </dependencies>
+</project>

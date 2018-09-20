@@ -1,0 +1,70 @@
+<build>
+		<pluginManagement>
+			<plugins>
+				<!-- https://github.com/WASdev/ci.maven -->
+				<!-- liberty:start-server; liberty:run-server; liberty:create-server -->
+				<plugin>
+					<groupId>net.wasdev.wlp.maven.plugins</groupId>
+					<artifactId>liberty-maven-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<!-- Artefakt welches den Server enthält -->
+						<assemblyArtifact>
+							<groupId>io.openliberty</groupId>
+							<artifactId>openliberty-runtime</artifactId>
+							<version>18.0.0.1</version>
+							<type>zip</type>
+						</assemblyArtifact>
+						<assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
+						<serverName>${project.artifactId}</serverName>
+						<stripVersion>true</stripVersion>
+						<appsDirectory>apps</appsDirectory>
+
+						<!--serverHome>${java.io.tmpdir}/wlp</serverHome -->
+						<!--outputDirectory>${java.io.tmpdir}/wlp</outputDirectory -->
+						<!--assemblyArchive>/opt/ibm/wlp.zip</assemblyArchive --> <!-- Zu entpackendes ZIP -->
+						<!--installDirectory>${java.io.tmpdir}/wlp</installDirectory --> <!-- Bestehende Installation -->
+						<!--configDirectory>${basedir}/src/main/liberty/config/</configDirectory -->
+						<configDirectory>${liberty.configDirectory}</configDirectory>
+						<!--configFile>${basedir}/server.xml</configFile -->
+						<!--packageFile>${package.file}</packageFile>
+							<include>${packaging.type}</include -->
+						<bootstrapProperties>
+							<!--httpPort>8080</httpPort>
+							<default.http.port>9080</default.http.port>
+							<default.https.port>9443</default.https.port>
+							<app.context.root>${warContext}</app.context.root-->
+							<build.directory>${project.build.directory}</build.directory>
+						</bootstrapProperties>
+						<jvmOptions>
+							<param>-Xmx256m</param>
+						</jvmOptions>
+					</configuration>
+					<!--executions>
+						<execution>
+							<id>create-server</id>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>install-server</goal>
+								<goal>create-server</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>test-start-server</id>
+							<phase>pre-integration-test</phase>
+							<goals>
+								<goal>test-start-server</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>test-stop-server</id>
+							<phase>post-integration-test</phase>
+							<goals>
+								<goal>test-stop-server</goal>
+							</goals>
+						</execution>
+					</executions-->
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>

@@ -1,0 +1,5 @@
+-Dhazelcast.osgi.start=true
+-Dhazelcast.client.config=/opt/ibm-wlp/usr/servers/cache1/apps_resources/hazelcast.xml
+
+
+#-Dhazelcast.client.config=${server.config.dir}/apps_resources/hazelcast.xml

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.freese.j2ee</groupId>
+		<artifactId>j2ee</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>de.freese.j2ee.wildfly</groupId>
+	<artifactId>wildfly</artifactId>
+	<packaging>pom</packaging>
+
+	<name>${project.groupId} - ${project.artifactId}</name>
+	<description>Parent der Wildfly Demos</description>
+	<url>>https://github.com/wildfly/quickstart</url>
+	<!-- https://github.com/heckenmann/arquillian-wildfly-embedded -->
+	<!-- https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
+	<!-- http://www.javacodegeeks.com/2014/06/java-ee7-and-maven-project-for-newbies-part-5-unit-testing-using-arquillian-wildfly-8.html -->
+	<!-- https://docs.jboss.org/wildfly/plugins/maven/latest/examples/run-example.html -->
+
+	<modules>
+		<module>datasources</module>
+		<module>ejb-in-cdi</module>
+		<module>servlet-secured</module>
+		<module>servlet-async</module>
+		<!--module>ejbspring</module -->
+		<module>ejb-remote</module>
+	</modules>
+
+	<properties>
+		<version:org.wildfly:wildfly-dist>14.0.1.Final</version:org.wildfly:wildfly-dist>
+		<version:org.wildfly:wildfly-ejb-client-bom>${version:org.wildfly:wildfly-dist}</version:org.wildfly:wildfly-ejb-client-bom>
+		<version:org.wildfly.bom:wildfly-javaee8-with-tools>${version:org.wildfly:wildfly-dist}</version:org.wildfly.bom:wildfly-javaee8-with-tools>
+
+		<version:org.wildfly.plugins:wildfly-maven-plugin>1.2.2.Final</version:org.wildfly.plugins:wildfly-maven-plugin>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>${version:org.wildfly.plugins:wildfly-maven-plugin}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
+				<configuration>
+					<skip>false</skip>
+					<filesets>
+						<fileset>
+							<directory>${java.io.tmpdir}/wildfly-${version:org.wildfly:wildfly-dist}</directory>
+							<!--includes>
+								<include>**/*</include>
+								</includes -->
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<!--jvm>/opt/jdk-1.8/bin/java</jvm -->
+					<!-- ${jdkHome} siehe toolchains.xml, JAVA_HOME=/opt/jdk-1.8 M2_HOME=/opt/maven 
+						/opt/maven/bin/mvn test -->
+					<!-- Fork every test because it will launch a separate AS instance -->
+					<forkCount>4</forkCount>
+					<reuseForks>true</reuseForks>
+					<systemPropertyVariables>
+						<!--java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager -->
+						<!-- ${project.basedir}/target/ -->
+						<jboss.home>${java.io.tmpdir}/wildfly-${version:org.wildfly:wildfly-dist}</jboss.home>
+						<module.path>${java.io.tmpdir}/wildfly-${version:org.wildfly:wildfly-dist}</module.path>
+					</systemPropertyVariables>
+					<redirectTestOutputToFile>false</redirectTestOutputToFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version:javax:javaee-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.wildfly.bom</groupId>
+				<artifactId>wildfly-javaee8-with-tools</artifactId>
+				<version>${version:org.wildfly.bom:wildfly-javaee8-with-tools}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- compile scope -->
+		<!-- runtime scope -->
+		<!-- provided scope -->
+		<!-- test scope -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version:junit:junit}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${version:org.slf4j:slf4j}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>${version:org.slf4j:slf4j}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

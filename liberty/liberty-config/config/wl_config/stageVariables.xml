@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<server description="Stage specific variables">
+
+	<!-- Stage Name for jndiEntry --> 
+	<!-- possible values are dev, int, test, qs, pre, prod -->
+	<variable name="STAGE" value="dev" />
+
+	<!-- deploy folder -->
+	<variable name="DEPLOY_FOLDER" value="appl_dropins" />
+
+    <!-- DB Variables-->
+    <variable name="datasource_url" value="jdbc:hsqldb:mem:liberty" />
+    <variable name="datasource_user" value="sa" />
+    <variable name="datasource_pwd" value="{xor}" />
+    <!--
+		wlp/bin/securityUtility encode					TEXT -> {xor}ENCODED
+		wlp/bin/securityUtility encode --encoding=aes	TEXT -> {aes}ENCODED
+    -->
+
+</server>

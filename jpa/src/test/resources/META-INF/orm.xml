@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+
+    <!-- orm.xml überschreibt Annotations in den Entities -->
+	<!--persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata-->
+
+    <!-- Workaround für Hibernate-Bug: SequenceGeneratoren können über Annotations nicht wiederverwendet werden -->
+    <!-- Workaround nicht mehr notwendig -->
+    
+	<!--sequence-generator name="seq_gen_person" sequence-name="PERSON_SEQ" initial-value="1" allocation-size="10" />
+	<sequence-generator name="seq_gen_address" sequence-name="ADDRESS_SEQ" initial-value="1" allocation-size="10" /-->
+
+</entity-mappings>

@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese.j2ee.agentportal</groupId>
+        <artifactId>agentportal</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>agentportal-server</artifactId>
+    <packaging>war</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Demo für J2EE (Server-Modul).</description>
+
+    <dependencies>
+        <!-- compile scope -->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>agentportal-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- runtime scope -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${version:org.slf4j:slf4j}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- provided scope -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>${version:com.sun.faces:jsf}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${version:javax:javaee-api}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- test scope -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version:junit:junit}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

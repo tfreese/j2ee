@@ -1,0 +1,72 @@
+			<security-realm name="AgentPortalRealm">
+				<authentication>
+					<jaas name="AgentPortalDomain" />
+                </authentication>
+            </security-realm>   
+
+<!-- snip -->
+
+<subsystem xmlns="urn:jboss:domain:datasources:1.0">
+	<datasources>
+		<datasource jndi-name="java:/agentPortalDS" pool-name="agentPortalDS"
+			enabled="true" use-java-context="true" jta="true">
+			<connection-url>jdbc:hsqldb:file:D:/javaDB/hsqldb/agentPortal/agentPortal;create=true
+			</connection-url>
+			<driver>hsqldb</driver>
+			<security>
+				<user-name>sa</user-name>
+				<password></password>
+			</security>
+			<pool>
+				<max-pool-size>1</max-pool-size>
+			</pool>
+		</datasource>
+		<drivers>
+			<driver name="hsqldb" module="org.hsqldb"/> <!-- unter JBOSS/modules/org/hsqldb/main anlegen -->
+		</drivers>
+	</datasources>
+</subsystem>
+
+<!-- snip -->
+
+<subsystem xmlns="urn:jboss:domain:remoting:1.1">
+    <!--connector name="remoting-connector" socket-binding="remoting" security-realm="ApplicationRealm"/-->
+    <connector name="remoting-connector" socket-binding="remoting" security-realm="AgentPortalRealm"/>
+</subsystem>
+
+<!-- snip -->
+
+<subsystem xmlns="urn:jboss:domain:security:1.1">
+	<security-domains>
+		<security-domain name="AgentPortalDomain" cache-type="default">
+			<authentication>
+				<login-module code="Remoting" flag="optional">
+                	<module-option name="password-stacking" value="useFirstPass"/>
+                </login-module>
+				<login-module code="UsersRoles" flag="required">
+					<module-option name="usersProperties" value="${jboss.server.config.dir}/agentportal-users.properties" />
+					<module-option name="rolesProperties" value="${jboss.server.config.dir}/agentportal-roles.properties" />
+					<module-option name="password-stacking" value="useFirstPass"/>
+				</login-module>
+			</authentication>
+		</security-domain>
+	</security-domains>
+</subsystem>
+
+<!-- snip -->
+
+<subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="default-host" native="false">
+	<connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" redirect-port="8443" />
+	<connector name="https" protocol="HTTP/1.1" scheme="https" socket-binding="https" enable-lookups="false" secure="true">
+		<ssl name="https-ssl" password="changeit" protocol="TLSv1" certificate-key-file="${jboss.server.config.dir}/server.keystore" />
+	</connector>
+</subsystem>
+
+<!-- snip -->
+
+<socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+	<socket-binding name="http" port="8080" />
+	<socket-binding name="https" port="8443" />
+</socket-binding-group>
+
+<!-- snip -->

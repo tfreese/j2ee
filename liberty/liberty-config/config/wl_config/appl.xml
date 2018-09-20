@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<server description="Liberty Application-konfiguration">
+
+	<featureManager>
+		<feature>cdi-1.2</feature>
+		<feature>ejb-3.2</feature>
+		<feature>jdbc-4.1</feature>
+		<feature>servlet-3.1</feature>
+
+		<!-- rest -->
+		<feature>jaxrs-2.0</feature>
+		<feature>jsonp-1.0</feature>
+		<!--feature>restConnector-2.0</feature -->
+
+		<!--feature>j2eeManagement-1.1</feature>
+		<feature>javaMail-1.5</feature-->
+
+		<!-- Alles -->
+		<!--feature>javaee-7.0</feature-->
+	</featureManager>
+	<!--
+		<feature>passwordUtilities-1.0</feature>
+		AuthData authData = AuthDataProvider.getAuthData("auth1");
+		String userName = authData.getUserName();
+		char[] password = authData.getPassword();
+	-->
+
+	<!-- Hierfür darf das Passwort nicht leer sein ! -->
+	<!--authData id="authDataHsqlDB" user="${datasource_user}" password="${datasource_pwd}"/ -->
+
+	<!--managedExecutorService jndiName="concurrent/executor">
+		<concurrencyPolicy max="2" maxQueueSize="3"
+		runIfQueueFull="false" maxWaitForEnqueue="0" />
+		</managedExecutorService -->
+
+	<include location="${appl_path}/wl_config/stageVariables.xml"
+		optional="false" />
+	<include location="${appl_path}/wl_config/webApplication.xml"
+		optional="false" />
+	<include location="${appl_path}/wl_config/dataSources.xml"
+		optional="false" />
+	<include location="${appl_path}/wl_config/mq.xml" optional="false" />
+	<include location="${appl_path}/wl_config/jndiEntries.xml"
+		optional="false" />
+	<include location="${appl_path}/wl_config/mail.xml" optional="true" />
+
+</server>

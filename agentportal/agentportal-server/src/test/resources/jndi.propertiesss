@@ -1,0 +1,20 @@
+#This is the minimun requirement to lauch OpenEJB
+java.naming.factory.initial=org.apache.openejb.client.LocalInitialContextFactory
+
+#We want OpenEJB to log everything in debug mode
+log4j.category.OpenEJB.options = debug
+log4j.category.OpenEJB.startup = debug
+log4j.category.OpenEJB.startup.config = debug
+
+#We tell OpenEJB to scan the whole classpath
+openejb.deployments.classpath.include=".*"
+openejb.deployments.classpath.exclude=""
+
+#Definition of the default datasource
+#myDS=new://Resource?type=DataSource
+#myDS.JdbcDriver=org.postgresql.Driver
+#myDS.JdbcUrl=jdbc:postgresql://localhost:5432/openejb3-example
+#myDS.JtaManaged=true
+#myDS.DefaultAutoCommit=true
+#myDS.UserName=postgres
+#myDS.Password=123456
