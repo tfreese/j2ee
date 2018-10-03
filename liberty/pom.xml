@@ -15,13 +15,20 @@
 
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>Parent der Liberty Demos</description>
-
+	
 	<modules>
 		<module>liberty-rest</module>
 		<module>liberty-config</module>
 		<module>liberty-cache</module>
 		<module>liberty-spring</module>
 	</modules>
+	
+	<properties>
+		<version:io.openliberty:openliberty-runtime>18.0.0.3</version:io.openliberty:openliberty-runtime>	
+		<version:net.wasdev.maven.tools.targets:liberty-apis>${version:io.openliberty:openliberty-runtime}</version:net.wasdev.maven.tools.targets:liberty-apis>
+	
+		<version:net.wasdev.wlp.maven.plugins:liberty-maven-plugin>2.6.1</version:net.wasdev.wlp.maven.plugins:liberty-maven-plugin>
+	</properties>	
 
 	<build>
 		<pluginManagement>

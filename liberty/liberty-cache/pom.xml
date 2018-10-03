@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>net.wasdev.maven.tools.targets</groupId>
 			<artifactId>liberty-apis</artifactId>
-			<version>${version:io.openliberty:openliberty-runtime}</version>
+			<version>${version:net.wasdev.maven.tools.targets:liberty-apis}</version>
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
