@@ -21,12 +21,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.QueryHint;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
@@ -76,6 +78,13 @@ public class Person implements Serializable
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
     private List<Address> addresses = new ArrayList<>();
+
+    /**
+     * , columnDefinition="Decimal(10,2) default '100.00'"
+     */
+    @Column(name = "COOL", nullable = true, insertable = true, updatable = true, precision = 1, scale = 0)
+    @ColumnDefault("false")
+    private Boolean cool = null;
 
     /**
      * SequenceGeneratoren wiederzuverwenden über orm.xml
@@ -175,6 +184,18 @@ public class Person implements Serializable
     public int hashCode()
     {
         return Long.valueOf(getID()).hashCode();
+    }
+
+    /**
+     * @PreUpdate
+     */
+    @PrePersist
+    void preInsert()
+    {
+        if (this.cool == null)
+        {
+            this.cool = false;
+        }
     }
 
     /**
