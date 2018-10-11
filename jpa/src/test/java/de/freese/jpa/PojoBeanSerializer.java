@@ -76,10 +76,6 @@ public class PojoBeanSerializer implements Serializer
      * @param customValues {@link Map}
      * @return {@link Annotation}
      */
-    @SuppressWarnings(
-    {
-            "restriction", "unchecked"
-    })
     protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType, final Map<String, Object> customValues)
     {
         Map<String, Object> values = new HashMap<>();

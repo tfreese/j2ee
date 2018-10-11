@@ -22,8 +22,6 @@
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
         <warContext>${project.artifactId}</warContext>
-        
-        <version.java>1.8</version.java>
     </properties>
 
     <build>
@@ -124,6 +122,11 @@
             <version>${version:javax:javaee-api}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${version:javax.xml.bind:jaxb-api}</version>
+        </dependency>	        
 
         <!-- test scope -->
 		<!--dependency>

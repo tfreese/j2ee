@@ -22,7 +22,7 @@ public class RESTClient
      * @param oid long
      * @throws Exception Falls was schief geht.
      */
-    private static void delete(final long oid) throws Exception
+    static void delete(final long oid) throws Exception
     {
         System.err.println("RESTClient.delete()");
 
@@ -46,7 +46,7 @@ public class RESTClient
      * @param vorname String
      * @throws Exception Falls was schief geht.
      */
-    private static void insert(final String name, final String vorname) throws Exception
+    static void insert(final String name, final String vorname) throws Exception
     {
         System.err.println("RESTClient.insert()");
 
@@ -84,7 +84,7 @@ public class RESTClient
     /**
      * @throws Exception Falls was schief geht.
      */
-    private static void selectAll() throws Exception
+    static void selectAll() throws Exception
     {
         System.err.println("RESTClient.selectAll()");
 
@@ -118,7 +118,7 @@ public class RESTClient
      * @param oid long
      * @throws Exception Falls was schief geht.
      */
-    private static void selectOne(final long oid) throws Exception
+    static void selectOne(final long oid) throws Exception
     {
         System.err.println("RESTClient.selectOne()");
 
@@ -157,7 +157,7 @@ public class RESTClient
     /**
      * @throws Exception Falls was schief geht.
      */
-    private static void update() throws Exception
+    static void update() throws Exception
     {
         System.err.println("RESTClient.update()");
 

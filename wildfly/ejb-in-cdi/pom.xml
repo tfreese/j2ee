@@ -15,7 +15,6 @@
     <description>EJB in CDI injizieren</description>
     
     <properties>
-    	<version.java>1.8</version.java>
     </properties>
 
     <build>

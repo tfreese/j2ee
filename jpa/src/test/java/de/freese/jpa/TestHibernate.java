@@ -63,6 +63,7 @@ public class TestHibernate extends AbstractTest
 
         // configures settings from hibernate.cfg.xml
         // StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+        @SuppressWarnings("resource")
         ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
 
         try
@@ -250,6 +251,10 @@ public class TestHibernate extends AbstractTest
      *
      */
     // @Test
+    @SuppressWarnings(
+    {
+            "deprecation", "unchecked", "serial"
+    })
     public void test5Transformer()
     {
         try (Session session = SESSIONFACTORY.openSession())
@@ -259,6 +264,7 @@ public class TestHibernate extends AbstractTest
             {
                 /**
                  */
+                @SuppressWarnings("rawtypes")
                 @Override
                 public List transformList(final List collection)
                 {

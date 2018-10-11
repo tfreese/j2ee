@@ -4,10 +4,6 @@
 
 package de.freese.j2ee.rest;
 
-import de.freese.j2ee.interceptor.MyLogging;
-import de.freese.j2ee.model.Kunde;
-import de.freese.j2ee.persistence.MyDataSource;
-import de.freese.j2ee.persistence.MyEntityManager;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -32,6 +28,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.j2ee.interceptor.MyLogging;
+import de.freese.j2ee.model.Kunde;
+import de.freese.j2ee.persistence.MyDataSource;
+import de.freese.j2ee.persistence.MyEntityManager;
 
 /**
  * @author Thomas Freese
@@ -41,149 +41,147 @@ import org.slf4j.LoggerFactory;
 @Path("/kunde")
 public class RestService
 {
-	/**
-	 * 
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
+    /**
+     * 
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
 
-	/**
-	 * 
-	 */
-	@Context
-	private SecurityContext context = null;
+    /**
+     * 
+     */
+    @Context
+    private SecurityContext context = null;
 
-	/**
-	 *
-	 */
-	@Inject
-	@MyDataSource
-	private DataSource dataSource = null;
+    /**
+     *
+     */
+    @Inject
+    @MyDataSource
+    private DataSource dataSource = null;
 
-	/**
-	 * 
-	 */
-	@Inject
-	@MyEntityManager
-	private EntityManager entityManager = null;
+    /**
+     * 
+     */
+    @Inject
+    @MyEntityManager
+    private EntityManager entityManager = null;
 
-	/**
-	 * 
-	 */
-	@Resource
-	private UserTransaction ut = null;
+    /**
+     * 
+     */
+    @Resource
+    private UserTransaction ut = null;
 
-	/**
-	 * Erstellt ein neues {@link RestService} Object.
-	 */
-	public RestService()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link RestService} Object.
+     */
+    public RestService()
+    {
+        super();
+    }
 
-	/**
-	 * @param id long
-	 */
-	@DELETE
-	@Path("/{id:\\d+}")
-	// Nur Zahlen erlaubt.
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@MyLogging
-	public void delete(@PathParam("id") final long id)
-	{
-		LOGGER.info("id = {}", id);
+    /**
+     * @param id long
+     */
+    @DELETE
+    @Path("/{id:\\d+}")
+    // Nur Zahlen erlaubt.
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @MyLogging
+    public void delete(@PathParam("id") final long id)
+    {
+        LOGGER.info("id = {}", id);
 
-		Query query = this.entityManager.createQuery("delete from Kunde where id = :id");
-		query.setParameter("id", id);
-		query.executeUpdate();
-	}
+        Query query = this.entityManager.createQuery("delete from Kunde where id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
 
-	/**
-	 * @return {@link List}
-	 */
-	@SuppressWarnings("unchecked")
-	@GET
-	@Produces(
-	{
-			MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-	})
-	@MyLogging
-	public List<Kunde> getAsXML()
-	{
-		LOGGER.info("");
+    /**
+     * @return {@link List}
+     */
+    @SuppressWarnings("unchecked")
+    @GET
+    @Produces(
+    {
+            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+    })
+    @MyLogging
+    public List<Kunde> getAsXML()
+    {
+        LOGGER.info("");
 
-		Query query = this.entityManager.createQuery("select k from Kunde k");
-		List<Kunde> kunden = query.getResultList();
+        Query query = this.entityManager.createQuery("select k from Kunde k");
+        List<Kunde> kunden = query.getResultList();
 
-		return kunden;
-	}
+        return kunden;
+    }
 
-	/**
-	 * @param id long
-	 * @return {@link Kunde}
-	 */
-	@SuppressWarnings("unchecked")
-	@GET
-	@Produces(
-	{
-			MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-	})
-	@Path("/{id:\\d+}")
-	// Nur Zahlen erlaubt.
-	@MyLogging
-	public Kunde getByID(@PathParam("id") final long id)
-	{
-		LOGGER.info("id = {}", id);
+    /**
+     * @param id long
+     * @return {@link Kunde}
+     */
+    @SuppressWarnings("unchecked")
+    @GET
+    @Produces(
+    {
+            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+    })
+    @Path("/{id:\\d+}")
+    // Nur Zahlen erlaubt.
+    @MyLogging
+    public Kunde getByID(@PathParam("id") final long id)
+    {
+        LOGGER.info("id = {}", id);
 
-		Query query = this.entityManager.createQuery("select k from Kunde k where k.id = :id");
-		query.setParameter("id", id);
+        Query query = this.entityManager.createQuery("select k from Kunde k where k.id = :id");
+        query.setParameter("id", id);
 
-		List<Kunde> kunden = query.getResultList();
+        List<Kunde> kunden = query.getResultList();
 
-		if (kunden.size() == 1)
-		{
-			return kunden.get(0);
-		}
-		else
-		{
-			return null;
-		}
-	}
+        if (kunden.size() == 1)
+        {
+            return kunden.get(0);
+        }
 
-	/**
-	 * @param name String
-	 * @param vorname String
-	 */
-	@PUT
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@MyLogging
-	public void insertKunde(@QueryParam("name") final String name, @QueryParam("vorname") final String vorname)
-	{
-		LOGGER.info("name = {}, vorname = {}", name, vorname);
+        return null;
+    }
 
-		Kunde kunde = new Kunde();
-		kunde.setName(name);
-		kunde.setVorname(vorname);
+    /**
+     * @param name String
+     * @param vorname String
+     */
+    @PUT
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @MyLogging
+    public void insertKunde(@QueryParam("name") final String name, @QueryParam("vorname") final String vorname)
+    {
+        LOGGER.info("name = {}, vorname = {}", name, vorname);
 
-		this.entityManager.persist(kunde);
-	}
+        Kunde kunde = new Kunde();
+        kunde.setName(name);
+        kunde.setVorname(vorname);
 
-	/**
-	 * @param kunde {@link Kunde}
-	 * @return String
-	 */
-	@POST
-	@Consumes(
-	{
-			MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-	})
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	@MyLogging
-	public String update(final Kunde kunde)
-	{
-		LOGGER.info(kunde.toString());
+        this.entityManager.persist(kunde);
+    }
 
-		this.entityManager.merge(kunde);
+    /**
+     * @param kunde {@link Kunde}
+     * @return String
+     */
+    @POST
+    @Consumes(
+    {
+            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+    })
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @MyLogging
+    public String update(final Kunde kunde)
+    {
+        LOGGER.info(kunde.toString());
 
-		return "OK";
-	}
+        this.entityManager.merge(kunde);
+
+        return "OK";
+    }
 }
