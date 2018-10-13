@@ -62,7 +62,7 @@ public class ArquillianTest
     protected DataSource dataSourceXML = null;
 
     /**
-     *
+     * Erstellt ein neues {@link ArquillianTest} Object.
      */
     public ArquillianTest()
     {
