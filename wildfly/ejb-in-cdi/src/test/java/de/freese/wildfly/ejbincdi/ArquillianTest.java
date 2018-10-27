@@ -1,9 +1,6 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi;
 
-import de.freese.wildfly.ejbincdi.cdi.NamedBean;
-import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
-import de.freese.wildfly.ejbincdi.ejb.TestServiceBean;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,16 +11,21 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+import de.freese.wildfly.ejbincdi.cdi.NamedBean;
+import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
+import de.freese.wildfly.ejbincdi.ejb.TestServiceBean;
 
 /**
  * @author Thomas Freese
  */
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore
 public class ArquillianTest
 {
     /**
@@ -39,14 +41,12 @@ public class ArquillianTest
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        WebArchive archive
-                = ShrinkWrap.create(WebArchive.class, "ejbincdi.war").addClasses(ITestServiceBeanLocal.class, TestServiceBean.class, NamedBean.class)
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsResource("simplelogger.properties");
-//                WebArchive archive
-//                = ShrinkWrap.create(WebArchive.class, "ejbincdi.war").addClasses(ITestServiceBeanLocal.class, TestServiceBean.class, NamedBean.class)
-//                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-//                .addAsResource("simplelogger.properties");
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "ejbincdi.war").addClasses(ITestServiceBeanLocal.class, TestServiceBean.class, NamedBean.class)
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml").addAsResource("simplelogger.properties");
+        // WebArchive archive
+        // = ShrinkWrap.create(WebArchive.class, "ejbincdi.war").addClasses(ITestServiceBeanLocal.class, TestServiceBean.class, NamedBean.class)
+        // .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+        // .addAsResource("simplelogger.properties");
 
         return archive;
     }

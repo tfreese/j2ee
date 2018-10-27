@@ -13,6 +13,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore
 public class ArquillianTest
 {
     /**

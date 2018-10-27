@@ -44,20 +44,16 @@
 					<groupId>org.wildfly.plugins</groupId>
 					<artifactId>wildfly-maven-plugin</artifactId>
 					<version>${version:org.wildfly.plugins:wildfly-maven-plugin}</version>
+					<configuration>
+						<java-opts>
+							<java-opt>--add-modules=java.se</java-opt>
+						</java-opts>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
-			<!--plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<compilerArgs>
-						<arg>add-modules java.se</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -80,10 +76,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skipTests>${skipTests}</skipTests>
-					<argLine>--add-modules java.se</argLine>
-					<!--jvm>/opt/jdk-1.8/bin/java</jvm -->
-					<!-- ${jdkHome} siehe toolchains.xml, JAVA_HOME=/opt/jdk-1.8 M2_HOME=/opt/maven
-						/opt/maven/bin/mvn test -->
 					<!-- Fork every test because it will launch a separate AS instance -->
 					<forkCount>4</forkCount>
 					<reuseForks>true</reuseForks>
@@ -124,7 +116,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${version:junit:junit}</version>
+			<!--version>${version:junit:junit}</version -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
