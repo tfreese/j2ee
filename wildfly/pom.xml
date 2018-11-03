@@ -34,7 +34,7 @@
 		<version:org.wildfly:wildfly-ejb-client-bom>${version:org.wildfly:wildfly-dist}</version:org.wildfly:wildfly-ejb-client-bom>
 		<version:org.wildfly.bom:wildfly-javaee8-with-tools>${version:org.wildfly:wildfly-dist}</version:org.wildfly.bom:wildfly-javaee8-with-tools>
 
-		<version:org.wildfly.plugins:wildfly-maven-plugin>1.2.2.Final</version:org.wildfly.plugins:wildfly-maven-plugin>
+		<version:org.wildfly.plugins:wildfly-maven-plugin>2.0.0.Final</version:org.wildfly.plugins:wildfly-maven-plugin>
 	</properties>
 
 	<build>
