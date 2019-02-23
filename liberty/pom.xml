@@ -24,7 +24,7 @@
 	</modules>
 
 	<properties>
-		<version:io.openliberty:openliberty-runtime>18.0.0.4</version:io.openliberty:openliberty-runtime>
+		<version:io.openliberty:openliberty-runtime>19.0.0.1</version:io.openliberty:openliberty-runtime><!--18.0.0.4-->
 		<version:net.wasdev.maven.tools.targets:liberty-apis>${version:io.openliberty:openliberty-runtime}</version:net.wasdev.maven.tools.targets:liberty-apis>
 		<version:org.glassfish:javax.json>1.1.4</version:org.glassfish:javax.json>
 		<version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>1.0.0.CR1</version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>
