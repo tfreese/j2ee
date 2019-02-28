@@ -47,7 +47,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
 				<configuration>
 					<skip>false</skip>
 					<filesets>
@@ -89,7 +88,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${version:junit:junit}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

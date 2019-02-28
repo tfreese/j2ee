@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -46,10 +45,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<warName>${project.artifactId}</warName>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<packagingExcludes>pom.xml</packagingExcludes><!-- , WEB-INF/lib/*.jar -->
 				</configuration>
 			</plugin>
@@ -64,14 +62,13 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>${version:org.apache.maven.plugins:maven-antrun-plugin}</version>
 						<executions>
 							<execution>
 								<id>copy</id>
 								<phase>package</phase>
 								<goals>
 									<goal>run</goal>
-								</goals>								
+								</goals>
 								<configuration>
 									<target name="copy liberty config">
 										<copy file="${basedir}/config/server.xml" toDir="${server.config.dir}" overwrite="true" verbose="true" />
@@ -84,7 +81,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-clean-plugin</artifactId>
-						<version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
 						<configuration>
 							<skip>false</skip>
 							<filesets>
@@ -101,7 +97,6 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
 						<executions>
 							<execution>
 								<id>copy</id>
@@ -116,7 +111,7 @@
 								<artifactItem>
 									<groupId>org.hsqldb</groupId>
 									<artifactId>hsqldb</artifactId>
-									<version>${version:org.hsqldb:hsqldb}</version>
+									<version>${hsqldb.version}</version>
 									<type>jar</type>
 									<overWrite>true</overWrite>
 									<outputDirectory>${server.config.dir}/apps_libs</outputDirectory>
@@ -143,7 +138,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -157,13 +151,11 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>${version:org.hsqldb:hsqldb}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<version>${version:org.springframework.boot:spring-boot}</version>
 			<scope>provided</scope>
 		</dependency>
 

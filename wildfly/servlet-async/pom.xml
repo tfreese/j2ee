@@ -21,7 +21,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <!-- Skinny WAR ohne Jars -->
@@ -36,7 +35,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${version:org.slf4j:slf4j}</version>
 		</dependency>
 		        
         <!-- provided scope -->

@@ -44,12 +44,6 @@
         <!-- runtime scope -->
         <!-- provided scope -->
         <!-- test scope -->
-        <!--dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${version:junit:junit}</version>
-            <scope>test</scope>
-        </dependency-->
     </dependencies>
 
 </project>

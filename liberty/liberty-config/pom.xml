@@ -20,7 +20,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -44,12 +43,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>pom.xml</packagingExcludes>
-                    <warName>${project.artifactId}</warName>
+                    <packagingExcludes>pom.xml</packagingExcludes>                    
                     <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <warName>${project.artifactId}</warName>
                     <!--skinnyWars>true</skinnyWars --><!-- funktioniert nicht -->
                     <!--packagingExcludes>WEB-INF/lib/hsqldb-*.jar</packagingExcludes -->
                     <!--dependentWarExcludes>**/images</dependentWarExcludes -->
@@ -112,14 +110,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${version:ch.qos.logback:logback}</version>
         </dependency>
 
         <!-- runtime scope -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>${version:org.hsqldb:hsqldb}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -127,7 +123,6 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>${version:javax:javaee-api}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test scope -->

@@ -19,8 +19,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-dependency-plugin}</version>
+				<artifactId>maven-dependency-plugin</artifactId>				
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
@@ -44,20 +43,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-war-plugin}</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<warName>${project.artifactId}</warName>
-					<packagingExcludes>pom.xml, WEB-INF/lib/*.jar</packagingExcludes>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<packagingExcludes>pom.xml</packagingExcludes>
+					<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
 					<!--webResources>
 						<resource>
-							<directory>${basedir}/config</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-							<includes>
-								<include>hazelcast.xml</include>
-							</includes>
+						<directory>${basedir}/config</directory>
+						<targetPath>WEB-INF/classes</targetPath>
+						<includes>
+						<include>hazelcast.xml</include>
+						</includes>
 						</resource>
-					</webResources-->
+						</webResources -->
 				</configuration>
 			</plugin>
 		</plugins>
@@ -65,15 +64,13 @@
 
 	<dependencies>
 		<!-- compile scope -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${version:ch.qos.logback:logback}</version>
-        </dependency>		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.hazelcast</groupId>
-			<artifactId>hazelcast-all</artifactId>
-			<version>${version:com.hazelcast:hazelcast}</version>
+			<artifactId>hazelcast</artifactId>
 		</dependency>
 
 		<!-- runtime scope -->
@@ -81,7 +78,6 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>${version:javax:javaee-api}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

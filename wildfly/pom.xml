@@ -57,7 +57,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>${version:org.apache.maven.plugins:maven-clean-plugin}</version>
 				<configuration>
 					<skip>false</skip>
 					<filesets>
@@ -94,11 +93,6 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>javax</groupId>
-				<artifactId>javaee-api</artifactId>
-				<version>${version:javax:javaee-api}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.wildfly.bom</groupId>
 				<artifactId>wildfly-javaee8-with-tools</artifactId>
 				<version>${version:org.wildfly.bom:wildfly-javaee8-with-tools}</version>
@@ -116,19 +110,16 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<!--version>${version:junit:junit}</version -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${version:org.slf4j:slf4j}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>${version:org.slf4j:slf4j}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
