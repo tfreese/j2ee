@@ -30,11 +30,11 @@
 	</modules>
 
 	<properties>
-		<version:org.wildfly:wildfly-dist>15.0.1.Final</version:org.wildfly:wildfly-dist>
+		<version:org.wildfly:wildfly-dist>16.0.0.Final</version:org.wildfly:wildfly-dist>
 		<version:org.wildfly:wildfly-ejb-client-bom>${version:org.wildfly:wildfly-dist}</version:org.wildfly:wildfly-ejb-client-bom>
 		<version:org.wildfly.bom:wildfly-javaee8-with-tools>${version:org.wildfly:wildfly-dist}</version:org.wildfly.bom:wildfly-javaee8-with-tools>
 
-		<version:org.wildfly.plugins:wildfly-maven-plugin>2.0.0.Final</version:org.wildfly.plugins:wildfly-maven-plugin>
+		<version:org.wildfly.plugins:wildfly-maven-plugin>2.0.1.Final</version:org.wildfly.plugins:wildfly-maven-plugin>
 	</properties>
 
 	<build>
