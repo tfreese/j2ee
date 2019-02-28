@@ -26,7 +26,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>${version:org.slf4j:slf4j}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -34,13 +33,11 @@
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>${version:com.sun.faces:jsf}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>${version:javax:javaee-api}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -48,7 +45,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${version:junit:junit}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

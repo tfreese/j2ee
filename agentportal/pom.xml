@@ -48,11 +48,6 @@
         </plugins>
     </build>
 
-    <dependencyManagement>
-        <dependencies>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <!-- compile scope -->
         <!-- runtime scope -->

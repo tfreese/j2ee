@@ -35,8 +35,8 @@
         <module>cloudsessions</module>
         <module>j2ee-demo</module>
         <module>jpa</module>
-        <module>wildfly</module>
         <module>liberty</module>
+        <module>wildfly</module>        
     </modules>
 
     <dependencies>
