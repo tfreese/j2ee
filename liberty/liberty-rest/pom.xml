@@ -129,7 +129,6 @@
 		<!--dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${version:javax.xml.bind:jaxb-api}</version>
 			<scope>test</scope>
 			</dependency -->
 		<dependency>

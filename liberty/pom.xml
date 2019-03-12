@@ -24,11 +24,11 @@
 	</modules>
 
 	<properties>
-		<version:io.openliberty:openliberty-runtime>19.0.0.1</version:io.openliberty:openliberty-runtime><!--18.0.0.4-->
-		<version:net.wasdev.maven.tools.targets:liberty-apis>${version:io.openliberty:openliberty-runtime}</version:net.wasdev.maven.tools.targets:liberty-apis>
+		<version:io.openliberty:openliberty-runtime>19.0.0.2</version:io.openliberty:openliberty-runtime><!--18.0.0.4 -->
+		<version:net.wasdev.maven.tools.targets:liberty-apis>19.0.0.1</version:net.wasdev.maven.tools.targets:liberty-apis>
 		<version:org.glassfish:javax.json>1.1.4</version:org.glassfish:javax.json>
-		<version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>1.0.0.CR1</version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>
-		<version:org.jboss.arquillian.junit:1.4.0.Final>1.4.0.Final</version:org.jboss.arquillian.junit:1.4.0.Final>
+		<version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>1.0.0</version:org.jboss.arquillian.container:arquillian-wlp-managed-8.5>
+		<version:org.jboss.arquillian.junit:1.4.0.Final>1.4.1.Final</version:org.jboss.arquillian.junit:1.4.0.Final>
 
 		<version:net.wasdev.wlp.maven.plugins:liberty-maven-plugin>2.6.4</version:net.wasdev.wlp.maven.plugins:liberty-maven-plugin>
 	</properties>
@@ -62,6 +62,16 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.openliberty</groupId>
+				<artifactId>openliberty-runtime</artifactId>
+				<version>${version:io.openliberty:openliberty-runtime}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.wasdev.maven.tools.targets</groupId>
+				<artifactId>liberty-apis</artifactId>
+				<version>${version:net.wasdev.maven.tools.targets:liberty-apis}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.jboss.arquillian.container</groupId>
 				<artifactId>arquillian-wlp-managed-8.5</artifactId>
