@@ -77,7 +77,7 @@
                     <assemblyArtifact>
                         <groupId>io.openliberty</groupId>
                         <artifactId>openliberty-runtime</artifactId>
-                        <version>${version:io.openlibertyopenliberty-runtime}</version>
+                        <version>${version_io.openliberty}</version>
                         <type>zip</type>
                     </assemblyArtifact>
                     <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>

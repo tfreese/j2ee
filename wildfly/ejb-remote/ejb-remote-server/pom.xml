@@ -35,7 +35,7 @@
                                 <artifactItem>
                                     <groupId>org.wildfly</groupId>
                                     <artifactId>wildfly-dist</artifactId>
-                                    <version>${version:org.wildfly:wildfly-dist}</version>
+                                    <version>${version_org.wildfly_wildfly-dist}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${java.io.tmpdir}</outputDirectory>
@@ -60,8 +60,8 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <filename>${project.build.finalName}.jar</filename>
-                    <jbossHome>${java.io.tmpdir}/wildfly-${version:org.wildfly:wildfly-dist}</jbossHome>
-                    <modules-path>${java.io.tmpdir}/wildfly-${version:org.wildfly:wildfly-dist}/modules</modules-path>
+                    <jbossHome>${java.io.tmpdir}/wildfly-${version_org.wildfly_wildfly-dist}</jbossHome>
+                    <modules-path>${java.io.tmpdir}/wildfly-${version_org.wildfly_wildfly-dist}/modules</modules-path>
                 </configuration>
             </plugin>
         </plugins>

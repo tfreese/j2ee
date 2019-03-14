@@ -35,7 +35,7 @@
                                 <artifactItem>
                                     <groupId>org.wildfly</groupId>
                                     <artifactId>wildfly-dist</artifactId>
-                                    <version>${version:org.wildfly:wildfly-dist}</version>
+                                    <version>${version_org.wildfly_wildfly-dist}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${java.io.tmpdir}</outputDirectory>
