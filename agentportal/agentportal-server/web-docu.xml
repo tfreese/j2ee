@@ -702,7 +702,7 @@ Libary Description file for the tag library.
 Used in: taglib
 -->
 <!--
-The taglib-uri element describes a URI, relative to the location
+The taglib-repository element describes a URI, relative to the location
 of the web.xml document, identifying a Tag Library used in the Web
 Application.
 
@@ -772,8 +772,8 @@ information in the standard deployment descriptor.
 Tools are not allowed to add the non-standard information into the
 standard deployment descriptor.
 -->
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 </web-app>
