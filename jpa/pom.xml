@@ -98,7 +98,7 @@
 					<dependency>
 						<groupId>org.hsqldb</groupId>
 						<artifactId>hsqldb</artifactId>
-						<version>${hsqldb.version}</version>
+						<version>${version_org.hsqldb}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -154,7 +154,7 @@
 					<dependency>
 						<groupId>org.hsqldb</groupId>
 						<artifactId>hsqldb</artifactId>
-						<version>${hsqldb.version}</version>
+						<version>${version_org.hsqldb}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
