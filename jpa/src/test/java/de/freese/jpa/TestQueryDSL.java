@@ -3,17 +3,17 @@
  */
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -43,7 +43,7 @@ import de.freese.sql.querydsl.TEmployee;
  *
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestQueryDSL
 {
     /**
@@ -69,8 +69,8 @@ public class TestQueryDSL
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    static void afterAll()
     {
         DATA_SOURCE.destroy();
     }
@@ -78,8 +78,8 @@ public class TestQueryDSL
     /**
      * @throws Exception Falls was schief geht.
      */
-    @BeforeClass
-    public static void beforeClass() throws Exception
+    @BeforeAll
+    static void beforeAll() throws Exception
     {
         DATA_SOURCE = new SingleConnectionDataSource();
         DATA_SOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
@@ -130,22 +130,6 @@ public class TestQueryDSL
     /**
      *
      */
-    @After
-    public void afterMethod()
-    {
-    }
-
-    /**
-     *
-     */
-    @Before
-    public void beforeMethod()
-    {
-    }
-
-    /**
-     *
-     */
     @Test
     public void test01Select()
     {
@@ -155,9 +139,9 @@ public class TestQueryDSL
         SQLQuery<TEmployee> query = QUERY_FACTORY.select(e).from(e).where(e.name.contains("ee"));
         List<TEmployee> result = query.fetch();
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(1L, result.get(0).getMyId().longValue());
     }
 
     /**
@@ -175,9 +159,9 @@ public class TestQueryDSL
 
         List<TEmployee> springResult = JDBC_TEMPLATE.query(bindings.getSQL(), new TEmployeeRowMapper(), "%ee%");
 
-        Assert.assertNotNull(springResult);
-        Assert.assertTrue(springResult.size() >= 1);
-        Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+        assertNotNull(springResult);
+        assertTrue(springResult.size() >= 1);
+        assertEquals(1L, springResult.get(0).getMyId().longValue());
     }
 
     /**
@@ -197,8 +181,8 @@ public class TestQueryDSL
         TEmployee result = query.fetchOne();
         TX_MANAGER.commit(transactionStatus);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1L, result.getMyId().longValue());
+        assertNotNull(result);
+        assertEquals(1L, result.getMyId().longValue());
     }
 
     /**
@@ -216,9 +200,9 @@ public class TestQueryDSL
 
         List<TEmployee> springResult = JDBC_TEMPLATE.query(bindings.getSQL(), new TEmployeeRowMapper(), 1L);
 
-        Assert.assertNotNull(springResult);
-        Assert.assertTrue(springResult.size() >= 1);
-        Assert.assertEquals(1L, springResult.get(0).getMyId().longValue());
+        assertNotNull(springResult);
+        assertTrue(springResult.size() >= 1);
+        assertEquals(1L, springResult.get(0).getMyId().longValue());
     }
 
     /**
@@ -237,9 +221,9 @@ public class TestQueryDSL
             ResultSetExtractor<List<TEmployee>> resultSetExtractor = new RowMapperResultSetExtractor<>(new TEmployeeRowMapper());
             List<TEmployee> result = resultSetExtractor.extractData(resultSet);
 
-            Assert.assertNotNull(result);
-            Assert.assertTrue(result.size() >= 1);
-            Assert.assertEquals(1L, result.get(0).getMyId().longValue());
+            assertNotNull(result);
+            assertTrue(result.size() >= 1);
+            assertEquals(1L, result.get(0).getMyId().longValue());
         }
     }
 }

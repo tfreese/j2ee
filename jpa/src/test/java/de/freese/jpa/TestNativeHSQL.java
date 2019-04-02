@@ -10,11 +10,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import de.freese.jpa.model.Address;
@@ -23,7 +23,7 @@ import de.freese.jpa.model.Person;
 /**
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestNativeHSQL extends AbstractTest
 {
     /**
@@ -39,8 +39,8 @@ public class TestNativeHSQL extends AbstractTest
     /**
      * @throws Exception Falls was schief geht.
      */
-    @AfterClass
-    public static void afterClass() throws Exception
+    @AfterAll
+    static void afterAll() throws Exception
     {
         try (Statement statement = CONNECTION.createStatement())
         {
@@ -53,8 +53,8 @@ public class TestNativeHSQL extends AbstractTest
     /**
      * @throws Exception Falls was schief geht.
      */
-    @BeforeClass
-    public static void beforeClass() throws Exception
+    @BeforeAll
+    static void beforeAll() throws Exception
     {
         Class.forName("org.hsqldb.jdbcDriver");
 

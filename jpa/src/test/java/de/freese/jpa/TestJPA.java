@@ -13,20 +13,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import org.hibernate.internal.SessionFactoryImpl;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestJPA extends AbstractTest
 {
     /**
@@ -37,8 +35,8 @@ public class TestJPA extends AbstractTest
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    static void afterAll()
     {
         ENTITYMANAGERFACTORY.close();
     }
@@ -46,8 +44,8 @@ public class TestJPA extends AbstractTest
     /**
      *
      */
-    @BeforeClass
-    public static void beforeClass()
+    @BeforeAll
+    static void beforeAll()
     {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
@@ -75,24 +73,6 @@ public class TestJPA extends AbstractTest
     public TestJPA()
     {
         super();
-    }
-
-    /**
-     *
-     */
-    @After
-    public void afterMethod()
-    {
-        // TODO
-    }
-
-    /**
-     *
-     */
-    @Before
-    public void beforeMethod()
-    {
-        // TODO
     }
 
     /**

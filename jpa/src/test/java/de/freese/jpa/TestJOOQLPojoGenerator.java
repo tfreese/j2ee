@@ -11,13 +11,11 @@ import org.jooq.meta.jaxb.Database;
 import org.jooq.meta.jaxb.Generate;
 import org.jooq.meta.jaxb.Generator;
 import org.jooq.meta.jaxb.Target;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 /**
@@ -25,7 +23,7 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
  *
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestJOOQLPojoGenerator
 {
     /**
@@ -36,8 +34,8 @@ public class TestJOOQLPojoGenerator
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    static void afterAll()
     {
         DATASOURCE.destroy();
     }
@@ -45,8 +43,8 @@ public class TestJOOQLPojoGenerator
     /**
      *
      */
-    @BeforeClass
-    public static void beforeClass()
+    @BeforeAll
+    static void beforeAll()
     {
         DATASOURCE = new SingleConnectionDataSource();
         DATASOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
@@ -68,22 +66,6 @@ public class TestJOOQLPojoGenerator
     public TestJOOQLPojoGenerator()
     {
         super();
-    }
-
-    /**
-     *
-     */
-    @After
-    public void afterMethod()
-    {
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Before
-    public void beforeMethod() throws Exception
-    {
     }
 
     /**

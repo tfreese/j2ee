@@ -3,6 +3,8 @@
  */
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cache.ehcache.ConfigSettings;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import de.freese.jpa.model.Address;
@@ -245,16 +246,16 @@ public abstract class AbstractTest
         {
             Person person = persons.get(i);
 
-            Assert.assertEquals(1 + i, person.getID());
-            Assert.assertEquals(3, person.getAddresses().size());
+            assertEquals(1 + i, person.getID());
+            assertEquals(3, person.getAddresses().size());
 
             for (int j = 0; j < person.getAddresses().size(); j++)
             {
                 Address address = person.getAddresses().get(j);
 
                 long addressIdExpected = ((person.getID() - 1) * person.getAddresses().size()) + j + 1;
-                Assert.assertEquals(addressIdExpected, address.getID());
-                Assert.assertEquals(person, address.getPerson());
+                assertEquals(addressIdExpected, address.getID());
+                assertEquals(person, address.getPerson());
             }
         }
     }
@@ -264,16 +265,16 @@ public abstract class AbstractTest
      */
     protected void validateTest2SelectAll(final List<Person> persons)
     {
-        Assert.assertNotNull(persons);
-        Assert.assertEquals(3, persons.size());
+        assertNotNull(persons);
+        assertEquals(3, persons.size());
 
         for (int i = 0; i < persons.size(); i++)
         {
             Person person = persons.get(i);
             LOGGER.info(person.toString());
 
-            Assert.assertEquals(1 + i, person.getID());
-            Assert.assertEquals(3, person.getAddresses().size());
+            assertEquals(1 + i, person.getID());
+            assertEquals(3, person.getAddresses().size());
 
             // for (Address address : person.getAddresses())
             // {
@@ -288,13 +289,13 @@ public abstract class AbstractTest
      */
     protected void validateTest3SelectVorname(final List<Person> persons, final String vorname)
     {
-        Assert.assertNotNull(persons);
-        Assert.assertEquals(1, persons.size());
+        assertNotNull(persons);
+        assertEquals(1, persons.size());
 
         Person person = persons.get(0);
-        Assert.assertEquals(1, person.getID());
-        Assert.assertEquals(vorname, person.getVorname());
-        Assert.assertEquals(3, person.getAddresses().size());
+        assertEquals(1, person.getID());
+        assertEquals(vorname, person.getVorname());
+        assertEquals(3, person.getAddresses().size());
 
         LOGGER.info(person.toString());
 

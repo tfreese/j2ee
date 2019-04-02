@@ -4,22 +4,23 @@
 
 package de.freese.liberty.rest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
-// @Ignore
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@Disabled
 public class EndpointTest
 {
     /**
@@ -47,11 +48,11 @@ public class EndpointTest
 
         try (Response response = target.request().get())
         {
-            Assert.assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+            assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
             JsonObject obj = response.readEntity(JsonObject.class);
 
-            Assert.assertEquals("The system property for the local and remote JVM should match", System.getProperty("os.name"), obj.getString("os.name"));
+            assertEquals(System.getProperty("os.name"), obj.getString("os.name"), "The system property for the local and remote JVM should match");
         }
     }
 }

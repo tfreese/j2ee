@@ -1,6 +1,8 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,14 +17,11 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 import de.freese.sql.querydsl.TEmployee;
@@ -30,7 +29,7 @@ import de.freese.sql.querydsl.TEmployee;
 /**
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestHibernate extends AbstractTest
 {
     /**
@@ -41,8 +40,8 @@ public class TestHibernate extends AbstractTest
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    static void afterAll()
     {
         SESSIONFACTORY.close();
     }
@@ -50,8 +49,8 @@ public class TestHibernate extends AbstractTest
     /**
      *
      */
-    @BeforeClass
-    public static void beforeClass()
+    @BeforeAll
+    static void beforeAll()
     {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
@@ -86,24 +85,6 @@ public class TestHibernate extends AbstractTest
     public TestHibernate()
     {
         super();
-    }
-
-    /**
-     *
-     */
-    @After
-    public void afterMethod()
-    {
-        // TODO
-    }
-
-    /**
-     *
-     */
-    @Before
-    public void beforeMethod()
-    {
-        // TODO
     }
 
     /**
@@ -290,14 +271,14 @@ public class TestHibernate extends AbstractTest
 
             List<TEmployee> result = query.list();
 
-            Assert.assertNotNull(result);
+            assertNotNull(result);
 
             for (int i = 0; i < result.size(); i++)
             {
                 TEmployee tEmployee = result.get(i);
 
-                Assert.assertEquals("Name" + 1, tEmployee.getName());
-                Assert.assertEquals("Vorname" + 1, tEmployee.getVorname());
+                assertEquals("Name" + 1, tEmployee.getName());
+                assertEquals("Vorname" + 1, tEmployee.getVorname());
             }
         }
     }

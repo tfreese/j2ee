@@ -7,13 +7,11 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import com.querydsl.codegen.JavaTypeMappings;
@@ -24,7 +22,7 @@ import com.querydsl.sql.codegen.MetaDataExporter;
  *
  * @author Thomas Freese
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestQuerydslPojoGenerator
 {
     /**
@@ -35,8 +33,8 @@ public class TestQuerydslPojoGenerator
     /**
      *
      */
-    @AfterClass
-    public static void afterClass()
+    @AfterAll
+    static void afterAll()
     {
         DATASOURCE.destroy();
     }
@@ -44,8 +42,8 @@ public class TestQuerydslPojoGenerator
     /**
      *
      */
-    @BeforeClass
-    public static void beforeClass()
+    @BeforeAll
+    static void beforeAll()
     {
         DATASOURCE = new SingleConnectionDataSource();
         DATASOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
@@ -68,22 +66,6 @@ public class TestQuerydslPojoGenerator
     public TestQuerydslPojoGenerator()
     {
         super();
-    }
-
-    /**
-     *
-     */
-    @After
-    public void afterMethod()
-    {
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Before
-    public void beforeMethod() throws Exception
-    {
     }
 
     /**
