@@ -25,7 +25,7 @@
 
     <properties>
         <version_io.openliberty>${version_net.wasdev.maven.tools.targets_liberty-apis}</version_io.openliberty><!-- 19.0.0.3 -->
-        <version_net.wasdev.maven.tools.targets_liberty-apis>19.0.0.4</version_net.wasdev.maven.tools.targets_liberty-apis>
+        <version_net.wasdev.maven.tools.targets_liberty-apis>19.0.0.5</version_net.wasdev.maven.tools.targets_liberty-apis>
 
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
         <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
