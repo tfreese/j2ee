@@ -31,7 +31,7 @@
         <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
         <version_org.jboss.arquillian.junit>1.4.1.Final</version_org.jboss.arquillian.junit>
 
-        <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.6.4</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
+        <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
     </properties>
 
     <build>
