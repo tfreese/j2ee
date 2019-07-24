@@ -74,7 +74,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skipTests>${skipTests}</skipTests>
+					<skipTests>${skipTest}</skipTests>
 					<!-- Fork every test because it will launch a separate AS instance -->
 					<forkCount>4</forkCount>
 					<reuseForks>true</reuseForks>
