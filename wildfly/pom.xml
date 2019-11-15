@@ -30,7 +30,7 @@
 	</modules>
 
 	<properties>
-		<version_org.wildfly_wildfly-dist>18.0.0.Final</version_org.wildfly_wildfly-dist>
+		<version_org.wildfly_wildfly-dist>18.0.1.Final</version_org.wildfly_wildfly-dist>
 		<version_org.wildfly_wildfly-ejb-client-bom>${version_org.wildfly_wildfly-dist}</version_org.wildfly_wildfly-ejb-client-bom>
 		<version_org.wildfly.bom_wildfly-javaee8-with-tools>17.0.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
 
