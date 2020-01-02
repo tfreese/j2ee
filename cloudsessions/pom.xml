@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cloudsessions</artifactId>
+    <artifactId>j2ee-cloudsessions</artifactId>
     <packaging>war</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
