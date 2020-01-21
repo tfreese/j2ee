@@ -26,7 +26,8 @@
 		<module>ejb-in-cdi</module>
 		<module>servlet-secured</module>
 		<module>servlet-async</module>
-		<module>ejb-remote</module>
+		<module>ejb-remote-server</module>
+		<module>ejb-remote-client</module>
 	</modules>
 
 	<properties>

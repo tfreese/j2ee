@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>de.freese.j2ee.wildfly</groupId>
-        <artifactId>wildfly-ejb-remote</artifactId>
+        <artifactId>wildfly</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
