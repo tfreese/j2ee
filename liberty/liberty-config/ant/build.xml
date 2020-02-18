@@ -22,7 +22,7 @@
 	</target>
 
 	<target name="prepare-server" depends="clean" description="löscht vorhandene Verzeichnisse und legt diese neu an">
-		<!-- create vw folder structure -->
+		<!-- create folder structure -->
 		<mkdir dir="${appl_data_path}" />
 		<mkdir dir="${appl_logs_path}" />
 		<mkdir dir="${appl_path}/appl_dropins" />

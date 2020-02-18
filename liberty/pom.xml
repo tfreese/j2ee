@@ -24,7 +24,7 @@
     </modules>
 
     <properties>
-        <version_io.openliberty>20.0.0.1</version_io.openliberty>
+        <version_io.openliberty>20.0.0.2</version_io.openliberty>
         <version_net.wasdev.maven.tools.targets_liberty-apis>19.0.0.12</version_net.wasdev.maven.tools.targets_liberty-apis>
 
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
