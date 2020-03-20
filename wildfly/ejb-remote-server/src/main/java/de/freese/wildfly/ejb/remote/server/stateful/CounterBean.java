@@ -1,8 +1,8 @@
 package de.freese.wildfly.ejb.remote.server.stateful;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateful;
 
 /**
  * @author Thomas Freese

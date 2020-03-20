@@ -6,11 +6,11 @@ package de.freese.wildfly.servlet.async;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.ejb.Asynchronous;
-import javax.ejb.Stateless;
-import javax.servlet.AsyncContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import jakarta.ejb.Asynchronous;
+import jakarta.ejb.Stateless;
+import jakarta.servlet.AsyncContext;
 
 /**
  * @author Thomas Freese

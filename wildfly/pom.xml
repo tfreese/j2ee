@@ -31,9 +31,9 @@
 	</modules>
 
 	<properties>
-		<version_org.wildfly_wildfly-dist>19.0.1.Final</version_org.wildfly_wildfly-dist>
-		<version_org.wildfly_wildfly-ejb-client-bom>${version_org.wildfly_wildfly-dist}</version_org.wildfly_wildfly-ejb-client-bom>
-		<version_org.wildfly.bom_wildfly-javaee8-with-tools>17.0.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
+		<version_org.wildfly_wildfly-dist>19.0.0.Final</version_org.wildfly_wildfly-dist>
+		<version_org.wildfly_wildfly-ejb-client-bom>19.0.1.Final</version_org.wildfly_wildfly-ejb-client-bom>
+		<version_org.wildfly.bom_wildfly-javaee8-with-tools>19.0.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
 
 		<version_org.wildfly.plugins_wildfly-maven-plugin>2.0.2.Final</version_org.wildfly.plugins_wildfly-maven-plugin>
 	</properties>
@@ -100,7 +100,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.wildfly.bom</groupId>
-				<artifactId>wildfly-javaee8-with-tools</artifactId>
+				<artifactId>wildfly-jakartaee8-with-tools</artifactId>
 				<version>${version_org.wildfly.bom_wildfly-javaee8-with-tools}</version>
 				<type>pom</type>
 				<scope>import</scope>

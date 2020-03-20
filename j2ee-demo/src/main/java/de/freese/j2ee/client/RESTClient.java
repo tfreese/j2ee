@@ -5,6 +5,7 @@
 package de.freese.j2ee.client;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -138,18 +139,27 @@ public class RESTClient
 
         JAXBContext context = JAXBContext.newInstance(Kunde.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        Kunde kunde = (Kunde) unmarshaller.unmarshal(connection.getInputStream());
-        System.out.println(kunde);
 
-        // BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        //
-        // String line = reader.readLine();
-        //
-        // while(line != null)
-        // {
-        // System.out.println(line);
-        // line=reader.readLine();
-        // }
+        try (InputStream inputStream = connection.getInputStream())
+        {
+            Kunde kunde = (Kunde) unmarshaller.unmarshal(inputStream);
+            System.out.println(kunde);
+
+        }
+
+        try (InputStream inputStream = connection.getInputStream();
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             BufferedReader reader = new BufferedReader(inputStreamReader))
+        {
+
+            String line = reader.readLine();
+
+            while (line != null)
+            {
+                System.out.println(line);
+                line = reader.readLine();
+            }
+        }
 
         connection.disconnect();
     }

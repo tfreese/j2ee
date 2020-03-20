@@ -1,7 +1,7 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi.ejb;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 /**
  * @author Thomas Freese

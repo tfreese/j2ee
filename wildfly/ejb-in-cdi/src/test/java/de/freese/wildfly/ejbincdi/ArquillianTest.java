@@ -1,7 +1,6 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -19,6 +18,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import de.freese.wildfly.ejbincdi.cdi.NamedBean;
 import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
 import de.freese.wildfly.ejbincdi.ejb.TestServiceBean;
+import jakarta.ejb.EJB;
 
 /**
  * @author Thomas Freese
@@ -54,7 +54,7 @@ public class ArquillianTest
     /**
      *
      */
-    @Inject()
+    @Inject
     @Named("myNamedBean")
     private NamedBean namedBean = null;
 

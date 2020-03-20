@@ -1,11 +1,11 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi.cdi;
 
-import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
-import javax.ejb.EJB;
-import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
 
 /**
  * @author Thomas Freese
