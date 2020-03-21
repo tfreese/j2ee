@@ -5,6 +5,7 @@
 package de.freese.agentportal.client.rest;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -138,20 +139,26 @@ public class TestClientREST
         System.out.println("Content-Type = " + connection.getContentType());
         System.out.println("Location: " + connection.getHeaderField("Location"));
 
-        JAXBContext context = JAXBContext.newInstance(SecretNews.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        SecretNews news = (SecretNews) unmarshaller.unmarshal(connection.getInputStream());
-        System.out.println(news);
+        try (InputStream inputStream = connection.getInputStream())
+        {
+            JAXBContext context = JAXBContext.newInstance(SecretNews.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            SecretNews news = (SecretNews) unmarshaller.unmarshal(inputStream);
+            System.out.println(news);
+        }
 
-        // BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        //
-        // String line = reader.readLine();
-        //
-        // while(line != null)
-        // {
-        // System.out.println(line);
-        // line=reader.readLine();
-        // }
+        try (InputStream inputStream = connection.getInputStream();
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             BufferedReader reader = new BufferedReader(inputStreamReader))
+        {
+            String line = reader.readLine();
+
+            while (line != null)
+            {
+                System.out.println(line);
+                line = reader.readLine();
+            }
+        }
 
         connection.disconnect();
     }

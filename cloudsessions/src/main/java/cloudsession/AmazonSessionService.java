@@ -1,6 +1,7 @@
 package cloudsession;
 
 import java.io.IOException;
+import java.io.InputStream;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -41,9 +42,9 @@ public class AmazonSessionService implements CloudSession
 
         AWSCredentials credentials = null;
 
-        try
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("AwsCredentials.properties"))
         {
-            credentials = new PropertiesCredentials(getClass().getClassLoader().getResourceAsStream("AwsCredentials.properties"));
+            credentials = new PropertiesCredentials(inputStream);
         }
         catch (IOException ex)
         {

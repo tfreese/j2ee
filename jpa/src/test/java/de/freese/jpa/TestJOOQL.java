@@ -64,6 +64,7 @@ public class TestJOOQL
     @AfterAll
     static void afterAll()
     {
+        DSL_CONTEXT.close();
         DATA_SOURCE.destroy();
     }
 
@@ -115,6 +116,7 @@ public class TestJOOQL
     /**
      *
      */
+    @SuppressWarnings("resource")
     @Test
     public void test01Select()
     {
@@ -135,6 +137,7 @@ public class TestJOOQL
     /**
      *
      */
+    @SuppressWarnings("resource")
     @Test
     public void test01SelectSpring()
     {
@@ -155,6 +158,7 @@ public class TestJOOQL
     /**
      *
      */
+    @SuppressWarnings("resource")
     @Test
     public void test02FindOne()
     {
@@ -172,6 +176,7 @@ public class TestJOOQL
     /**
      *
      */
+    @SuppressWarnings("resource")
     @Test
     public void test02FindOneSpring()
     {
@@ -192,6 +197,7 @@ public class TestJOOQL
     /**
      * @throws SQLException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     @Test
     public void test03SelectRowMapper() throws SQLException
     {

@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,15 +84,19 @@ public class NonStickySessionTest extends HttpServlet
     @Override
     public void service(final HttpServletRequest request, final HttpServletResponse response)
     {
+        StringBuilder html = new StringBuilder();
+        html.append("<html>").append("\n");
+
         if (request.getParameter("invalidate") != null)
         {
+            html.append("Session invalidated").append("\n");
+            html.append("</html>");
+
             request.getSession().invalidate();
 
-            try
+            try (ServletOutputStream outputStream = response.getOutputStream())
             {
-                response.getOutputStream().write("<html>\n".getBytes());
-                response.getOutputStream().write("Session invalidated\n".getBytes());
-                response.getOutputStream().write("</html>".getBytes());
+                outputStream.print(html.toString());
             }
             catch (IOException ex)
             {
@@ -102,8 +107,6 @@ public class NonStickySessionTest extends HttpServlet
         }
 
         // print request headers
-        StringBuilder html = new StringBuilder();
-        html.append("<html>").append("\n");
         html.append("<font size=\"2\" face=\"courier\">").append("\n");
         // out +=
         // "Request Headers<br/>"+printHeaders(request)+"<br/><br/>"+printParameters(request)+
@@ -182,9 +185,9 @@ public class NonStickySessionTest extends HttpServlet
         html.append("<br/><a href=\"./Session?invalidate=true\">kill session</a>").append("\n");
         html.append("</html>");
 
-        try
+        try (ServletOutputStream outputStream = response.getOutputStream())
         {
-            response.getOutputStream().print(html.toString());
+            outputStream.print(html.toString());
         }
         catch (IOException ex)
         {

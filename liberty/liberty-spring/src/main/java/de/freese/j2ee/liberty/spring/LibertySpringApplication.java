@@ -33,6 +33,7 @@ public class LibertySpringApplication extends SpringBootServletInitializer
     /**
      * @param args String[]
      */
+    @SuppressWarnings("resource")
     public static void main(final String[] args)
     {
         configureApplication(new SpringApplicationBuilder()).run(args);
