@@ -24,6 +24,8 @@
     </modules>
 
     <properties>
+		<maven.test.skip>true</maven.test.skip>
+		
         <version_io.openliberty>20.0.0.3</version_io.openliberty>
         <version_net.wasdev.maven.tools.targets_liberty-apis>20.0.0.3</version_net.wasdev.maven.tools.targets_liberty-apis>
 

@@ -24,6 +24,10 @@
         <module>agentportal-client</module>
         <module>agentportal-ear</module>
     </modules>
+    
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>    
 
     <build>
         <plugins>
