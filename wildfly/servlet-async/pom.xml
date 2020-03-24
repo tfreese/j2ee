@@ -15,22 +15,6 @@
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>Demo für asynchrone Servlets</description>
 
-	<build>
-		<finalName>${project.artifactId}</finalName>
-
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<!-- Skinny WAR ohne Jars -->
-					<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>

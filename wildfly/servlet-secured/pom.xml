@@ -46,15 +46,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<!-- Skinny WAR ohne Jars -->
-					<packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<configuration>

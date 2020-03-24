@@ -44,14 +44,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>pom.xml</packagingExcludes>                    
-                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <packagingExcludes>pom.xml</packagingExcludes> 
+                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>                   
                     <warName>${project.artifactId}</warName>
-                    <!--skinnyWars>true</skinnyWars --><!-- funktioniert nicht -->
-                    <!--packagingExcludes>WEB-INF/lib/hsqldb-*.jar</packagingExcludes -->
-                    <!--dependentWarExcludes>**/images</dependentWarExcludes -->
-
                     <webResources>
                         <resource>
                             <directory>${basedir}/config/javaee</directory>
