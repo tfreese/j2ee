@@ -1,6 +1,9 @@
 // Erzeugt: 12.11.2015
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +23,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
 import de.freese.jpa.model.Person;
 
 /**
@@ -68,7 +73,7 @@ public class TestJPA extends AbstractTest
     }
 
     /**
-     *
+     * Erstellt ein neues {@link TestJPA} Object.
      */
     public TestJPA()
     {
@@ -196,6 +201,41 @@ public class TestJPA extends AbstractTest
         }
 
         validateTest2SelectAll(persons);
+
+        // entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void test6Projection()
+    {
+        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        // entityManager.getTransaction().begin();
+
+        StringBuilder hql = new StringBuilder();
+        hql.append("select");
+        hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
+        hql.append("p.id");
+        hql.append(", p.name");
+        hql.append(")");
+        hql.append(" from Person p");
+        hql.append(" order by p.name asc");
+
+        TypedQuery<MyProjectionDTO> query = entityManager.createQuery(hql.toString(), MyProjectionDTO.class);
+        List<MyProjectionDTO> result = query.getResultList();
+
+        assertNotNull(result);
+        assertTrue(!result.isEmpty());
+
+        for (int i = 1; i <= result.size(); i++)
+        {
+            MyProjectionDTO dto = result.get(i - 1);
+
+            assertEquals("Name" + i, dto.getName());
+        }
 
         // entityManager.getTransaction().commit();
         entityManager.close();

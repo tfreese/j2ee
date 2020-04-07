@@ -5,7 +5,9 @@
 package de.freese.jpa;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
@@ -15,9 +17,10 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.internal.util.config.ConfigurationHelper;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Hibernate SequenceGenerator, der ganze Bloecke von Sequence IDs holt.
@@ -26,15 +29,10 @@ import org.hibernate.type.Type;
  */
 public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
 {
-    // /**
-    // *
-    // */
-    // private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
-
     /**
-     *
-     */
-    private String sequenceName = null;
+    *
+    */
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
 
     /**
      *
@@ -45,6 +43,11 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     *
     */
     private final Queue<Long> idQueue = new LinkedList<>();
+
+    /**
+     *
+     */
+    private String sequenceName = null;
 
     /**
      * Erstellt ein neues {@link BlockSequenceGenerator} Object.
@@ -63,7 +66,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
         this.sequenceName = ConfigurationHelper.getString("sequenceName", params, null);
         this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
 
-        if (this.sequenceName == null || this.sequenceName.trim().isEmpty())
+        if ((this.sequenceName == null) || this.sequenceName.trim().isEmpty())
         {
             throw new MappingException("sequenceName required");
         }
@@ -77,9 +80,12 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     /**
      * @see org.hibernate.id.IdentifierGenerator#generate(org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
      */
+    @SuppressWarnings("resource")
     @Override
     public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException
     {
+        LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", this.blockSize, this.sequenceName);
+
         // String query = String.format("select %s from %s", session.getEntityPersister(object.getClass().getName(), object).getIdentifierPropertyName(),
         // object.getClass().getSimpleName());
         //
@@ -89,45 +95,46 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
         {
             if (this.idQueue.isEmpty())
             {
-                try
-                {
-                    NativeQuery<BigInteger> nativeQuery = session.createNativeQuery("call next value for " + this.sequenceName, BigInteger.class);
-
-                    // // Das hier ist natürlich Blödsinn !!!
-                    // // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
-                    for (int i = 0; i < this.blockSize; i++)
-                    {
-                        long id = nativeQuery.getSingleResult().longValue();
-
-                        this.idQueue.offer(id);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                // try (Statement statement = session.connection().createStatement())
+                // try
                 // {
-                // // Das hier ist natürlich Blödsinn !!!
-                // // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
+                // NativeQuery<Long> nativeQuery = session.createNativeQuery("call next value for " + this.sequenceName, Long.class);
+                //
+                // // // Das hier ist natürlich Blödsinn !!!
+                // // // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
                 // for (int i = 0; i < this.blockSize; i++)
                 // {
-                // try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName))
-                // {
-                // long id = resultSet.getLong(1);
+                // long id = nativeQuery.getSingleResult().longValue();
                 //
                 // this.idQueue.offer(id);
                 // }
                 // }
-                // }
-                // catch (SQLException sex)
+                // catch (Exception ex)
                 // {
-                // // LOGGER.error(null, sex);
-                // throw new HibernateException(sex);
-                //
-                // // return 0;
+                // throw ex;
                 // }
+
+                try (Statement statement = session.connection().createStatement())
+                {
+                    // Das hier ist natürlich Blödsinn !!!
+                    // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
+                    for (int i = 0; i < this.blockSize; i++)
+                    {
+                        try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName))
+                        {
+                            resultSet.next();
+                            long id = resultSet.getLong(1);
+
+                            this.idQueue.offer(id);
+                        }
+                    }
+                }
+                catch (SQLException sex)
+                {
+                    // LOGGER.error(null, sex);
+                    throw new HibernateException(sex);
+
+                    // return 0;
+                }
             }
 
             Long id = this.idQueue.poll();

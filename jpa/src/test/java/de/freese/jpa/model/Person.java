@@ -60,6 +60,7 @@ import org.hibernate.annotations.FetchMode;
         })
 })
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
+// @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
 public class Person implements Serializable
 {
     /**
@@ -87,7 +88,7 @@ public class Person implements Serializable
     private Boolean cool = null;
 
     /**
-     * SequenceGeneratoren wiederzuverwenden über orm.xml
+     *
      */
     @Id
     @Column(name = "ID", unique = true, nullable = false)
@@ -104,13 +105,13 @@ public class Person implements Serializable
     /**
      *
      */
-    @Column(name = "NAME", length = 50, nullable = false)
+    @Column(name = "NAME", length = 50, nullable = false, insertable = true, updatable = true)
     private String name = null;
 
     /**
      *
      */
-    @Column(name = "VORNAME", length = 50, nullable = false)
+    @Column(name = "VORNAME", length = 50, nullable = false, insertable = true, updatable = true)
     private String vorname = null;
 
     /**
@@ -229,14 +230,11 @@ public class Person implements Serializable
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Person [id=");
-        builder.append(this.id);
-        builder.append(", name=");
-        builder.append(this.name);
-        builder.append(", vorname=");
-        builder.append(this.vorname);
-        builder.append(", addresses=");
-        builder.append(this.addresses);
+        builder.append("Person [");
+        builder.append("id=").append(this.id);
+        builder.append(", name=").append(this.name);
+        builder.append(", vorname=").append(this.vorname);
+        builder.append(", addresses=").append(this.addresses);
         builder.append("]");
 
         return builder.toString();

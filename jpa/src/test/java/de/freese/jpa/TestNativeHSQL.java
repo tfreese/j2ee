@@ -132,6 +132,13 @@ public class TestNativeHSQL extends AbstractTest
         {
             resultSet.next();
             id = resultSet.getInt(1);
+
+            // ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            //
+            // for (int c = 1; c <= resultSetMetaData.getColumnCount(); c++)
+            // {
+            // System.out.println(resultSetMetaData.getColumnName(c));
+            // }
         }
 
         return id;

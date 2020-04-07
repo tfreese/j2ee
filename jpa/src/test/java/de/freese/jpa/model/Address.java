@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -38,6 +39,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
+// @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
 public class Address implements Serializable
 {
     /**
@@ -46,13 +48,17 @@ public class Address implements Serializable
     private static final long serialVersionUID = 2678405627217507543L;
 
     /**
-     * SequenceGeneratoren wiederzuverwenden über orm.xml
+     *
      */
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", initialValue = 1, allocationSize = 10)
     @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
-    // @GeneratedValue(generator = "seq_gen", strategy = GenerationType.SEQUENCE)
+    // @GenericGenerator(name = "my-generator", parameters =
+    // {
+    // @Parameter(name = "sequenceName", value = "ADDRESS_SEQ"), @Parameter(name = "blockSize", value = "5")
+    // }, strategy = "de.freese.jpa.BlockSequenceGenerator")
+    // @GeneratedValue(generator = "my-generator")
     private long id = -1;
 
     /**
@@ -66,7 +72,7 @@ public class Address implements Serializable
     /**
      *
      */
-    @Column(name = "STREET", length = 50, nullable = false)
+    @Column(name = "STREET", length = 50, nullable = false, insertable = true, updatable = true)
     private String street = null;
 
     /**
@@ -115,6 +121,16 @@ public class Address implements Serializable
     }
 
     /**
+     * @PreUpdate
+     */
+    @PrePersist
+    void preInsert()
+    {
+        // TODO
+        System.out.println("Address.preInsert()");
+    }
+
+    /**
      * @param id long
      */
     public void setID(final long id)
@@ -145,12 +161,10 @@ public class Address implements Serializable
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Address [id=");
-        builder.append(this.id);
-        builder.append(", street=");
-        builder.append(this.street);
-        builder.append(", person=");
-        builder.append(this.person.getID());
+        builder.append("Address [");
+        builder.append("id=").append(this.id);
+        builder.append(", street=").append(this.street);
+        builder.append(", person=").append(this.person.getID());
         builder.append("]");
 
         return builder.toString();

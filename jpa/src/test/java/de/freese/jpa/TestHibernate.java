@@ -3,6 +3,7 @@ package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
 import de.freese.jpa.model.Person;
 import de.freese.sql.querydsl.TEmployee;
 
@@ -229,14 +231,46 @@ public class TestHibernate extends AbstractTest
     }
 
     /**
+    *
+    */
+    @Test
+    public void test6Projection()
+    {
+        try (Session session = SESSIONFACTORY.openSession())
+        {
+            StringBuilder hql = new StringBuilder();
+            hql.append("select");
+            hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
+            hql.append("p.id");
+            hql.append(", p.name");
+            hql.append(")");
+            hql.append(" from Person p");
+            hql.append(" order by p.name asc");
+
+            Query<MyProjectionDTO> query = session.createQuery(hql.toString(), MyProjectionDTO.class);
+            List<MyProjectionDTO> result = query.getResultList();
+
+            assertNotNull(result);
+            assertTrue(!result.isEmpty());
+
+            for (int i = 1; i <= result.size(); i++)
+            {
+                MyProjectionDTO dto = result.get(i - 1);
+
+                assertEquals("Name" + i, dto.getName());
+            }
+        }
+    }
+
+    /**
      *
      */
-    // @Test
+    @Test
     @SuppressWarnings(
     {
             "deprecation", "unchecked", "serial"
     })
-    public void test5Transformer()
+    public void test8Transformer()
     {
         try (Session session = SESSIONFACTORY.openSession())
         {
@@ -259,9 +293,9 @@ public class TestHibernate extends AbstractTest
                 public Object transformTuple(final Object[] tuple, final String[] aliases)
                 {
                     TEmployee employee = new TEmployee();
-                    // employee.setMyId(tuple[0]);
-                    // employee.setName(tuple[1]);
-                    // employee.setVorname(tuple[2]);
+                    employee.setMyId(((Number) tuple[0]).longValue());
+                    employee.setName((String) tuple[1]);
+                    employee.setVorname((String) tuple[2]);
 
                     return employee;
                 }
@@ -269,16 +303,17 @@ public class TestHibernate extends AbstractTest
             // query = query.setResultTransformer(Transformers.aliasToBean(TEmployee.class));
             // query.addScalar("name").addScalar("vorName")
 
-            List<TEmployee> result = query.list();
+            List<TEmployee> result = query.getResultList();
 
             assertNotNull(result);
+            assertTrue(!result.isEmpty());
 
-            for (int i = 0; i < result.size(); i++)
+            for (int i = 1; i <= result.size(); i++)
             {
-                TEmployee tEmployee = result.get(i);
+                TEmployee employee = result.get(i - 1);
 
-                assertEquals("Name" + 1, tEmployee.getName());
-                assertEquals("Vorname" + 1, tEmployee.getVorname());
+                assertEquals("Name" + i, employee.getName());
+                assertEquals("Vorname" + i, employee.getVorname());
             }
         }
     }

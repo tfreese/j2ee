@@ -52,9 +52,11 @@ public abstract class AbstractTest
         // config.setProperty(AvailableSettings.HBM2DDL_AUTO, "create-drop");
         // config.setProperty(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
-        // SQL-Format
+        // Über die Property 'AvailableSettings.SHOW_SQL' schreibt Hibernate die Logs direkt in die Console.
+        // Besser: Logger 'org.hibernate.SQL' auf DEBUG setzen !
+        // Logger 'org.hibernate.type.descriptor.sql.BasicBinder' auf TRACE für Parameter in Prepared-Statements.
+        // config.setProperty(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.setProperty(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
-        config.setProperty(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.setProperty(AvailableSettings.GENERATE_STATISTICS,
                 Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
 
