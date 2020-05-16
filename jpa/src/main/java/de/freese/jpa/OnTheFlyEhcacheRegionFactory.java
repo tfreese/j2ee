@@ -14,18 +14,20 @@ import net.sf.ehcache.Cache;
  * Erzeugt On-The-Fly nicht vorhandene EhCaches, ohne eine Exception zu werfen.
  *
  * @author Thomas Freese
+ * @deprecated Use ConfigSettings.MISSING_CACHE_STRATEGY instead
  */
+@Deprecated
 public class OnTheFlyEhcacheRegionFactory extends EhcacheRegionFactory
 {
     /**
      *
      */
-    private static final long serialVersionUID = 5560790286422926761L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(OnTheFlyEhcacheRegionFactory.class);
 
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(OnTheFlyEhcacheRegionFactory.class);
+    private static final long serialVersionUID = 5560790286422926761L;
 
     /**
      * Erstellt ein neues {@link OnTheFlyEhcacheRegionFactory} Object.

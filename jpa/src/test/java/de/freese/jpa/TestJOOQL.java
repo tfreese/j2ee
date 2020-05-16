@@ -13,8 +13,8 @@ import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.Select;
 import org.jooq.conf.ParamType;
-import org.jooq.conf.RenderKeywordStyle;
-import org.jooq.conf.RenderNameStyle;
+import org.jooq.conf.RenderKeywordCase;
+import org.jooq.conf.RenderNameCase;
 import org.jooq.conf.Settings;
 import org.jooq.conf.StatementType;
 import org.jooq.impl.DSL;
@@ -90,8 +90,8 @@ public class TestJOOQL
 
         Settings settings = new Settings();
         settings.setRenderFormatted(Boolean.TRUE);
-        settings.setRenderNameStyle(RenderNameStyle.UPPER);
-        settings.setRenderKeywordStyle(RenderKeywordStyle.UPPER);
+        settings.setRenderNameCase(RenderNameCase.UPPER);
+        settings.setRenderKeywordCase(RenderKeywordCase.UPPER);
         settings.setStatementType(StatementType.PREPARED_STATEMENT);
         settings.setRenderSchema(Boolean.FALSE);
         settings.setParamType(ParamType.INLINED);
