@@ -27,7 +27,7 @@
 		<maven.test.skip>true</maven.test.skip>
 		
         <version_io.openliberty>20.0.0.9</version_io.openliberty>
-        <version_net.wasdev.maven.tools.targets_liberty-apis>20.0.0.6</version_net.wasdev.maven.tools.targets_liberty-apis>
+        <version_net.wasdev.maven.tools.targets_liberty-apis>20.0.0.9</version_net.wasdev.maven.tools.targets_liberty-apis>
 
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
         <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
