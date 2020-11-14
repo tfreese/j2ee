@@ -40,8 +40,8 @@ import de.freese.sql.jooql.tables.records.TEmployeeRecord;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestJOOQL
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestJOOQL
 {
     /**
      *
@@ -64,7 +64,7 @@ public class TestJOOQL
     @AfterAll
     static void afterAll()
     {
-        DSL_CONTEXT.close();
+        // DSL_CONTEXT.close();
         DATA_SOURCE.destroy();
     }
 
@@ -106,19 +106,11 @@ public class TestJOOQL
     }
 
     /**
-     * Erstellt ein neues {@link TestJOOQL} Object.
-     */
-    public TestJOOQL()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @SuppressWarnings("resource")
     @Test
-    public void test01Select()
+    void test01Select()
     {
         TEmployee tEmployee = TEmployee.T_EMPLOYEE;
 
@@ -139,7 +131,7 @@ public class TestJOOQL
      */
     @SuppressWarnings("resource")
     @Test
-    public void test01SelectSpring()
+    void test01SelectSpring()
     {
         TEmployee tEmployee = TEmployee.T_EMPLOYEE;
 
@@ -160,7 +152,7 @@ public class TestJOOQL
      */
     @SuppressWarnings("resource")
     @Test
-    public void test02FindOne()
+    void test02FindOne()
     {
         TEmployee tEmployee = TEmployee.T_EMPLOYEE;
 
@@ -178,7 +170,7 @@ public class TestJOOQL
      */
     @SuppressWarnings("resource")
     @Test
-    public void test02FindOneSpring()
+    void test02FindOneSpring()
     {
         TEmployee tEmployee = TEmployee.T_EMPLOYEE;
 
@@ -199,7 +191,7 @@ public class TestJOOQL
      */
     @SuppressWarnings("resource")
     @Test
-    public void test03SelectRowMapper() throws SQLException
+    void test03SelectRowMapper() throws SQLException
     {
         TEmployee tEmployee = TEmployee.T_EMPLOYEE;
 

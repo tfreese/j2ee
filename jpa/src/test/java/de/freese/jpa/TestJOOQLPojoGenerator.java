@@ -23,8 +23,8 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestJOOQLPojoGenerator
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestJOOQLPojoGenerator
 {
     /**
      *
@@ -61,18 +61,10 @@ public class TestJOOQLPojoGenerator
     }
 
     /**
-     * Erstellt ein neues {@link TestJOOQLPojoGenerator} Object.
-     */
-    public TestJOOQLPojoGenerator()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void createEntities() throws Exception
+    void createEntities() throws Exception
     {
         Configuration configuration = new Configuration();
 

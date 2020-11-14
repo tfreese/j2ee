@@ -22,8 +22,8 @@ import com.querydsl.sql.codegen.MetaDataExporter;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestQuerydslPojoGenerator
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestQuerydslPojoGenerator
 {
     /**
      *
@@ -61,18 +61,10 @@ public class TestQuerydslPojoGenerator
     }
 
     /**
-     * Erstellt ein neues {@link TestQuerydslPojoGenerator} Object.
-     */
-    public TestQuerydslPojoGenerator()
-    {
-        super();
-    }
-
-    /**
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void createEntities() throws SQLException
+    void createEntities() throws SQLException
     {
         PojoBeanSerializer serializer = new PojoBeanSerializer();
         // PojoBeanSerializer serializer = new HibernateBeanSerializer(); // Erzeugt noch NullPointer

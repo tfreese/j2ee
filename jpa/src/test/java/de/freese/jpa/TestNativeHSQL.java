@@ -23,8 +23,8 @@ import de.freese.jpa.model.Person;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestNativeHSQL extends AbstractTest
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestNativeHSQL extends AbstractTest
 {
     /**
      *
@@ -99,14 +99,6 @@ public class TestNativeHSQL extends AbstractTest
         // }
         //
         // ds.destroy();
-    }
-
-    /**
-     * Creates a new {@link TestNativeHSQL} object.
-     */
-    public TestNativeHSQL()
-    {
-        super();
     }
 
     /**

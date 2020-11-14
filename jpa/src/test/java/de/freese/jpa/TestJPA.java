@@ -29,8 +29,8 @@ import de.freese.jpa.model.Person;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestJPA extends AbstractTest
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestJPA extends AbstractTest
 {
     /**
      *
@@ -70,14 +70,6 @@ public class TestJPA extends AbstractTest
         {
             LOGGER.error(null, ex);
         }
-    }
-
-    /**
-     * Erstellt ein neues {@link TestJPA} Object.
-     */
-    public TestJPA()
-    {
-        super();
     }
 
     /**
@@ -210,7 +202,7 @@ public class TestJPA extends AbstractTest
     *
     */
     @Test
-    public void test6Projection()
+    void test6Projection()
     {
         EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
         // entityManager.getTransaction().begin();
@@ -245,7 +237,7 @@ public class TestJPA extends AbstractTest
      *
      */
     @Test
-    public void test99Statistics()
+    void test99Statistics()
     {
         dumpStatistics(System.out, (SessionFactoryImpl) ENTITYMANAGERFACTORY);
     }

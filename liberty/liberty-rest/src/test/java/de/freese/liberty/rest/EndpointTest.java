@@ -19,23 +19,15 @@ import org.junit.jupiter.api.TestMethodOrder;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled
-public class EndpointTest
+class EndpointTest
 {
-    /**
-     * Erstellt ein neues {@link EndpointTest} Object.
-     */
-    public EndpointTest()
-    {
-        super();
-    }
-
     /**
      * http://localhost:9080/rest/liberty/service/properties
      */
     @Test
-    public void testGetProperties()
+    void testGetProperties()
     {
         String port = "9080";
         String war = "liberty-rest";

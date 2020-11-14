@@ -31,12 +31,12 @@ public class HazelcastInitializer
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastInitializer.class);
+    private static HazelcastInstance hazelcastInstance;
 
     /**
     *
     */
-    private static HazelcastInstance hazelcastInstance = null;
+    private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastInitializer.class);
 
     /**
      * @return {@link HazelcastInstance}
@@ -50,7 +50,7 @@ public class HazelcastInitializer
     *
     */
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
-    private ExecutorService executorService = null;
+    private ExecutorService executorService;
 
     /**
      * Erstellt ein neues {@link HazelcastInitializer} Object.

@@ -31,8 +31,8 @@ import de.freese.sql.querydsl.TEmployee;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestHibernate extends AbstractTest
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestHibernate extends AbstractTest
 {
     /**
      *
@@ -79,14 +79,6 @@ public class TestHibernate extends AbstractTest
 
             LOGGER.error(null, ex);
         }
-    }
-
-    /**
-     * Erstellt ein neues {@link TestHibernate} Object.
-     */
-    public TestHibernate()
-    {
-        super();
     }
 
     /**
@@ -234,7 +226,7 @@ public class TestHibernate extends AbstractTest
     *
     */
     @Test
-    public void test6Projection()
+    void test6Projection()
     {
         try (Session session = SESSIONFACTORY.openSession())
         {
@@ -270,7 +262,7 @@ public class TestHibernate extends AbstractTest
     {
             "deprecation", "unchecked", "serial"
     })
-    public void test8Transformer()
+    void test8Transformer()
     {
         try (Session session = SESSIONFACTORY.openSession())
         {
@@ -322,7 +314,7 @@ public class TestHibernate extends AbstractTest
      *
      */
     @Test
-    public void test99Statistics()
+    void test99Statistics()
     {
         dumpStatistics(System.out, SESSIONFACTORY);
     }

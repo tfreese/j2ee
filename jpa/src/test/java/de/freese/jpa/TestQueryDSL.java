@@ -43,8 +43,8 @@ import de.freese.sql.querydsl.TEmployee;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestQueryDSL
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestQueryDSL
 {
     /**
      *
@@ -114,24 +114,10 @@ public class TestQueryDSL
     }
 
     /**
-     * Erstellt ein neues {@link TestQueryDSL} Object.
-     */
-    public TestQueryDSL()
-    {
-        super();
-
-        // siehe test/resources/simplelogger.properties
-        // System.setProperty("org.slf4j.simpleLogger.log.org.springframework.jdbc.core.JdbcTemplate",
-        // "DEBUG");
-        // System.setProperty("org.slf4j.simpleLogger.log.com.mysema.query.sql.AbstractSQLQuery",
-        // "DEBUG");
-    }
-
-    /**
      *
      */
     @Test
-    public void test01Select()
+    void test01Select()
     {
         QTEmployee e = QTEmployee.tEmployee;
 
@@ -148,7 +134,7 @@ public class TestQueryDSL
      *
      */
     @Test
-    public void test01SelectSpring()
+    void test01SelectSpring()
     {
         QTEmployee e = QTEmployee.tEmployee;
 
@@ -168,7 +154,7 @@ public class TestQueryDSL
      *
      */
     @Test
-    public void test02FindOne()
+    void test02FindOne()
     {
         QTEmployee e = QTEmployee.tEmployee;
 
@@ -189,7 +175,7 @@ public class TestQueryDSL
      *
      */
     @Test
-    public void test02FindOneSpring()
+    void test02FindOneSpring()
     {
         QTEmployee e = QTEmployee.tEmployee;
 
@@ -209,7 +195,7 @@ public class TestQueryDSL
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void test03SelectRowMapper() throws SQLException
+    void test03SelectRowMapper() throws SQLException
     {
         QTEmployee e = QTEmployee.tEmployee;
 
