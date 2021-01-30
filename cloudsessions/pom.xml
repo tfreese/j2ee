@@ -54,7 +54,7 @@
     </build>
 
     <dependencies>
-    	<!-- spring-cloud-dependencies - spring-cloud-aws-dependencies -->
+    	<!-- org.springframework.cloud:spring-cloud-aws-dependencies -->
     	
         <!-- compile scope -->        
         <!--dependency>
