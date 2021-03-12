@@ -42,7 +42,7 @@ public class AmazonSessionService implements CloudSession
 
         AWSCredentials credentials = null;
 
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("AwsCredentials.properties"))
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties"))
         {
             credentials = new PropertiesCredentials(inputStream);
         }

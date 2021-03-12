@@ -95,14 +95,6 @@ public abstract class AbstractTest
     }
 
     /**
-     * Erstellt ein neues {@link AbstractTest} Object.
-     */
-    public AbstractTest()
-    {
-        super();
-    }
-
-    /**
      * @return {@link Person}
      */
     protected List<Person> createPersons()
@@ -222,22 +214,22 @@ public abstract class AbstractTest
     /**
      *
      */
-    public abstract void test1Insert();
+    public abstract void test010Insert();
 
     /**
      *
      */
-    public abstract void test2SelectAll();
+    public abstract void test020SelectAll();
 
     /**
      *
      */
-    public abstract void test3SelectVorname();
+    public abstract void test030SelectVorname();
 
     /**
      *
      */
-    public abstract void test4NativeQuery();
+    public abstract void test040NativeQuery();
 
     /**
      * @param persons {@link List}

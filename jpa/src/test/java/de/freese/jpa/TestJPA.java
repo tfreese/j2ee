@@ -73,11 +73,11 @@ class TestJPA extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test1Insert()
+     * @see de.freese.jpa.AbstractTest#test010Insert()
      */
     @Override
     @Test
-    public void test1Insert()
+    public void test010Insert()
     {
         EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
         entityManager.getTransaction().begin();
@@ -95,12 +95,12 @@ class TestJPA extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test2SelectAll()
+     * @see de.freese.jpa.AbstractTest#test020SelectAll()
      */
     @SuppressWarnings("unchecked")
     @Override
     @Test
-    public void test2SelectAll()
+    public void test020SelectAll()
     {
         EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
         // entityManager.getTransaction().begin();
@@ -121,11 +121,11 @@ class TestJPA extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test3SelectVorname()
+     * @see de.freese.jpa.AbstractTest#test030SelectVorname()
      */
     @Override
     @Test
-    public void test3SelectVorname()
+    public void test030SelectVorname()
     {
         String vorname = "Vorname1";
 
@@ -150,12 +150,12 @@ class TestJPA extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test4NativeQuery()
+     * @see de.freese.jpa.AbstractTest#test040NativeQuery()
      */
     @SuppressWarnings("unchecked")
     @Override
     @Test
-    public void test4NativeQuery()
+    public void test040NativeQuery()
     {
         List<Person> persons = new ArrayList<>();
 
@@ -240,5 +240,7 @@ class TestJPA extends AbstractTest
     void test99Statistics()
     {
         dumpStatistics(System.out, (SessionFactoryImpl) ENTITYMANAGERFACTORY);
+
+        assertTrue(true);
     }
 }

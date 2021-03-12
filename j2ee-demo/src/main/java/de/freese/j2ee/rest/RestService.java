@@ -1,7 +1,6 @@
 /**
  * Created: 10.05.2013
  */
-
 package de.freese.j2ee.rest;
 
 import java.util.List;
@@ -42,43 +41,35 @@ import de.freese.j2ee.persistence.MyEntityManager;
 public class RestService
 {
     /**
-     * 
+     *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
 
     /**
-     * 
+     *
      */
     @Context
-    private SecurityContext context = null;
+    private SecurityContext context;
 
     /**
      *
      */
     @Inject
     @MyDataSource
-    private DataSource dataSource = null;
+    private DataSource dataSource;
 
     /**
-     * 
+     *
      */
     @Inject
     @MyEntityManager
-    private EntityManager entityManager = null;
+    private EntityManager entityManager;
 
     /**
-     * 
+     *
      */
     @Resource
-    private UserTransaction ut = null;
-
-    /**
-     * Erstellt ein neues {@link RestService} Object.
-     */
-    public RestService()
-    {
-        super();
-    }
+    private UserTransaction ut;
 
     /**
      * @param id long

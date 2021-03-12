@@ -1,7 +1,6 @@
 /**
  * Created: 16.12.2012
  */
-
 package de.freese.j2ee.model;
 
 import java.util.List;
@@ -17,33 +16,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class KundeList
 {
-	/**
-	 * 
-	 */
-	@XmlElement(required = true)
-	private List<Kunde> kunden = null;
+    /**
+     *
+     */
+    @XmlElement(required = true)
+    private List<Kunde> kunden;
 
-	/**
-	 * Erstellt ein neues {@link KundeList} Object.
-	 */
-	public KundeList()
-	{
-		super();
-	}
+    /**
+     * @return {@link List}<Kunde>
+     */
+    public List<Kunde> getKunden()
+    {
+        return this.kunden;
+    }
 
-	/**
-	 * @return {@link List}<Kunde>
-	 */
-	public List<Kunde> getKunden()
-	{
-		return this.kunden;
-	}
-
-	/**
-	 * @param kunden {@link List}<Kunde>
-	 */
-	public void setKunden(final List<Kunde> kunden)
-	{
-		this.kunden = kunden;
-	}
+    /**
+     * @param kunden {@link List}<Kunde>
+     */
+    public void setKunden(final List<Kunde> kunden)
+    {
+        this.kunden = kunden;
+    }
 }

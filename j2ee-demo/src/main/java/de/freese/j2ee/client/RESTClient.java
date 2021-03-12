@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import de.freese.j2ee.model.Kunde;
@@ -103,7 +104,7 @@ public class RESTClient
         System.out.println("Content-Type = " + connection.getContentType());
         System.out.println("Location: " + connection.getHeaderField("Location"));
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         String line = reader.readLine();
 
         while (line != null)
@@ -148,7 +149,7 @@ public class RESTClient
         }
 
         try (InputStream inputStream = connection.getInputStream();
-             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
              BufferedReader reader = new BufferedReader(inputStreamReader))
         {
 
@@ -180,7 +181,7 @@ public class RESTClient
 
         try (OutputStream out = connection.getOutputStream())
         {
-            out.write("<kunde id=\"1\"><name>CCC</name><vorname>DDD</vorname></kunde>".getBytes());
+            out.write("<kunde id=\"1\"><name>CCC</name><vorname>DDD</vorname></kunde>".getBytes(StandardCharsets.UTF_8));
             out.flush();
         }
 

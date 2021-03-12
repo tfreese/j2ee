@@ -4,17 +4,18 @@
 
 package de.freese.j2ee.rest;
 
-import de.freese.j2ee.model.Kunde;
 import java.util.List;
+import de.freese.j2ee.model.Kunde;
 
 /**
  * @author Thomas Freese
  */
 // @Remote
+@FunctionalInterface
 public interface IKundenService
 {
-	/**
-	 * @return {@link List}
-	 */
-	public List<Kunde> getData();
+    /**
+     * @return {@link List}
+     */
+    public List<Kunde> getData();
 }

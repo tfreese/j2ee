@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.freese.j2ee.rest;
 
@@ -12,11 +12,11 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/rest")
 public class RestConfig extends Application
 {
-	/**
-	 * 
-	 */
-	public RestConfig()
-	{
-		super();
-	}
+    /**
+     * 
+     */
+    public RestConfig()
+    {
+        super();
+    }
 }

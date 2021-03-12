@@ -1,7 +1,6 @@
 /**
  * Created: 21.05.2013
  */
-
 package de.freese.j2ee.jmx;
 
 import java.lang.annotation.ElementType;
@@ -17,13 +16,13 @@ import javax.inject.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(
 {
-		ElementType.TYPE, ElementType.FIELD
+        ElementType.TYPE, ElementType.FIELD
 })
 public @interface JMXBean
 {
-	// /**
-	// * @return String
-	// */
-	// @Nonbinding
-	// public String objectName() default "";
+    // /**
+    // * @return String
+    // */
+    // @Nonbinding
+    // public String objectName() default "";
 }

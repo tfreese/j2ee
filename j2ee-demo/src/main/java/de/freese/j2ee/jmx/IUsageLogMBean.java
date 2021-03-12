@@ -9,10 +9,11 @@ import java.util.Set;
 /**
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface IUsageLogMBean
 {
-	/**
-	 * @return {@link Set}
-	 */
-	public Set<String> getParameters();
+    /**
+     * @return {@link Set}
+     */
+    public Set<String> getParameters();
 }

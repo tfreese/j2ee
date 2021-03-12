@@ -12,72 +12,64 @@ import javax.validation.constraints.Max;
 @RequestScoped
 public class FakultaetView
 {
-	/**
-	 * 
-	 */
-	private long fakt = 0;
+    /**
+     *
+     */
+    private long fakt;
 
-	/**
-	 * 
-	 */
-	@Inject
-	@Recursive
-	private IFakultaet fakultaet = null;
+    /**
+     *
+     */
+    @Inject
+    @Recursive
+    private IFakultaet fakultaet;
 
-	/**
-	 * 
-	 */
-	@Max(5)
-	private int n = 0;
+    /**
+     *
+     */
+    @Max(5)
+    private int n;
 
-	/**
-	 * Erstellt ein neues {@link FakultaetView} Object.
-	 */
-	public FakultaetView()
-	{
-		super();
-	}
+    /**
+     * @return String
+     */
+    public String calculate()
+    {
+        System.out.println("Test " + getN());
+        setFakt(this.fakultaet.getFakultaet(getN()));
 
-	/**
-	 * @return String
-	 */
-	public String calculate()
-	{
-		System.out.println("Test " + getN());
-		setFakt(this.fakultaet.getFakultaet(getN()));
+        return null;
+    }
 
-		return null;
-	}
+    /**
+     * @return return
+     */
+    public long getFakt()
+    {
+        return this.fakt;
+    }
 
-	/**
-	 * @return return
-	 */
-	public long getFakt()
-	{
-		return this.fakt;
-	}
+    /**
+     * @return int
+     */
+    public int getN()
+    {
+        return this.n;
+    }
 
-	/**
-	 * @return int
-	 */
-	public int getN()
-	{
-		return this.n;
-	}
+    /**
+     * @param fakt long
+     */
+    public void setFakt(final long fakt)
+    {
+        this.fakt = fakt;
+    }
 
-	/**
-	 * @param fakt long
-	 */
-	public void setFakt(final long fakt)
-	{
-		this.fakt = fakt;
-	}
-
-	/**
-	 * @param n int
-	 */
-	public void setN(final int n)
-	{
-		this.n = n;
-	}
+    /**
+     * @param n int
+     */
+    public void setN(final int n)
+    {
+        this.n = n;
+    }
 }

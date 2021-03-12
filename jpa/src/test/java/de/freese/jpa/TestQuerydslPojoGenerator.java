@@ -3,6 +3,7 @@
  */
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -93,5 +94,7 @@ class TestQuerydslPojoGenerator
         {
             exporter.export(connection.getMetaData());
         }
+
+        assertTrue(true);
     }
 }

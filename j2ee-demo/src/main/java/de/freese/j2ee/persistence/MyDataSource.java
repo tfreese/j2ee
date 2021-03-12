@@ -1,7 +1,6 @@
 /**
  * Created: 21.05.2013
  */
-
 package de.freese.j2ee.persistence;
 
 import java.lang.annotation.ElementType;
@@ -17,7 +16,7 @@ import javax.inject.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(
 {
-		ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER
+        ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER
 })
 public @interface MyDataSource
 {

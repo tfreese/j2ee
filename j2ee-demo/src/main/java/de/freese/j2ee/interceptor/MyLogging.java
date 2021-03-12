@@ -1,7 +1,6 @@
 /**
  * Created: 21.05.2013
  */
-
 package de.freese.j2ee.interceptor;
 
 import java.lang.annotation.ElementType;
@@ -18,7 +17,7 @@ import javax.interceptor.InterceptorBinding;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(
 {
-		ElementType.TYPE, ElementType.METHOD
+        ElementType.TYPE, ElementType.METHOD
 })
 @InterceptorBinding
 public @interface MyLogging

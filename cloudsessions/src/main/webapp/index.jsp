@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 
 <%
     /*
@@ -19,5 +19,5 @@
 
 <html>
 	<a href="./Session">Session test</a>
-</html>
+</html> 
 

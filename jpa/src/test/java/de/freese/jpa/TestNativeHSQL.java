@@ -3,6 +3,7 @@
  */
 package de.freese.jpa;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -191,11 +192,11 @@ class TestNativeHSQL extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test1Insert()
+     * @see de.freese.jpa.AbstractTest#test010Insert()
      */
     @Override
     @Test
-    public void test1Insert()
+    public void test010Insert()
     {
         List<Person> persons = createPersons();
 
@@ -273,11 +274,11 @@ class TestNativeHSQL extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test2SelectAll()
+     * @see de.freese.jpa.AbstractTest#test020SelectAll()
      */
     @Override
     @Test
-    public void test2SelectAll()
+    public void test020SelectAll()
     {
         List<Person> persons = new ArrayList<>();
 
@@ -303,11 +304,11 @@ class TestNativeHSQL extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test3SelectVorname()
+     * @see de.freese.jpa.AbstractTest#test030SelectVorname()
      */
     @Override
     @Test
-    public void test3SelectVorname()
+    public void test030SelectVorname()
     {
         String vorname = "Vorname1";
         List<Person> persons = new ArrayList<>();
@@ -338,12 +339,13 @@ class TestNativeHSQL extends AbstractTest
     }
 
     /**
-     * @see de.freese.jpa.AbstractTest#test4NativeQuery()
+     * @see de.freese.jpa.AbstractTest#test040NativeQuery()
      */
     @Override
     @Test
-    public void test4NativeQuery()
+    public void test040NativeQuery()
     {
         // Nur für Hibernate- und JPA-Tests relevant.
+        assertTrue(true);
     }
 }

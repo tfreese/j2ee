@@ -1,7 +1,6 @@
 /**
  * Created: 21.05.2013
  */
-
 package de.freese.j2ee.persistence;
 
 import javax.annotation.Resource;
@@ -15,27 +14,19 @@ import javax.sql.DataSource;
  */
 public class PersistenceProducer
 {
-	/**
-	 * 
-	 */
-	@Produces
-	@MyDataSource
-	@Resource(mappedName = "jdbc/hsqldb-memory")
-	private DataSource dataSource = null;
+    /**
+     * 
+     */
+    @Produces
+    @MyDataSource
+    @Resource(mappedName = "jdbc/hsqldb-memory")
+    private DataSource dataSource;
 
-	/**
-	 * 
-	 */
-	@Produces
-	@MyEntityManager
-	@PersistenceContext(unitName = "j2eeJPA")
-	private EntityManager entityManager = null;
-
-	/**
-	 * Erstellt ein neues {@link PersistenceProducer} Object.
-	 */
-	public PersistenceProducer()
-	{
-		super();
-	}
+    /**
+     * 
+     */
+    @Produces
+    @MyEntityManager
+    @PersistenceContext(unitName = "j2eeJPA")
+    private EntityManager entityManager;
 }

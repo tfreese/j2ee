@@ -40,7 +40,7 @@ public class CloudSessionCache implements CloudSession
     /**
      *
      */
-    private int sessionLivetime = 0;
+    private int sessionLivetime;
 
     /**
      * Erstellt ein neues {@link CloudSessionCache} Object.
@@ -171,13 +171,7 @@ public class CloudSessionCache implements CloudSession
                 sessionID, name, value
         });
 
-        Map<String, Object> entry = this.hash.get(sessionID);
-
-        if (entry == null)
-        {
-            entry = Collections.synchronizedMap(new HashMap<String, Object>());
-            this.hash.put(sessionID, entry);
-        }
+        Map<String, Object> entry = this.hash.computeIfAbsent(sessionID, key -> Collections.synchronizedMap(new HashMap<String, Object>()));
 
         // update value in my cache
         entry.put(name, value);

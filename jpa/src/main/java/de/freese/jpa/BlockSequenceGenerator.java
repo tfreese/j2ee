@@ -37,7 +37,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     /**
      *
      */
-    private int blockSize = 0;
+    private int blockSize;
 
     /**
     *
@@ -47,15 +47,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     /**
      *
      */
-    private String sequenceName = null;
-
-    /**
-     * Erstellt ein neues {@link BlockSequenceGenerator} Object.
-     */
-    public BlockSequenceGenerator()
-    {
-        super();
-    }
+    private String sequenceName;
 
     /**
      * @see org.hibernate.id.Configurable#configure(org.hibernate.type.Type, java.util.Properties, org.hibernate.service.ServiceRegistry)
