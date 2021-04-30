@@ -33,9 +33,9 @@
 	<properties>
 		<maven.test.skip>true</maven.test.skip>
 		
-		<version_org.wildfly_wildfly-dist>23.0.1.Final</version_org.wildfly_wildfly-dist>
-		<version_org.wildfly_wildfly-ejb-client-bom>23.0.1.Final</version_org.wildfly_wildfly-ejb-client-bom>
-		<version_org.wildfly.bom_wildfly-javaee8-with-tools>23.0.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
+		<version_org.wildfly_wildfly-dist>23.0.2.Final</version_org.wildfly_wildfly-dist>
+		<version_org.wildfly_wildfly-ejb-client-bom>23.0.2.Final</version_org.wildfly_wildfly-ejb-client-bom>
+		<version_org.wildfly.bom_wildfly-javaee8-with-tools>23.0.2.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
 
 		<version_org.wildfly.plugins_wildfly-maven-plugin>2.0.2.Final</version_org.wildfly.plugins_wildfly-maven-plugin>
 	</properties>
