@@ -95,6 +95,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+            <!-- 5.0.3.Final-redhat-00007 ist nicht öffentlich -->
+            <dependency>
+                <groupId>org.picketbox</groupId>
+                <artifactId>picketbox</artifactId>
+                <version>5.0.3.Final</version>
+            </dependency>        
 			<dependency>
 				<groupId>org.wildfly</groupId>
 				<artifactId>wildfly-dist</artifactId>
