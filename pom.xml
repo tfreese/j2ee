@@ -29,6 +29,21 @@
         <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
         <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
     </scm>
+    
+    <properties>
+        <version_io.openliberty>21.0.0.6</version_io.openliberty>
+        <version_net.wasdev.maven.tools.targets_liberty-apis>21.0.0.3</version_net.wasdev.maven.tools.targets_liberty-apis>
+
+        <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
+        <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
+        <version_org.jboss.arquillian.junit>1.6.0.Final</version_org.jboss.arquillian.junit>
+		<version_org.wildfly_wildfly-dist>24.0.0.Final</version_org.wildfly_wildfly-dist>
+		<version_org.wildfly_wildfly-ejb-client-bom>24.0.0.SP1</version_org.wildfly_wildfly-ejb-client-bom>
+		<version_org.wildfly.bom_wildfly-javaee8-with-tools>24.0.0.SP1</version_org.wildfly.bom_wildfly-javaee8-with-tools>      
+
+        <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
+        <version_org.wildfly.plugins_wildfly-maven-plugin>2.0.2.Final</version_org.wildfly.plugins_wildfly-maven-plugin>  
+    </properties>    
 
     <modules>
         <module>agentportal</module>
