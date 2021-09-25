@@ -1,12 +1,14 @@
-// Erzeugt: 09.12.2015
+// Created: 09.12.2015
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -30,6 +32,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+
 import de.freese.TEmployeeRowMapper;
 import de.freese.sql.jooql.tables.TEmployee;
 import de.freese.sql.jooql.tables.records.TEmployeeRecord;
@@ -47,12 +50,10 @@ class TestJOOQL
      *
      */
     private static SingleConnectionDataSource DATA_SOURCE = null;
-
     /**
      *
      */
     private static DSLContext DSL_CONTEXT = null;
-
     /**
      *
      */
@@ -108,7 +109,6 @@ class TestJOOQL
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
     void test01Select()
     {
@@ -121,7 +121,7 @@ class TestJOOQL
 
             assertNotNull(result);
             assertEquals(1, result.size());
-            assertEquals(1L, result.get(0).getMyId().longValue());
+            assertEquals(1L, result.get(0).getMyId());
             // assertEquals(1L, result.get(0).getValue(tPerson.MY_ID).longValue());
         }
     }
@@ -129,7 +129,6 @@ class TestJOOQL
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
     void test01SelectSpring()
     {
@@ -143,14 +142,13 @@ class TestJOOQL
 
             assertNotNull(springResult);
             assertTrue(springResult.size() >= 1);
-            assertEquals(1L, springResult.get(0).getMyId().longValue());
+            assertEquals(1L, springResult.get(0).getMyId());
         }
     }
 
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
     void test02FindOne()
     {
@@ -161,14 +159,13 @@ class TestJOOQL
             TEmployeeRecord result = select.fetchOne();
 
             assertNotNull(result);
-            assertEquals(1L, result.getMyId().longValue());
+            assertEquals(1L, result.getMyId());
         }
     }
 
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
     void test02FindOneSpring()
     {
@@ -182,14 +179,13 @@ class TestJOOQL
 
             assertNotNull(springResult);
             assertTrue(springResult.size() >= 1);
-            assertEquals(1L, springResult.get(0).getMyId().longValue());
+            assertEquals(1L, springResult.get(0).getMyId());
         }
     }
 
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
     void test03SelectRowMapper() throws SQLException
     {
@@ -204,7 +200,7 @@ class TestJOOQL
 
             assertNotNull(result);
             assertTrue(result.size() >= 1);
-            assertEquals(1L, result.get(0).getMyId().longValue());
+            assertEquals(1L, result.get(0).getMyId());
         }
     }
 }

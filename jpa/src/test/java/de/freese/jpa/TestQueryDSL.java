@@ -1,14 +1,13 @@
-/**
- *
- */
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -25,11 +24,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.HSQLDBTemplates;
 import com.querydsl.sql.SQLBindings;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+
 import de.freese.TEmployeeRowMapper;
 import de.freese.jpa.jdbc.SpringExceptionTranslator;
 import de.freese.sql.querydsl.QTEmployee;
@@ -50,17 +51,14 @@ class TestQueryDSL
      *
      */
     private static SingleConnectionDataSource DATA_SOURCE = null;
-
     /**
      *
      */
     private static JdbcTemplate JDBC_TEMPLATE = null;
-
     /**
      *
      */
     private static SQLQueryFactory QUERY_FACTORY = null;
-
     /**
      *
      */
@@ -127,7 +125,7 @@ class TestQueryDSL
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getMyId().longValue());
+        assertEquals(1L, result.get(0).getMyId());
     }
 
     /**
@@ -147,7 +145,7 @@ class TestQueryDSL
 
         assertNotNull(springResult);
         assertTrue(springResult.size() >= 1);
-        assertEquals(1L, springResult.get(0).getMyId().longValue());
+        assertEquals(1L, springResult.get(0).getMyId());
     }
 
     /**
@@ -168,7 +166,7 @@ class TestQueryDSL
         TX_MANAGER.commit(transactionStatus);
 
         assertNotNull(result);
-        assertEquals(1L, result.getMyId().longValue());
+        assertEquals(1L, result.getMyId());
     }
 
     /**
@@ -188,7 +186,7 @@ class TestQueryDSL
 
         assertNotNull(springResult);
         assertTrue(springResult.size() >= 1);
-        assertEquals(1L, springResult.get(0).getMyId().longValue());
+        assertEquals(1L, springResult.get(0).getMyId());
     }
 
     /**
@@ -209,7 +207,7 @@ class TestQueryDSL
 
             assertNotNull(result);
             assertTrue(result.size() >= 1);
-            assertEquals(1L, result.get(0).getMyId().longValue());
+            assertEquals(1L, result.get(0).getMyId());
         }
     }
 }

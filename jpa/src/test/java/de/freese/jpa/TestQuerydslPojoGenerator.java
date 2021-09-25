@@ -1,13 +1,12 @@
-/**
- *
- */
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
 import com.querydsl.codegen.JavaTypeMappings;
 import com.querydsl.sql.codegen.MetaDataExporter;
 

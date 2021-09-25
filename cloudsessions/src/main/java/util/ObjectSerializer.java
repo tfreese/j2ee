@@ -1,11 +1,12 @@
 package util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -13,19 +14,19 @@ import org.slf4j.LoggerFactory;
 public class ObjectSerializer
 {
 
-    /**
-     *
-     */
-    public static final Logger LOGGER = LoggerFactory.getLogger(ObjectSerializer.class);
-
-//    /**
-//     *
-//     */
-//    private static final XStream XSTREAM = new XStream(new XppDriver());
+    // /**
+    // *
+    // */
+    // private static final XStream XSTREAM = new XStream(new XppDriver());
     /**
      *
      */
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+
+    /**
+     *
+     */
+    public static final Logger LOGGER = LoggerFactory.getLogger(ObjectSerializer.class);
 
     static
     {
@@ -46,7 +47,7 @@ public class ObjectSerializer
      */
     public static Object fromJSON(final String json)
     {
-        if (json == null || json.trim().isEmpty())
+        if ((json == null) || json.trim().isEmpty())
         {
             return null;
         }
@@ -59,45 +60,45 @@ public class ObjectSerializer
         }
         catch (Exception ex)
         {
-            if (ex instanceof RuntimeException)
+            if (ex instanceof RuntimeException rex)
             {
-                throw (RuntimeException) ex;
+                throw rex;
             }
 
             throw new RuntimeException(ex);
         }
     }
 
-//    /**
-//     * @param xml String
-//     *
-//     * @return Object
-//     */
-//    public static Object fromXML(final String xml)
-//    {
-//        if (xml == null || xml.trim().isEmpty())
-//        {
-//            return null;
-//        }
-//
-//        Object o = XSTREAM.fromXML(xml);
-//
-//        return o;
-//    }
-//    /**
-//     * @param o Object
-//     *
-//     * @return String
-//     */
-//    public static String toXML(final Object o)
-//    {
-//        if (o == null)
-//        {
-//            return null;
-//        }
-//
-//        return XSTREAM.toXML(o);
-//    }
+    // /**
+    // * @param xml String
+    // *
+    // * @return Object
+    // */
+    // public static Object fromXML(final String xml)
+    // {
+    // if (xml == null || xml.trim().isEmpty())
+    // {
+    // return null;
+    // }
+    //
+    // Object o = XSTREAM.fromXML(xml);
+    //
+    // return o;
+    // }
+    // /**
+    // * @param o Object
+    // *
+    // * @return String
+    // */
+    // public static String toXML(final Object o)
+    // {
+    // if (o == null)
+    // {
+    // return null;
+    // }
+    //
+    // return XSTREAM.toXML(o);
+    // }
     /**
      * @param o Object
      *

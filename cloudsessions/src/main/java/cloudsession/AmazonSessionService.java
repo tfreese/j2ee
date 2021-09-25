@@ -2,6 +2,7 @@ package cloudsession;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -16,6 +17,7 @@ import com.amazonaws.services.simpledb.model.GetAttributesRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesResult;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
+
 import util.ObjectSerializer;
 
 /**
@@ -27,7 +29,6 @@ public class AmazonSessionService implements CloudSession
      *
      */
     private static final String SESSIONS_DOMAIN = "Sessions";
-
     /**
      *
      */

@@ -1,6 +1,4 @@
-/**
- * Created: 21.05.2013
- */
+// Created: 21.05.2013
 package de.freese.j2ee.persistence;
 
 import javax.annotation.Resource;
@@ -15,15 +13,14 @@ import javax.sql.DataSource;
 public class PersistenceProducer
 {
     /**
-     * 
+     *
      */
     @Produces
     @MyDataSource
     @Resource(mappedName = "jdbc/hsqldb-memory")
     private DataSource dataSource;
-
     /**
-     * 
+     *
      */
     @Produces
     @MyEntityManager

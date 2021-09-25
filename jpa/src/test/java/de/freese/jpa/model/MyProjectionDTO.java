@@ -1,7 +1,8 @@
-// Created: 2020-03-22 09.57.14,209
+// Created: 2020-03-22
 package de.freese.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -12,12 +13,10 @@ public class MyProjectionDTO implements Serializable
      *
      */
     private static final long serialVersionUID = 8195470174423798274L;
-
     /**
      *
      */
     private final Long id;
-
     /**
      *
      */
@@ -48,38 +47,17 @@ public class MyProjectionDTO implements Serializable
             return true;
         }
 
-        if (obj == null)
+        if ((obj == null) || !(obj instanceof MyProjectionDTO other))
         {
             return false;
         }
 
-        if (!(obj instanceof MyProjectionDTO))
+        if (!Objects.equals(this.id, other.id))
         {
             return false;
         }
 
-        MyProjectionDTO other = (MyProjectionDTO) obj;
-
-        if (this.id == null)
-        {
-            if (other.id != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.id.equals(other.id))
-        {
-            return false;
-        }
-
-        if (this.name == null)
-        {
-            if (other.name != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.name.equals(other.name))
+        if (!Objects.equals(this.name, other.name))
         {
             return false;
         }
@@ -109,13 +87,7 @@ public class MyProjectionDTO implements Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
-        result = (prime * result) + ((this.name == null) ? 0 : this.name.hashCode());
-
-        return result;
+        return Objects.hash(id, name);
     }
 
     /**

@@ -1,16 +1,17 @@
-/**
- * Created: 10.05.2013
- */
+// Created: 10.05.2013
 package de.freese.j2ee.rest;
 
 import java.util.List;
+
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyEntityManager;
@@ -24,11 +25,11 @@ import de.freese.j2ee.persistence.MyEntityManager;
 public class KundenService implements IKundenService
 {
     /**
-     * 
+     *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(KundenService.class);
     /**
-     * 
+     *
      */
     @Inject
     @MyEntityManager

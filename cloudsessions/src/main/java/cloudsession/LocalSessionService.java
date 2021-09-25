@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Enumeration;
 import java.util.Properties;
+
 import util.ObjectSerializer;
 
 /**
@@ -21,14 +22,6 @@ public class LocalSessionService implements CloudSession
      */
     // private final File propFile = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties").toFile();
     private final Path propertiesPath = Paths.get("/tmp", "cloudsession.properties");
-
-    /**
-     * Erstellt ein neues {@link LocalSessionService} Object.
-     */
-    public LocalSessionService()
-    {
-        super();
-    }
 
     /**
      * @return {@link Properties}
@@ -61,6 +54,7 @@ public class LocalSessionService implements CloudSession
     /**
      * @param sessionID String
      * @param name String
+     *
      * @return String
      */
     private String getPropsKey(final String sessionID, final String name)

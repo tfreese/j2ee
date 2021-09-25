@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,27 +17,22 @@ public class CloudSessionCache implements CloudSession
      *
      */
     public static final int DEFAULT_LIVE_TIME = 15;
-
     /**
      *
      */
     public static final String TIMEOUT = "timeout";
-
     /**
      *
      */
     private final CloudSession cs;
-
     /**
      *
      */
     private Map<String, Map<String, Object>> hash = new ConcurrentHashMap<>();
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
@@ -65,6 +61,7 @@ public class CloudSessionCache implements CloudSession
      * @param sessionID String
      * @param name String
      * @param entry {@link Map}
+     *
      * @return Object
      */
     private Object checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, Object> entry)
@@ -151,10 +148,7 @@ public class CloudSessionCache implements CloudSession
         // renew cloud session timeout
         this.cs.setSessionValue(sessionID, TIMEOUT, timeout);
 
-        this.logger.info("setting entry [{},{},{}]", new Object[]
-        {
-                sessionID, TIMEOUT, timeout
-        });
+        this.logger.info("setting entry [{},{},{}]", sessionID, TIMEOUT, timeout);
 
         // renew this cache timeout
         entry.put(TIMEOUT, timeout);
@@ -166,10 +160,7 @@ public class CloudSessionCache implements CloudSession
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)
     {
-        this.logger.info("setting entry [{},{},{}]", new Object[]
-        {
-                sessionID, name, value
-        });
+        this.logger.info("setting entry [{},{},{}]", sessionID, name, value);
 
         Map<String, Object> entry = this.hash.computeIfAbsent(sessionID, key -> Collections.synchronizedMap(new HashMap<String, Object>()));
 
@@ -184,6 +175,7 @@ public class CloudSessionCache implements CloudSession
 
     /**
      * @param timeout Long
+     *
      * @return boolean
      */
     private boolean timeoutReached(final Long timeout)

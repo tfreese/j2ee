@@ -1,9 +1,7 @@
-/**
- *
- */
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 
@@ -104,6 +104,7 @@ class TestNativeHSQL extends AbstractTest
 
     /**
      * @return long
+     *
      * @throws Exception Falls was schief geht.
      */
     private long getNextAddressID() throws Exception
@@ -113,7 +114,9 @@ class TestNativeHSQL extends AbstractTest
 
     /**
      * @param sequence String
+     *
      * @return long
+     *
      * @throws Exception Falls was schief geht.
      */
     private long getNextID(final String sequence) throws Exception
@@ -157,6 +160,7 @@ class TestNativeHSQL extends AbstractTest
 
     /**
      * @return long
+     *
      * @throws Exception Falls was schief geht.
      */
     private long getNextPersonID() throws Exception
@@ -166,6 +170,7 @@ class TestNativeHSQL extends AbstractTest
 
     /**
      * @param persons {@link List}
+     *
      * @throws Exception Falls was schief geht.
      */
     private void selectAddresses(final List<Person> persons) throws Exception

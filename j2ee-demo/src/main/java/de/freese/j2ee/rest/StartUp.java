@@ -1,6 +1,4 @@
-/**
- * Created: 14.12.2012
- */
+// Created: 14.12.2012
 package de.freese.j2ee.rest;
 
 import javax.annotation.PostConstruct;
@@ -13,8 +11,10 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.model.Kunde;
 
 /**
@@ -26,18 +26,17 @@ import de.freese.j2ee.model.Kunde;
 public class StartUp
 {
     /**
-     * 
+     *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
-
     /**
-     * 
+     *
      */
     @PersistenceContext(unitName = "j2eeJPA")
     private EntityManager entityManager;
 
     /**
-     * 
+     *
      */
     @PostConstruct
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -61,7 +60,7 @@ public class StartUp
     }
 
     /**
-     * 
+     *
      */
     @PreDestroy
     public void myPreDestroy()

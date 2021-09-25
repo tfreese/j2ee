@@ -1,7 +1,4 @@
-/**
- * Created: 11.05.2013
- */
-
+// Created: 11.05.2013
 package de.freese.j2ee.client;
 
 import java.io.BufferedReader;
@@ -11,8 +8,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+
 import de.freese.j2ee.model.Kunde;
 
 /**
@@ -22,6 +21,7 @@ public class RESTClient
 {
     /**
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void delete(final long oid) throws Exception
@@ -46,6 +46,7 @@ public class RESTClient
     /**
      * @param name String
      * @param vorname String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void insert(final String name, final String vorname) throws Exception
@@ -71,6 +72,7 @@ public class RESTClient
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -118,6 +120,7 @@ public class RESTClient
 
     /**
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void selectOne(final long oid) throws Exception

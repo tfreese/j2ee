@@ -1,16 +1,17 @@
-/**
- * Created: 21.05.2013
- */
+// Created: 21.05.2013
 package de.freese.j2ee.interceptor;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.inject.Singleton;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+
 import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.jmx.IUsageLogMBean;
 import de.freese.j2ee.jmx.JMXBean;
 
@@ -24,7 +25,7 @@ import de.freese.j2ee.jmx.JMXBean;
 public class LogInterceptor implements IUsageLogMBean
 {
     /**
-     * 
+     *
      */
     private static final Set<String> parameters = new TreeSet<>();
 
@@ -53,15 +54,17 @@ public class LogInterceptor implements IUsageLogMBean
 
     /**
      * @param ctx {@link InvocationContext}
+     *
      * @return Object
+     *
      * @throws Exception Falls was schief geht.
      */
     @AroundInvoke
     public Object logNameRequest(final InvocationContext ctx) throws Exception
     {
-        Object[] parameters = ctx.getParameters();
+        Object[] params = ctx.getParameters();
 
-        String parameter = Arrays.toString(parameters);
+        String parameter = Arrays.toString(params);
 
         if (parameter == null)
         {

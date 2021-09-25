@@ -1,13 +1,15 @@
-// Erzeugt: 12.11.2015
+// Created: 12.11.2015
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionDTO;
 import de.freese.jpa.model.Person;
@@ -64,7 +67,6 @@ class TestHibernate extends AbstractTest
 
         // configures settings from hibernate.cfg.xml
         // StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        @SuppressWarnings("resource")
         ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
 
         try
@@ -122,7 +124,7 @@ class TestHibernate extends AbstractTest
         {
             // session.beginTransaction();
 
-            Query<Person> query = null;
+            Query<Person> query;
             // Caching aktiviert in Person Definition
             query = session.getNamedQuery("allPersons");
             // Caching muss explizit aktiviert werden
@@ -151,7 +153,7 @@ class TestHibernate extends AbstractTest
             // session.beginTransaction();
 
             // Caching aktiviert in Person Definition
-            Query<?> query = null;
+            Query<?> query;
             query = session.getNamedQuery("personByVorname");
             // Caching muss explizit aktiviert werden
             // query = session.createQuery("from Person where vorname=:vorname order by name asc");

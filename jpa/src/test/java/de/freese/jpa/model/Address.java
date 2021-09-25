@@ -5,6 +5,7 @@
 package de.freese.jpa.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -46,7 +48,6 @@ public class Address implements Serializable
      *
      */
     private static final long serialVersionUID = 2678405627217507543L;
-
     /**
      *
      */
@@ -60,7 +61,6 @@ public class Address implements Serializable
     // }, strategy = "de.freese.jpa.BlockSequenceGenerator")
     // @GeneratedValue(generator = "my-generator")
     private long id = -1;
-
     /**
      *
      */
@@ -68,7 +68,6 @@ public class Address implements Serializable
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PERSON"), nullable = false)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
     private Person person = null;
-
     /**
      *
      */

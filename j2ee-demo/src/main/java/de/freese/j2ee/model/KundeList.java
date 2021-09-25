@@ -1,9 +1,8 @@
-/**
- * Created: 16.12.2012
- */
+// Created: 16.12.2012
 package de.freese.j2ee.model;
 
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;

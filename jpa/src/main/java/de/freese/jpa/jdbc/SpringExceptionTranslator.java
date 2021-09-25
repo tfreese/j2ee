@@ -1,16 +1,13 @@
-/**
- *
- */
 package de.freese.jpa.jdbc;
 
 import java.sql.SQLException;
 import java.util.List;
+
 import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
 
 /**
- * {@code SpringExceptionTranslator} is an {@link SQLExceptionTranslator} implementation which uses Spring's exception
- * translation functionality internally
+ * {@code SpringExceptionTranslator} is an {@link SQLExceptionTranslator} implementation which uses Spring's exception translation functionality internally
  * <p>
  * Usage example
  * </p>

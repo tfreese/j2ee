@@ -1,9 +1,8 @@
-/**
- * Created: 10.05.2013
- */
+// Created: 10.05.2013
 package de.freese.j2ee.rest;
 
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -25,8 +24,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyDataSource;
@@ -44,27 +45,23 @@ public class RestService
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
-
     /**
      *
      */
     @Context
     private SecurityContext context;
-
     /**
      *
      */
     @Inject
     @MyDataSource
     private DataSource dataSource;
-
     /**
      *
      */
     @Inject
     @MyEntityManager
     private EntityManager entityManager;
-
     /**
      *
      */
@@ -110,6 +107,7 @@ public class RestService
 
     /**
      * @param id long
+     *
      * @return {@link Kunde}
      */
     @SuppressWarnings("unchecked")
@@ -158,6 +156,7 @@ public class RestService
 
     /**
      * @param kunde {@link Kunde}
+     *
      * @return String
      */
     @POST
@@ -169,7 +168,10 @@ public class RestService
     @MyLogging
     public String update(final Kunde kunde)
     {
-        LOGGER.info(kunde.toString());
+        if (LOGGER.isInfoEnabled())
+        {
+            LOGGER.info(kunde.toString());
+        }
 
         this.entityManager.merge(kunde);
 

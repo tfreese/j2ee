@@ -1,10 +1,8 @@
-/**
- * Created: 23.05.2013
- */
-
+// Created: 23.05.2013
 package de.freese.j2ee.rest;
 
 import java.util.List;
+
 import de.freese.j2ee.model.Kunde;
 
 /**
@@ -17,5 +15,5 @@ public interface IKundenService
     /**
      * @return {@link List}
      */
-    public List<Kunde> getData();
+    List<Kunde> getData();
 }

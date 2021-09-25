@@ -1,9 +1,10 @@
-// Erzeugt: 12.11.2015
+// Created: 12.11.2015
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,17 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionDTO;
 import de.freese.jpa.model.Person;
@@ -105,7 +109,7 @@ class TestJPA extends AbstractTest
         EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
         // entityManager.getTransaction().begin();
 
-        Query query = null;
+        Query query;
         // Caching aktiviert in Person Definition
         query = entityManager.createNamedQuery("allPersons");
         // Caching muss explizit aktiviert werden
@@ -132,7 +136,7 @@ class TestJPA extends AbstractTest
         EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
         // entityManager.getTransaction().begin();
 
-        Query query = null;
+        Query query;
         // Caching aktiviert in Person Definition
         query = entityManager.createNamedQuery("personByVorname");
         // Caching muss explizit aktiviert werden

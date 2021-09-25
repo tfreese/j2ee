@@ -1,9 +1,8 @@
-/**
- * Created: 21.05.2013
- */
+// Created: 21.05.2013
 package de.freese.j2ee.jmx;
 
 import java.lang.management.ManagementFactory;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -24,7 +23,6 @@ public class JmxBeanExtension
     // */
     // @Inject
     // private LogInterceptor interceptor = null;
-
     /**
      *
      */
@@ -32,7 +30,6 @@ public class JmxBeanExtension
     @JMXBean
     // @Any
     private Instance<Object> jmxBeans;
-
     /**
      *
      */

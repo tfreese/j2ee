@@ -8,7 +8,8 @@ public interface IFakultaet
 {
     /**
      * @param n int
+     *
      * @return long
      */
-    public long getFakultaet(int n);
+    long getFakultaet(int n);
 }

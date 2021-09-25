@@ -7,14 +7,6 @@ package de.freese.j2ee.cdi;
 public class RecursiveFakultaet implements IFakultaet
 {
     /**
-     * Erstellt ein neues {@link RecursiveFakultaet} Object.
-     */
-    public RecursiveFakultaet()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.j2ee.cdi.IFakultaet#getFakultaet(int)
      */
     @Override

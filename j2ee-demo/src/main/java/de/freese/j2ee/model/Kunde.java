@@ -1,9 +1,8 @@
-/**
- * Created: 10.05.2013
- */
+// Created: 10.05.2013
 package de.freese.j2ee.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

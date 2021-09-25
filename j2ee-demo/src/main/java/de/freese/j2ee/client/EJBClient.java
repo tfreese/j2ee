@@ -1,11 +1,11 @@
-/**
- * Created: 23.05.2013
- */
+// Created: 23.05.2013
 package de.freese.j2ee.client;
 
 import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.rest.IKundenService;
 
@@ -16,6 +16,7 @@ public class EJBClient
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception

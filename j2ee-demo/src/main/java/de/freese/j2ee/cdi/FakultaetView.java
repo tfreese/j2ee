@@ -16,14 +16,12 @@ public class FakultaetView
      *
      */
     private long fakt;
-
     /**
      *
      */
     @Inject
     @Recursive
     private IFakultaet fakultaet;
-
     /**
      *
      */

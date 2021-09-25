@@ -3,13 +3,16 @@ package servlets;
 import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import cloudsession.CloudSession;
 import cloudsession.CloudSessionCache;
 import cloudsession.LocalSessionService;
@@ -23,32 +26,26 @@ public class NonStickySessionTest extends HttpServlet
      *
      */
     private static final String CREATION_TIME = "creationTime";
-
     /**
      *
      */
     private static final String JSESSIONID = "JSESSIONID=";
-
     /**
      *
      */
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
-
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-
     /**
      *
      */
     private static final String USER = "user";
-
     /**
      *
      */
     private final CloudSession cloudSession;
-
     /**
      *
      */
@@ -68,6 +65,7 @@ public class NonStickySessionTest extends HttpServlet
 
     /**
      * @param creationTime long
+     *
      * @return String
      */
     private String formatDate(final long creationTime)

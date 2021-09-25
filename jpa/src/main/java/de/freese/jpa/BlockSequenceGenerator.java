@@ -1,7 +1,4 @@
-/**
- * Created: 11.07.2018
- */
-
+// Created: 11.07.2018
 package de.freese.jpa;
 
 import java.io.Serializable;
@@ -11,6 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
+
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -33,17 +31,14 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
-
     /**
      *
      */
     private int blockSize;
-
     /**
     *
     */
     private final Queue<Long> idQueue = new LinkedList<>();
-
     /**
      *
      */
@@ -72,7 +67,6 @@ public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
     /**
      * @see org.hibernate.id.IdentifierGenerator#generate(org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
      */
-    @SuppressWarnings("resource")
     @Override
     public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException
     {

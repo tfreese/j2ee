@@ -1,21 +1,22 @@
-/**
- * Created: 22.11.2015
- */
+// Created: 22.11.2015
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Stream;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.ehcache.ConfigSettings;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
 

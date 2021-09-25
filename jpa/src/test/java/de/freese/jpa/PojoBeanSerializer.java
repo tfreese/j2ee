@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.jpa;
 
 import java.io.IOException;
@@ -22,8 +19,10 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
 import javax.annotation.Generated;
 import javax.validation.Constraint;
+
 import com.google.common.base.Function;
 import com.mysema.codegen.CodeWriter;
 import com.mysema.codegen.model.ClassType;
@@ -52,7 +51,6 @@ public class PojoBeanSerializer implements Serializer
      *
      */
     protected static final Comparator<Annotation> COMPARATOR_ANNOTATION = (a1, a2) -> a1.toString().compareTo(a2.toString());
-
     /**
      *
      */
@@ -62,6 +60,7 @@ public class PojoBeanSerializer implements Serializer
      * Erzeugt eine Annotation-Instanz.
      *
      * @param annotationType {@link Class}
+     *
      * @return {@link Annotation}
      */
     protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType)
@@ -74,6 +73,7 @@ public class PojoBeanSerializer implements Serializer
      *
      * @param annotationType {@link Class}
      * @param customValues {@link Map}
+     *
      * @return {@link Annotation}
      */
     protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType, final Map<String, Object> customValues)
@@ -97,27 +97,23 @@ public class PojoBeanSerializer implements Serializer
     /**
      *
      */
-    private boolean addFullConstructor = false;
-
+    private boolean addFullConstructor;
     /**
      *
      */
-    private boolean includeValidationAnnotations = false;
-
+    private boolean includeValidationAnnotations;
     /**
      *
      */
     private final List<Class<?>> interfaces = new ArrayList<>();
-
     /**
      *
      */
     private String javadocSuffix = "";
-
     /**
      *
      */
-    private ClassType superType = null;
+    private ClassType superType;
 
     /**
      * Erstellt ein neues {@link PojoBeanSerializer} Object.
@@ -154,6 +150,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert alle Annotations der Klasse.<br>
      *
      * @param model {@link EntityType}
+     *
      * @return {@link List}
      */
     protected List<Annotation> getClassAnnotations(final EntityType model)
@@ -172,6 +169,7 @@ public class PojoBeanSerializer implements Serializer
      * Default-Filter für: {@link Column}
      *
      * @param property {@link Property}
+     *
      * @return {@link List}
      */
     protected List<Annotation> getFieldAnnotations(final Property property)
@@ -191,6 +189,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert den JavaDoc-Text des Klassen-Attributs.
      *
      * @param property {@link Property}
+     *
      * @return String[]; Jede Zeile ist ein Array-Element
      */
     protected String[] getFieldJavaDoc(final Property property)
@@ -269,6 +268,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert alle Klassennamen der Annotations für den Import-Bereich.
      *
      * @param model {@link EntityType}
+     *
      * @return {@link Set}
      */
     protected Set<String> getImportClasses(final EntityType model)
@@ -311,6 +311,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert den Namen des Klassen-Atribbuts.
      *
      * @param property {@link Property}
+     *
      * @return {@link ColumnMetadata}
      */
     protected ColumnMetadata getMetaData(final Property property)
@@ -337,6 +338,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert die Spalten des PrimaryKeys.
      *
      * @param model {@link EntityType}
+     *
      * @return {@link List}
      */
     @SuppressWarnings("unchecked")
@@ -357,6 +359,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert den {@link Supertype} des Models.
      *
      * @param model {@link EntityType}
+     *
      * @return {@link Type}
      */
     protected Type getSuperType(final EntityType model)
@@ -379,6 +382,7 @@ public class PojoBeanSerializer implements Serializer
      * Liefert den Namen der Tabelle.
      *
      * @param model {@link EntityType}
+     *
      * @return String
      */
     protected String getTable(final EntityType model)
@@ -428,6 +432,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize01Package(final CodeWriter writer, final EntityType model) throws IOException
@@ -444,6 +449,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize02Imports(final CodeWriter writer, final EntityType model) throws IOException
@@ -498,6 +504,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize03ClassHeader(final CodeWriter writer, final EntityType model) throws IOException
@@ -517,6 +524,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize04Class(final CodeWriter writer, final EntityType model) throws IOException
@@ -553,6 +561,7 @@ public class PojoBeanSerializer implements Serializer
      *
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize05Fields(final CodeWriter writer, final EntityType model) throws IOException
@@ -577,6 +586,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize06Constructor(final CodeWriter writer, final EntityType model) throws IOException
@@ -595,6 +605,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize07Methods(final CodeWriter writer, final EntityType model) throws IOException
@@ -621,6 +632,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize08HashcodeEquals(final CodeWriter writer, final EntityType model) throws IOException
@@ -702,6 +714,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *            <p>
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serialize09ToString(final CodeWriter writer, final EntityType model) throws IOException
@@ -746,6 +759,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *            <p>
+     *
      * @throws IOException Falls was schief geht.
      */
     protected void serializeConstructorFull(final CodeWriter writer, final EntityType model) throws IOException

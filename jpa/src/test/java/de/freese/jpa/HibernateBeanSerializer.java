@@ -1,22 +1,22 @@
-/**
- * Created: 04.07.2018
- */
-
+// Created: 04.07.2018
 package de.freese.jpa;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
 import com.querydsl.codegen.EntityType;
 import com.querydsl.codegen.Property;
 import com.querydsl.codegen.Serializer;
@@ -91,6 +91,7 @@ public class HibernateBeanSerializer extends PojoBeanSerializer
      * Liefert das Schema der Tabelle.
      *
      * @param model {@link EntityType}
+     *
      * @return String
      */
     protected String getSchema(final EntityType model)

@@ -1,11 +1,10 @@
-/**
- * 16.08.2006
- */
+// Created: 16.08.2006
 package de.freese.jpa.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Cacheable;
@@ -26,6 +25,7 @@ import javax.persistence.QueryHint;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnDefault;
@@ -67,7 +67,6 @@ public class Person implements Serializable
      *
      */
     private static final long serialVersionUID = 413810580854319964L;
-
     /**
      * orphanRemoval = true
      */
@@ -79,14 +78,12 @@ public class Person implements Serializable
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
     private List<Address> addresses = new ArrayList<>();
-
     /**
      * , columnDefinition="Decimal(10,2) default '100.00'"
      */
     @Column(name = "COOL", nullable = true, insertable = true, updatable = true, precision = 1, scale = 0)
     @ColumnDefault("false")
     private Boolean cool = null;
-
     /**
      *
      */
@@ -101,13 +98,11 @@ public class Person implements Serializable
     // @GeneratedValue(generator = "my-generator")
     @Access(AccessType.FIELD)
     private long id = -1;
-
     /**
      *
      */
     @Column(name = "NAME", length = 50, nullable = false, insertable = true, updatable = true)
     private String name = null;
-
     /**
      *
      */

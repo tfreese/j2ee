@@ -1,9 +1,11 @@
-// Erzeugt: 08.12.2015
+// Created: 08.12.2015
 package de.freese.jpa.jdbc;
 
 import java.sql.Connection;
+
 import javax.inject.Provider;
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 /**

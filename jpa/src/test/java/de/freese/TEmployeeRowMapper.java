@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese;
 
 import java.sql.ResultSet;
@@ -16,14 +13,6 @@ import de.freese.sql.querydsl.TEmployee;
  */
 public class TEmployeeRowMapper implements RowMapper<TEmployee>
 {
-    /**
-     *
-     */
-    public TEmployeeRowMapper()
-    {
-        super();
-    }
-
     /**
      * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
      */
