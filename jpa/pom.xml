@@ -166,6 +166,11 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-sql</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <optional>true</optional>
+        </dependency>        
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>

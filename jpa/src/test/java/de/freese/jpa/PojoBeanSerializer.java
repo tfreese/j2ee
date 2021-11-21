@@ -18,23 +18,23 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Generated;
 import javax.validation.Constraint;
 
-import com.google.common.base.Function;
-import com.mysema.codegen.CodeWriter;
-import com.mysema.codegen.model.ClassType;
-import com.mysema.codegen.model.Parameter;
-import com.mysema.codegen.model.Type;
-import com.mysema.codegen.model.TypeCategory;
-import com.mysema.codegen.model.Types;
 import com.querydsl.codegen.EntityType;
 import com.querydsl.codegen.Property;
 import com.querydsl.codegen.Serializer;
 import com.querydsl.codegen.SerializerConfig;
 import com.querydsl.codegen.Supertype;
+import com.querydsl.codegen.utils.CodeWriter;
+import com.querydsl.codegen.utils.model.ClassType;
+import com.querydsl.codegen.utils.model.Parameter;
+import com.querydsl.codegen.utils.model.Type;
+import com.querydsl.codegen.utils.model.TypeCategory;
+import com.querydsl.codegen.utils.model.Types;
 import com.querydsl.core.util.BeanUtils;
 import com.querydsl.sql.Column;
 import com.querydsl.sql.ColumnMetadata;
@@ -410,21 +410,22 @@ public class PojoBeanSerializer implements Serializer
     }
 
     /**
-     * @see com.querydsl.codegen.Serializer#serialize(com.querydsl.codegen.EntityType, com.querydsl.codegen.SerializerConfig, com.mysema.codegen.CodeWriter)
+     * @see com.querydsl.codegen.Serializer#serialize(com.querydsl.codegen.EntityType, com.querydsl.codegen.SerializerConfig,
+     *      com.querydsl.codegen.utils.CodeWriter)
      */
     @Override
-    public final void serialize(final EntityType model, final SerializerConfig serializerConfig, final CodeWriter writer) throws IOException
+    public void serialize(final EntityType type, final SerializerConfig serializerConfig, final CodeWriter writer) throws IOException
     {
-        serialize01Package(writer, model);
-        serialize02Imports(writer, model);
-        serialize03ClassHeader(writer, model);
-        serialize04Class(writer, model);
-        serialize05Fields(writer, model);
-        serialize06Constructor(writer, model);
-        serialize07Methods(writer, model);
+        serialize01Package(writer, type);
+        serialize02Imports(writer, type);
+        serialize03ClassHeader(writer, type);
+        serialize04Class(writer, type);
+        serialize05Fields(writer, type);
+        serialize06Constructor(writer, type);
+        serialize07Methods(writer, type);
 
-        serialize08HashcodeEquals(writer, model);
-        serialize09ToString(writer, model);
+        serialize08HashcodeEquals(writer, type);
+        serialize09ToString(writer, type);
 
         writer.end();
     }

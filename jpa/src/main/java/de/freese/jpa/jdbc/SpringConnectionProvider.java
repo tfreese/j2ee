@@ -2,8 +2,8 @@
 package de.freese.jpa.jdbc;
 
 import java.sql.Connection;
+import java.util.function.Supplier;
 
-import javax.inject.Provider;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -25,7 +25,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  *
  * @author Thomas Freese
  */
-public class SpringConnectionProvider implements Provider<Connection>
+public class SpringConnectionProvider implements Supplier<Connection>
 {
     /**
      *
@@ -43,7 +43,7 @@ public class SpringConnectionProvider implements Provider<Connection>
     }
 
     /**
-     * @see javax.inject.Provider#get()
+     * @see java.util.function.Supplier#get()
      */
     @Override
     public Connection get()
