@@ -90,6 +90,7 @@ public class PojoBeanSerializer implements Serializer
         values.putAll(customValues);
 
         // return (A) sun.reflect.annotation.AnnotationParser.annotationForMap(annotationType, values);
+
         // TODO
         return null;
     }
@@ -156,12 +157,11 @@ public class PojoBeanSerializer implements Serializer
     protected List<Annotation> getClassAnnotations(final EntityType model)
     {
         // @formatter:off
-        List<Annotation> classAnnotations = model.getAnnotations().stream()
-            .sorted(COMPARATOR_ANNOTATION)
-            .collect(Collectors.toList());
+        return model.getAnnotations().stream()
+                .sorted(COMPARATOR_ANNOTATION)
+                .collect(Collectors.toList())
+                ;
         // @formatter:on
-
-        return classAnnotations;
     }
 
     /**
@@ -175,14 +175,13 @@ public class PojoBeanSerializer implements Serializer
     protected List<Annotation> getFieldAnnotations(final Property property)
     {
         // @formatter:off
-        List<Annotation> fieldAnnotations = property.getAnnotations().stream()
-            .filter(a -> !(a instanceof Column))
-            .filter(a-> isIncludeValidationAnnotations() ? true : !a.annotationType().isAnnotationPresent(Constraint.class))
-            .sorted(COMPARATOR_ANNOTATION)
-            .collect(Collectors.toList());
+        return property.getAnnotations().stream()
+                .filter(a -> !(a instanceof Column))
+                .filter(a-> isIncludeValidationAnnotations() ? true : !a.annotationType().isAnnotationPresent(Constraint.class))
+                .sorted(COMPARATOR_ANNOTATION)
+                .collect(Collectors.toList())
+                ;
         // @formatter:on
-
-        return fieldAnnotations;
     }
 
     /**
@@ -573,9 +572,7 @@ public class PojoBeanSerializer implements Serializer
 
             writer.javadoc(javaDoc);
 
-            List<Annotation> fieldAnnotations = getFieldAnnotations(property);
-
-            for (Annotation annotation : fieldAnnotations)
+            for (Annotation annotation : getFieldAnnotations(property))
             {
                 writer.annotation(annotation);
             }
