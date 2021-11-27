@@ -28,7 +28,7 @@ class TestJOOQLPojoGenerator
     /**
      *
      */
-    private static SingleConnectionDataSource DATASOURCE = null;
+    private static SingleConnectionDataSource DATASOURCE;
 
     /**
      *

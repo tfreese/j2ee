@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
@@ -29,7 +30,7 @@ class TestQuerydslPojoGenerator
     /**
      *
      */
-    private static SingleConnectionDataSource DATASOURCE = null;
+    private static SingleConnectionDataSource DATASOURCE;
 
     /**
      *
@@ -46,6 +47,10 @@ class TestQuerydslPojoGenerator
     @BeforeAll
     static void beforeAll()
     {
+        // java.util.logging über slf4j ausgeben.
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+
         DATASOURCE = new SingleConnectionDataSource();
         DATASOURCE.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         // DATASOURCE.setUrl("jdbc:hsqldb:mem:" + System.currentTimeMillis());
@@ -67,8 +72,8 @@ class TestQuerydslPojoGenerator
     @Test
     void createEntities() throws SQLException
     {
-        PojoBeanSerializer serializer = new PojoBeanSerializer();
-        // PojoBeanSerializer serializer = new HibernateBeanSerializer(); // Erzeugt noch NullPointer
+        // PojoBeanSerializer serializer = new PojoBeanSerializer();
+        PojoBeanSerializer serializer = new HibernateBeanSerializer(); // Erzeugt noch NullPointer
         serializer.addInterface(Serializable.class);
         serializer.setAddFullConstructor(false);
         // serializer.setSuperType(Address.class);

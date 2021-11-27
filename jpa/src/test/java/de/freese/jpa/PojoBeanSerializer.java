@@ -3,15 +3,12 @@ package de.freese.jpa;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,44 +53,29 @@ public class PojoBeanSerializer implements Serializer
      */
     private static final Function<Property, Parameter> PROPERTY_TO_PARAMETER = input -> new Parameter(input.getName(), input.getType());
 
-    /**
-     * Erzeugt eine Annotation-Instanz.
-     *
-     * @param annotationType {@link Class}
-     *
-     * @return {@link Annotation}
-     */
-    protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType)
-    {
-        return createAnnotationInstance(annotationType, Collections.emptyMap());
-    }
-
-    /**
-     * Erzeugt eine Annotation-Instanz mit der Möglichkeit die Attribute zu setzen.
-     *
-     * @param annotationType {@link Class}
-     * @param customValues {@link Map}
-     *
-     * @return {@link Annotation}
-     */
-    protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType, final Map<String, Object> customValues)
-    {
-        Map<String, Object> values = new HashMap<>();
-
-        // Default Values extrahieren.
-        for (Method method : annotationType.getDeclaredMethods())
-        {
-            values.put(method.getName(), method.getDefaultValue());
-        }
-
-        // Definierte Values setzen.
-        values.putAll(customValues);
-
-        // return (A) sun.reflect.annotation.AnnotationParser.annotationForMap(annotationType, values);
-
-        // TODO
-        return null;
-    }
+    // /**
+    // * Erzeugt eine Annotation-Instanz mit der Möglichkeit die Attribute zu setzen.
+    // *
+    // * @param annotationType {@link Class}
+    // * @param customValues {@link Map}; like put("name", <TABLE_NAME>)
+    // *
+    // * @return {@link Annotation}
+    // */
+    // protected static <A extends Annotation> A createAnnotationInstance(final Class<A> annotationType, final Map<String, Object> customValues)
+    // {
+    // Map<String, Object> values = new HashMap<>();
+    //
+    // // Default Values extrahieren.
+    // for (Method method : annotationType.getDeclaredMethods())
+    // {
+    // values.put(method.getName(), method.getDefaultValue());
+    // }
+    //
+    // // Definierte Values setzen.
+    // values.putAll(customValues);
+    //
+    // return (A) sun.reflect.annotation.AnnotationParser.annotationForMap(annotationType, values);
+    // }
 
     /**
      *

@@ -39,7 +39,7 @@ class TestJPA extends AbstractTest
     /**
      *
      */
-    private static EntityManagerFactory ENTITYMANAGERFACTORY = null;
+    private static EntityManagerFactory ENTITYMANAGERFACTORY;
 
     /**
      *

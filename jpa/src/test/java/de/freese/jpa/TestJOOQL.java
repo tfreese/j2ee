@@ -49,15 +49,15 @@ class TestJOOQL
     /**
      *
      */
-    private static SingleConnectionDataSource DATA_SOURCE = null;
+    private static SingleConnectionDataSource DATA_SOURCE;
     /**
      *
      */
-    private static DSLContext DSL_CONTEXT = null;
+    private static DSLContext DSL_CONTEXT;
     /**
      *
      */
-    private static JdbcTemplate JDBC_TEMPLATE = null;
+    private static JdbcTemplate JDBC_TEMPLATE;
 
     /**
      *

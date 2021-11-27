@@ -2,25 +2,23 @@
 package de.freese.jpa;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import com.querydsl.codegen.EntityType;
 import com.querydsl.codegen.Property;
 import com.querydsl.codegen.Serializer;
 import com.querydsl.sql.ColumnMetadata;
+
+import de.freese.jpa.codegen.CacheImpl;
+import de.freese.jpa.codegen.CacheableImpl;
+import de.freese.jpa.codegen.ColumnImpl;
+import de.freese.jpa.codegen.DynamicInsertImpl;
+import de.freese.jpa.codegen.DynamicUpdateImpl;
+import de.freese.jpa.codegen.EntityImpl;
+import de.freese.jpa.codegen.IdImpl;
+import de.freese.jpa.codegen.TableImpl;
 
 /**
  * {@link Serializer} um Hibernate Entities aus der Datenbank zu erzeugen.
@@ -44,21 +42,12 @@ public class HibernateBeanSerializer extends PojoBeanSerializer
     protected List<Annotation> getClassAnnotations(final EntityType model)
     {
         List<Annotation> classAnnotations = super.getClassAnnotations(model);
-        classAnnotations.add(createAnnotationInstance(Entity.class));
-
-        Map<String, Object> values = new HashMap<>();
-        values.put("name", getTable(model));
-        values.put("schema", getSchema(model));
-        classAnnotations.add(createAnnotationInstance(Table.class, values));
-
-        classAnnotations.add(createAnnotationInstance(DynamicInsert.class));
-        classAnnotations.add(createAnnotationInstance(DynamicUpdate.class));
-        classAnnotations.add(createAnnotationInstance(Cacheable.class));
-
-        values = new HashMap<>();
-        values.put("usage", CacheConcurrencyStrategy.READ_WRITE);
-        values.put("region", model.getSimpleName());
-        classAnnotations.add(createAnnotationInstance(Cache.class, values));
+        classAnnotations.add(new EntityImpl());
+        classAnnotations.add(new TableImpl(getSchema(model), getTable(model)));
+        classAnnotations.add(new DynamicInsertImpl());
+        classAnnotations.add(new DynamicUpdateImpl());
+        classAnnotations.add(new CacheableImpl());
+        classAnnotations.add(new CacheImpl(CacheConcurrencyStrategy.READ_WRITE, model.getSimpleName()));
 
         return classAnnotations;
     }
@@ -76,13 +65,10 @@ public class HibernateBeanSerializer extends PojoBeanSerializer
 
         if (primaryKeyColumns.contains(columnMetadata.getName()))
         {
-            fieldAnnotations.add(createAnnotationInstance(Id.class));
+            fieldAnnotations.add(new IdImpl());
         }
 
-        Map<String, Object> values = new HashMap<>();
-        values.put("name", columnMetadata.getName());
-        values.put("nullable", columnMetadata.isNullable());
-        fieldAnnotations.add(createAnnotationInstance(Column.class, values));
+        fieldAnnotations.add(new ColumnImpl(columnMetadata.getName(), columnMetadata.isNullable()));
 
         return fieldAnnotations;
     }

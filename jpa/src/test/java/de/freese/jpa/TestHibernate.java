@@ -40,7 +40,7 @@ class TestHibernate extends AbstractTest
     /**
      *
      */
-    private static SessionFactory SESSIONFACTORY = null;
+    private static SessionFactory SESSIONFACTORY;
 
     /**
      *

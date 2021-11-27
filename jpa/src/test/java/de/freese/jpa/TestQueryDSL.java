@@ -50,19 +50,19 @@ class TestQueryDSL
     /**
      *
      */
-    private static SingleConnectionDataSource DATA_SOURCE = null;
+    private static SingleConnectionDataSource DATA_SOURCE;
     /**
      *
      */
-    private static JdbcTemplate JDBC_TEMPLATE = null;
+    private static JdbcTemplate JDBC_TEMPLATE;
     /**
      *
      */
-    private static SQLQueryFactory QUERY_FACTORY = null;
+    private static SQLQueryFactory QUERY_FACTORY;
     /**
      *
      */
-    private static PlatformTransactionManager TX_MANAGER = null;
+    private static PlatformTransactionManager TX_MANAGER;
 
     /**
      *
