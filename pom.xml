@@ -51,7 +51,7 @@
         <version_org.wildfly.bom_wildfly-javaee8-with-tools>26.0.0.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
         
         <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
-        <version_org.wildfly.plugins_wildfly-maven-plugin>2.0.2.Final</version_org.wildfly.plugins_wildfly-maven-plugin> 
+        <version_org.wildfly.plugins_wildfly-maven-plugin>2.1.0.Final</version_org.wildfly.plugins_wildfly-maven-plugin> 
     </properties>    
 
     <dependencies>
