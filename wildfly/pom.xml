@@ -31,7 +31,8 @@
 	</modules>
 
 	<properties>
-		<maven.test.skip>true</maven.test.skip>
+        <maven.test.skip>true</maven.test.skip>
+        <skipTest>true</skipTest>
 	</properties>
 
 	<build>
