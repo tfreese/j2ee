@@ -1,13 +1,12 @@
-/**
- * Created: 14.12.2012
- */
-
+// Created: 14.12.2012
 package de.freese.agentportal.server.dao;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.server.cdi.Resources;
 
@@ -22,7 +21,7 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
     // @Inject
     // @AgentPortalEM
     @PersistenceContext(unitName = Resources.EM_UNIT)
-    private EntityManager entityManager = null;
+    private EntityManager entityManager;
 
     // /**
     // *
@@ -33,7 +32,7 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
     /**
      * Erstellt ein neues {@link AbstractSecretNewsDAO} Object.
      */
-    public AbstractSecretNewsDAO()
+    protected AbstractSecretNewsDAO()
     {
         super();
     }

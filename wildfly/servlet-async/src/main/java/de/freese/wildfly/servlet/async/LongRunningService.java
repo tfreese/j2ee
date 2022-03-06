@@ -1,16 +1,15 @@
-/**
- * Created on 13.12.2015 13:32:50
- */
+// Created on 13.12.2015 13:32:50
 package de.freese.wildfly.servlet.async;
 
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import jakarta.ejb.Asynchronous;
 import jakarta.ejb.Stateless;
 import jakarta.servlet.AsyncContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese

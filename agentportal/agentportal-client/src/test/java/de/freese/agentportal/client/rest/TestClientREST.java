@@ -1,7 +1,4 @@
-/**
- * Created: 25.05.2013
- */
-
+// Created: 25.05.2013
 package de.freese.agentportal.client.rest;
 
 import java.io.BufferedReader;
@@ -10,17 +7,35 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+
 import de.freese.agentportal.common.model.SecretNews;
 
 /**
  * @author Thomas Freese
  */
-public class TestClientREST
+final class TestClientREST
 {
     /**
+     * @param args String[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        // selectOne(1);
+        // update(1, "Thomas Freese", "Update Test");
+        selectAll();
+        insert("Thomas Freese", "Insert Test");
+        // delete(1);
+        selectAll();
+    }
+
+    /**
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void delete(final long oid) throws Exception
@@ -45,6 +60,7 @@ public class TestClientREST
     /**
      * @param title String
      * @param text String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void insert(final String title, final String text) throws Exception
@@ -68,20 +84,6 @@ public class TestClientREST
         System.out.println("Location: " + connection.getHeaderField("Location"));
 
         connection.disconnect();
-    }
-
-    /**
-     * @param args String[]
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        // selectOne(1);
-        // update(1, "Thomas Freese", "Update Test");
-        selectAll();
-        insert("Thomas Freese", "Insert Test");
-        // delete(1);
-        selectAll();
     }
 
     /**
@@ -119,6 +121,7 @@ public class TestClientREST
 
     /**
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void selectOne(final long oid) throws Exception
@@ -167,6 +170,7 @@ public class TestClientREST
      * @param id long
      * @param title String
      * @param text String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void update(final long id, final String title, final String text) throws Exception
@@ -201,7 +205,7 @@ public class TestClientREST
     /**
      * Erstellt ein neues {@link TestClientREST} Object.
      */
-    public TestClientREST()
+    private TestClientREST()
     {
         super();
     }

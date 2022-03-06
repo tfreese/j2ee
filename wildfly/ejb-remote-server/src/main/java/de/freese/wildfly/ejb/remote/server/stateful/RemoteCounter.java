@@ -8,15 +8,15 @@ public interface RemoteCounter
     /**
      *
      */
-    public void decrement();
+    void decrement();
 
     /**
      * @return int
      */
-    public int getCount();
+    int getCount();
 
     /**
      *
      */
-    public void increment();
+    void increment();
 }

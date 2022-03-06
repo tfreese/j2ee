@@ -1,12 +1,10 @@
-/**
- * Created: 20.05.2018
- */
-
+// Created: 20.05.2018
 package de.freese.j2ee.liberty.config;
 
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
+
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -15,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 import de.freese.j2ee.liberty.config.service.MyService;
 
 /**
@@ -28,7 +27,7 @@ public class MyRestFacade extends AbstractBean
      *
      */
     @EJB
-    private MyService serviceBean = null;
+    private MyService serviceBean;
 
     /**
      * Erstellt ein neues {@link MyRestFacade} Object.
@@ -39,31 +38,10 @@ public class MyRestFacade extends AbstractBean
     }
 
     /**
-     * @return {@link MyService}
-     */
-    private MyService getServiceBean()
-    {
-        if (this.serviceBean == null)
-        {
-            try
-            {
-                this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
-                // this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
-                // this.serviceBean = Utils.ejb(MyServiceBean.class);
-            }
-            catch (RuntimeException rex)
-            {
-                getLogger().error(null, rex.getCause());
-            }
-        }
-
-        return this.serviceBean;
-    }
-
-    /**
      * http://localhost:9080/config/rest/service/sysdate
      *
      * @return {@link Date}
+     *
      * @throws SQLException Falls was schief geht.
      */
     @GET
@@ -96,5 +74,27 @@ public class MyRestFacade extends AbstractBean
         properties.forEach(builder::add);
 
         return builder.build();
+    }
+
+    /**
+     * @return {@link MyService}
+     */
+    private MyService getServiceBean()
+    {
+        if (this.serviceBean == null)
+        {
+            try
+            {
+                this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
+                // this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
+                // this.serviceBean = Utils.ejb(MyServiceBean.class);
+            }
+            catch (RuntimeException rex)
+            {
+                getLogger().error(null, rex.getCause());
+            }
+        }
+
+        return this.serviceBean;
     }
 }

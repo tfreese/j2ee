@@ -12,7 +12,6 @@ import java.util.Queue;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
@@ -25,28 +24,25 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class BlockSequenceGenerator implements IdentifierGenerator, Configurable
+public class BlockSequenceGenerator implements IdentifierGenerator
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
+    /**
+     *
+     */
+    private final Queue<Long> idQueue = new LinkedList<>();
     /**
      *
      */
     private int blockSize;
     /**
-    *
-    */
-    private final Queue<Long> idQueue = new LinkedList<>();
-    /**
      *
      */
     private String sequenceName;
 
-    /**
-     * @see org.hibernate.id.Configurable#configure(org.hibernate.type.Type, java.util.Properties, org.hibernate.service.ServiceRegistry)
-     */
     @Override
     public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException
     {

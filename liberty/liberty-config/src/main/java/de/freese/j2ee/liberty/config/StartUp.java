@@ -1,12 +1,10 @@
-/**
- * Created: 18.05.2018
- */
-
+// Created: 18.05.2018
 package de.freese.j2ee.liberty.config;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -14,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.sql.DataSource;
+
 import de.freese.j2ee.liberty.config.service.MyService;
 
 /**
@@ -25,22 +24,20 @@ import de.freese.j2ee.liberty.config.service.MyService;
 public class StartUp extends AbstractBean
 {
     /**
-    *
-    */
-    @Resource(lookup = "jdbc/hsqldbDS")
-    private DataSource dataSource = null;
-
-    /**
      *
      */
-    @EJB
-    private MyService serviceBean = null;
-
+    @Resource(lookup = "jdbc/hsqldbDS")
+    private DataSource dataSource;
     /**
      * No-View Beans (ohne Interface) funktionieren komischer Weise nicht !
      */
     // @EJB
-    private NoViewBean noViewBean = null;
+    private NoViewBean noViewBean;
+    /**
+     *
+     */
+    @EJB
+    private MyService serviceBean;
 
     /**
      * Erstellt ein neues {@link StartUp} Object.

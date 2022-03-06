@@ -5,8 +5,10 @@ import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,7 @@ public class RestService
      *
      */
     @Resource
-    private DataSource dataSource = null;
+    private DataSource dataSource;
 
     /**
      * Erzeugt eine neue Instanz von {@link RestService}
@@ -51,6 +53,7 @@ public class RestService
      * http://localhost:PORT/liberty-spring/sysdate
      *
      * @return String
+     *
      * @throws Exception Falls was schief geht.
      */
     @GetMapping("/sysdate")

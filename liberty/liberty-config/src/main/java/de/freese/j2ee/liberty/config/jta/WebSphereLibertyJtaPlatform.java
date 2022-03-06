@@ -1,7 +1,4 @@
-/// **
-// * Created: 26.06.2018
-// */
-//
+//// Created: 26.06.2018
 // package de.freese.j2ee.liberty.config.jta;
 //
 // import javax.transaction.UserTransaction;

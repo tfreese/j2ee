@@ -28,7 +28,7 @@ public class CloudSessionCache implements CloudSession
     /**
      *
      */
-    private Map<String, Map<String, Object>> hash = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, Object>> hash = new ConcurrentHashMap<>();
     /**
      *
      */
@@ -55,41 +55,6 @@ public class CloudSessionCache implements CloudSession
         {
             this.sessionLivetime = DEFAULT_LIVE_TIME;
         }
-    }
-
-    /**
-     * @param sessionID String
-     * @param name String
-     * @param entry {@link Map}
-     *
-     * @return Object
-     */
-    private Object checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, Object> entry)
-    {
-        Object cloudSessionValue = this.cs.getSessionValue(sessionID, name);
-
-        if (cloudSessionValue != null)
-        {
-            this.logger.info("found value [{}] in persistent cache!", cloudSessionValue);
-
-            if (entry == null)
-            {
-                // set local entry and update timeout in cloud
-                setSessionValue(sessionID, name, cloudSessionValue);
-            }
-            else
-            {
-                // renew all timeouts
-                renewTimeout(sessionID, entry);
-            }
-        }
-        else
-        {
-            // remove session information
-            remove(sessionID);
-        }
-
-        return cloudSessionValue;
     }
 
     /**
@@ -138,6 +103,60 @@ public class CloudSessionCache implements CloudSession
     }
 
     /**
+     * @see cloudsession.CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
+     */
+    @Override
+    public void setSessionValue(final String sessionID, final String name, final Object value)
+    {
+        this.logger.info("setting entry [{},{},{}]", sessionID, name, value);
+
+        Map<String, Object> entry = this.hash.computeIfAbsent(sessionID, key -> Collections.synchronizedMap(new HashMap<>()));
+
+        // update value in my cache
+        entry.put(name, value);
+
+        // set value in cloud
+        this.cs.setSessionValue(sessionID, name, value);
+
+        renewTimeout(sessionID, entry);
+    }
+
+    /**
+     * @param sessionID String
+     * @param name String
+     * @param entry {@link Map}
+     *
+     * @return Object
+     */
+    private Object checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, Object> entry)
+    {
+        Object cloudSessionValue = this.cs.getSessionValue(sessionID, name);
+
+        if (cloudSessionValue != null)
+        {
+            this.logger.info("found value [{}] in persistent cache!", cloudSessionValue);
+
+            if (entry == null)
+            {
+                // set local entry and update timeout in cloud
+                setSessionValue(sessionID, name, cloudSessionValue);
+            }
+            else
+            {
+                // renew all timeouts
+                renewTimeout(sessionID, entry);
+            }
+        }
+        else
+        {
+            // remove session information
+            remove(sessionID);
+        }
+
+        return cloudSessionValue;
+    }
+
+    /**
      * @param sessionID String
      * @param entry {@link Map}
      */
@@ -155,25 +174,6 @@ public class CloudSessionCache implements CloudSession
     }
 
     /**
-     * @see cloudsession.CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void setSessionValue(final String sessionID, final String name, final Object value)
-    {
-        this.logger.info("setting entry [{},{},{}]", sessionID, name, value);
-
-        Map<String, Object> entry = this.hash.computeIfAbsent(sessionID, key -> Collections.synchronizedMap(new HashMap<String, Object>()));
-
-        // update value in my cache
-        entry.put(name, value);
-
-        // set value in cloud
-        this.cs.setSessionValue(sessionID, name, value);
-
-        renewTimeout(sessionID, entry);
-    }
-
-    /**
      * @param timeout Long
      *
      * @return boolean
@@ -182,10 +182,7 @@ public class CloudSessionCache implements CloudSession
     {
         if (timeout != null)
         {
-            if (System.currentTimeMillis() > timeout)
-            {
-                return true;
-            }
+            return System.currentTimeMillis() > timeout;
         }
 
         return false;

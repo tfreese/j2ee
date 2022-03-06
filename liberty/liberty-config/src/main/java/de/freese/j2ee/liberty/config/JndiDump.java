@@ -1,13 +1,11 @@
-/**
- * Created: 18.05.2018
- */
-
+// Created: 18.05.2018
 package de.freese.j2ee.liberty.config;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -33,8 +31,38 @@ public class JndiDump
     }
 
     /**
-     * @param ctx {@link Context}
      * @return {@link Map}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    @GET
+    @Path("jndi")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getJndiTree() throws Exception
+    {
+        List<String> names = Arrays.asList("", "java:global", "java:app", "java:module", "java:comp");
+
+        Map<String, Object> map = new TreeMap<>();
+        InitialContext initialContext = new InitialContext();
+
+        for (String name : names)
+        {
+            Context context = (Context) initialContext.lookup(name);
+            map.put(name, dumpContextNameClassPair(context));
+            // map.put(name, dumpContextBinding(context));
+            context.close();
+        }
+
+        initialContext.close();
+
+        return map;
+    }
+
+    /**
+     * @param ctx {@link Context}
+     *
+     * @return {@link Map}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected Map<String, Object> dumpContextBinding(final Context ctx) throws Exception
@@ -75,7 +103,9 @@ public class JndiDump
 
     /**
      * @param ctx {@link Context}
+     *
      * @return {@link Map}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected Map<String, Object> dumpContextNameClassPair(final Context ctx) throws Exception
@@ -118,33 +148,6 @@ public class JndiDump
                 }
             }
         }
-
-        return map;
-    }
-
-    /**
-     * @return {@link Map}
-     * @throws Exception Falls was schief geht.
-     */
-    @GET
-    @Path("jndi")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getJndiTree() throws Exception
-    {
-        List<String> names = Arrays.asList("", "java:global", "java:app", "java:module", "java:comp");
-
-        Map<String, Object> map = new TreeMap<>();
-        InitialContext initialContext = new InitialContext();
-
-        for (String name : names)
-        {
-            Context context = (Context) initialContext.lookup(name);
-            map.put(name, dumpContextNameClassPair(context));
-            // map.put(name, dumpContextBinding(context));
-            context.close();
-        }
-
-        initialContext.close();
 
         return map;
     }

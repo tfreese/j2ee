@@ -1,12 +1,10 @@
-/**
- * Created: 28.05.2018
- */
-
+// Created: 28.05.2018
 package de.freese.j2ee.liberty.config;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +18,8 @@ import org.slf4j.LoggerFactory;
 public class NoViewBean
 {
     /**
-    *
-    */
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -51,8 +49,8 @@ public class NoViewBean
     }
 
     /**
-    *
-    */
+     *
+     */
     @PostConstruct
     public void postConstruct()
     {

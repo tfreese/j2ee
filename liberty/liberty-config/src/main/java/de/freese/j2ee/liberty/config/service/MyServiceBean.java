@@ -9,10 +9,12 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
+
 import de.freese.j2ee.liberty.config.AbstractBean;
 
 /**
@@ -24,10 +26,10 @@ import de.freese.j2ee.liberty.config.AbstractBean;
 public class MyServiceBean extends AbstractBean implements MyService
 {
     /**
-    *
-    */
+     *
+     */
     @Resource(lookup = "jdbc/hsqldbDS")
-    private DataSource dataSource = null;
+    private DataSource dataSource;
 
     /**
      * Erzeugt eine neue Instanz von {@link MyServiceBean}.

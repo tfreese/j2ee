@@ -1,15 +1,14 @@
-/**
- * Created: 20.05.2018
- */
-
+// Created: 20.05.2018
 package de.freese.liberty.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;

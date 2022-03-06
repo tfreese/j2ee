@@ -1,7 +1,4 @@
-/**
- * Created: 20.05.2018
- */
-
+// Created: 20.05.2018
 package de.freese.liberty.rest;
 
 import javax.json.Json;

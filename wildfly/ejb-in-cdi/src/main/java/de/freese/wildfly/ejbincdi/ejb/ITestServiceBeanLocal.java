@@ -11,8 +11,8 @@ public interface ITestServiceBeanLocal
 {
     /**
      * @param s String
-     *            <p>
+     *
      * @return String
      */
-    public String getString(String s);
+    String getString(String s);
 }

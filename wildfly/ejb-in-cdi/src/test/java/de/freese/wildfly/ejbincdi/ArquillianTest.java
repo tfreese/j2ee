@@ -1,8 +1,12 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import de.freese.wildfly.ejbincdi.cdi.NamedBean;
+import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
+import de.freese.wildfly.ejbincdi.ejb.TestServiceBean;
+import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -15,10 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.slf4j.bridge.SLF4JBridgeHandler;
-import de.freese.wildfly.ejbincdi.cdi.NamedBean;
-import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
-import de.freese.wildfly.ejbincdi.ejb.TestServiceBean;
-import jakarta.ejb.EJB;
 
 /**
  * @author Thomas Freese
@@ -56,46 +56,28 @@ public class ArquillianTest
      */
     @Inject
     @Named("myNamedBean")
-    private NamedBean namedBean = null;
-
+    private NamedBean namedBean;
     /**
      *
      */
     @EJB
-    private ITestServiceBeanLocal serviceBean = null;
-
-    /**
-     *
-     */
-    public ArquillianTest()
-    {
-        super();
-    }
+    private ITestServiceBeanLocal serviceBean;
 
     /**
      * Testet, ob die NamedBean null ist.
      */
     @Test
-    public void testCDIInjection()
+    void testCDIInjection()
     {
         Assert.assertNotNull(this.namedBean);
         this.namedBean.log("test");
     }
 
     /**
-     * Testet, ob die TestServiceBean in der NamedBean null ist.
-     */
-    @Test
-    public void testeEJBinCDI()
-    {
-        Assert.assertNotNull(this.namedBean.getServiceBean());
-    }
-
-    /**
      * Testet Methodenaufruf auf TestServiceBeanLocal.
      */
     @Test
-    public void testEJBGetString()
+    void testEJBGetString()
     {
         final String s = "test";
         Assert.assertEquals(s, this.serviceBean.getString(s));
@@ -105,8 +87,17 @@ public class ArquillianTest
      * Testet, ob TestServiceBeanLocal null ist.
      */
     @Test
-    public void testEJBInjection()
+    void testEJBInjection()
     {
         Assert.assertNotNull(this.serviceBean);
+    }
+
+    /**
+     * Testet, ob die TestServiceBean in der NamedBean null ist.
+     */
+    @Test
+    void testeEJBinCDI()
+    {
+        Assert.assertNotNull(this.namedBean.getServiceBean());
     }
 }

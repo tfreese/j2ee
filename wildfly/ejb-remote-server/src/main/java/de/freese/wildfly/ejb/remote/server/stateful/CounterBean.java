@@ -1,6 +1,7 @@
 package de.freese.wildfly.ejb.remote.server.stateful;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateful;
 
@@ -14,7 +15,7 @@ public class CounterBean implements RemoteCounter
     /**
      *
      */
-    private AtomicInteger count = new AtomicInteger(0);
+    private final AtomicInteger count = new AtomicInteger(0);
 
     /**
      * Erstellt ein neues {@link CounterBean} Object.

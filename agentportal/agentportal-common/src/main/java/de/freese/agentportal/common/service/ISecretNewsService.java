@@ -9,17 +9,17 @@ import de.freese.agentportal.common.model.SecretNews;
  */
 public interface ISecretNewsService
 {
-	/**
-	 * Zugriff nur nach Berechtigung.
-	 * 
-	 * @return {@link List}
-	 */
-	public List<SecretNews> getAllSecretNews4High();
+    /**
+     * Zugriff nur nach Berechtigung.
+     *
+     * @return {@link List}
+     */
+    List<SecretNews> getAllSecretNews4High();
 
-	/**
-	 * Zugriff nur nach Berechtigung.
-	 * 
-	 * @return {@link List}
-	 */
-	public List<SecretNews> getAllSecretNews4Low();
+    /**
+     * Zugriff nur nach Berechtigung.
+     *
+     * @return {@link List}
+     */
+    List<SecretNews> getAllSecretNews4Low();
 }

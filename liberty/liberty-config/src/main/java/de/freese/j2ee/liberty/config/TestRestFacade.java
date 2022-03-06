@@ -1,11 +1,9 @@
-/**
- * Created: 25.05.2018
- */
-
+// Created: 25.05.2018
 package de.freese.j2ee.liberty.config;
 
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ws.rs.GET;
@@ -23,7 +21,7 @@ public class TestRestFacade extends AbstractBean
      *
      */
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
-    private ExecutorService executorService = null;
+    private ExecutorService executorService;
 
     /**
      * Erstellt ein neues {@link TestRestFacade} Object.
@@ -58,6 +56,7 @@ public class TestRestFacade extends AbstractBean
      * http://localhost:9080/config/rest/test
      *
      * @return String
+     *
      * @throws SQLException Falls was schief geht.
      */
     @GET

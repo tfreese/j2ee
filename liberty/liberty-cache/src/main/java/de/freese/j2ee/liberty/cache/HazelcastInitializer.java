@@ -1,24 +1,23 @@
-/**
- * Created: 02.06.2018
- */
-
+// Created: 02.06.2018
 package de.freese.j2ee.liberty.cache;
 
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -29,14 +28,13 @@ import com.hazelcast.core.HazelcastInstance;
 public class HazelcastInitializer
 {
     /**
-    *
-    */
-    private static HazelcastInstance hazelcastInstance;
-
-    /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(HazelcastInitializer.class);
+    /**
+     *
+     */
+    private static HazelcastInstance hazelcastInstance;
 
     /**
      * @return {@link HazelcastInstance}
@@ -47,8 +45,8 @@ public class HazelcastInitializer
     }
 
     /**
-    *
-    */
+     *
+     */
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
 
@@ -58,6 +56,15 @@ public class HazelcastInitializer
     public HazelcastInitializer()
     {
         super();
+    }
+
+    /**
+     *
+     */
+    @PostConstruct
+    public void postConstruct()
+    {
+        this.executorService.execute(this::initHazelcast);
     }
 
     /**
@@ -121,14 +128,5 @@ public class HazelcastInitializer
                 LOGGER.error(ex.getMessage());
             }
         }
-    }
-
-    /**
-     *
-     */
-    @PostConstruct
-    public void postConstruct()
-    {
-        this.executorService.execute(this::initHazelcast);
     }
 }

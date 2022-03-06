@@ -1,7 +1,4 @@
-/**
- * Created: 26.05.2018
- */
-
+// Created: 26.05.2018
 package de.freese.j2ee.liberty.config.service;
 
 import java.sql.SQLException;
@@ -16,6 +13,7 @@ public interface MyService
 {
     /**
      * @return {@link Date}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public Date getSysDate() throws SQLException;

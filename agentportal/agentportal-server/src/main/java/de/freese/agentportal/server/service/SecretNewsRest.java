@@ -1,13 +1,8 @@
-/**
- *
- */
 package de.freese.agentportal.server.service;
 
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.model.SecretNewsList;
-import de.freese.agentportal.server.cdi.Resources;
 import java.util.Date;
 import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -26,6 +21,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.model.SecretNewsList;
+import de.freese.agentportal.server.cdi.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,209 +41,209 @@ import org.slf4j.LoggerFactory;
 // })
 public class SecretNewsRest
 {
-	/**
-	 *
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsRest.class);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsRest.class);
+    /**
+     *
+     */
+    @Context
+    private SecurityContext context;
+    /**
+     *
+     */
+    @PersistenceContext(unitName = Resources.EM_UNIT)
+    private EntityManager em;
 
-	/**
-	 *
-	 */
-	@Context
-	private SecurityContext context = null;
+    /**
+     *
+     */
+    public SecretNewsRest()
+    {
+        super();
+    }
 
-	/**
-	 * 
-	 */
-	@PersistenceContext(unitName = Resources.EM_UNIT)
-	private EntityManager em = null;
+    /**
+     * curl -X DELETE -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
+     *
+     * @param id long
+     */
+    @DELETE
+    @Path("/{id:\\d+}")
+    // Nur Zahlen erlaubt.
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void delete(@PathParam("id") final long id)
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-	/**
-	 *
-	 */
-	public SecretNewsRest()
-	{
-		super();
-	}
+        Query query = this.em.createQuery("delete from SecretNews where id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
 
-	/**
-	 * curl -X DELETE -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
-	 * 
-	 * @param id long
-	 */
-	@DELETE
-	@Path("/{id:\\d+}")
-	// Nur Zahlen erlaubt.
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void delete(@PathParam("id") final long id)
-	{
-		LOGGER.info("");
-		logCallerInfo();
+    /**
+     * curl -X PUT -H "Accept: application/json" localhost:8080/secretnews/rest/news?title=" + title + "&text=" + text
+     *
+     * @param title String
+     * @param text String
+     */
+    @PUT
+    @Consumes(MediaType.TEXT_PLAIN)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void insert(@QueryParam("title") final String title, @QueryParam("text") final String text)
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-		Query query = this.em.createQuery("delete from SecretNews where id = :id");
-		query.setParameter("id", id);
-		query.executeUpdate();
-	}
+        SecretNews entity = new SecretNews();
+        entity.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
+        entity.setTitle(title);
+        entity.setTimestamp(new Date());
+        entity.setText(text);
 
-	/**
-	 * curl -X PUT -H "Accept: application/json" localhost:8080/secretnews/rest/news?title=" + title + "&text=" + text
-	 * 
-	 * @param title String
-	 * @param text String
-	 */
-	@PUT
-	@Consumes(MediaType.TEXT_PLAIN)
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void insert(@QueryParam("title") final String title, @QueryParam("text") final String text)
-	{
-		LOGGER.info("");
-		logCallerInfo();
+        this.em.persist(entity);
+    }
 
-		SecretNews entity = new SecretNews();
-		entity.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
-		entity.setTitle(title);
-		entity.setTimestamp(new Date());
-		entity.setText(text);
+    /**
+     * curl -X GET -H "Accept: text/plain" localhost:8080/secretnews/rest/news
+     *
+     * @return {@link List}
+     */
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    // @RolesAllowed("AgentPortalRoleHigh")
+    public String newsAsString()
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-		this.em.persist(entity);
-	}
+        List<SecretNews> news = newsAsXML().getNews();
 
-	/**
-	 *
-	 */
-	private void logCallerInfo()
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append("user=");
+        StringBuilder sb = new StringBuilder();
 
-		try
-		{
-			sb.append(this.context.getUserPrincipal().getName());
-			sb.append(", role=");
+        for (SecretNews entity : news)
+        {
+            sb.append(entity);
+            sb.append("\n");
+        }
 
-			if (this.context.isUserInRole("AgentPortalRoleHigh"))
-			{
-				sb.append("AgentPortalRoleHigh");
-			}
-			else if (this.context.isUserInRole("AgentPortalRoleLow"))
-			{
-				sb.append("AgentPortalRoleLow");
-			}
-			else
-			{
-				sb.append("<unknown>");
-			}
-		}
-		catch (Exception ex)
-		{
-			sb.append("<unknown>");
-		}
+        return sb.toString();
+    }
 
-		LOGGER.info("called from {}", sb.toString());
-	}
+    /**
+     * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news
+     *
+     * @return {@link List}
+     */
+    @SuppressWarnings("unchecked")
+    @GET
+    @Produces(
+            {
+                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+            })
+    // @RolesAllowed("AgentPortalRoleHigh")
+    public SecretNewsList newsAsXML()
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-	/**
-	 * curl -X GET -H "Accept: text/plain" localhost:8080/secretnews/rest/news
-	 * 
-	 * @return {@link List}
-	 */
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	// @RolesAllowed("AgentPortalRoleHigh")
-	public String newsAsString()
-	{
-		LOGGER.info("");
-		logCallerInfo();
+        Query query = this.em.createQuery("select sn from SecretNews sn");
 
-		List<SecretNews> news = newsAsXML().getNews();
+        List<SecretNews> news = query.getResultList();
 
-		StringBuilder sb = new StringBuilder();
+        SecretNewsList secretNewsList = new SecretNewsList();
+        secretNewsList.setNews(news);
 
-		for (SecretNews entity : news)
-		{
-			sb.append(entity);
-			sb.append("\n");
-		}
+        return secretNewsList;
+    }
 
-		return sb.toString();
-	}
+    /**
+     * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
+     *
+     * @param id long
+     *
+     * @return {@link SecretNews}
+     */
+    @GET
+    @Produces(
+            {
+                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
+            })
+    @Path("/{id:\\d+}")
+    // Nur Zahlen erlaubt.
+    // @RolesAllowed("AgentPortalRoleHigh")
+    public SecretNews newsAsXML(@PathParam("id") final long id)
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-	/**
-	 * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news
-	 * 
-	 * @return {@link List}
-	 */
-	@SuppressWarnings("unchecked")
-	@GET
-	@Produces(
-	{
-			MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-	})
-	// @RolesAllowed("AgentPortalRoleHigh")
-	public SecretNewsList newsAsXML()
-	{
-		LOGGER.info("");
-		logCallerInfo();
+        SecretNews entity = this.em.find(SecretNews.class, id);
 
-		Query query = this.em.createQuery("select sn from SecretNews sn");
+        return entity;
+    }
 
-		List<SecretNews> news = query.getResultList();
+    /**
+     * curl -X POST -H "Accept: application/json" localhost:8080/secretnews/rest/news/<br>
+     * In den OutputStream: <secretNews id=\"1\"><title>CCC</title><text>DDD</text></secretNews>
+     *
+     * @param news {@link SecretNews}
+     *
+     * @return String
+     */
+    @POST
+    @Consumes(
+            {
+                    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
+            })
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String update(final SecretNews news)
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-		SecretNewsList secretNewsList = new SecretNewsList();
-		secretNewsList.setNews(news);
+        if (news.getTimestamp() != null)
+        {
+            news.setTimestamp(new Date());
+        }
 
-		return secretNewsList;
-	}
+        this.em.merge(news);
 
-	/**
-	 * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
-	 * 
-	 * @param id long
-	 * @return {@link SecretNews}
-	 */
-	@GET
-	@Produces(
-	{
-			MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-	})
-	@Path("/{id:\\d+}")
-	// Nur Zahlen erlaubt.
-	// @RolesAllowed("AgentPortalRoleHigh")
-	public SecretNews newsAsXML(@PathParam("id") final long id)
-	{
-		LOGGER.info("");
-		logCallerInfo();
+        return "OK";
+    }
 
-		SecretNews entity = this.em.find(SecretNews.class, Long.valueOf(id));
+    /**
+     *
+     */
+    private void logCallerInfo()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("user=");
 
-		return entity;
-	}
+        try
+        {
+            sb.append(this.context.getUserPrincipal().getName());
+            sb.append(", role=");
 
-	/**
-	 * curl -X POST -H "Accept: application/json" localhost:8080/secretnews/rest/news/<br>
-	 * In den OutputStream: <secretNews id=\"1\"><title>CCC</title><text>DDD</text></secretNews>
-	 * 
-	 * @param news {@link SecretNews}
-	 * @return String
-	 */
-	@POST
-	@Consumes(
-	{
-			MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-	})
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public String update(final SecretNews news)
-	{
-		LOGGER.info("");
-		logCallerInfo();
+            if (this.context.isUserInRole("AgentPortalRoleHigh"))
+            {
+                sb.append("AgentPortalRoleHigh");
+            }
+            else if (this.context.isUserInRole("AgentPortalRoleLow"))
+            {
+                sb.append("AgentPortalRoleLow");
+            }
+            else
+            {
+                sb.append("<unknown>");
+            }
+        }
+        catch (Exception ex)
+        {
+            sb.append("<unknown>");
+        }
 
-		if (news.getTimestamp() != null)
-		{
-			news.setTimestamp(new Date());
-		}
-
-		this.em.merge(news);
-
-		return "OK";
-	}
+        LOGGER.info("called from {}", sb);
+    }
 }

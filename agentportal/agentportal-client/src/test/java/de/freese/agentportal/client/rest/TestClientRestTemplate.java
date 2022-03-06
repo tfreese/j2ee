@@ -1,27 +1,43 @@
-/**
- * Created: 25.05.2013
- */
-
+// Created: 25.05.2013
 package de.freese.agentportal.client.rest;
 
 import java.util.Date;
+
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.model.SecretNewsList;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.model.SecretNewsList;
 
 /**
  * @author Thomas Freese
  */
-public class TestClientRestTemplate
+final class TestClientRestTemplate
 {
+    /**
+     * @param args String[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        RestTemplate template = new RestTemplate();
+
+        selectOne(template, 1);
+        update(template, 1, "Thomas Freese", "Update Test");
+        selectAll(template);
+        insert(template, "Thomas Freese", "Insert Test");
+        delete(template, 1);
+        selectAll(template);
+    }
+
     /**
      * @param template {@link RestTemplate}
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void delete(final RestTemplate template, final long oid) throws Exception
@@ -47,6 +63,7 @@ public class TestClientRestTemplate
      * @param template {@link RestTemplate}
      * @param title String
      * @param text String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void insert(final RestTemplate template, final String title, final String text) throws Exception
@@ -75,23 +92,8 @@ public class TestClientRestTemplate
     }
 
     /**
-     * @param args String[]
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        RestTemplate template = new RestTemplate();
-
-        selectOne(template, 1);
-        update(template, 1, "Thomas Freese", "Update Test");
-        selectAll(template);
-        insert(template, "Thomas Freese", "Insert Test");
-        delete(template, 1);
-        selectAll(template);
-    }
-
-    /**
      * @param template {@link RestTemplate}
+     *
      * @throws Exception Falls was schief geht.
      */
     static void selectAll(final RestTemplate template) throws Exception
@@ -118,13 +120,14 @@ public class TestClientRestTemplate
     /**
      * @param template {@link RestTemplate}
      * @param oid long
+     *
      * @throws Exception Falls was schief geht.
      */
     static void selectOne(final RestTemplate template, final long oid) throws Exception
     {
         System.err.println("TestClientRestTemplate.selectOne()");
 
-        SecretNews news = template.getForObject("http://localhost:8080/de.freese.agentportal.server/rest/news/{id}", SecretNews.class, Long.valueOf(oid));
+        SecretNews news = template.getForObject("http://localhost:8080/de.freese.agentportal.server/rest/news/{id}", SecretNews.class, oid);
         System.out.println(news);
     }
 
@@ -133,6 +136,7 @@ public class TestClientRestTemplate
      * @param id long
      * @param title String
      * @param text String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void update(final RestTemplate template, final long id, final String title, final String text) throws Exception
@@ -140,7 +144,7 @@ public class TestClientRestTemplate
         System.err.println("TestClientREST.update()");
 
         SecretNews news = new SecretNews();
-        news.setId(Long.valueOf(id));
+        news.setId(id);
         news.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
         news.setTitle(title);
         news.setText(text);
@@ -166,7 +170,7 @@ public class TestClientRestTemplate
     /**
      * Erstellt ein neues {@link TestClientRestTemplate} Object.
      */
-    public TestClientRestTemplate()
+    private TestClientRestTemplate()
     {
         super();
     }

@@ -1,29 +1,20 @@
-/**
- * Created: 25.05.2013
- */
-
+// Created: 25.05.2013
 package de.freese.agentportal.client.ejb;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
  */
-public class TestClientEJB
+class TestClientEJB
 {
-    /**
-     * Erstellt ein neues {@link TestClientEJB} Object.
-     */
-    public TestClientEJB()
-    {
-        super();
-    }
-
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void glassfishAccess() throws Exception
+    void glassfishAccess() throws Exception
     {
         // TODO
         // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Konfig für lokale Maschine.
@@ -38,5 +29,7 @@ public class TestClientEJB
         // {
         // System.out.println(secretNews);
         // }
+
+        assertTrue(true);
     }
 }

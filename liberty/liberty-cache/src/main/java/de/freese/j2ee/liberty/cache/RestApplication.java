@@ -1,5 +1,4 @@
-/*** Created:20.05.2018 */
-
+// Created:20.05.2018
 package de.freese.j2ee.liberty.cache;
 
 import javax.ws.rs.ApplicationPath;

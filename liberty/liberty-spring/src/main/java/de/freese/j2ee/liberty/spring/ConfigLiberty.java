@@ -1,12 +1,10 @@
-/**
- * Created: 21.06.2018
- */
-
+// Created: 21.06.2018
 package de.freese.j2ee.liberty.spring;
 
 import javax.annotation.Resource;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -24,7 +22,7 @@ public class ConfigLiberty
      *
      */
     @Resource
-    private Environment env = null;
+    private Environment env;
 
     /**
      * Erstellt ein neues {@link ConfigLiberty} Object.
@@ -36,6 +34,7 @@ public class ConfigLiberty
 
     /**
      * @return {@link DataSource}
+     *
      * @throws NamingException Falls was schief geht.
      */
     @Bean

@@ -1,6 +1,4 @@
-/**
- * Created on 13.12.2015 13:31:50
- */
+// Created on 13.12.2015 13:31:50
 package de.freese.wildfly.servlet.async;
 
 import jakarta.inject.Inject;
@@ -38,7 +36,7 @@ public class AsynchronousServlet extends HttpServlet
      *
      */
     @Inject
-    private LongRunningService longRunningService = null;
+    private final LongRunningService longRunningService = null;
 
     /**
      * Erstellt ein neues {@link AsynchronousServlet} Object.

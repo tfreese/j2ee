@@ -1,11 +1,7 @@
 package de.freese.agentportal.server.service;
 
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.service.ISecretNewsService;
-import de.freese.agentportal.server.cdi.AgentPortalEM;
-import de.freese.agentportal.server.dao.SecretNewsHighDAO;
-import de.freese.agentportal.server.dao.SecretNewsLowDAO;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -15,6 +11,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.service.ISecretNewsService;
+import de.freese.agentportal.server.cdi.AgentPortalEM;
+import de.freese.agentportal.server.dao.SecretNewsHighDAO;
+import de.freese.agentportal.server.dao.SecretNewsLowDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,116 +32,113 @@ import org.slf4j.LoggerFactory;
 // })
 public class SecretNewsEJB implements ISecretNewsService
 {
-	/**
-	 * 
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsEJB.class);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsEJB.class);
+    /**
+     *
+     */
+    @Resource
+    private SessionContext context;
+    /**
+     *
+     */
+    // @Inject
+    // @Secured
+    @EJB
+    // (mappedName = "secureNewsDAO")
+    private SecretNewsHighDAO daoHigh;
+    // private ISecretNewsDAO daoHigh;
+    /**
+     *
+     */
+    // @Inject
+    // @Unsecured
+    // private SecretNewsLowDAO daoLow = null;
+    @EJB
+    private SecretNewsLowDAO daoLow;
+    /**
+     *
+     */
+    @Inject
+    @AgentPortalEM
+    private EntityManager entityManager1;
 
-	/**
-	 * 
-	 */
-	@Resource
-	private SessionContext context = null;
+    /**
+     * Erstellt ein neues {@link SecretNewsEJB} Object.
+     */
+    public SecretNewsEJB()
+    {
+        super();
+    }
 
-	/**
-	 * 
-	 */
-	// @Inject
-	// @Secured
-	@EJB
-	// (mappedName = "secureNewsDAO")
-	private SecretNewsHighDAO daoHigh = null;
-	// private ISecretNewsDAO daoHigh = null;
-	/**
-	 * 
-	 */
-	// @Inject
-	// @Unsecured
-	// private SecretNewsLowDAO daoLow = null;
-	@EJB
-	private SecretNewsLowDAO daoLow = null;
+    /**
+     * @see de.freese.agentportal.common.service.ISecretNewsService#getAllSecretNews4High()
+     */
+    @Override
+    // @RolesAllowed("AgentPortalRoleHigh")
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<SecretNews> getAllSecretNews4High()
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-	/**
-	 * 
-	 */
-	@Inject
-	@AgentPortalEM
-	private EntityManager entityManager1 = null;
+        List<SecretNews> news = this.daoHigh.getNews();
 
-	/**
-	 * Erstellt ein neues {@link SecretNewsEJB} Object.
-	 */
-	public SecretNewsEJB()
-	{
-		super();
-	}
+        return news;
+    }
 
-	/**
-	 * @see de.freese.agentportal.common.service.ISecretNewsService#getAllSecretNews4High()
-	 */
-	@Override
-	// @RolesAllowed("AgentPortalRoleHigh")
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public List<SecretNews> getAllSecretNews4High()
-	{
-		LOGGER.info("");
-		logCallerInfo();
+    /**
+     * @see de.freese.agentportal.common.service.ISecretNewsService#getAllSecretNews4Low()
+     */
+    @Override
+    // @RolesAllowed(
+    // {
+    // "AgentPortalRoleHigh", "AgentPortalRoleLow"
+    // })
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public List<SecretNews> getAllSecretNews4Low()
+    {
+        LOGGER.info("");
+        logCallerInfo();
 
-		List<SecretNews> news = this.daoHigh.getNews();
+        List<SecretNews> news = this.daoLow.getNews();
 
-		return news;
-	}
+        return news;
+    }
 
-	/**
-	 * @see de.freese.agentportal.common.service.ISecretNewsService#getAllSecretNews4Low()
-	 */
-	@Override
-	// @RolesAllowed(
-	// {
-	// "AgentPortalRoleHigh", "AgentPortalRoleLow"
-	// })
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public List<SecretNews> getAllSecretNews4Low()
-	{
-		LOGGER.info("");
-		logCallerInfo();
+    /**
+     *
+     */
+    protected void logCallerInfo()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("user=");
 
-		List<SecretNews> news = this.daoLow.getNews();
+        try
+        {
+            sb.append(this.context.getCallerPrincipal().getName());
+            sb.append(", role=");
 
-		return news;
-	}
+            if (this.context.isCallerInRole("AgentPortalRoleHigh"))
+            {
+                sb.append("AgentPortalRoleHigh");
+            }
+            else if (this.context.isCallerInRole("AgentPortalRoleLow"))
+            {
+                sb.append("AgentPortalRoleLow");
+            }
+            else
+            {
+                sb.append("<unknown>");
+            }
+        }
+        catch (Exception ex)
+        {
+            sb.append("<unknown>");
+        }
 
-	/**
-	 * 
-	 */
-	protected void logCallerInfo()
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append("user=");
-
-		try
-		{
-			sb.append(this.context.getCallerPrincipal().getName());
-			sb.append(", role=");
-
-			if (this.context.isCallerInRole("AgentPortalRoleHigh"))
-			{
-				sb.append("AgentPortalRoleHigh");
-			}
-			else if (this.context.isCallerInRole("AgentPortalRoleLow"))
-			{
-				sb.append("AgentPortalRoleLow");
-			}
-			else
-			{
-				sb.append("<unknown>");
-			}
-		}
-		catch (Exception ex)
-		{
-			sb.append("<unknown>");
-		}
-
-		LOGGER.info("called from {}", sb.toString());
-	}
+        LOGGER.info("called from {}", sb);
+    }
 }

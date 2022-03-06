@@ -1,6 +1,4 @@
-// /**
-// * Created: 24.05.2012
-// */
+// // Created: 24.05.2012
 //
 // package de.freese.agentportal.server.service;
 //

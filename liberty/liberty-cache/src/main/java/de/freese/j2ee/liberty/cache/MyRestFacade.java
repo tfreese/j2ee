@@ -1,11 +1,9 @@
-/**
- * Created: 20.05.2018
- */
-
+// Created: 20.05.2018
 package de.freese.j2ee.liberty.cache;
 
 import java.util.Arrays;
 import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,10 +15,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.hazelcast.map.IMap;
 import com.ibm.websphere.cache.DistributedMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Die DistributedMap ist nur per lookup erreichbar !<br>
@@ -62,53 +61,6 @@ public class MyRestFacade
     public MyRestFacade()
     {
         super();
-    }
-
-    /**
-     * Die DistributedMap ist nur per lookup erreichbar !
-     *
-     * @return {@link DistributedMap}
-     */
-    private DistributedMap getDistributedMap()
-    {
-        if (this.cache == null)
-        {
-            for (String jndiName : Arrays.asList("cache/test", "services/cache/distributedmap"))
-            {
-                LOGGER.info("try lookup with {}", jndiName);
-
-                try
-                {
-                    Context context = new InitialContext();
-                    this.cache = (DistributedMap) context.lookup(jndiName);
-
-                    if (this.cache != null)
-                    {
-                        LOGGER.info("lookup successfull with {}", jndiName);
-                        break;
-                    }
-                }
-                catch (NamingException nex)
-                {
-                    LOGGER.error(nex.getMessage());
-                }
-            }
-
-            if (this.cache == null)
-            {
-                LOGGER.info("Cache is already null !");
-            }
-        }
-
-        return this.cache;
-    }
-
-    /**
-     * @return {@link IMap}
-     */
-    private IMap<String, String> getHazelcastMap()
-    {
-        return HazelcastInitializer.getHazelcastInstance().getMap("test");
     }
 
     /**
@@ -179,5 +131,52 @@ public class MyRestFacade
     {
         getDistributedMap().put("key", value);
         getHazelcastMap().put("key", value);
+    }
+
+    /**
+     * Die DistributedMap ist nur per lookup erreichbar !
+     *
+     * @return {@link DistributedMap}
+     */
+    private DistributedMap getDistributedMap()
+    {
+        if (this.cache == null)
+        {
+            for (String jndiName : Arrays.asList("cache/test", "services/cache/distributedmap"))
+            {
+                LOGGER.info("try lookup with {}", jndiName);
+
+                try
+                {
+                    Context context = new InitialContext();
+                    this.cache = (DistributedMap) context.lookup(jndiName);
+
+                    if (this.cache != null)
+                    {
+                        LOGGER.info("lookup successfull with {}", jndiName);
+                        break;
+                    }
+                }
+                catch (NamingException nex)
+                {
+                    LOGGER.error(nex.getMessage());
+                }
+            }
+
+            if (this.cache == null)
+            {
+                LOGGER.info("Cache is already null !");
+            }
+        }
+
+        return this.cache;
+    }
+
+    /**
+     * @return {@link IMap}
+     */
+    private IMap<String, String> getHazelcastMap()
+    {
+        return HazelcastInitializer.getHazelcastInstance().getMap("test");
     }
 }

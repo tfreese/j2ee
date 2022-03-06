@@ -2,6 +2,7 @@
 package de.freese.j2ee.liberty.config;
 
 import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,14 +12,14 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractBean
 {
     /**
-    *
-    */
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Erzeugt eine neue Instanz von {@link AbstractBean}.
      */
-    public AbstractBean()
+    protected AbstractBean()
     {
         super();
 
@@ -34,8 +35,8 @@ public abstract class AbstractBean
     }
 
     /**
-    *
-    */
+     *
+     */
     @PostConstruct
     public void postConstruct()
     {

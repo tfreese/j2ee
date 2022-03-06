@@ -1,11 +1,10 @@
-/**
- * Created on 13.12.2015 11:55:38
- */
+// Created on 13.12.2015 11:55:38
 package de.freese.wildfly.servlet.secured;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.Principal;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.annotation.ServletSecurity;
@@ -20,16 +19,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @WebServlet("/SecuredServlet")
 @ServletSecurity(@HttpConstraint(rolesAllowed =
-{
-        "quickstarts"
-}))
+        {
+                "quickstarts"
+        }))
 public class ServletSecured extends HttpServlet
 {
     /**
      *
      */
     private static final String PAGE_FOOTER = "</body></html>";
-
     /**
      *
      */

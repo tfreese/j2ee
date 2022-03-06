@@ -1,11 +1,11 @@
 // Erzeugt: 24.11.2015
 package de.freese.wildfly.ejbincdi.cdi;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal;
 import jakarta.ejb.EJB;
 import jakarta.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -17,12 +17,11 @@ public class NamedBean
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(NamedBean.class);
-
     /**
      *
      */
     @EJB
-    private ITestServiceBeanLocal serviceBean = null;
+    private ITestServiceBeanLocal serviceBean;
 
     /**
      *
