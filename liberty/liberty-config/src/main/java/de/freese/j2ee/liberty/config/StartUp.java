@@ -29,7 +29,7 @@ public class StartUp extends AbstractBean
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
     /**
-     * No-View Beans (ohne Interface) funktionieren komischer Weise nicht !
+     * No-View Beans (ohne Interface) funktionieren komischerweise nicht !
      */
     // @EJB
     private NoViewBean noViewBean;
@@ -38,14 +38,6 @@ public class StartUp extends AbstractBean
      */
     @EJB
     private MyService serviceBean;
-
-    /**
-     * Erstellt ein neues {@link StartUp} Object.
-     */
-    public StartUp()
-    {
-        super();
-    }
 
     /**
      * @see de.freese.j2ee.liberty.config.AbstractBean#postConstruct()

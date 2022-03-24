@@ -25,14 +25,6 @@ public class ConfigTomcat
     private Environment env;
 
     /**
-     * Erstellt ein neues {@link ConfigTomcat} Object.
-     */
-    public ConfigTomcat()
-    {
-        super();
-    }
-
-    /**
      * @return {@link DataSource}
      *
      * @throws NamingException Falls was schief geht.

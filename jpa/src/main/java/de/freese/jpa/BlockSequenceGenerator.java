@@ -97,7 +97,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator
 
                 try (Statement statement = session.connection().createStatement())
                 {
-                    // Das hier ist natürlich Blödsinn !!!
+                    // Das hier ist natürlich Blödsinn !
                     // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
                     for (int i = 0; i < this.blockSize; i++)
                     {

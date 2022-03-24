@@ -11,14 +11,6 @@ import jakarta.ejb.Stateless;
 public class CalculatorBean implements RemoteCalculator
 {
     /**
-     * Erstellt ein neues {@link CalculatorBean} Object.
-     */
-    public CalculatorBean()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.wildfly.ejb.remote.server.stateless.RemoteCalculator#add(int, int)
      */
     @Override

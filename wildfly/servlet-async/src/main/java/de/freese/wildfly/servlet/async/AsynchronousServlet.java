@@ -36,15 +36,7 @@ public class AsynchronousServlet extends HttpServlet
      *
      */
     @Inject
-    private final LongRunningService longRunningService = null;
-
-    /**
-     * Erstellt ein neues {@link AsynchronousServlet} Object.
-     */
-    public AsynchronousServlet()
-    {
-        super();
-    }
+    private LongRunningService longRunningService;
 
     /**
      * @see jakarta.servlet.http.HttpServlet#doGet(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)

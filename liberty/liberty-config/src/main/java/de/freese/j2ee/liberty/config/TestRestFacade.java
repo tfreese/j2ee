@@ -57,7 +57,7 @@ public class TestRestFacade extends AbstractBean
      *
      * @return String
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @GET
     @Path("test")

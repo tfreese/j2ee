@@ -14,7 +14,7 @@ public interface MyService
     /**
      * @return {@link Date}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public Date getSysDate() throws SQLException;
 

@@ -76,7 +76,10 @@ public class PojoBeanSerializer implements Serializer
     //
     // return (A) sun.reflect.annotation.AnnotationParser.annotationForMap(annotationType, values);
     // }
-
+    /**
+     *
+     */
+    private final List<Class<?>> interfaces = new ArrayList<>();
     /**
      *
      */
@@ -85,10 +88,6 @@ public class PojoBeanSerializer implements Serializer
      *
      */
     private boolean includeValidationAnnotations;
-    /**
-     *
-     */
-    private final List<Class<?>> interfaces = new ArrayList<>();
     /**
      *
      */
@@ -130,6 +129,69 @@ public class PojoBeanSerializer implements Serializer
     }
 
     /**
+     * @see com.querydsl.codegen.Serializer#serialize(com.querydsl.codegen.EntityType, com.querydsl.codegen.SerializerConfig,
+     * com.querydsl.codegen.utils.CodeWriter)
+     */
+    @Override
+    public void serialize(final EntityType type, final SerializerConfig serializerConfig, final CodeWriter writer) throws IOException
+    {
+        serialize01Package(writer, type);
+        serialize02Imports(writer, type);
+        serialize03ClassHeader(writer, type);
+        serialize04Class(writer, type);
+        serialize05Fields(writer, type);
+        serialize06Constructor(writer, type);
+        serialize07Methods(writer, type);
+
+        serialize08HashcodeEquals(writer, type);
+        serialize09ToString(writer, type);
+
+        writer.end();
+    }
+
+    /**
+     * Konstruktor mit allen Parametern einbauen.
+     *
+     * @param addFullConstructor boolean
+     */
+    public void setAddFullConstructor(final boolean addFullConstructor)
+    {
+        this.addFullConstructor = addFullConstructor;
+    }
+
+    /**
+     * true = javax.validation.constraints.* Annotations mit einbauen.<br>
+     * Es wird nach dem Vorkommen von {@link Constraint} geschaut.
+     *
+     * @param includeValidationAnnotations boolean
+     */
+    public void setIncludeValidationAnnotations(final boolean includeValidationAnnotations)
+    {
+        this.includeValidationAnnotations = includeValidationAnnotations;
+    }
+
+    /**
+     * Prefix für JavaDoc des Klassen-Headers.<br>
+     * Beispiel: " ist ein generiertes Pojo."
+     *
+     * @param javadocSuffix String
+     */
+    public void setJavadocSuffix(final String javadocSuffix)
+    {
+        this.javadocSuffix = javadocSuffix;
+    }
+
+    /**
+     * Superklasse von der die Pojos erben sollen.
+     *
+     * @param supertype Class
+     */
+    public void setSuperType(final Class<?> supertype)
+    {
+        this.superType = new ClassType(supertype);
+    }
+
+    /**
      * Liefert alle Annotations der Klasse.<br>
      *
      * @param model {@link EntityType}
@@ -159,7 +221,7 @@ public class PojoBeanSerializer implements Serializer
         // @formatter:off
         return property.getAnnotations().stream()
                 .filter(a -> !(a instanceof Column))
-                .filter(a-> isIncludeValidationAnnotations() ? true : !a.annotationType().isAnnotationPresent(Constraint.class))
+                .filter(a-> isIncludeValidationAnnotations() || !a.annotationType().isAnnotationPresent(Constraint.class))
                 .sorted(COMPARATOR_ANNOTATION)
                 .collect(Collectors.toList())
                 ;
@@ -171,12 +233,12 @@ public class PojoBeanSerializer implements Serializer
      *
      * @param property {@link Property}
      *
-     * @return String[]; Jede Zeile ist ein Array-Element
+     * @return String[], jede Zeile ist ein Array-Element
      */
     protected String[] getFieldJavaDoc(final Property property)
     {
         StringJoiner joiner = new StringJoiner("; ");
-        StringBuilder javaDoc = new StringBuilder("");
+        StringBuilder javaDoc = new StringBuilder();
 
         // property.getAnnotations().forEach(System.out::println);
 
@@ -237,12 +299,12 @@ public class PojoBeanSerializer implements Serializer
             joiner.add("Primary Key");
         }
 
-        javaDoc.append(joiner.toString());
+        javaDoc.append(joiner);
 
         return new String[]
-        {
-                javaDoc.toString()
-        };
+                {
+                        javaDoc.toString()
+                };
     }
 
     /**
@@ -388,27 +450,6 @@ public class PojoBeanSerializer implements Serializer
     protected boolean isIncludeValidationAnnotations()
     {
         return this.includeValidationAnnotations;
-    }
-
-    /**
-     * @see com.querydsl.codegen.Serializer#serialize(com.querydsl.codegen.EntityType, com.querydsl.codegen.SerializerConfig,
-     *      com.querydsl.codegen.utils.CodeWriter)
-     */
-    @Override
-    public void serialize(final EntityType type, final SerializerConfig serializerConfig, final CodeWriter writer) throws IOException
-    {
-        serialize01Package(writer, type);
-        serialize02Imports(writer, type);
-        serialize03ClassHeader(writer, type);
-        serialize04Class(writer, type);
-        serialize05Fields(writer, type);
-        serialize06Constructor(writer, type);
-        serialize07Methods(writer, type);
-
-        serialize08HashcodeEquals(writer, type);
-        serialize09ToString(writer, type);
-
-        writer.end();
     }
 
     /**
@@ -693,7 +734,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
-     *            <p>
+     * <p>
      *
      * @throws IOException Falls was schief geht.
      */
@@ -738,7 +779,7 @@ public class PojoBeanSerializer implements Serializer
     /**
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
-     *            <p>
+     * <p>
      *
      * @throws IOException Falls was schief geht.
      */
@@ -764,47 +805,5 @@ public class PojoBeanSerializer implements Serializer
         }
 
         writer.end();
-    }
-
-    /**
-     * Konstruktor mit allen Parametern einbauen.
-     *
-     * @param addFullConstructor boolean
-     */
-    public void setAddFullConstructor(final boolean addFullConstructor)
-    {
-        this.addFullConstructor = addFullConstructor;
-    }
-
-    /**
-     * true = javax.validation.constraints.* Annotations mit einbauen.<br>
-     * Es wird nach dem Vorkommen von {@link Constraint} geschaut.
-     *
-     * @param includeValidationAnnotations boolean
-     */
-    public void setIncludeValidationAnnotations(final boolean includeValidationAnnotations)
-    {
-        this.includeValidationAnnotations = includeValidationAnnotations;
-    }
-
-    /**
-     * Prefix für JavaDoc des Klassen-Headers.<br>
-     * Beispiel: " ist ein generiertes Pojo."
-     *
-     * @param javadocSuffix String
-     */
-    public void setJavadocSuffix(final String javadocSuffix)
-    {
-        this.javadocSuffix = javadocSuffix;
-    }
-
-    /**
-     * Superklasse von der die Pojos erben sollen.
-     *
-     * @param supertype Class
-     */
-    public void setSuperType(final Class<?> supertype)
-    {
-        this.superType = new ClassType(supertype);
     }
 }

@@ -10,14 +10,6 @@ import jakarta.ejb.Stateless;
 public class TestServiceBean implements ITestServiceBeanLocal
 {
     /**
-     *
-     */
-    public TestServiceBean()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.wildfly.ejbincdi.ejb.ITestServiceBeanLocal#getString(java.lang.String)
      */
     @Override

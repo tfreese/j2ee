@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import de.freese.TEmployeeRowMapper;
+import de.freese.sql.jooql.tables.TEmployee;
+import de.freese.sql.jooql.tables.records.TEmployeeRecord;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.Result;
@@ -32,10 +35,6 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-
-import de.freese.TEmployeeRowMapper;
-import de.freese.sql.jooql.tables.TEmployee;
-import de.freese.sql.jooql.tables.records.TEmployeeRecord;
 
 /**
  * Testcaste für JOOQL.
@@ -184,7 +183,7 @@ class TestJOOQL
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void test03SelectRowMapper() throws SQLException

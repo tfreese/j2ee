@@ -1,7 +1,4 @@
 // Created: 13.03.2010
-/**
- * 13.03.2010
- */
 package de.freese.jpa.model;
 
 import java.io.Serializable;
@@ -31,12 +28,12 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 @Entity
 @Table(name = "T_ADDRESS", schema = "PUBLIC", uniqueConstraints =
-{
-        @UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames =
         {
-                "PERSON_ID", "STREET"
+                @UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames =
+                        {
+                                "PERSON_ID", "STREET"
+                        })
         })
-})
 @DynamicInsert
 @DynamicUpdate
 @Cacheable
@@ -120,29 +117,11 @@ public class Address implements Serializable
     }
 
     /**
-     * @PreUpdate
-     */
-    @PrePersist
-    void preInsert()
-    {
-        // TODO
-        System.out.println("Address.preInsert()");
-    }
-
-    /**
      * @param id long
      */
     public void setID(final long id)
     {
         this.id = id;
-    }
-
-    /**
-     * @param person {@link Person}
-     */
-    void setPerson(final Person person)
-    {
-        this.person = person;
     }
 
     /**
@@ -167,5 +146,23 @@ public class Address implements Serializable
         builder.append("]");
 
         return builder.toString();
+    }
+
+    /**
+     * @PreUpdate
+     */
+    @PrePersist
+    void preInsert()
+    {
+        // TODO
+        System.out.println("Address.preInsert()");
+    }
+
+    /**
+     * @param person {@link Person}
+     */
+    void setPerson(final Person person)
+    {
+        this.person = person;
     }
 }

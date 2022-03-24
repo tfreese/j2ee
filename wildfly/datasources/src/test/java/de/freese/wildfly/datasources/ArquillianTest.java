@@ -4,7 +4,10 @@ package de.freese.wildfly.datasources;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -17,7 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.slf4j.LoggerFactory;
-import jakarta.annotation.Resource;
 
 /**
  * @author Thomas Freese
@@ -55,21 +57,12 @@ public class ArquillianTest
      *
      */
     @Resource(lookup = "java:jboss/datasources/ExampleDS")
-    protected DataSource dataSourceDefault = null;
-
+    protected DataSource dataSourceDefault;
     /**
      * Siehe datasource-ds.xml
      */
     @Resource(lookup = "java:jboss/datasources/datasources")
-    protected DataSource dataSourceXML = null;
-
-    /**
-     * Erstellt ein neues {@link ArquillianTest} Object.
-     */
-    public ArquillianTest()
-    {
-        super();
-    }
+    protected DataSource dataSourceXML;
 
     /**
      * @throws Exception Falls was schief geht.

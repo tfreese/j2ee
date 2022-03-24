@@ -25,14 +25,6 @@ public class ConfigLiberty
     private Environment env;
 
     /**
-     * Erstellt ein neues {@link ConfigLiberty} Object.
-     */
-    public ConfigLiberty()
-    {
-        super();
-    }
-
-    /**
      * @return {@link DataSource}
      *
      * @throws NamingException Falls was schief geht.

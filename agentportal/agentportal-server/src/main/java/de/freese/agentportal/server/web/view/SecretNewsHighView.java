@@ -4,12 +4,14 @@
 
 package de.freese.agentportal.server.web.view;
 
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.service.ISecretNewsService;
 import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.service.ISecretNewsService;
 
 /**
  * @author Thomas Freese
@@ -18,33 +20,33 @@ import javax.inject.Named;
 @RequestScoped
 public class SecretNewsHighView
 {
-	/**
-	 *  
-	 */
-	@EJB
-	private ISecretNewsService secretNewsService = null;
+    /**
+     *
+     */
+    @EJB
+    private final ISecretNewsService secretNewsService = null;
 
-	/**
-	 * Erstellt ein neues {@link SecretNewsHighView} Object.
-	 */
-	public SecretNewsHighView()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link SecretNewsHighView} Object.
+     */
+    public SecretNewsHighView()
+    {
+        super();
+    }
 
-	/**
-	 * @return {@link List}
-	 */
-	public List<SecretNews> getAllNews()
-	{
-		return this.secretNewsService.getAllSecretNews4High();
-	}
+    /**
+     * @return {@link List}
+     */
+    public List<SecretNews> getAllNews()
+    {
+        return this.secretNewsService.getAllSecretNews4High();
+    }
 
-	/**
-	 * @return String
-	 */
-	public String getLevel()
-	{
-		return "High Security Level";
-	}
+    /**
+     * @return String
+     */
+    public String getLevel()
+    {
+        return "High Security Level";
+    }
 }

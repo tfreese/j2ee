@@ -51,14 +51,6 @@ public class HazelcastInitializer
     private ExecutorService executorService;
 
     /**
-     * Erstellt ein neues {@link HazelcastInitializer} Object.
-     */
-    public HazelcastInitializer()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @PostConstruct

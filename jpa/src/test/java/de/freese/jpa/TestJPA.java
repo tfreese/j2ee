@@ -2,6 +2,7 @@
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,16 +20,15 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.Person;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
-import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -61,9 +61,9 @@ class TestJPA extends AbstractTest
         Properties properties = getHibernateProperties();
         Map<String, Object> config = new HashMap<>();
 
-        properties.keySet().forEach(key -> {
-            config.put((String) key, properties.getProperty((String) key));
-        });
+        properties.keySet().forEach(key ->
+                config.put((String) key, properties.getProperty((String) key))
+        );
 
         // resources/META-INF/persistence.xml
         try
@@ -87,9 +87,7 @@ class TestJPA extends AbstractTest
         entityManager.getTransaction().begin();
 
         List<Person> persons = createPersons();
-        persons.forEach(person -> {
-            entityManager.persist(person);
-        });
+        persons.forEach(entityManager::persist);
 
         validateTest1Insert(persons);
 
@@ -174,7 +172,8 @@ class TestJPA extends AbstractTest
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
         List<Object[]> rows = query.getResultList();
-        rows.forEach(row -> {
+        rows.forEach(row ->
+        {
             Person person = new Person((String) row[1], (String) row[2]);
             person.setID(((BigInteger) row[0]).longValue());
 
@@ -188,7 +187,8 @@ class TestJPA extends AbstractTest
         {
             query.setParameter("person_id", person.getID());
             rows = query.getResultList();
-            rows.forEach(row -> {
+            rows.forEach(row ->
+            {
                 Address address = new Address((String) row[1]);
                 address.setID(((BigInteger) row[0]).longValue());
 
@@ -203,8 +203,8 @@ class TestJPA extends AbstractTest
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void test6Projection()
     {
@@ -224,7 +224,7 @@ class TestJPA extends AbstractTest
         List<MyProjectionDTO> result = query.getResultList();
 
         assertNotNull(result);
-        assertTrue(!result.isEmpty());
+        assertFalse(result.isEmpty());
 
         for (int i = 1; i <= result.size(); i++)
         {

@@ -30,19 +30,11 @@ public class MyRestFacade extends AbstractBean
     private MyService serviceBean;
 
     /**
-     * Erstellt ein neues {@link MyRestFacade} Object.
-     */
-    public MyRestFacade()
-    {
-        super();
-    }
-
-    /**
      * http://localhost:9080/config/rest/service/sysdate
      *
      * @return {@link Date}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @GET
     @Path("sysdate")

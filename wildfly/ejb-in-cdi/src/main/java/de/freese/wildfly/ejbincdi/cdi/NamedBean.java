@@ -24,14 +24,6 @@ public class NamedBean
     private ITestServiceBeanLocal serviceBean;
 
     /**
-     *
-     */
-    public NamedBean()
-    {
-        super();
-    }
-
-    /**
      * @return ITestServiceBeanLocal
      */
     public ITestServiceBeanLocal getServiceBean()

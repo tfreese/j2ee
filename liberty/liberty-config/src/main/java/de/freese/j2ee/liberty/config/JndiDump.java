@@ -23,14 +23,6 @@ import javax.ws.rs.core.MediaType;
 public class JndiDump
 {
     /**
-     * Erstellt ein neues {@link JndiDump} Object.
-     */
-    public JndiDump()
-    {
-        super();
-    }
-
-    /**
      * @return {@link Map}
      *
      * @throws Exception Falls was schief geht.

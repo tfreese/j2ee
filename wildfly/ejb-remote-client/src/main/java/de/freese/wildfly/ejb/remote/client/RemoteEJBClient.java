@@ -8,9 +8,11 @@
 package de.freese.wildfly.ejb.remote.client;
 
 import java.util.Hashtable;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
 import de.freese.wildfly.ejb.remote.server.stateful.RemoteCounter;
 import de.freese.wildfly.ejb.remote.server.stateless.RemoteCalculator;
 
@@ -23,13 +25,27 @@ import de.freese.wildfly.ejb.remote.server.stateless.RemoteCalculator;
 public class RemoteEJBClient
 {
     /**
+     * @param args String[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        // Invoke a stateless bean
+        invokeStatelessBean();
+
+        // Invoke a stateful bean
+        invokeStatefulBean();
+    }
+
+    /**
      * Looks up a stateful bean and invokes on it
      *
      * @throws NamingException Falls was schief geht.
      */
     private static void invokeStatefulBean() throws NamingException
     {
-        // Let's lookup the remote stateful counter
+        // Lets lookup the remote stateful counter
         final RemoteCounter statefulRemoteCounter = lookupRemoteStatefulCounter();
         System.out.println("Obtained a remote stateful counter for invocation");
         // invoke on the remote counter bean
@@ -61,7 +77,7 @@ public class RemoteEJBClient
      */
     private static void invokeStatelessBean() throws NamingException
     {
-        // Let's lookup the remote stateless calculator
+        // Lets lookup the remote stateless calculator
         final RemoteCalculator statelessRemoteCalculator = lookupRemoteStatelessCalculator();
         System.out.println("Obtained a remote stateless calculator for invocation");
         // invoke on the remote calculator
@@ -96,6 +112,7 @@ public class RemoteEJBClient
      * Looks up and returns the proxy to remote stateful counter bean
      *
      * @return {@link RemoteCounter}
+     *
      * @throws NamingException Falls was schief geht.
      */
     private static RemoteCounter lookupRemoteStatefulCounter() throws NamingException
@@ -130,6 +147,7 @@ public class RemoteEJBClient
      * Looks up and returns the proxy to remote stateless calculator bean
      *
      * @return {@link RemoteCalculator}
+     *
      * @throws NamingException Falls was schief geht.
      */
     private static RemoteCalculator lookupRemoteStatelessCalculator() throws NamingException
@@ -158,18 +176,5 @@ public class RemoteEJBClient
 
         // let's do the lookup
         return (RemoteCalculator) context.lookup("ejb:/ejb-remote-server/CalculatorBean!" + RemoteCalculator.class.getName());
-    }
-
-    /**
-     * @param args String[]
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        // Invoke a stateless bean
-        invokeStatelessBean();
-
-        // Invoke a stateful bean
-        invokeStatefulBean();
     }
 }

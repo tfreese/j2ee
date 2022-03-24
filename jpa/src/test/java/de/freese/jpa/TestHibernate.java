@@ -2,6 +2,7 @@
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.Person;
+import de.freese.sql.querydsl.TEmployee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -25,11 +30,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
-import de.freese.jpa.model.Person;
-import de.freese.sql.querydsl.TEmployee;
 
 /**
  * @author Thomas Freese
@@ -75,7 +75,7 @@ class TestHibernate extends AbstractTest
         }
         catch (Exception ex)
         {
-            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+            // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory
             // so destroy it manually.
             StandardServiceRegistryBuilder.destroy(registry);
 
@@ -96,10 +96,12 @@ class TestHibernate extends AbstractTest
 
             List<Person> persons = createPersons();
 
-            persons.stream().map(person -> {
+            persons.stream().map(person ->
+            {
                 session.save(person);
                 return person;
-            }).forEach(person -> {
+            }).forEach(person ->
+            {
                 // person.getAddresses().forEach(address -> {
                 // session.save(address);
                 // });
@@ -194,7 +196,8 @@ class TestHibernate extends AbstractTest
             nativeQuery1.addSynchronizedQuerySpace("T_PERSON");
 
             List<Object[]> rows = nativeQuery1.getResultList();
-            rows.forEach(row -> {
+            rows.forEach(row ->
+            {
                 Person person = new Person((String) row[1], (String) row[2]);
                 person.setID(((BigInteger) row[0]).longValue());
 
@@ -206,11 +209,13 @@ class TestHibernate extends AbstractTest
             nativeQuery2.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
 
-            persons.forEach(person -> {
+            persons.forEach(person ->
+            {
                 nativeQuery2.setParameter("person_id", person.getID());
                 List<Object[]> addresses = nativeQuery2.getResultList();
 
-                addresses.forEach(value -> {
+                addresses.forEach(value ->
+                {
                     Address address = new Address((String) value[1]);
                     address.setID((long) value[0]);
 
@@ -225,8 +230,8 @@ class TestHibernate extends AbstractTest
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void test060Projection()
     {
@@ -245,7 +250,7 @@ class TestHibernate extends AbstractTest
             List<MyProjectionDTO> result = query.getResultList();
 
             assertNotNull(result);
-            assertTrue(!result.isEmpty());
+            assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++)
             {
@@ -261,9 +266,9 @@ class TestHibernate extends AbstractTest
      */
     @Test
     @SuppressWarnings(
-    {
-            "deprecation", "unchecked", "serial"
-    })
+            {
+                    "deprecation", "unchecked", "serial"
+            })
     void test080Transformer()
     {
         try (Session session = SESSIONFACTORY.openSession())
@@ -300,7 +305,7 @@ class TestHibernate extends AbstractTest
             List<TEmployee> result = query.getResultList();
 
             assertNotNull(result);
-            assertTrue(!result.isEmpty());
+            assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++)
             {

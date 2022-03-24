@@ -31,14 +31,6 @@ public class RestService
     private DataSource dataSource;
 
     /**
-     * Erzeugt eine neue Instanz von {@link RestService}
-     */
-    public RestService()
-    {
-        super();
-    }
-
-    /**
      * http://localhost:PORT/liberty-spring/ping
      *
      * @return boolean

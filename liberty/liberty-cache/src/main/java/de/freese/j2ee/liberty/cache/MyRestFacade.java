@@ -56,14 +56,6 @@ public class MyRestFacade
     private DistributedMap cache = null;
 
     /**
-     * Erstellt ein neues {@link MyRestFacade} Object.
-     */
-    public MyRestFacade()
-    {
-        super();
-    }
-
-    /**
      * http://localhost:9090/cache
      *
      * @return {@link Date}

@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.querydsl.codegen.JavaTypeMappings;
+import com.querydsl.sql.codegen.MetaDataExporter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,9 +17,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-
-import com.querydsl.codegen.JavaTypeMappings;
-import com.querydsl.sql.codegen.MetaDataExporter;
 
 /**
  * Erzeugt aus den DB-Metadaten die Entities.
@@ -67,7 +66,7 @@ class TestQuerydslPojoGenerator
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void createEntities() throws SQLException

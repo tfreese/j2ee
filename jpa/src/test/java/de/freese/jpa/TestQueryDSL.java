@@ -8,6 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.HSQLDBTemplates;
+import com.querydsl.sql.SQLBindings;
+import com.querydsl.sql.SQLQuery;
+import com.querydsl.sql.SQLQueryFactory;
+import de.freese.TEmployeeRowMapper;
+import de.freese.jpa.jdbc.SpringExceptionTranslator;
+import de.freese.sql.querydsl.QTEmployee;
+import de.freese.sql.querydsl.TEmployee;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -24,17 +33,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-
-import com.querydsl.sql.Configuration;
-import com.querydsl.sql.HSQLDBTemplates;
-import com.querydsl.sql.SQLBindings;
-import com.querydsl.sql.SQLQuery;
-import com.querydsl.sql.SQLQueryFactory;
-
-import de.freese.TEmployeeRowMapper;
-import de.freese.jpa.jdbc.SpringExceptionTranslator;
-import de.freese.sql.querydsl.QTEmployee;
-import de.freese.sql.querydsl.TEmployee;
 
 /**
  * Testcaste für QueryDSL.
@@ -190,7 +188,7 @@ class TestQueryDSL
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void test03SelectRowMapper() throws SQLException

@@ -18,14 +18,6 @@ public class CounterBean implements RemoteCounter
     private final AtomicInteger count = new AtomicInteger(0);
 
     /**
-     * Erstellt ein neues {@link CounterBean} Object.
-     */
-    public CounterBean()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.wildfly.ejb.remote.server.stateful.RemoteCounter#decrement()
      */
     @Override

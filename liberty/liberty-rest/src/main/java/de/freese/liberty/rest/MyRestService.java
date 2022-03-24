@@ -16,14 +16,6 @@ import javax.ws.rs.core.MediaType;
 public class MyRestService
 {
     /**
-     * Erstellt ein neues {@link MyRestService} Object.
-     */
-    public MyRestService()
-    {
-        super();
-    }
-
-    /**
      * http://localhost:9080/liberty-rest/liberty/service/properties
      *
      * @return {@link JsonObject}

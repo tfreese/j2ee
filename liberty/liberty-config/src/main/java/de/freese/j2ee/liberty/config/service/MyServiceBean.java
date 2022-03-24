@@ -32,14 +32,6 @@ public class MyServiceBean extends AbstractBean implements MyService
     private DataSource dataSource;
 
     /**
-     * Erzeugt eine neue Instanz von {@link MyServiceBean}.
-     */
-    public MyServiceBean()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.j2ee.liberty.config.service.MyService#getSysDate()
      */
     @Override

@@ -23,14 +23,6 @@ public class LongRunningService
     private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     /**
-     * Erstellt ein neues {@link LongRunningService} Object.
-     */
-    public LongRunningService()
-    {
-        super();
-    }
-
-    /**
      * The use of {@link Asynchronous} causes this EJB method to be executed asynchronously, by a different thread from a dedicated, container managed thread
      * pool.
      *
@@ -41,7 +33,7 @@ public class LongRunningService
     {
         try
         {
-            // This is just to simulate a long running operation for demonstration purposes.
+            // This is just to simulate a long-running operation for demonstration purposes.
             Thread.sleep(5000L);
 
             try (PrintWriter writer = asyncContext.getResponse().getWriter())
