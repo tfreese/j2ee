@@ -20,8 +20,7 @@ public class LocalSessionService implements CloudSession
     /**
      *
      */
-    // private final File propFile = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties").toFile();
-    private final Path propertiesPath = Paths.get("/tmp", "cloudsession.properties");
+    private final Path propertiesPath = Paths.get(System.getProperty("java.io.tmpdir"), "cloudsession.properties");
 
     /**
      * @return {@link Properties}
