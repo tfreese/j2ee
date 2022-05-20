@@ -48,9 +48,9 @@
 
         <version_org.picketbox>5.1.0.Final</version_org.picketbox>
 
-        <version_org.wildfly_wildfly-dist>26.1.0.Final</version_org.wildfly_wildfly-dist>
-        <version_org.wildfly_wildfly-ejb-client-bom>26.1.0.Final</version_org.wildfly_wildfly-ejb-client-bom>
-        <version_org.wildfly.bom_wildfly-javaee8-with-tools>26.1.0.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
+        <version_org.wildfly_wildfly-dist>26.1.1.Final</version_org.wildfly_wildfly-dist>
+        <version_org.wildfly_wildfly-ejb-client-bom>26.1.1.Final</version_org.wildfly_wildfly-ejb-client-bom>
+        <version_org.wildfly.bom_wildfly-javaee8-with-tools>26.1.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
 
         <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
         <version_org.wildfly.plugins_wildfly-maven-plugin>3.0.0.Final</version_org.wildfly.plugins_wildfly-maven-plugin>
