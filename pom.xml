@@ -42,6 +42,8 @@
     <properties>
         <version_io.openliberty>22.0.0.5</version_io.openliberty>
         <version_net.wasdev.maven.tools.targets_liberty-apis>21.0.0.9</version_net.wasdev.maven.tools.targets_liberty-apis>
+
+        <version_org.apache.cxf>3.5.2</version_org.apache.cxf>
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
         <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
         <version_org.jboss.arquillian.junit>1.6.0.Final</version_org.jboss.arquillian.junit>
