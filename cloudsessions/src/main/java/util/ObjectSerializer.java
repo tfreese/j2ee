@@ -1,12 +1,11 @@
 package util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -45,7 +44,7 @@ public class ObjectSerializer
      *
      * @return Object
      */
-    public static Object fromJSON(final String json)
+    public static Object fromJson(final String json)
     {
         if ((json == null) || json.trim().isEmpty())
         {
@@ -74,7 +73,7 @@ public class ObjectSerializer
     // *
     // * @return Object
     // */
-    // public static Object fromXML(final String xml)
+    // public static Object fromXml(final String xml)
     // {
     // if (xml == null || xml.trim().isEmpty())
     // {
@@ -90,7 +89,7 @@ public class ObjectSerializer
     // *
     // * @return String
     // */
-    // public static String toXML(final Object o)
+    // public static String toXml(final Object o)
     // {
     // if (o == null)
     // {
@@ -99,12 +98,13 @@ public class ObjectSerializer
     //
     // return XSTREAM.toXML(o);
     // }
+
     /**
      * @param o Object
      *
      * @return String
      */
-    public static String toJSON(final Object o)
+    public static String toJson(final Object o)
     {
         if (o == null)
         {

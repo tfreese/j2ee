@@ -17,7 +17,6 @@ import com.amazonaws.services.simpledb.model.GetAttributesRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesResult;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
-
 import util.ObjectSerializer;
 
 /**
@@ -68,7 +67,7 @@ public class AmazonSessionService implements CloudSession
         {
             if (a.getName().equals(name))
             {
-                return ObjectSerializer.fromJSON(a.getValue());
+                return ObjectSerializer.fromJson(a.getValue());
             }
         }
 
@@ -91,7 +90,7 @@ public class AmazonSessionService implements CloudSession
     @Override
     public void setSessionValue(final String sessionID, final String name, final Object value)
     {
-        ReplaceableAttribute replAttr = new ReplaceableAttribute().withName(name).withValue(ObjectSerializer.toJSON(value)).withReplace(Boolean.TRUE);
+        ReplaceableAttribute replAttr = new ReplaceableAttribute().withName(name).withValue(ObjectSerializer.toJson(value)).withReplace(Boolean.TRUE);
 
         this.amazonClient.batchPutAttributes(
                 new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(new ReplaceableItem().withName(sessionID).withAttributes(replAttr)));

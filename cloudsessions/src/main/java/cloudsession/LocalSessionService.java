@@ -3,6 +3,7 @@ package cloudsession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,7 +45,7 @@ public class LocalSessionService implements CloudSession
         }
         catch (IOException ex)
         {
-            throw new RuntimeException(ex);
+            throw new UncheckedIOException(ex);
         }
 
         return props;
@@ -67,7 +68,7 @@ public class LocalSessionService implements CloudSession
     @Override
     public Object getSessionValue(final String sessionID, final String name)
     {
-        return ObjectSerializer.fromJSON(getProps().getProperty(getPropsKey(sessionID, name)));
+        return ObjectSerializer.fromJson(getProps().getProperty(getPropsKey(sessionID, name)));
     }
 
     /**
@@ -112,7 +113,7 @@ public class LocalSessionService implements CloudSession
     {
         Properties props = getProps();
         removeOldProps(props);
-        props.put(getPropsKey(sessionID, name), ObjectSerializer.toJSON(value));
+        props.put(getPropsKey(sessionID, name), ObjectSerializer.toJson(value));
         storeProps(props);
     }
 
@@ -128,9 +129,9 @@ public class LocalSessionService implements CloudSession
                 props.store(fos, "comments");
             }
         }
-        catch (Exception ex)
+        catch (IOException ex)
         {
-            throw new RuntimeException(ex);
+            throw new UncheckedIOException(ex);
         }
     }
 }

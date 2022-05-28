@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cloudsession.CloudSession;
 import cloudsession.CloudSessionCache;
 import cloudsession.LocalSessionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -98,7 +97,7 @@ public class NonStickySessionTest extends HttpServlet
             }
             catch (IOException ex)
             {
-                this.logger.error(null, ex);
+                this.logger.error(ex.getMessage(), ex);
             }
 
             return;
@@ -189,7 +188,7 @@ public class NonStickySessionTest extends HttpServlet
         }
         catch (IOException ex)
         {
-            this.logger.error(null, ex);
+            this.logger.error(ex.getMessage(), ex);
         }
     }
 
