@@ -46,7 +46,7 @@ public class ObjectSerializer
      */
     public static Object fromJson(final String json)
     {
-        if ((json == null) || json.trim().isEmpty())
+        if ((json == null) || json.strip().isEmpty())
         {
             return null;
         }
