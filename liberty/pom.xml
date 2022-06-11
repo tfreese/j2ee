@@ -17,9 +17,9 @@
     <description>Parent der Liberty Demos</description>
 
     <modules>
-        <module>liberty-rest</module>
-        <module>liberty-config</module>
         <module>liberty-cache</module>
+        <module>liberty-config</module>
+        <module>liberty-rest</module>
         <module>liberty-spring</module>
     </modules>
 
