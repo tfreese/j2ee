@@ -46,6 +46,7 @@ public final class Utils
         {
             BeanManager bm = CDI.current().getBeanManager();
             Bean<T> b = (Bean<T>) bm.getBeans(type).iterator().next();
+            
             return bm.getReference(b, type, bm.createCreationalContext(b));
         });
 

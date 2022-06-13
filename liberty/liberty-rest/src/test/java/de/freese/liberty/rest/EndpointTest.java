@@ -10,7 +10,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@Disabled
 class EndpointTest
 {
     /**
@@ -31,11 +29,11 @@ class EndpointTest
         String port = "9080";
         String war = "liberty-rest";
         String base = "liberty";
-        String url = "http://localhost:" + port + "/" + war + "/" + base + "/";
+        String url = "http://localhost:" + port + "/" + war + "/" + base;
 
         Client client = ClientBuilder.newClient().register(JsrJsonpProvider.class);
 
-        WebTarget target = client.target(url + "service/properties");
+        WebTarget target = client.target(url + "/service/properties");
 
         try (Response response = target.request().get())
         {

@@ -36,27 +36,53 @@
         <module>j2ee-demo</module>
         <module>jpa</module>
         <module>liberty</module>
-        <module>wildfly</module>
     </modules>
 
     <properties>
         <version_io.openliberty>22.0.0.6</version_io.openliberty>
-        <version_net.wasdev.maven.tools.targets_liberty-apis>21.0.0.9</version_net.wasdev.maven.tools.targets_liberty-apis>
 
         <version_org.apache.cxf>3.5.2</version_org.apache.cxf>
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
-        <version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>1.0.0</version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5>
-        <version_org.jboss.arquillian.junit>1.6.0.Final</version_org.jboss.arquillian.junit>
-
-        <version_org.picketbox>5.1.0.Final</version_org.picketbox>
-
-        <version_org.wildfly_wildfly-dist>26.1.1.Final</version_org.wildfly_wildfly-dist>
-        <version_org.wildfly_wildfly-ejb-client-bom>26.1.1.Final</version_org.wildfly_wildfly-ejb-client-bom>
-        <version_org.wildfly.bom_wildfly-javaee8-with-tools>26.1.1.Final</version_org.wildfly.bom_wildfly-javaee8-with-tools>
 
         <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
-        <version_org.wildfly.plugins_wildfly-maven-plugin>3.0.0.Final</version_org.wildfly.plugins_wildfly-maven-plugin>
     </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                    <artifactId>liberty-maven-plugin</artifactId>
+                    <version>${version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.openliberty</groupId>
+                <artifactId>openliberty-runtime</artifactId>
+                <version>${version_io.openliberty}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-client</artifactId>
+                <version>${version_org.apache.cxf}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-extension-providers</artifactId>
+                <version>${version_org.apache.cxf}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.json</artifactId>
+                <version>${version_org.glassfish_javax.json}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- compile scope -->

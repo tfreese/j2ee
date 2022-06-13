@@ -17,83 +17,15 @@
     <description>Parent der Liberty Demos</description>
 
     <modules>
-        <module>liberty-cache</module>
         <module>liberty-config</module>
         <module>liberty-rest</module>
         <module>liberty-spring</module>
     </modules>
 
-    <properties>
-        <maven.test.skip>true</maven.test.skip>
-        <skipTest>true</skipTest>
-    </properties>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                    <artifactId>liberty-maven-plugin</artifactId>
-                    <version>${version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <skip>false</skip>
-                    <filesets>
-                        <!--fileset>
-                            <directory>${java.io.tmpdir}/liberty</directory>
-                            <followSymlinks>false</followSymlinks>
-                            </fileset -->
-                    </filesets>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.openliberty</groupId>
-                <artifactId>openliberty-runtime</artifactId>
-                <version>${version_io.openliberty}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.wasdev.maven.tools.targets</groupId>
-                <artifactId>liberty-apis</artifactId>
-                <version>${version_net.wasdev.maven.tools.targets_liberty-apis}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-rs-client</artifactId>
-                <version>${version_org.apache.cxf}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                <version>${version_org.apache.cxf}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.container</groupId>
-                <artifactId>arquillian-wlp-managed-8.5</artifactId>
-                <version>${version_org.jboss.arquillian.container_arquillian-wlp-managed-8.5}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.junit</groupId>
-                <artifactId>arquillian-junit-container</artifactId>
-                <version>${version_org.jboss.arquillian.junit}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>javax.json</artifactId>
-                <version>${version_org.glassfish_javax.json}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <!--    <properties>-->
+    <!--        <maven.test.skip>true</maven.test.skip>-->
+    <!--        <skipTest>true</skipTest>-->
+    <!--    </properties>-->
 
     <dependencies>
         <!-- compile scope -->

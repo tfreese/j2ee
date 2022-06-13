@@ -44,8 +44,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <packagingExcludes>pom.xml</packagingExcludes> 
-                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>                   
+                    <packagingExcludes>pom.xml</packagingExcludes>
+                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
                     <warName>${project.artifactId}</warName>
                     <webResources>
                         <resource>
@@ -61,41 +61,9 @@
                             <includes>
                                 <include>beans.xml</include>
                             </includes>
-                        </resource>                        
+                        </resource>
                     </webResources>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>net.wasdev.wlp.maven.plugins</groupId>
-                <artifactId>liberty-maven-plugin</artifactId>
-                <configuration>
-                    <assemblyArtifact>
-                        <groupId>io.openliberty</groupId>
-                        <artifactId>openliberty-runtime</artifactId>
-                        <version>${version_io.openliberty}</version>
-                        <type>zip</type>
-                    </assemblyArtifact>
-                    <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
-                    <serverName>demo</serverName>
-                    <skip>true</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>stop-server-before-clean</id>
-                        <phase>pre-clean</phase>
-                        <goals>
-                            <goal>stop-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>create-server</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <!--goal>install-server</goal -->
-                            <goal>create-server</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -103,11 +71,16 @@
     <dependencies>
         <!-- compile scope -->
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
         <!-- runtime scope -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>

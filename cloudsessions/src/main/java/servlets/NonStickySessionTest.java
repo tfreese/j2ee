@@ -86,10 +86,10 @@ public class NonStickySessionTest extends HttpServlet
 
         if (request.getParameter("invalidate") != null)
         {
+            request.getSession().invalidate();
+
             html.append("Session invalidated").append("\n");
             html.append("</html>");
-
-            request.getSession().invalidate();
 
             try (ServletOutputStream outputStream = response.getOutputStream())
             {
