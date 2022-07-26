@@ -18,6 +18,5 @@
 %>
 
 <html>
-	<a href="./Session">Session test</a>
+	<a href="./session">Session test</a>
 </html> 
-
