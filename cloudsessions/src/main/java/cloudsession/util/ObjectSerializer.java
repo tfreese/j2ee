@@ -1,6 +1,10 @@
 package cloudsession.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -15,42 +19,28 @@ public class ObjectSerializer
     /**
      *
      */
-    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+    // @formatter:off
+    private static final ObjectMapper JSON_MAPPER = new ObjectMapper()
+            .configure(SerializationFeature.INDENT_OUTPUT, true)
+            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ;
+    // @formatter:on
 
     /**
      *
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(ObjectSerializer.class);
 
-    static
+    public static <T> T fromJson(final InputStream inputStream, Class<T> valueType)
     {
-        // Name des Root-Objektes mit anzeigen.
-        JSON_MAPPER.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-        JSON_MAPPER.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-
-        // Globales PrettyPrinting; oder einzeln über jsonMapper.writerWithDefaultPrettyPrinter() nutzbar.
-        JSON_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
-
-        JSON_MAPPER.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-    }
-
-    /**
-     * @param json String
-     *
-     * @return Object
-     */
-    public static Object fromJson(final String json)
-    {
-        if ((json == null) || json.strip().isEmpty())
-        {
-            return null;
-        }
-
         try
         {
-            Object o = JSON_MAPPER.readValue(json, Object.class);
-
-            return o;
+            return JSON_MAPPER.readValue(inputStream, valueType);
+        }
+        catch (IOException ex)
+        {
+            throw new UncheckedIOException(ex);
         }
         catch (Exception ex)
         {
@@ -63,27 +53,25 @@ public class ObjectSerializer
         }
     }
 
-    /**
-     * @param o Object
-     *
-     * @return String
-     */
-    public static String toJson(final Object o)
+    public static void toJson(OutputStream outputStream, final Object o)
     {
         if (o == null)
         {
-            return null;
+            return;
         }
 
         try
         {
-            String json = JSON_MAPPER.writeValueAsString(o);
-
-            return json;
+            JSON_MAPPER.writeValue(outputStream, o);
         }
-        catch (JsonProcessingException ex)
+        catch (IOException ex)
         {
-            throw new RuntimeException(ex);
+            throw new UncheckedIOException(ex);
         }
+    }
+
+    private ObjectSerializer()
+    {
+        super();
     }
 }

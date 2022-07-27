@@ -3,7 +3,6 @@ package cloudsession.session;
 import java.io.IOException;
 import java.io.InputStream;
 
-import cloudsession.util.ObjectSerializer;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -22,7 +21,7 @@ import com.amazonaws.services.simpledb.model.ReplaceableItem;
 /**
  * @author Thomas Freese
  */
-public class AmazonSessionService implements CloudSession
+public class CloudSessionAmazon implements CloudSession
 {
     /**
      *
@@ -34,13 +33,13 @@ public class AmazonSessionService implements CloudSession
     private final AmazonSimpleDB amazonClient;
 
     /**
-     * Erstellt ein neues {@link AmazonSessionService} Object.
+     * Erstellt ein neues {@link CloudSessionAmazon} Object.
      */
-    public AmazonSessionService()
+    public CloudSessionAmazon()
     {
         super();
 
-        AWSCredentials credentials = null;
+        final AWSCredentials credentials;
 
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties"))
         {
@@ -59,15 +58,15 @@ public class AmazonSessionService implements CloudSession
      * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
-    public Object getSessionValue(final String sessionID, final String name)
+    public String getSessionValue(final String sessionID, final String name)
     {
         GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
-        for (Attribute a : gar.getAttributes())
+        for (Attribute attribute : gar.getAttributes())
         {
-            if (a.getName().equals(name))
+            if (attribute.getName().equals(name))
             {
-                return ObjectSerializer.fromJson(a.getValue());
+                return attribute.getValue();
             }
         }
 
@@ -80,19 +79,20 @@ public class AmazonSessionService implements CloudSession
     @Override
     public void remove(final String sessionID)
     {
-        this.amazonClient
-                .batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(new DeletableItem().withName(sessionID)));
+        DeletableItem deletableItem = new DeletableItem().withName(sessionID);
+
+        this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
     }
 
     /**
-     * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.Object)
+     * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void setSessionValue(final String sessionID, final String name, final Object value)
+    public void setSessionValue(final String sessionID, final String name, final String value)
     {
-        ReplaceableAttribute replAttr = new ReplaceableAttribute().withName(name).withValue(ObjectSerializer.toJson(value)).withReplace(Boolean.TRUE);
+        ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
+        ReplaceableItem replaceableItem = new ReplaceableItem().withName(sessionID).withAttributes(replaceableAttribute);
 
-        this.amazonClient.batchPutAttributes(
-                new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(new ReplaceableItem().withName(sessionID).withAttributes(replAttr)));
+        this.amazonClient.batchPutAttributes(new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(replaceableItem));
     }
 }

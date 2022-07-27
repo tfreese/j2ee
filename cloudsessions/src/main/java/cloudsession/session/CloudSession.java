@@ -1,5 +1,7 @@
 package cloudsession.session;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -15,7 +17,14 @@ public interface CloudSession
      *
      * @return Object
      */
-    Object getSessionValue(String sessionID, String name);
+    String getSessionValue(String sessionID, String name);
+
+    default Long getSessionValueAsLong(String sessionID, String name)
+    {
+        String value = getSessionValue(sessionID, name);
+
+        return Optional.ofNullable(value).map(Long::valueOf).orElse(null);
+    }
 
     /**
      * @param sessionID String
@@ -25,7 +34,7 @@ public interface CloudSession
     /**
      * @param sessionID String
      * @param name String
-     * @param value Object
+     * @param value String
      */
-    void setSessionValue(String sessionID, String name, Object value);
+    void setSessionValue(String sessionID, String name, String value);
 }

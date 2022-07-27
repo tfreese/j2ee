@@ -1,7 +1,11 @@
 package cloudsession.servlets;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 
 import javax.servlet.ServletOutputStream;
@@ -13,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import cloudsession.session.CloudSession;
 import cloudsession.session.CloudSessionCache;
-import cloudsession.session.LocalSessionService;
+import cloudsession.session.CloudSessionLocal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +31,6 @@ public class NonStickySessionServlet extends HttpServlet
      *
      */
     private static final String CREATION_TIME = "creationTime";
-    /**
-     *
-     */
-    private static final String JSESSIONID = "JSESSIONID=";
     /**
      *
      */
@@ -51,6 +51,10 @@ public class NonStickySessionServlet extends HttpServlet
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
+    private static final Duration SESSION_LIVE_TIME = Duration.ofSeconds(15);
 
     /**
      * Erstellt ein neues {@link NonStickySessionServlet} Object.
@@ -59,9 +63,9 @@ public class NonStickySessionServlet extends HttpServlet
     {
         super();
 
-        // CloudSession cs = new AmazonSessionService();
-        CloudSession cs = new LocalSessionService();
-        this.cloudSession = new CloudSessionCache(cs, CloudSessionCache.DEFAULT_LIVE_TIME);
+        // CloudSession cs = new CloudSessionAmazon();
+        CloudSession cs = new CloudSessionLocal();
+        this.cloudSession = new CloudSessionCache(cs, SESSION_LIVE_TIME);
     }
 
     /**
@@ -84,13 +88,16 @@ public class NonStickySessionServlet extends HttpServlet
     public void service(final HttpServletRequest request, final HttpServletResponse response)
     {
         StringBuilder html = new StringBuilder();
-        html.append("<html>").append("\n");
+        html.append("<html>\n");
+
+        html.append(printHeaders(request)).append("<br/><br/>\n");
+        html.append(printParameters(request)).append("<br/><br/>\n");
 
         if (request.getParameter("invalidate") != null)
         {
             request.getSession().invalidate();
 
-            html.append("Session invalidated").append("\n");
+            html.append("Session invalidated\n");
             html.append("</html>");
 
             try (ServletOutputStream outputStream = response.getOutputStream())
@@ -105,56 +112,47 @@ public class NonStickySessionServlet extends HttpServlet
             return;
         }
 
-        // print request headers
-        html.append("<font size=\"2\" face=\"courier\">").append("\n");
-        // out +=
-        // "Request Headers<br/>"+printHeaders(request)+"<br/><br/>"+printParameters(request)+
-        // "<br/>session:"+request.getSession()+"<br/>";
-        // out += "</font>";
-
-        // check session ID from request
-        String cookieSessionID = request.getHeader("cookie");
-
-        HttpSession session = null;
+        html.append("<table>\n");
 
         if (request.getSession() != null)
         {
-            session = request.getSession();
+            HttpSession session = request.getSession();
+            
+            //String sessionID = session.getId(); // Das ist die aktuelle Session, wir wollen aber die alte.
+            String sessionID = request.getHeader("cookie").split("=")[1];
+
+            html.append("<tr><td>cookieSessionID</td><td>").append(request.getHeader("cookie")).append("</td></tr>\n");
+            html.append("<tr><td>sessionID</td><td>").append(session.getId()).append("</td></tr>\n");
 
             // TODO SessionSwitch ss = new SessionSwitch(session);
-            Long lat = (Long) this.cloudSession.getSessionValue(cookieSessionID, LAST_ACCESS_TIME);
+            Long lat = this.cloudSession.getSessionValueAsLong(sessionID, LAST_ACCESS_TIME);
 
             if (lat != null)
             {
-                html.append("lastAccessTime: [").append(new Date(lat)).append("]<br/>").append("\n");
-                html.append("verbleibende Zeit im cache: [").append((((CloudSessionCache.DEFAULT_LIVE_TIME * 1000) + lat) - System.currentTimeMillis()))
-                        .append("] millis<br/>").append("\n");
+                html.append("<tr><td>lastAccessTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(lat), ZoneOffset.systemDefault())).append("</td></tr>\n");
+                html.append("<tr><td>verbleibende Zeit im Cache</td><td>").append((SESSION_LIVE_TIME.toMillis() + lat) - System.currentTimeMillis()).append(" millis</td></tr>\n");
             }
             else
             {
-                html.append("lastAccessTime not in cache!!!<br/>").append("\n");
+                html.append("<tr><td>lastAccessTime</td><td>Not in Cache !!!</td></tr>\n");
             }
 
-            this.cloudSession.setSessionValue(cookieSessionID, CREATION_TIME, session.getCreationTime());
-            this.cloudSession.setSessionValue(cookieSessionID, LAST_ACCESS_TIME, System.currentTimeMillis());
+            this.cloudSession.setSessionValue(sessionID, CREATION_TIME, Long.toString(session.getCreationTime()));
+            this.cloudSession.setSessionValue(sessionID, LAST_ACCESS_TIME, Long.toString(System.currentTimeMillis()));
 
-            html.append("cookieSessionID:[").append(cookieSessionID).append("]<br/>\ncreationTime:[").append(formatDate(session.getCreationTime()))
-                    .append("]<br/>").append("\n");
-            html.append("current Time:[").append(formatDate(System.currentTimeMillis())).append("]<br/>").append("\n");
+            html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneOffset.systemDefault())).append("</td></tr>\n");
+            html.append("<tr><td>current Time</td><td>").append(LocalDateTime.now()).append("</td></tr>\n");
 
-            html.append("<br/>request.getSession().getId() : [").append(session.getId()).append("]").append("\n");
-            html.append("<br/>cookieSessionID              : [").append(cookieSessionID).append("]<br/>").append("\n");
-
-            if (!session.getId().equals(cookieSessionID))
+            if (!session.getId().equals(sessionID))
             {
                 // check if cookie session has no timeout
                 // TODO
                 // if no timeout set new cookieSessionID and delete old cookieSessionID
-                Long val = (Long) this.cloudSession.getSessionValue(cookieSessionID, CREATION_TIME);
+                Long val = this.cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
 
                 if (val != null)
                 {
-                    this.cloudSession.setSessionValue(JSESSIONID + session.getId(), CREATION_TIME, val);
+                    this.cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
                     // TODO cs.remove(cookieSessionID);
                 }
             }
@@ -163,25 +161,19 @@ public class NonStickySessionServlet extends HttpServlet
 
             if (reqUser != null)
             {
-                // Train t = new Train();
-                // t.setHour(4);
-                // t.setItemName("wert");
-                // t.setMinute(56);
-                // t.setTrainName("trainName");
-                // cs.setSessionValue(cookieSessionID, "train", t);
-                //
-                this.cloudSession.setSessionValue(cookieSessionID, USER, reqUser);
-                html.append("set to session").append(cookieSessionID).append(" user:").append(reqUser).append("<br/>").append("\n");
+                this.cloudSession.setSessionValue(sessionID, USER, reqUser);
+                html.append("<tr><td>user</td><td>").append(reqUser).append("</td></tr>\n");
             }
             else
             {
-                String csUser = (String) this.cloudSession.getSessionValue(cookieSessionID, USER);
-                html.append("get from session").append(cookieSessionID).append(":").append(csUser).append("<br/>").append("\n");
-                // Train t = (Train)cs.getSessionValue(cookieSessionID, "train");
+                String csUser = this.cloudSession.getSessionValue(sessionID, USER);
+                html.append("<tr><td>user</td><td>").append(csUser).append("</td></tr>\n");
             }
         }
 
-        html.append("<br/><a href=\"./session?invalidate=true\">kill session</a>").append("\n");
+        html.append("</table>\n");
+
+        html.append("<br/><br/><a href=\"./session?invalidate=true\">kill session</a>").append("\n");
         html.append("</html>");
 
         try (ServletOutputStream outputStream = response.getOutputStream())
@@ -194,23 +186,39 @@ public class NonStickySessionServlet extends HttpServlet
         }
     }
 
-    // private String printParameters(HttpServletRequest request) {
-    // Enumeration<?> names = request.getParameterNames();
-    // String res = "";
-    // while (names.hasMoreElements()) {
-    // String nextName = (String)names.nextElement();
-    // res += nextName + ":" + request.getParameter(nextName)+"<br/>";
-    // }
-    // return res;
-    // }
-    //
-    // private String printHeaders(HttpServletRequest request) {
-    // Enumeration<?> names = request.getHeaderNames();
-    // String res = "";
-    // while (names.hasMoreElements()) {
-    // String nextName = (String)names.nextElement();
-    // res += nextName + ":[" + request.getHeader(nextName)+"]<br/>";
-    // }
-    // return res;
-    // }
+    private StringBuilder printParameters(HttpServletRequest request)
+    {
+        Enumeration<?> names = request.getParameterNames();
+        StringBuilder html = new StringBuilder();
+        html.append("<table>\n");
+        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
+
+        while (names.hasMoreElements())
+        {
+            String nextName = (String) names.nextElement();
+            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
+        }
+
+        html.append("</table>\n");
+
+        return html;
+    }
+
+    private StringBuilder printHeaders(HttpServletRequest request)
+    {
+        Enumeration<?> names = request.getHeaderNames();
+        StringBuilder html = new StringBuilder();
+        html.append("<table>\n");
+        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Headers</th></tr>\n");
+
+        while (names.hasMoreElements())
+        {
+            String nextName = (String) names.nextElement();
+            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
+        }
+
+        html.append("</table>\n");
+
+        return html;
+    }
 }
