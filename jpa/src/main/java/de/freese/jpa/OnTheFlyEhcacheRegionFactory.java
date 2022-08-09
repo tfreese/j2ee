@@ -1,18 +1,18 @@
 // Created: 03.06.2018
 package de.freese.jpa;
 
+import java.io.Serial;
+
+import net.sf.ehcache.Cache;
 import org.hibernate.cache.ehcache.internal.EhcacheRegionFactory;
 import org.hibernate.cache.spi.CacheKeysFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sf.ehcache.Cache;
-
 /**
  * Erzeugt On-The-Fly nicht vorhandene EhCaches, ohne eine Exception zu werfen.
  *
  * @author Thomas Freese
- *
  * @deprecated Use ConfigSettings.MISSING_CACHE_STRATEGY instead
  */
 @Deprecated
@@ -25,6 +25,7 @@ public class OnTheFlyEhcacheRegionFactory extends EhcacheRegionFactory
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 5560790286422926761L;
 
     /**

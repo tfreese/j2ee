@@ -27,14 +27,6 @@ public class SecretNewsHighView
     private final ISecretNewsService secretNewsService = null;
 
     /**
-     * Erstellt ein neues {@link SecretNewsHighView} Object.
-     */
-    public SecretNewsHighView()
-    {
-        super();
-    }
-
-    /**
      * @return {@link List}
      */
     public List<SecretNews> getAllNews()

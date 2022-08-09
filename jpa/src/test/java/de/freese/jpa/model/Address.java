@@ -1,6 +1,7 @@
 // Created: 13.03.2010
 package de.freese.jpa.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.persistence.Cacheable;
@@ -44,6 +45,7 @@ public class Address implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2678405627217507543L;
     /**
      *

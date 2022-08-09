@@ -1,6 +1,7 @@
 // Created: 2020-03-22
 package de.freese.jpa.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ public class MyProjectionDTO implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8195470174423798274L;
     /**
      *

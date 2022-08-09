@@ -1,6 +1,7 @@
 package de.freese.agentportal.server.web;
 
 import java.io.IOException;
+import java.io.Serial;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +21,7 @@ public class ShowSecretNews extends AbstractServlet
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2003269226079797807L;
 
     /**

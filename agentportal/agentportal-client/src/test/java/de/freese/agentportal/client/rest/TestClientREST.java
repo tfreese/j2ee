@@ -21,7 +21,7 @@ final class TestClientREST
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -36,7 +36,7 @@ final class TestClientREST
     /**
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void delete(final long oid) throws Exception
     {
@@ -61,7 +61,7 @@ final class TestClientREST
      * @param title String
      * @param text String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void insert(final String title, final String text) throws Exception
     {
@@ -87,7 +87,7 @@ final class TestClientREST
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectAll() throws Exception
     {
@@ -122,7 +122,7 @@ final class TestClientREST
     /**
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectOne(final long oid) throws Exception
     {
@@ -171,7 +171,7 @@ final class TestClientREST
      * @param title String
      * @param text String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void update(final long id, final String title, final String text) throws Exception
     {

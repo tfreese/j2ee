@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class ObjectSerializer
+public final class ObjectSerializer
 {
     /**
      *
@@ -23,7 +23,7 @@ public class ObjectSerializer
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper()
             .configure(SerializationFeature.INDENT_OUTPUT, true)
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             ;
     // @formatter:on
 

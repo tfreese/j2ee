@@ -7,7 +7,7 @@ import java.util.Set;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface IUsageLogMBean
+public interface UsageLogMBean
 {
     /**
      * @return {@link Set}

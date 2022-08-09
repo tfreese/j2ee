@@ -10,10 +10,9 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+import de.freese.j2ee.jmx.JmxBean;
+import de.freese.j2ee.jmx.UsageLogMBean;
 import org.slf4j.LoggerFactory;
-
-import de.freese.j2ee.jmx.IUsageLogMBean;
-import de.freese.j2ee.jmx.JMXBean;
 
 /**
  * @author Thomas Freese
@@ -21,8 +20,8 @@ import de.freese.j2ee.jmx.JMXBean;
 @Singleton
 @Interceptor
 @MyLogging
-@JMXBean
-public class LogInterceptor implements IUsageLogMBean
+@JmxBean
+public class LogInterceptor implements UsageLogMBean
 {
     /**
      *
@@ -44,7 +43,7 @@ public class LogInterceptor implements IUsageLogMBean
     // }
 
     /**
-     * @see de.freese.j2ee.jmx.IUsageLogMBean#getParameters()
+     * @see UsageLogMBean#getParameters()
      */
     @Override
     public Set<String> getParameters()
@@ -57,7 +56,7 @@ public class LogInterceptor implements IUsageLogMBean
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AroundInvoke
     public Object logNameRequest(final InvocationContext ctx) throws Exception

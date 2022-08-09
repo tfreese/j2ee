@@ -20,7 +20,7 @@ final class TestClientRestTemplate
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -38,7 +38,7 @@ final class TestClientRestTemplate
      * @param template {@link RestTemplate}
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void delete(final RestTemplate template, final long oid) throws Exception
     {
@@ -64,7 +64,7 @@ final class TestClientRestTemplate
      * @param title String
      * @param text String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void insert(final RestTemplate template, final String title, final String text) throws Exception
     {
@@ -94,7 +94,7 @@ final class TestClientRestTemplate
     /**
      * @param template {@link RestTemplate}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectAll(final RestTemplate template) throws Exception
     {
@@ -121,7 +121,7 @@ final class TestClientRestTemplate
      * @param template {@link RestTemplate}
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectOne(final RestTemplate template, final long oid) throws Exception
     {
@@ -137,7 +137,7 @@ final class TestClientRestTemplate
      * @param title String
      * @param text String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void update(final RestTemplate template, final long id, final String title, final String text) throws Exception
     {

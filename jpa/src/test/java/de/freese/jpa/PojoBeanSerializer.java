@@ -456,7 +456,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize01Package(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -473,7 +473,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize02Imports(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -528,7 +528,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize03ClassHeader(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -548,7 +548,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize04Class(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -585,7 +585,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize05Fields(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -608,7 +608,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize06Constructor(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -627,7 +627,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize07Methods(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -654,7 +654,7 @@ public class PojoBeanSerializer implements Serializer
      * @param writer {@link CodeWriter}
      * @param model {@link EntityType}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize08HashcodeEquals(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -736,7 +736,7 @@ public class PojoBeanSerializer implements Serializer
      * @param model {@link EntityType}
      * <p>
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serialize09ToString(final CodeWriter writer, final EntityType model) throws IOException
     {
@@ -781,7 +781,7 @@ public class PojoBeanSerializer implements Serializer
      * @param model {@link EntityType}
      * <p>
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void serializeConstructorFull(final CodeWriter writer, final EntityType model) throws IOException
     {

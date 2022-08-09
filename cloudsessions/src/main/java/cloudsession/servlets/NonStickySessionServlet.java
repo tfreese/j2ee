@@ -1,10 +1,11 @@
 package cloudsession.servlets;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 
@@ -38,6 +39,7 @@ public class NonStickySessionServlet extends HttpServlet
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -117,7 +119,7 @@ public class NonStickySessionServlet extends HttpServlet
         if (request.getSession() != null)
         {
             HttpSession session = request.getSession();
-            
+
             //String sessionID = session.getId(); // Das ist die aktuelle Session, wir wollen aber die alte.
             String sessionID = request.getHeader("cookie").split("=")[1];
 
@@ -129,7 +131,7 @@ public class NonStickySessionServlet extends HttpServlet
 
             if (lat != null)
             {
-                html.append("<tr><td>lastAccessTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(lat), ZoneOffset.systemDefault())).append("</td></tr>\n");
+                html.append("<tr><td>lastAccessTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(lat), ZoneId.systemDefault())).append("</td></tr>\n");
                 html.append("<tr><td>verbleibende Zeit im Cache</td><td>").append((SESSION_LIVE_TIME.toMillis() + lat) - System.currentTimeMillis()).append(" millis</td></tr>\n");
             }
             else
@@ -140,7 +142,7 @@ public class NonStickySessionServlet extends HttpServlet
             this.cloudSession.setSessionValue(sessionID, CREATION_TIME, Long.toString(session.getCreationTime()));
             this.cloudSession.setSessionValue(sessionID, LAST_ACCESS_TIME, Long.toString(System.currentTimeMillis()));
 
-            html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneOffset.systemDefault())).append("</td></tr>\n");
+            html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneId.systemDefault())).append("</td></tr>\n");
             html.append("<tr><td>current Time</td><td>").append(LocalDateTime.now()).append("</td></tr>\n");
 
             if (!session.getId().equals(sessionID))

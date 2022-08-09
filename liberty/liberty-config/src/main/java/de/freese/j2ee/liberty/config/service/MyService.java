@@ -16,10 +16,10 @@ public interface MyService
      *
      * @throws SQLException Falls was schiefgeht.
      */
-    public Date getSysDate() throws SQLException;
+    Date getSysDate() throws SQLException;
 
     /**
      * @return {@link Map}
      */
-    public Map<String, String> getSystemProperties();
+    Map<String, String> getSystemProperties();
 }

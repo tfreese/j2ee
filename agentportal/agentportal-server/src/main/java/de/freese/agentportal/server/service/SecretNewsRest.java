@@ -57,14 +57,6 @@ public class SecretNewsRest
     private EntityManager em;
 
     /**
-     *
-     */
-    public SecretNewsRest()
-    {
-        super();
-    }
-
-    /**
      * curl -X DELETE -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
      *
      * @param id long

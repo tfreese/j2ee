@@ -66,14 +66,6 @@ public class SecretNewsEJB implements ISecretNewsService
     private EntityManager entityManager1;
 
     /**
-     * Erstellt ein neues {@link SecretNewsEJB} Object.
-     */
-    public SecretNewsEJB()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.agentportal.common.service.ISecretNewsService#getAllSecretNews4High()
      */
     @Override

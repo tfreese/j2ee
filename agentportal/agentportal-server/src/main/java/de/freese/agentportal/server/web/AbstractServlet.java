@@ -1,5 +1,7 @@
 package de.freese.agentportal.server.web;
 
+import java.io.Serial;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,19 +16,12 @@ public abstract class AbstractServlet extends HttpServlet
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8687076224457775615L;
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * Erstellt ein neues {@link AbstractServlet} Object.
-     */
-    protected AbstractServlet()
-    {
-        super();
-    }
 
     /**
      * @return {@link Logger}

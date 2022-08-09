@@ -46,7 +46,7 @@ public class RestService
      *
      * @return String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @GetMapping("/sysdate")
     public String sysdate() throws Exception

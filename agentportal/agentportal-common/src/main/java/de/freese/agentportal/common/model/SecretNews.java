@@ -1,6 +1,7 @@
 // Created: 16.12.2012
 package de.freese.agentportal.common.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -52,6 +53,7 @@ public class SecretNews implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5472649703030734238L;
     /**
      *

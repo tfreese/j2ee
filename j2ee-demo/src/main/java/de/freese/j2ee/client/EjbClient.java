@@ -7,17 +7,24 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import de.freese.j2ee.model.Kunde;
-import de.freese.j2ee.rest.IKundenService;
+import de.freese.j2ee.rest.KundenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-public class EJBClient
+public class EjbClient
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(EjbClient.class);
+
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -31,13 +38,13 @@ public class EJBClient
         // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Konfig für lokale Maschine.
         Context ctx = new InitialContext();
 
-        // IKundenService service = (IKundenService) ctx.lookup("java:global/de.freese.j2ee/RestService");
-        IKundenService service = (IKundenService) ctx.lookup(IKundenService.class.getName());
+        // KundenService service = (KundenService) ctx.lookup("java:global/de.freese.j2ee/RestService");
+        KundenService service = (KundenService) ctx.lookup(KundenService.class.getName());
         List<Kunde> kunden = service.getData();
 
         for (Kunde kunde : kunden)
         {
-            System.out.println(kunde);
+            LOGGER.info("{}", kunde);
         }
     }
 }

@@ -1,6 +1,7 @@
 // Created: 16.08.2006
 package de.freese.jpa.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,26 +40,26 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "T_PERSON", schema = "PUBLIC", uniqueConstraints =
-{
-        @UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames =
         {
-                "NAME", "VORNAME"
+                @UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames =
+                        {
+                                "NAME", "VORNAME"
+                        })
         })
-})
 @DynamicInsert
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
 @NamedQueries(
-{
-        @NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints =
         {
-                @QueryHint(name = "org.hibernate.cacheable", value = "true")
-        }), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints =
-        {
-                @QueryHint(name = "org.hibernate.cacheable", value = "true")
+                @NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints =
+                        {
+                                @QueryHint(name = "org.hibernate.cacheable", value = "true")
+                        }), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints =
+                {
+                        @QueryHint(name = "org.hibernate.cacheable", value = "true")
+                })
         })
-})
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
 public class Person implements Serializable
@@ -66,14 +67,15 @@ public class Person implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 413810580854319964L;
     /**
      * orphanRemoval = true
      */
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true, cascade =
-    {
-            CascadeType.ALL
-    })
+            {
+                    CascadeType.ALL
+            })
     @OrderBy("street desc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)

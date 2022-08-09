@@ -25,7 +25,7 @@ public class JndiDump
     /**
      * @return {@link Map}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @GET
     @Path("jndi")
@@ -55,7 +55,7 @@ public class JndiDump
      *
      * @return {@link Map}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected Map<String, Object> dumpContextBinding(final Context ctx) throws Exception
     {
@@ -98,7 +98,7 @@ public class JndiDump
      *
      * @return {@link Map}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected Map<String, Object> dumpContextNameClassPair(final Context ctx) throws Exception
     {

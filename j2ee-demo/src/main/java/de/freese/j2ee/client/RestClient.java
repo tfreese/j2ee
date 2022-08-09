@@ -13,20 +13,27 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import de.freese.j2ee.model.Kunde;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-public class RESTClient
+public class RestClient
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
+
     /**
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void delete(final long oid) throws Exception
     {
-        System.err.println("RESTClient.delete()");
+        System.err.println("RestClient.delete()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -37,8 +44,8 @@ public class RESTClient
         // throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         // }
 
-        System.out.println("Content-Type = " + connection.getContentType());
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        LOGGER.info("Content-Type = {}", connection.getContentType());
+        LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         connection.disconnect();
     }
@@ -47,11 +54,11 @@ public class RESTClient
      * @param name String
      * @param vorname String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void insert(final String name, final String vorname) throws Exception
     {
-        System.err.println("RESTClient.insert()");
+        LOGGER.info("RestClient.insert()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde?name=" + name + "&vorname=" + vorname);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -64,8 +71,8 @@ public class RESTClient
         // throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         // }
 
-        System.out.println("Content-Type = " + connection.getContentType());
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        LOGGER.info("Content-Type = {}", connection.getContentType());
+        LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         connection.disconnect();
     }
@@ -73,7 +80,7 @@ public class RESTClient
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -86,11 +93,11 @@ public class RESTClient
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectAll() throws Exception
     {
-        System.err.println("RESTClient.selectAll()");
+        LOGGER.info("RestClient.selectAll()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -103,15 +110,15 @@ public class RESTClient
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
-        System.out.println("Content-Type = " + connection.getContentType());
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        LOGGER.info("Content-Type = {}", connection.getContentType());
+        LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         String line = reader.readLine();
 
         while (line != null)
         {
-            System.out.println(line);
+            LOGGER.info(line);
             line = reader.readLine();
         }
 
@@ -121,11 +128,11 @@ public class RESTClient
     /**
      * @param oid long
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void selectOne(final long oid) throws Exception
     {
-        System.err.println("RESTClient.selectOne()");
+        LOGGER.info("RestClient.selectOne()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -138,8 +145,8 @@ public class RESTClient
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
-        System.out.println("Content-Type = " + connection.getContentType());
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        LOGGER.info("Content-Type = {}", connection.getContentType());
+        LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         JAXBContext context = JAXBContext.newInstance(Kunde.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -147,8 +154,7 @@ public class RESTClient
         try (InputStream inputStream = connection.getInputStream())
         {
             Kunde kunde = (Kunde) unmarshaller.unmarshal(inputStream);
-            System.out.println(kunde);
-
+            LOGGER.info("{}", kunde);
         }
 
         try (InputStream inputStream = connection.getInputStream();
@@ -160,7 +166,7 @@ public class RESTClient
 
             while (line != null)
             {
-                System.out.println(line);
+                LOGGER.info(line);
                 line = reader.readLine();
             }
         }
@@ -169,11 +175,11 @@ public class RESTClient
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static void update() throws Exception
     {
-        System.err.println("RESTClient.update()");
+        LOGGER.info("RestClient.update()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -193,8 +199,8 @@ public class RESTClient
             throw new RuntimeException("Failed to update");
         }
 
-        System.out.println("Content-Type = " + connection.getContentType());
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        LOGGER.info("Content-Type = {}", connection.getContentType());
+        LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         connection.disconnect();
     }

@@ -36,7 +36,7 @@ class TestEJB
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void BeforeAll() throws Exception
@@ -59,15 +59,7 @@ class TestEJB
     private ISecretNewsService service;
 
     /**
-     * Erstellt ein neues {@link TestEJB} Object.
-     */
-    public TestEJB()
-    {
-        super();
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
     void beforeEach() throws Exception

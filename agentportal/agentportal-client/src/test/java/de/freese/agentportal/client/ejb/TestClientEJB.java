@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class TestClientEJB
 {
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void glassfishAccess() throws Exception

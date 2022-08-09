@@ -1,6 +1,7 @@
 // Created: 10.05.2013
 package de.freese.j2ee.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -23,22 +24,23 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @Table(name = "KUNDE", uniqueConstraints = @UniqueConstraint(columnNames =
-{
-        "NAME", "VORNAME"
-}))
+        {
+                "NAME", "VORNAME"
+        }))
 // @Cacheable
 // @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hibernate.test")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder =
-{
-        "name", "vorname"
-})
+        {
+                "name", "vorname"
+        })
 public class Kunde implements Serializable
 {
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8686116858992640271L;
     /**
      *

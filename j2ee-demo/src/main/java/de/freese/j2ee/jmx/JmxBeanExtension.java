@@ -11,6 +11,9 @@ import javax.inject.Inject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
@@ -18,6 +21,11 @@ import javax.management.ObjectName;
 @Singleton
 public class JmxBeanExtension
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JmxBeanExtension.class);
+
     // /**
     // *
     // */
@@ -27,7 +35,7 @@ public class JmxBeanExtension
      *
      */
     @Inject
-    @JMXBean
+    @JmxBean
     // @Any
     private Instance<Object> jmxBeans;
     /**
@@ -36,7 +44,7 @@ public class JmxBeanExtension
     private MBeanServer mBeanServer;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @PostConstruct
     public void exportsBean() throws Exception
@@ -55,7 +63,7 @@ public class JmxBeanExtension
             Class<?> beanClass = bean.getClass();
             // Object bean = this.interceptor;
             // Class<?> beanClass = LogInterceptor.class;
-            // String annotationValue = beanClass.getAnnotation(JMXBean.class).objectName();
+            // String annotationValue = beanClass.getAnnotation(JmxBean.class).objectName();
             String annotationValue = beanClass.getSimpleName();
             ObjectName objectName = null;
 
@@ -69,7 +77,7 @@ public class JmxBeanExtension
             }
 
             this.mBeanServer.registerMBean(bean, objectName);
-            System.out.println("Registered " + objectName);
+            LOGGER.info("Registered {}", objectName);
         }
     }
 }

@@ -27,7 +27,7 @@ public class ConfigTomcat
     /**
      * @return {@link DataSource}
      *
-     * @throws NamingException Falls was schief geht.
+     * @throws NamingException Falls was schiefgeht.
      */
     @Bean
     public DataSource dataSource() throws NamingException

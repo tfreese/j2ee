@@ -4,10 +4,10 @@ package de.freese.j2ee.cdi;
  * @author Thomas Freese
  */
 @Recursive
-public class RecursiveFakultaet implements IFakultaet
+public class RecursiveFakultaet implements Fakultaet
 {
     /**
-     * @see de.freese.j2ee.cdi.IFakultaet#getFakultaet(int)
+     * @see Fakultaet#getFakultaet(int)
      */
     @Override
     public long getFakultaet(final int n)

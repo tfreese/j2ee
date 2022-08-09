@@ -7,18 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.ehcache.ConfigSettings;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
@@ -175,7 +175,8 @@ public abstract class AbstractTest
 
         ps.println();
         ps.println("QueryRegionStatistics");
-        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(s -> s != null).forEach(s -> {
+        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s ->
+        {
 
             long hitCount = s.getHitCount();
             long missCount = s.getMissCount();
@@ -206,7 +207,7 @@ public abstract class AbstractTest
 //            .forEach(className -> {
         ps.println();
         ps.println("EntityStatistics");
-        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(s -> s != null).forEach(ps::println);
+        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(ps::println);
         // @formatter:on
 
         ps.println();

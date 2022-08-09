@@ -14,10 +14,10 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target(
-{
-        ElementType.TYPE, ElementType.FIELD
-})
-public @interface JMXBean
+        {
+                ElementType.TYPE, ElementType.FIELD
+        })
+public @interface JmxBean
 {
     // /**
     // * @return String

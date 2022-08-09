@@ -60,7 +60,7 @@ class TestJOOQLPojoGenerator
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void createEntities() throws Exception

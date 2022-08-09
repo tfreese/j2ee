@@ -49,7 +49,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator
         this.sequenceName = ConfigurationHelper.getString("sequenceName", params, null);
         this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
 
-        if ((this.sequenceName == null) || this.sequenceName.strip().isEmpty())
+        if ((this.sequenceName == null) || this.sequenceName.isBlank())
         {
             throw new MappingException("sequenceName required");
         }

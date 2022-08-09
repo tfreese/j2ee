@@ -39,14 +39,6 @@ public class StartUp
     private EntityManager em;
 
     /**
-     * Erstellt ein neues {@link StartUp} Object.
-     */
-    public StartUp()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @PostConstruct

@@ -21,7 +21,7 @@ public class FakultaetView
      */
     @Inject
     @Recursive
-    private IFakultaet fakultaet;
+    private Fakultaet fakultaet;
     /**
      *
      */
