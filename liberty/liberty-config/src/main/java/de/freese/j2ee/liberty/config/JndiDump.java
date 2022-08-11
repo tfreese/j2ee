@@ -78,10 +78,8 @@ public class JndiDump
                 tmp = binding.getClassName();
             }
 
-            if (tmp instanceof Context)
+            if (tmp instanceof Context subContext)
             {
-                Context subContext = (Context) tmp;
-
                 map.put(name, dumpContextBinding(subContext));
             }
             else
