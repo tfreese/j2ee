@@ -244,7 +244,7 @@ public class PojoBeanSerializer implements Serializer
 
         ColumnMetadata columnMetadata = getMetaData(property);
 
-        javaDoc.append("Column: " + columnMetadata.getName() + "; ");
+        javaDoc.append("Column: ").append(columnMetadata.getName()).append("; ");
 
         if (columnMetadata.hasJdbcType())
         {

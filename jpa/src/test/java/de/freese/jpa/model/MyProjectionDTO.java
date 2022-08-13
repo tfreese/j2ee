@@ -38,33 +38,25 @@ public class MyProjectionDTO implements Serializable
         this.name = name;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(final Object obj)
+    public boolean equals(final Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-
-        if ((obj == null) || !(obj instanceof MyProjectionDTO other))
+        if (!(o instanceof MyProjectionDTO dto))
         {
             return false;
         }
 
-        if (!Objects.equals(this.id, other.id))
-        {
-            return false;
-        }
+        return Objects.equals(getId(), dto.getId()) && Objects.equals(getName(), dto.getName());
+    }
 
-        if (!Objects.equals(this.name, other.name))
-        {
-            return false;
-        }
-
-        return true;
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getId(), getName());
     }
 
     /**
@@ -84,22 +76,13 @@ public class MyProjectionDTO implements Serializable
     }
 
     /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(id, name);
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append("TPerson [");
+        StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+        sb.append("[");
         sb.append("id = ").append(this.id);
         sb.append(",name = ").append(this.name);
         sb.append("]");
