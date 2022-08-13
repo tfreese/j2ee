@@ -213,7 +213,7 @@ value.  If a value is not specified, one must be supplied
 during deployment.
 -->
 <!--
-The env-entry-name element contains the name of a web applications's
+The env-entry-name element contains the name of a web application's
 environment entry.  The name is a JNDI name relative to the
 java:comp/env context.  The name must be unique within a web application.
 
@@ -549,7 +549,7 @@ java:comp/env context and must be unique within a web application.
 Used in: resource-env-ref
 -->
 <!--
-The resource-env-ref-type element specifies the type of a resource
+The resource-env-ref-type element specifies the type of resource
 environment reference.  It is the fully qualified name of a Java
 language class or interface.
 
