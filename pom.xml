@@ -39,7 +39,7 @@
     </modules>
 
     <properties>
-        <version_io.openliberty>22.0.0.8</version_io.openliberty>
+        <version_io.openliberty>22.0.0.9</version_io.openliberty>
 
         <version_org.apache.cxf>3.5.3</version_org.apache.cxf>
         <version_org.glassfish_javax.json>1.1.4</version_org.glassfish_javax.json>
