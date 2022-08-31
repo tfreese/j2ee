@@ -112,7 +112,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator
                 }
                 catch (SQLException sex)
                 {
-                    // LOGGER.error(null, sex);
+                    // LOGGER.error(sex.getMessage(), sex);
                     throw new HibernateException(sex);
 
                     // return 0;

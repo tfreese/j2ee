@@ -81,9 +81,9 @@ public class MyRestFacade extends AbstractBean
                 // this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
                 // this.serviceBean = Utils.ejb(MyServiceBean.class);
             }
-            catch (RuntimeException rex)
+            catch (RuntimeException ex)
             {
-                getLogger().error(null, rex.getCause());
+                getLogger().error(ex.getMessage(), ex.getCause());
             }
         }
 

@@ -79,7 +79,7 @@ class TestHibernate extends AbstractTest
             // so destroy it manually.
             StandardServiceRegistryBuilder.destroy(registry);
 
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 

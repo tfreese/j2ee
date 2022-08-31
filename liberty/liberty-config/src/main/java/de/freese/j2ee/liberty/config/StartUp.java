@@ -56,7 +56,7 @@ public class StartUp extends AbstractBean
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
 
         if (this.noViewBean == null)
@@ -129,7 +129,7 @@ public class StartUp extends AbstractBean
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
     }
 }

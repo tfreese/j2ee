@@ -72,7 +72,7 @@ class TestJPA extends AbstractTest
         }
         catch (Exception ex)
         {
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 
