@@ -17,7 +17,7 @@ class TestClientEJB
     void glassfishAccess() throws Exception
     {
         // TODO
-        // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Konfig für lokale Maschine.
+        // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Config für lokale Maschine.
         // Context ctx = new InitialContext();
         //
         // ISecretNewsService service =

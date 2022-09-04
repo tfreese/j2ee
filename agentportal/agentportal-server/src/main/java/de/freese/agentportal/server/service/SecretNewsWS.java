@@ -71,7 +71,7 @@
 //
 // SecretNewsEntity entity = new SecretNewsEntity();
 // entity.setId(1L);
-// entity.setSecuritylevel(SecretNewsEntity.SECURITY_LEVEL_LOW);
+// entity.setSecurityLevel(SecretNewsEntity.SECURITY_LEVEL_LOW);
 // entity.setTitle("Johnny English verhaftet");
 // entity.setTimestamp(today);
 // entity.setText("Unser Agent Johnny English wurde wieder einmal bei einer geheimen Mission festgenommen. Weitere Informationen sind nicht bekannt und folgen demnächst.");
@@ -79,7 +79,7 @@
 //
 // entity = new SecretNewsEntity();
 // entity.setId(2L);
-// entity.setSecuritylevel(SecretNewsEntity.SECURITY_LEVEL_HIGH);
+// entity.setSecurityLevel(SecretNewsEntity.SECURITY_LEVEL_HIGH);
 // entity.setTitle("James Bond pensioniert");
 // entity.setTimestamp(today);
 // entity.setText("Unser Agent James Bond wurde mit dem heutigen Tag in Pension geschickt. In unzähligen Missionen stand er seinen Mann, um sein Vaterland zu verteidigen.");

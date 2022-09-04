@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlType;
         {
                 "TITLE"
         }))
-@NamedQuery(name = "selectAllSecretNews", query = "SELECT sne FROM SecretNews sne WHERE sne.securitylevel <= :securitylevel ORDER BY sne.timestamp DESC")
+@NamedQuery(name = "selectAllSecretNews", query = "SELECT sne FROM SecretNews sne WHERE sne.securityLevel <= :securityLevel ORDER BY sne.timestamp DESC")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder =
         {
-                "securitylevel", "title", "timestamp", "text"
+                "securityLevel", "title", "timestamp", "text"
         })
 public class SecretNews implements Serializable
 {
@@ -63,19 +63,19 @@ public class SecretNews implements Serializable
     @SequenceGenerator(name = "seq", sequenceName = "seq_news", initialValue = 1, allocationSize = 1)
     @Column(name = "ID", nullable = false)
     @XmlAttribute
-    private Long id = null;
+    private Long id;
     /**
      *
      */
     @Column(name = "LEVEL", nullable = false)
     @NotNull
-    private int securitylevel = SecretNews.SECURITY_LEVEL_LOW;
+    private int securityLevel = SecretNews.SECURITY_LEVEL_LOW;
     /**
      *
      */
     @Column(name = "TEXT", nullable = false)
     @Size(min = 10)
-    private String text = null;
+    private String text;
     /**
      *
      */
@@ -83,21 +83,13 @@ public class SecretNews implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     @XmlElement(required = false)
-    private Date timestamp = null;
+    private Date timestamp;
     /**
      *
      */
     @Column(name = "TITLE", nullable = false)
     @Size(min = 5)
-    private String title = null;
-
-    /**
-     * Erstellt ein neues {@link SecretNews} Object.
-     */
-    public SecretNews()
-    {
-        super();
-    }
+    private String title;
 
     /**
      * @return Long
@@ -110,9 +102,9 @@ public class SecretNews implements Serializable
     /**
      * @return int
      */
-    public int getSecuritylevel()
+    public int getSecurityLevel()
     {
-        return this.securitylevel;
+        return this.securityLevel;
     }
 
     /**
@@ -148,11 +140,11 @@ public class SecretNews implements Serializable
     }
 
     /**
-     * @param securitylevel int
+     * @param securityLevel int
      */
-    public void setSecuritylevel(final int securitylevel)
+    public void setSecurityLevel(final int securityLevel)
     {
-        this.securitylevel = securitylevel;
+        this.securityLevel = securityLevel;
     }
 
     /**
@@ -188,8 +180,8 @@ public class SecretNews implements Serializable
         StringBuilder builder = new StringBuilder();
         builder.append("SecretNewsEntity [id=");
         builder.append(this.id);
-        builder.append(", securitylevel=");
-        builder.append(this.securitylevel);
+        builder.append(", securityLevel=");
+        builder.append(this.securityLevel);
         builder.append(", title=");
         builder.append(this.title);
         builder.append(", timestamp=");

@@ -60,7 +60,7 @@ public class StartUp
         Date today = new Date();
 
         SecretNews entity = new SecretNews();
-        entity.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
+        entity.setSecurityLevel(SecretNews.SECURITY_LEVEL_LOW);
         entity.setTitle("Johnny English verhaftet");
         entity.setTimestamp(today);
         entity.setText("Unser Agent Johnny English wurde wieder einmal bei einer geheimen Mission festgenommen. Weitere Informationen sind nicht bekannt und folgen demnächst.");
@@ -76,7 +76,7 @@ public class StartUp
         // }
 
         entity = new SecretNews();
-        entity.setSecuritylevel(SecretNews.SECURITY_LEVEL_HIGH);
+        entity.setSecurityLevel(SecretNews.SECURITY_LEVEL_HIGH);
         entity.setTitle("James Bond pensioniert");
         entity.setTimestamp(today);
         entity.setText("Unser Agent James Bond wurde mit dem heutigen Tag in Pension geschickt. In unzähligen Missionen stand er seinen Mann, um sein Vaterland zu verteidigen.");

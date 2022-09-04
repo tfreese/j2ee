@@ -17,10 +17,21 @@ public class CloudSessionCache implements CloudSession
      *
      */
     public static final String TIMEOUT = "timeout";
+
     /**
+     * @param timeout Long
      *
+     * @return boolean
      */
-    private final CloudSession cloudSession;
+    private static boolean timeoutReached(final Long timeout)
+    {
+        if (timeout != null)
+        {
+            return System.currentTimeMillis() > timeout;
+        }
+
+        return false;
+    }
     /**
      *
      */
@@ -28,24 +39,28 @@ public class CloudSessionCache implements CloudSession
     /**
      *
      */
+    private final CloudSession cloudSession;
+    /**
+     *
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
-    private final long sessionLivetime;
+    private final long sessionLiveTime;
 
     /**
      * Erstellt ein neues {@link CloudSessionCache} Object.
      *
      * @param cloudSession {@link CloudSession}
-     * @param sessionLivetime {@link Duration}
+     * @param sessionLiveTime {@link Duration}
      */
-    public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLivetime)
+    public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime)
     {
         super();
 
         this.cloudSession = cloudSession;
-        this.sessionLivetime = sessionLivetime.toMillis();
+        this.sessionLiveTime = sessionLiveTime.toMillis();
     }
 
     /**
@@ -145,7 +160,7 @@ public class CloudSessionCache implements CloudSession
     private void renewTimeout(final String sessionID, final Map<String, String> entry)
     {
         // calculate new timeout
-        String timeout = Long.toString(System.currentTimeMillis() + this.sessionLivetime);
+        String timeout = Long.toString(System.currentTimeMillis() + this.sessionLiveTime);
 
         // renew cloud session timeout
         this.cloudSession.setSessionValue(sessionID, TIMEOUT, timeout);
@@ -154,20 +169,5 @@ public class CloudSessionCache implements CloudSession
 
         // renew this cache timeout
         entry.put(TIMEOUT, timeout);
-    }
-
-    /**
-     * @param timeout Long
-     *
-     * @return boolean
-     */
-    private static boolean timeoutReached(final Long timeout)
-    {
-        if (timeout != null)
-        {
-            return System.currentTimeMillis() > timeout;
-        }
-
-        return false;
     }
 }

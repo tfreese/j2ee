@@ -351,7 +351,7 @@ public class PojoBeanSerializer implements Serializer
     }
 
     /**
-     * Liefert den Namen des Klassen-Atribbuts.
+     * Liefert den Namen des Klassen-Attributes.
      *
      * @param property {@link Property}
      *
@@ -359,9 +359,8 @@ public class PojoBeanSerializer implements Serializer
      */
     protected ColumnMetadata getMetaData(final Property property)
     {
-        ColumnMetadata columnMetadata = (ColumnMetadata) property.getData().get("COLUMN");
-
-        return columnMetadata;
+        return (ColumnMetadata) property.getData().get("COLUMN");
+        
         // Column column = property.getAnnotation(Column.class);
         // String name = null;
         //

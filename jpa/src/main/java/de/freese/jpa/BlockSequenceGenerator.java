@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Hibernate SequenceGenerator, der ganze Bloecke von Sequence IDs holt.
+ * Hibernate SequenceGenerator, der ganze Blöcke von Sequence IDs holt.
  *
  * @author Thomas Freese
  */
@@ -119,9 +119,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator
                 }
             }
 
-            Long id = this.idQueue.poll();
-
-            return id;
+            return this.idQueue.poll();
         }
     }
 }

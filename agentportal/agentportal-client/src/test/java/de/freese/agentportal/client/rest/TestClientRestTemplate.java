@@ -145,7 +145,7 @@ final class TestClientRestTemplate
 
         SecretNews news = new SecretNews();
         news.setId(id);
-        news.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
+        news.setSecurityLevel(SecretNews.SECURITY_LEVEL_LOW);
         news.setTitle(title);
         news.setText(text);
         news.setTimestamp(new Date());

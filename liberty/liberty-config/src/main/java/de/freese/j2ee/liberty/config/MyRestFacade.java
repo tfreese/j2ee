@@ -43,9 +43,7 @@ public class MyRestFacade extends AbstractBean
     {
         getLogger().info("getSysdate");
 
-        Date date = getServiceBean().getSysDate();
-
-        return date;
+        return getServiceBean().getSysDate();
     }
 
     /**

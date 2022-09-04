@@ -37,9 +37,6 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 /**
- * Testcaste für JOOQL.
- * <p>
- *
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)

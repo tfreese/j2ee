@@ -66,12 +66,12 @@ public class Address implements Serializable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PERSON"), nullable = false)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
-    private Person person = null;
+    private Person person;
     /**
      *
      */
     @Column(name = "STREET", length = 50, nullable = false, insertable = true, updatable = true)
-    private String street = null;
+    private String street;
 
     /**
      * Erstellt ein neues {@link Address} Object.

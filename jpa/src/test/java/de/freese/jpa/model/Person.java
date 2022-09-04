@@ -79,13 +79,13 @@ public class Person implements Serializable
     @OrderBy("street desc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
-    private List<Address> addresses = new ArrayList<>();
+    private final List<Address> addresses = new ArrayList<>();
     /**
      * , columnDefinition="Decimal(10,2) default '100.00'"
      */
     @Column(name = "COOL", nullable = true, insertable = true, updatable = true, precision = 1, scale = 0)
     @ColumnDefault("false")
-    private Boolean cool = null;
+    private Boolean cool;
     /**
      *
      */
@@ -104,12 +104,12 @@ public class Person implements Serializable
      *
      */
     @Column(name = "NAME", length = 50, nullable = false, insertable = true, updatable = true)
-    private String name = null;
+    private String name;
     /**
      *
      */
     @Column(name = "VORNAME", length = 50, nullable = false, insertable = true, updatable = true)
-    private String vorname = null;
+    private String vorname;
 
     /**
      * Creates a new {@link Person} object.
@@ -185,18 +185,6 @@ public class Person implements Serializable
     }
 
     /**
-     * @PreUpdate
-     */
-    @PrePersist
-    void preInsert()
-    {
-        if (this.cool == null)
-        {
-            this.cool = false;
-        }
-    }
-
-    /**
      * @param id long
      */
     public void setID(final long id)
@@ -235,5 +223,17 @@ public class Person implements Serializable
         builder.append("]");
 
         return builder.toString();
+    }
+
+    /**
+     * @PreUpdate
+     */
+    @PrePersist
+    void preInsert()
+    {
+        if (this.cool == null)
+        {
+            this.cool = false;
+        }
     }
 }

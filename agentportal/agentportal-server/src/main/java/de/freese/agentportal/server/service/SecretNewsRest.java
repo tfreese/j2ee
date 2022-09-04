@@ -90,7 +90,7 @@ public class SecretNewsRest
         logCallerInfo();
 
         SecretNews entity = new SecretNews();
-        entity.setSecuritylevel(SecretNews.SECURITY_LEVEL_LOW);
+        entity.setSecurityLevel(SecretNews.SECURITY_LEVEL_LOW);
         entity.setTitle(title);
         entity.setTimestamp(new Date());
         entity.setText(text);
@@ -171,9 +171,7 @@ public class SecretNewsRest
         LOGGER.info("");
         logCallerInfo();
 
-        SecretNews entity = this.em.find(SecretNews.class, id);
-
-        return entity;
+        return this.em.find(SecretNews.class, id);
     }
 
     /**

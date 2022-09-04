@@ -166,7 +166,7 @@ class TestJPA extends AbstractTest
 
         // entityManager.getTransaction().begin();
         // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
-        // !!! Scalare Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
+        // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
         // !!! Kein Caching bei Native-Queries !!!
         Query query = entityManager.createNamedQuery("allPersons.native");
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");

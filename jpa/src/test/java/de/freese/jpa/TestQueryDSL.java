@@ -35,7 +35,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
- * Testcaste für QueryDSL.
  * <p>
  * org.springframework.data.jdbc.query.QueryDslJdbcTemplate ist deprecated!
  * <p>

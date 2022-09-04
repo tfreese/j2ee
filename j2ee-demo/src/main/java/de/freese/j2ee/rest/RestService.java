@@ -25,13 +25,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyDataSource;
 import de.freese.j2ee.persistence.MyEntityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -91,18 +90,17 @@ public class RestService
     @SuppressWarnings("unchecked")
     @GET
     @Produces(
-    {
-            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-    })
+            {
+                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+            })
     @MyLogging
     public List<Kunde> getAsXML()
     {
         LOGGER.info("");
 
         Query query = this.entityManager.createQuery("select k from Kunde k");
-        List<Kunde> kunden = query.getResultList();
 
-        return kunden;
+        return query.getResultList();
     }
 
     /**
@@ -113,9 +111,9 @@ public class RestService
     @SuppressWarnings("unchecked")
     @GET
     @Produces(
-    {
-            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-    })
+            {
+                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+            })
     @Path("/{id:\\d+}")
     // Nur Zahlen erlaubt.
     @MyLogging
@@ -161,9 +159,9 @@ public class RestService
      */
     @POST
     @Consumes(
-    {
-            MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-    })
+            {
+                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
+            })
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @MyLogging
     public String update(final Kunde kunde)

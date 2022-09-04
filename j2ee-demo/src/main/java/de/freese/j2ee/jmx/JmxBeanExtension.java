@@ -49,7 +49,7 @@ public class JmxBeanExtension
     @PostConstruct
     public void exportsBean() throws Exception
     {
-        System.err.println("JmxBeanExtension.exportsBean()");
+        LOGGER.info("JmxBeanExtension.exportsBean()");
 
         this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
 

@@ -186,7 +186,7 @@ final class TestClientREST
 
         try (OutputStream out = connection.getOutputStream())
         {
-            String xml = "<secretNews id=\"" + id + "\"><securitylevel>1</securitylevel><title>" + title + "</title><text>" + text + "</text></secretNews>";
+            String xml = "<secretNews id=\"" + id + "\"><securityLevel>1</securityLevel><title>" + title + "</title><text>" + text + "</text></secretNews>";
             out.write(xml.getBytes());
             out.flush();
         }

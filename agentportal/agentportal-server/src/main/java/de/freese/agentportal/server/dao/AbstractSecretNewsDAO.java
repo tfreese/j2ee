@@ -46,9 +46,7 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
         Query query = this.entityManager.createQuery("select n from SecretNewsEntity n where id = :id");
         query.setParameter("id", id);
 
-        SecretNews entity = (SecretNews) query.getSingleResult();
-
-        return entity;
+        return (SecretNews) query.getSingleResult();
     }
 
     /**
@@ -59,11 +57,9 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
     public List<SecretNews> getNews()
     {
         Query query = this.entityManager.createNamedQuery("selectAllSecretNews");
-        query.setParameter("securitylevel", getSecurityLevel()).getResultList();
+        query.setParameter("securityLevel", getSecurityLevel()).getResultList();
 
-        List<SecretNews> news = query.getResultList();
-
-        return news;
+        return query.getResultList();
     }
 
     /**

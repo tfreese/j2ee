@@ -76,9 +76,7 @@ public class SecretNewsEJB implements ISecretNewsService
         LOGGER.info("");
         logCallerInfo();
 
-        List<SecretNews> news = this.daoHigh.getNews();
-
-        return news;
+        return this.daoHigh.getNews();
     }
 
     /**
@@ -95,9 +93,7 @@ public class SecretNewsEJB implements ISecretNewsService
         LOGGER.info("");
         logCallerInfo();
 
-        List<SecretNews> news = this.daoLow.getNews();
-
-        return news;
+        return this.daoLow.getNews();
     }
 
     /**
