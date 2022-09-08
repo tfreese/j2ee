@@ -32,6 +32,7 @@ public class CloudSessionCache implements CloudSession
 
         return false;
     }
+
     /**
      *
      */
@@ -77,7 +78,7 @@ public class CloudSessionCache implements CloudSession
             // if not found in cache ...
             this.logger.info("no entry [{},{}] found in memory cache!", sessionID, name);
 
-            return checkValueInCloudAndUpdateLocal(sessionID, name, entry);
+            return checkValueInCloudAndUpdateLocal(sessionID, name, null);
         }
         else if (timeoutReached(Optional.ofNullable(entry.get(TIMEOUT)).map(Long::valueOf).orElse(null)))
         {

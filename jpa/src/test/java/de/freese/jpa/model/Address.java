@@ -70,7 +70,7 @@ public class Address implements Serializable
     /**
      *
      */
-    @Column(name = "STREET", length = 50, nullable = false, insertable = true, updatable = true)
+    @Column(name = "STREET", length = 50, nullable = false)
     private String street;
 
     /**
@@ -151,7 +151,7 @@ public class Address implements Serializable
     }
 
     /**
-     * @PreUpdate
+     * PreUpdate
      */
     @PrePersist
     void preInsert()

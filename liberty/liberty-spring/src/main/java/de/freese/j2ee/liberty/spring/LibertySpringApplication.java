@@ -12,9 +12,18 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class LibertySpringApplication extends SpringBootServletInitializer
 {
     /**
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        configureApplication(new SpringApplicationBuilder()).run(args);
+    }
+
+    /**
      * Konfiguriert die SpringApplication.
      *
      * @param builder {@link SpringApplicationBuilder}
+     *
      * @return {@link SpringApplicationBuilder}
      */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
@@ -28,15 +37,6 @@ public class LibertySpringApplication extends SpringBootServletInitializer
         //@formatter:on
         // .listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
         // .web(false)
-    }
-
-    /**
-     * @param args String[]
-     */
-    @SuppressWarnings("resource")
-    public static void main(final String[] args)
-    {
-        configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
     /**

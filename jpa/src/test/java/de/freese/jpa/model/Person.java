@@ -83,7 +83,7 @@ public class Person implements Serializable
     /**
      * , columnDefinition="Decimal(10,2) default '100.00'"
      */
-    @Column(name = "COOL", nullable = true, insertable = true, updatable = true, precision = 1, scale = 0)
+    @Column(name = "COOL", precision = 1, scale = 0)
     @ColumnDefault("false")
     private Boolean cool;
     /**
@@ -103,12 +103,12 @@ public class Person implements Serializable
     /**
      *
      */
-    @Column(name = "NAME", length = 50, nullable = false, insertable = true, updatable = true)
+    @Column(name = "NAME", length = 50, nullable = false)
     private String name;
     /**
      *
      */
-    @Column(name = "VORNAME", length = 50, nullable = false, insertable = true, updatable = true)
+    @Column(name = "VORNAME", length = 50, nullable = false)
     private String vorname;
 
     /**
