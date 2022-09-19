@@ -1,9 +1,10 @@
 package de.freese.j2ee.cdi;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.validation.constraints.Max;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * @author Thomas Freese

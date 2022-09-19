@@ -12,10 +12,10 @@ import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.Stateless;
 import javax.sql.DataSource;
 
 import de.freese.j2ee.liberty.config.AbstractBean;
+import jakarta.ejb.Stateless;
 
 /**
  * @author Thomas Freese

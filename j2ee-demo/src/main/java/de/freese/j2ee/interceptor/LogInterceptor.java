@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.inject.Singleton;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
-
 import de.freese.j2ee.jmx.JmxBean;
 import de.freese.j2ee.jmx.UsageLogMBean;
+import jakarta.ejb.Singleton;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 import org.slf4j.LoggerFactory;
 
 /**

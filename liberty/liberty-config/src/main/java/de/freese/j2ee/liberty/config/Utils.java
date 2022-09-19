@@ -4,12 +4,13 @@ package de.freese.j2ee.liberty.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.CDI;
 
 /***
  * @author Thomas Freese
@@ -46,7 +47,7 @@ public final class Utils
         {
             BeanManager bm = CDI.current().getBeanManager();
             Bean<T> b = (Bean<T>) bm.getBeans(type).iterator().next();
-            
+
             return bm.getReference(b, type, bm.createCreationalContext(b));
         });
 

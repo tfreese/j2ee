@@ -1,10 +1,9 @@
 // Created: 14.12.2012
 package de.freese.agentportal.server.dao;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-
 import de.freese.agentportal.common.model.SecretNews;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 
 /**
  * @author Thomas Freese

@@ -3,9 +3,8 @@ package de.freese.agentportal.server.dao;
 
 import java.util.List;
 
-import javax.ejb.Local;
-
 import de.freese.agentportal.common.model.SecretNews;
+import jakarta.ejb.Local;
 
 /**
  * @author Thomas Freese

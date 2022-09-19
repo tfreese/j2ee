@@ -5,10 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Properties;
 
-import javax.ejb.EJB;
-import javax.ejb.embeddable.EJBContainer;
-
 import de.freese.agentportal.common.service.ISecretNewsService;
+import jakarta.ejb.EJB;
+import jakarta.ejb.embeddable.EJBContainer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

@@ -3,13 +3,6 @@ package de.freese.agentportal.server.service;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.Remote;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import de.freese.agentportal.common.model.SecretNews;
@@ -17,6 +10,13 @@ import de.freese.agentportal.common.service.ISecretNewsService;
 import de.freese.agentportal.server.cdi.AgentPortalEM;
 import de.freese.agentportal.server.dao.SecretNewsHighDAO;
 import de.freese.agentportal.server.dao.SecretNewsLowDAO;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Remote;
+import jakarta.ejb.SessionContext;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

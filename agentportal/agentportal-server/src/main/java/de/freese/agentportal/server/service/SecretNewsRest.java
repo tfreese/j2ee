@@ -3,9 +3,6 @@ package de.freese.agentportal.server.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -25,6 +22,9 @@ import javax.ws.rs.core.SecurityContext;
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.common.model.SecretNewsList;
 import de.freese.agentportal.server.cdi.Resources;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

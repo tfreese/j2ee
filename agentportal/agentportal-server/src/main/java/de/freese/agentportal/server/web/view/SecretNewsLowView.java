@@ -6,12 +6,11 @@ package de.freese.agentportal.server.web.view;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.common.service.ISecretNewsService;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 /**
  * @author Thomas Freese

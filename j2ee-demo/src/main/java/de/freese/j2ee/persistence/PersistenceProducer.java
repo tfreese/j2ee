@@ -2,10 +2,11 @@
 package de.freese.j2ee.persistence;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+
+import jakarta.enterprise.inject.Produces;
 
 /**
  * @author Thomas Freese

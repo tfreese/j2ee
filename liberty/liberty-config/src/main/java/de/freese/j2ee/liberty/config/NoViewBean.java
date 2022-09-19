@@ -2,9 +2,9 @@
 package de.freese.j2ee.liberty.config;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
