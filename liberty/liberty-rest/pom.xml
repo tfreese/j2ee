@@ -22,6 +22,9 @@
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
         <warContext>${project.artifactId}</warContext>
+
+        <!-- Für die jakarta Variante -->
+        <jersey.version>3.0.8</jersey.version>
     </properties>
 
     <build>
@@ -35,16 +38,18 @@
                     <packagingExcludes>pom.xml</packagingExcludes>
                 </configuration>
             </plugin>
+            <!-- mvn clean liberty:clean-server liberty:run liberty:stop -->
+            <!-- liberty:stop -->
             <plugin>
                 <groupId>net.wasdev.wlp.maven.plugins</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
-                    <assemblyArtifact>
-                        <groupId>io.openliberty</groupId>
-                        <artifactId>openliberty-runtime</artifactId>
-                        <version>${version_io.openliberty}</version>
-                        <type>zip</type>
-                    </assemblyArtifact>
+                    <!--                    <assemblyArtifact>-->
+                    <!--                        <groupId>io.openliberty</groupId>-->
+                    <!--                        <artifactId>openliberty-runtime</artifactId>-->
+                    <!--                        <version>${version_io.openliberty}</version>-->
+                    <!--                        <type>zip</type>-->
+                    <!--                    </assemblyArtifact>-->
                     <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
                     <serverName>rest</serverName>
                     <stripVersion>true</stripVersion>
@@ -120,27 +125,30 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
 
         <!-- test scope -->
+        <!-- Implementierung für jakarta.ws.rs.client -->
         <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-extension-providers</artifactId>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

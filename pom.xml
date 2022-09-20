@@ -41,8 +41,6 @@
     <properties>
         <version_io.openliberty>22.0.0.9</version_io.openliberty>
 
-        <version_org.apache.cxf>3.5.3</version_org.apache.cxf>
-
         <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
     </properties>
 
@@ -77,16 +75,6 @@
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
                 <version>${version_io.openliberty}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-rs-client</artifactId>
-                <version>${version_org.apache.cxf}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                <version>${version_org.apache.cxf}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

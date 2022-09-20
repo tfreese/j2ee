@@ -1,14 +1,13 @@
 // Created: 20.05.2018
 package de.freese.liberty.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * @author Thomas Freese
@@ -26,14 +25,16 @@ public class MyRestService
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getProperties()
     {
+        System.out.printf("%s_MyRestService.getProperties%n", Thread.currentThread().getName());
+        
         JsonObjectBuilder builder = Json.createObjectBuilder();
 
+        System.getProperties().keySet().stream().sorted().forEach(key -> builder.add((String) key, System.getProperty((String) key)));
+
         // @formatter:off
-        System.getProperties()
-//            .entrySet()
-//            .stream()
-//            .forEach(entry -> builder.add((String) entry.getKey(), (String) entry.getValue()));
-            .forEach((key, value) -> builder.add((String) key, (String) value));
+//        System.getProperties()
+//            .forEach((key, value) -> builder.add((String) key, (String) value))
+//        ;
         // @formatter:on
 
         return builder.build();
