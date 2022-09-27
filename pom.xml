@@ -38,12 +38,6 @@
         <module>liberty</module>
     </modules>
 
-    <properties>
-        <version_io.openliberty>22.0.0.9</version_io.openliberty>
-
-        <version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>2.7</version_net.wasdev.wlp.maven.plugins_liberty-maven-plugin>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
