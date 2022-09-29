@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class TestClientEJB
+class TestClientEjb
 {
     /**
      * @throws Exception Falls was schiefgeht.

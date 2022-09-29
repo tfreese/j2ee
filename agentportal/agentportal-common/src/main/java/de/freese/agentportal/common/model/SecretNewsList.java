@@ -19,15 +19,7 @@ public class SecretNewsList
      *
      */
     @XmlElement(required = true)
-    private List<SecretNews> news = null;
-
-    /**
-     * Erstellt ein neues {@link SecretNewsList} Object.
-     */
-    public SecretNewsList()
-    {
-        super();
-    }
+    private List<SecretNews> news;
 
     /**
      * @return {@link List}

@@ -47,14 +47,6 @@ public class MyJAASCallbackHandler implements CallbackHandler
     }
 
     /**
-     * Erstellt ein neues {@link MyJAASCallbackHandler} Object.
-     */
-    public MyJAASCallbackHandler()
-    {
-        super();
-    }
-
-    /**
      * @see javax.security.auth.callback.CallbackHandler#handle(javax.security.auth.callback.Callback[])
      */
     @Override

@@ -12,18 +12,10 @@ import jakarta.ejb.Stateless;
 // (name = "secureNewsDAO", mappedName = "secureNewsDAO")
 @LocalBean
 // @Secured
-public class SecretNewsHighDAO extends AbstractSecretNewsDAO
+public class SecretNewsHighDao extends AbstractSecretNewsDao
 {
     /**
-     * Erstellt ein neues {@link SecretNewsHighDAO} Object.
-     */
-    public SecretNewsHighDAO()
-    {
-        super();
-    }
-
-    /**
-     * @see de.freese.agentportal.server.dao.AbstractSecretNewsDAO#getSecurityLevel()
+     * @see AbstractSecretNewsDao#getSecurityLevel()
      */
     @Override
     protected int getSecurityLevel()

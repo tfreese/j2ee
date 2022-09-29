@@ -13,13 +13,13 @@ import de.freese.agentportal.server.cdi.Resources;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
+public abstract class AbstractSecretNewsDao implements ISecretNewsDao
 {
     /**
      *
      */
     // @Inject
-    // @AgentPortalEM
+    // @AgentPortalEm
     @PersistenceContext(unitName = Resources.EM_UNIT)
     private EntityManager entityManager;
 
@@ -27,18 +27,10 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
     // *
     // */
     // @Inject
-    // private UserTransaction utx = null;
+    // private UserTransaction utx;
 
     /**
-     * Erstellt ein neues {@link AbstractSecretNewsDAO} Object.
-     */
-    protected AbstractSecretNewsDAO()
-    {
-        super();
-    }
-
-    /**
-     * @see de.freese.agentportal.server.dao.ISecretNewsDAO#get(long)
+     * @see ISecretNewsDao#get(long)
      */
     @Override
     public SecretNews get(final long id)
@@ -50,7 +42,7 @@ public abstract class AbstractSecretNewsDAO implements ISecretNewsDAO
     }
 
     /**
-     * @see de.freese.agentportal.server.dao.ISecretNewsDAO#getNews()
+     * @see ISecretNewsDao#getNews()
      */
     @SuppressWarnings("unchecked")
     @Override

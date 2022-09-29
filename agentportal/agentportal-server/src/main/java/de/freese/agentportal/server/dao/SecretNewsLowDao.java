@@ -11,18 +11,10 @@ import jakarta.ejb.Stateless;
 @Stateless
 @LocalBean
 // @Unsecured
-public class SecretNewsLowDAO extends AbstractSecretNewsDAO
+public class SecretNewsLowDao extends AbstractSecretNewsDao
 {
     /**
-     * Erstellt ein neues {@link SecretNewsLowDAO} Object.
-     */
-    public SecretNewsLowDAO()
-    {
-        super();
-    }
-
-    /**
-     * @see de.freese.agentportal.server.dao.AbstractSecretNewsDAO#getSecurityLevel()
+     * @see AbstractSecretNewsDao#getSecurityLevel()
      */
     @Override
     protected int getSecurityLevel()

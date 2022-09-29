@@ -42,7 +42,7 @@ final class TestClientRestTemplate
      */
     static void delete(final RestTemplate template, final long oid) throws Exception
     {
-        System.err.println("TestClientREST.delete()");
+        System.err.println("TestClientRest.delete()");
 
         // URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
         // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -68,7 +68,7 @@ final class TestClientRestTemplate
      */
     static void insert(final RestTemplate template, final String title, final String text) throws Exception
     {
-        System.err.println("TestClientREST.insert()");
+        System.err.println("TestClientRest.insert()");
 
         // template.postForObject("http://localhost:8080/de.freese.agentportal.server/rest/news/?title={title}&text={text}", Void.class, title,text);
         //
@@ -98,7 +98,7 @@ final class TestClientRestTemplate
      */
     static void selectAll(final RestTemplate template) throws Exception
     {
-        System.err.println("TestClientREST.selectAll()");
+        System.err.println("TestClientRest.selectAll()");
 
         // String response = template.getForObject("http://localhost:8080/de.freese.agentportal.server/rest/news", String.class);
         // System.out.println(response);
@@ -141,7 +141,7 @@ final class TestClientRestTemplate
      */
     static void update(final RestTemplate template, final long id, final String title, final String text) throws Exception
     {
-        System.err.println("TestClientREST.update()");
+        System.err.println("TestClientRest.update()");
 
         SecretNews news = new SecretNews();
         news.setId(id);

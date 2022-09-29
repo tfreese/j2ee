@@ -25,24 +25,16 @@ public class Resources
      *
      */
     @Produces
-    @AgentPortalDS
+    @AgentPortalDs
     @Resource(mappedName = "jdbc/agentPortal")
     private DataSource dataSource;
     /**
      *
      */
     @Produces
-    @AgentPortalEM
+    @AgentPortalEm
     @PersistenceContext(unitName = EM_UNIT)
     private EntityManager entityManager;
-
-    /**
-     * Erstellt ein neues {@link Resources} Object.
-     */
-    public Resources()
-    {
-        super();
-    }
 
     /**
      * @return {@link FacesContext}

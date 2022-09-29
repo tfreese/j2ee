@@ -23,7 +23,7 @@ public class SecretNewsHighView
      *
      */
     @EJB
-    private final ISecretNewsService secretNewsService = null;
+    private ISecretNewsService secretNewsService;
 
     /**
      * @return {@link List}

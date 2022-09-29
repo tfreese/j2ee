@@ -34,7 +34,7 @@ public class StartUp
      *
      */
     // @Inject
-    // @AgentPortalEM
+    // @AgentPortalEm
     @PersistenceContext(unitName = "agentPortalJPA")
     private EntityManager em;
 

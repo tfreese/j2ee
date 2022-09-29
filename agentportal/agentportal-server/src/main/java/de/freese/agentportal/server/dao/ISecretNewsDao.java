@@ -10,7 +10,7 @@ import jakarta.ejb.Local;
  * @author Thomas Freese
  */
 @Local
-public interface ISecretNewsDAO
+public interface ISecretNewsDao
 {
     /**
      * @param id long

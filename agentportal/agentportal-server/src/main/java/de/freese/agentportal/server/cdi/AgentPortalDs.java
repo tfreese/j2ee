@@ -17,6 +17,6 @@ import jakarta.inject.Qualifier;
         {
                 ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER
         })
-public @interface AgentPortalDS
+public @interface AgentPortalDs
 {
 }

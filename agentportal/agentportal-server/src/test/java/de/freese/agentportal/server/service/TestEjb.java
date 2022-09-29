@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Thomas Freese
  */
-class TestEJB
+class TestEjb
 {
     /**
      *

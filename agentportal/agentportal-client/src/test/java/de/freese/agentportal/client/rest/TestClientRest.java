@@ -16,7 +16,7 @@ import de.freese.agentportal.common.model.SecretNews;
 /**
  * @author Thomas Freese
  */
-final class TestClientREST
+final class TestClientRest
 {
     /**
      * @param args String[]
@@ -40,7 +40,7 @@ final class TestClientREST
      */
     static void delete(final long oid) throws Exception
     {
-        System.err.println("TestClientREST.delete()");
+        System.err.println("TestClientRest.delete()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -65,7 +65,7 @@ final class TestClientREST
      */
     static void insert(final String title, final String text) throws Exception
     {
-        System.err.println("TestClientREST.insert()");
+        System.err.println("TestClientRest.insert()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news?title=" + title + "&text=" + text);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -91,7 +91,7 @@ final class TestClientREST
      */
     static void selectAll() throws Exception
     {
-        System.err.println("TestClientREST.selectAll()");
+        System.err.println("TestClientRest.selectAll()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -126,7 +126,7 @@ final class TestClientREST
      */
     static void selectOne(final long oid) throws Exception
     {
-        System.err.println("TestClientREST.selectOne()");
+        System.err.println("TestClientRest.selectOne()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -175,7 +175,7 @@ final class TestClientREST
      */
     static void update(final long id, final String title, final String text) throws Exception
     {
-        System.err.println("TestClientREST.update()");
+        System.err.println("TestClientRest.update()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -203,9 +203,9 @@ final class TestClientREST
     }
 
     /**
-     * Erstellt ein neues {@link TestClientREST} Object.
+     * Erstellt ein neues {@link TestClientRest} Object.
      */
-    private TestClientREST()
+    private TestClientRest()
     {
         super();
     }

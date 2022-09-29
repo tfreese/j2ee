@@ -25,14 +25,6 @@ public class ShowSecretNews extends AbstractServlet
     private static final long serialVersionUID = 2003269226079797807L;
 
     /**
-     * Erstellt ein neues {@link ShowSecretNews} Object.
-     */
-    public ShowSecretNews()
-    {
-        super();
-    }
-
-    /**
      * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
