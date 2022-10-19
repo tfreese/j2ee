@@ -5,16 +5,16 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.ejb.EJB;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 import de.freese.j2ee.liberty.config.service.MyService;
-import jakarta.ejb.EJB;
 
 /**
  * @author Thomas Freese
@@ -23,18 +23,11 @@ import jakarta.ejb.EJB;
 @Path("service")
 public class MyRestFacade extends AbstractBean
 {
-    /**
-     *
-     */
     @EJB
     private MyService serviceBean;
 
     /**
      * http://localhost:9080/config/rest/service/sysdate
-     *
-     * @return {@link Date}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     @GET
     @Path("sysdate")
@@ -48,8 +41,6 @@ public class MyRestFacade extends AbstractBean
 
     /**
      * http://localhost:9080/config/rest/service/properties
-     *
-     * @return {@link JsonObject}
      */
     @GET
     @Path("properties")
@@ -66,9 +57,6 @@ public class MyRestFacade extends AbstractBean
         return builder.build();
     }
 
-    /**
-     * @return {@link MyService}
-     */
     private MyService getServiceBean()
     {
         if (this.serviceBean == null)

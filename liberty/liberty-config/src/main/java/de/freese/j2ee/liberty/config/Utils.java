@@ -17,17 +17,8 @@ import jakarta.enterprise.inject.spi.CDI;
  */
 public final class Utils
 {
-    /**
-     *
-     */
     private static final ThreadLocal<Map<String, Object>> CACHE = ThreadLocal.withInitial(HashMap::new);
 
-    /**
-     * @param type Class
-     *
-     * @return Object
-     */
-    @SuppressWarnings("unchecked")
     public static <T> T ejb(final Class<T> type)
     {
         Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> lookupBean(type));
@@ -35,11 +26,6 @@ public final class Utils
         return (T) bean;
     }
 
-    /**
-     * @param type Class
-     *
-     * @return Object
-     */
     @SuppressWarnings("unchecked")
     public static <T> T inject(final Class<T> type)
     {
@@ -54,13 +40,6 @@ public final class Utils
         return (T) bean;
     }
 
-    /**
-     * Führt einen JNDI-Lookup durch.
-     *
-     * @param jndiName String
-     *
-     * @return Object
-     */
     @SuppressWarnings("unchecked")
     public static <T> T lookup(final String jndiName)
     {
@@ -80,21 +59,11 @@ public final class Utils
         return (T) object;
     }
 
-    /**
-     * Führt einen JNDI-Lookup durch.
-     *
-     * @param type Class
-     *
-     * @return Object
-     */
     private static <T> T lookupBean(final Class<T> type)
     {
         return lookup("java:module/" + type.getSimpleName());
     }
 
-    /**
-     * Erstellt ein neues {@link Utils} Object.
-     */
     private Utils()
     {
         super();

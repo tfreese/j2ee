@@ -4,12 +4,12 @@ package de.freese.j2ee.liberty.config;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * @author Thomas Freese
@@ -17,15 +17,9 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class TestRestFacade extends AbstractBean
 {
-    /**
-     *
-     */
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
 
-    /**
-     * Erstellt ein neues {@link TestRestFacade} Object.
-     */
     public TestRestFacade()
     {
         super();
@@ -54,10 +48,6 @@ public class TestRestFacade extends AbstractBean
 
     /**
      * http://localhost:9080/config/rest/test
-     *
-     * @return String
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     @GET
     @Path("test")

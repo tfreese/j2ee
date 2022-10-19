@@ -3,15 +3,15 @@ package de.freese.j2ee.rest;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.ejb.Remote;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyEntityManager;
-import jakarta.ejb.Remote;
-import jakarta.ejb.Stateless;
-import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,13 +23,8 @@ import org.slf4j.LoggerFactory;
 @Remote(KundenService.class)
 public class DefaultKundenService implements KundenService
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultKundenService.class);
-    /**
-     *
-     */
+
     @Inject
     @MyEntityManager
     private EntityManager entityManager;

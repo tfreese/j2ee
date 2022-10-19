@@ -6,8 +6,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,16 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestService
 {
-    /**
-     *
-     */
     @Resource
     private DataSource dataSource;
 
     /**
      * http://localhost:PORT/liberty-spring/ping
-     *
-     * @return boolean
      */
     @GetMapping("/ping")
     public boolean ping()
@@ -43,10 +39,6 @@ public class RestService
 
     /**
      * http://localhost:PORT/liberty-spring/sysdate
-     *
-     * @return String
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @GetMapping("/sysdate")
     public String sysdate() throws Exception

@@ -10,12 +10,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import de.freese.j2ee.liberty.config.AbstractBean;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
+
+import de.freese.j2ee.liberty.config.AbstractBean;
 
 /**
  * @author Thomas Freese
@@ -25,9 +26,6 @@ import jakarta.ejb.Stateless;
 // @Local(MyService.class)
 public class MyServiceBean extends AbstractBean implements MyService
 {
-    /**
-     *
-     */
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
 

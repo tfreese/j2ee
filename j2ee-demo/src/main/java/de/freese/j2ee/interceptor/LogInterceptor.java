@@ -5,12 +5,13 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.freese.j2ee.jmx.JmxBean;
-import de.freese.j2ee.jmx.UsageLogMBean;
 import jakarta.ejb.Singleton;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
+
+import de.freese.j2ee.jmx.JmxBean;
+import de.freese.j2ee.jmx.UsageLogMBean;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -22,14 +23,8 @@ import org.slf4j.LoggerFactory;
 @JmxBean
 public class LogInterceptor implements UsageLogMBean
 {
-    /**
-     *
-     */
     private static final Set<String> parameters = new TreeSet<>();
 
-    // /**
-    // * @throws Exception Falls was schief geht.
-    // */
     // @PostConstruct
     // public void exportsBean() throws Exception
     // {
@@ -50,13 +45,6 @@ public class LogInterceptor implements UsageLogMBean
         return LogInterceptor.parameters;
     }
 
-    /**
-     * @param ctx {@link InvocationContext}
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @AroundInvoke
     public Object logNameRequest(final InvocationContext ctx) throws Exception
     {

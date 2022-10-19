@@ -9,8 +9,5 @@ import java.util.Set;
 @FunctionalInterface
 public interface UsageLogMBean
 {
-    /**
-     * @return {@link Set}
-     */
     Set<String> getParameters();
 }

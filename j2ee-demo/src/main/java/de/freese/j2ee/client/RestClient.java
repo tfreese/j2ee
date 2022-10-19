@@ -9,8 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Unmarshaller;
 
 import de.freese.j2ee.model.Kunde;
 import org.slf4j.Logger;
@@ -21,16 +21,18 @@ import org.slf4j.LoggerFactory;
  */
 public class RestClient
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 
-    /**
-     * @param oid long
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
+    public static void main(final String[] args) throws Exception
+    {
+        // selectOne(1);
+        // update();
+        selectAll();
+        insert("Freese", "Thomas");
+        delete(0);
+        selectAll();
+    }
+
     static void delete(final long oid) throws Exception
     {
         System.err.println("RestClient.delete()");
@@ -50,12 +52,6 @@ public class RestClient
         connection.disconnect();
     }
 
-    /**
-     * @param name String
-     * @param vorname String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void insert(final String name, final String vorname) throws Exception
     {
         LOGGER.info("RestClient.insert()");
@@ -77,24 +73,6 @@ public class RestClient
         connection.disconnect();
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        // selectOne(1);
-        // update();
-        selectAll();
-        insert("Freese", "Thomas");
-        delete(0);
-        selectAll();
-    }
-
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     static void selectAll() throws Exception
     {
         LOGGER.info("RestClient.selectAll()");
@@ -125,11 +103,6 @@ public class RestClient
         connection.disconnect();
     }
 
-    /**
-     * @param oid long
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void selectOne(final long oid) throws Exception
     {
         LOGGER.info("RestClient.selectOne()");
@@ -174,9 +147,6 @@ public class RestClient
         connection.disconnect();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     static void update() throws Exception
     {
         LOGGER.info("RestClient.update()");

@@ -20,9 +20,6 @@ import cloudsession.util.ObjectSerializer;
  */
 public class CloudSessionLocal implements CloudSession
 {
-    /**
-     *
-     */
     private static final Path DATA_PATH = Paths.get(System.getProperty("java.io.tmpdir"), "cloudSession.json");
 
     private static void storeProps(final Map<String, Map<String, String>> map)
@@ -36,9 +33,7 @@ public class CloudSessionLocal implements CloudSession
             throw new UncheckedIOException(ex);
         }
     }
-    /**
-     *
-     */
+
     private Map<String, Map<String, String>> map;
 
     /**

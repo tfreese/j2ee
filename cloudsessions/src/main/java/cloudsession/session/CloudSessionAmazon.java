@@ -23,18 +23,10 @@ import com.amazonaws.services.simpledb.model.ReplaceableItem;
  */
 public class CloudSessionAmazon implements CloudSession
 {
-    /**
-     *
-     */
     private static final String SESSIONS_DOMAIN = "Sessions";
-    /**
-     *
-     */
+
     private final AmazonSimpleDB amazonClient;
 
-    /**
-     * Erstellt ein neues {@link CloudSessionAmazon} Object.
-     */
     public CloudSessionAmazon()
     {
         super();

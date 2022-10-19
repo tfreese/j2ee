@@ -1,7 +1,7 @@
 //// Created: 26.06.2018
 // package de.freese.j2ee.liberty.config.jta;
 //
-// import javax.transaction.UserTransaction;
+// import jakarta.transaction.UserTransaction;
 //
 // /**
 // * @see <a href="https://hibernate.atlassian.net/browse/HHH-10388">Hibernate Bug</a>

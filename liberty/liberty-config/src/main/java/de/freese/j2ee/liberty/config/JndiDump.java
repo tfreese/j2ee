@@ -11,10 +11,11 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * @author Thomas Freese
@@ -22,11 +23,6 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 public class JndiDump
 {
-    /**
-     * @return {@link Map}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @GET
     @Path("jndi")
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,13 +46,6 @@ public class JndiDump
         return map;
     }
 
-    /**
-     * @param ctx {@link Context}
-     *
-     * @return {@link Map}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Map<String, Object> dumpContextBinding(final Context ctx) throws Exception
     {
         NamingEnumeration<Binding> enumeration = ctx.listBindings("");
@@ -91,13 +80,6 @@ public class JndiDump
         return map;
     }
 
-    /**
-     * @param ctx {@link Context}
-     *
-     * @return {@link Map}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Map<String, Object> dumpContextNameClassPair(final Context ctx) throws Exception
     {
         NamingEnumeration<NameClassPair> enumeration = ctx.list("");

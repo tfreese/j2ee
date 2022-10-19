@@ -11,15 +11,7 @@ import java.util.Map;
 // @Local
 public interface MyService
 {
-    /**
-     * @return {@link Date}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     Date getSysDate() throws SQLException;
 
-    /**
-     * @return {@link Map}
-     */
     Map<String, String> getSystemProperties();
 }

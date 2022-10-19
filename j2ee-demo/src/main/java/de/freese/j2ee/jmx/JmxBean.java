@@ -19,9 +19,6 @@ import jakarta.inject.Qualifier;
         })
 public @interface JmxBean
 {
-    // /**
-    // * @return String
-    // */
     // @Nonbinding
     // public String objectName() default "";
 }

@@ -3,7 +3,6 @@ package de.freese.jpa;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Properties;
@@ -20,33 +19,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Hibernate SequenceGenerator, der ganze Blöcke von Sequence IDs holt.
+ * Hibernate SequenceGenerator, der ganze Blöcke von Sequence IDs holt.<br>
+ * Das hier ist natürlich Blödsinn ! <br>
+ * Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
  *
  * @author Thomas Freese
  */
 public class BlockSequenceGenerator implements IdentifierGenerator
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
-    /**
-     *
-     */
+
     private final Queue<Long> idQueue = new LinkedList<>();
-    /**
-     *
-     */
+
     private int blockSize;
-    /**
-     *
-     */
+
     private String sequenceName;
 
     @Override
     public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException
     {
-        this.sequenceName = ConfigurationHelper.getString("sequenceName", params, null);
+        this.sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
         this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
 
         if ((this.sequenceName == null) || this.sequenceName.isBlank())
@@ -81,8 +73,6 @@ public class BlockSequenceGenerator implements IdentifierGenerator
                 // {
                 // NativeQuery<Long> nativeQuery = session.createNativeQuery("call next value for " + this.sequenceName, Long.class);
                 //
-                // // // Das hier ist natürlich Blödsinn !!!
-                // // // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
                 // for (int i = 0; i < this.blockSize; i++)
                 // {
                 // long id = nativeQuery.getSingleResult().longValue();
@@ -95,28 +85,22 @@ public class BlockSequenceGenerator implements IdentifierGenerator
                 // throw ex;
                 // }
 
-                try (Statement statement = session.connection().createStatement())
+                session.doWork(connection ->
                 {
-                    // Das hier ist natürlich Blödsinn !
-                    // Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
-                    for (int i = 0; i < this.blockSize; i++)
+                    try (Statement statement = connection.createStatement())
                     {
-                        try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName))
+                        for (int i = 0; i < this.blockSize; i++)
                         {
-                            resultSet.next();
-                            long id = resultSet.getLong(1);
+                            try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName))
+                            {
+                                resultSet.next();
+                                long id = resultSet.getLong(1);
 
-                            this.idQueue.offer(id);
+                                this.idQueue.offer(id);
+                            }
                         }
                     }
-                }
-                catch (SQLException sex)
-                {
-                    // LOGGER.error(sex.getMessage(), sex);
-                    throw new HibernateException(sex);
-
-                    // return 0;
-                }
+                });
             }
 
             return this.idQueue.poll();

@@ -5,15 +5,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import de.freese.j2ee.liberty.config.service.MyService;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+
+import de.freese.j2ee.liberty.config.service.MyService;
 
 /**
  * @author Thomas Freese
@@ -23,19 +24,15 @@ import jakarta.ejb.Startup;
 @LocalBean
 public class StartUp extends AbstractBean
 {
-    /**
-     *
-     */
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
+
     /**
      * No-View Beans (ohne Interface) funktionieren komischerweise nicht !
      */
     // @EJB
     private NoViewBean noViewBean;
-    /**
-     *
-     */
+
     @EJB
     private MyService serviceBean;
 
@@ -107,10 +104,6 @@ public class StartUp extends AbstractBean
         }
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param sql String
-     */
     private void query(final DataSource dataSource, final String sql)
     {
         try

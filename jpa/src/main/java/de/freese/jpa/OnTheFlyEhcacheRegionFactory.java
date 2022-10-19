@@ -18,29 +18,16 @@ import org.slf4j.LoggerFactory;
 @Deprecated
 public class OnTheFlyEhcacheRegionFactory extends EhcacheRegionFactory
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(OnTheFlyEhcacheRegionFactory.class);
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 5560790286422926761L;
 
-    /**
-     * Erstellt ein neues {@link OnTheFlyEhcacheRegionFactory} Object.
-     */
     public OnTheFlyEhcacheRegionFactory()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link OnTheFlyEhcacheRegionFactory} Object.
-     *
-     * @param cacheKeysFactory {@link CacheKeysFactory}
-     */
     public OnTheFlyEhcacheRegionFactory(final CacheKeysFactory cacheKeysFactory)
     {
         super(cacheKeysFactory);

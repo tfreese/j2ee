@@ -9,12 +9,12 @@ import java.time.ZoneId;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import cloudsession.session.CloudSession;
 import cloudsession.session.CloudSessionCache;
@@ -28,39 +28,21 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "NonStickySessionServlet", urlPatterns = {"/session"}, loadOnStartup = 1)
 public class NonStickySessionServlet extends HttpServlet
 {
-    /**
-     *
-     */
     private static final String CREATION_TIME = "creationTime";
-    /**
-     *
-     */
+
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
-    /**
-     *
-     */
-    private static final String USER = "user";
-    /**
-     *
-     */
-    private final CloudSession cloudSession;
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private static final Duration SESSION_LIVE_TIME = Duration.ofSeconds(15);
 
-    /**
-     * Erstellt ein neues {@link NonStickySessionServlet} Object.
-     */
+    private static final String USER = "user";
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final CloudSession cloudSession;
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public NonStickySessionServlet()
     {
         super();
@@ -71,20 +53,7 @@ public class NonStickySessionServlet extends HttpServlet
     }
 
     /**
-     * @param creationTime long
-     *
-     * @return String
-     */
-    private String formatDate(final long creationTime)
-    {
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTimeInMillis(creationTime);
-
-        return gc.getTime().toString();
-    }
-
-    /**
-     * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
     public void service(final HttpServletRequest request, final HttpServletResponse response)
@@ -188,22 +157,12 @@ public class NonStickySessionServlet extends HttpServlet
         }
     }
 
-    private StringBuilder printParameters(HttpServletRequest request)
+    private String formatDate(final long creationTime)
     {
-        Enumeration<?> names = request.getParameterNames();
-        StringBuilder html = new StringBuilder();
-        html.append("<table>\n");
-        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(creationTime);
 
-        while (names.hasMoreElements())
-        {
-            String nextName = (String) names.nextElement();
-            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
-        }
-
-        html.append("</table>\n");
-
-        return html;
+        return gc.getTime().toString();
     }
 
     private StringBuilder printHeaders(HttpServletRequest request)
@@ -217,6 +176,24 @@ public class NonStickySessionServlet extends HttpServlet
         {
             String nextName = (String) names.nextElement();
             html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
+        }
+
+        html.append("</table>\n");
+
+        return html;
+    }
+
+    private StringBuilder printParameters(HttpServletRequest request)
+    {
+        Enumeration<?> names = request.getParameterNames();
+        StringBuilder html = new StringBuilder();
+        html.append("<table>\n");
+        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
+
+        while (names.hasMoreElements())
+        {
+            String nextName = (String) names.nextElement();
+            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
         }
 
         html.append("</table>\n");

@@ -3,32 +3,33 @@ package de.freese.j2ee.rest;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
+
+import jakarta.annotation.Resource;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.transaction.UserTransaction;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyDataSource;
 import de.freese.j2ee.persistence.MyEntityManager;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
-import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,36 +41,22 @@ import org.slf4j.LoggerFactory;
 @Path("/kunde")
 public class RestService
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
-    /**
-     *
-     */
+
     @Context
     private SecurityContext context;
-    /**
-     *
-     */
+
     @Inject
     @MyDataSource
     private DataSource dataSource;
-    /**
-     *
-     */
+
     @Inject
     @MyEntityManager
     private EntityManager entityManager;
-    /**
-     *
-     */
+
     @Resource
     private UserTransaction ut;
 
-    /**
-     * @param id long
-     */
     @DELETE
     @Path("/{id:\\d+}")
     // Nur Zahlen erlaubt.
@@ -84,10 +71,6 @@ public class RestService
         query.executeUpdate();
     }
 
-    /**
-     * @return {@link List}
-     */
-    @SuppressWarnings("unchecked")
     @GET
     @Produces(
             {
@@ -103,12 +86,6 @@ public class RestService
         return query.getResultList();
     }
 
-    /**
-     * @param id long
-     *
-     * @return {@link Kunde}
-     */
-    @SuppressWarnings("unchecked")
     @GET
     @Produces(
             {
@@ -134,10 +111,6 @@ public class RestService
         return null;
     }
 
-    /**
-     * @param name String
-     * @param vorname String
-     */
     @PUT
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @MyLogging
@@ -152,11 +125,6 @@ public class RestService
         this.entityManager.persist(kunde);
     }
 
-    /**
-     * @param kunde {@link Kunde}
-     *
-     * @return String
-     */
     @POST
     @Consumes(
             {

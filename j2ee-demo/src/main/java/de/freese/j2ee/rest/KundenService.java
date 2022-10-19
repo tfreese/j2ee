@@ -12,8 +12,5 @@ import de.freese.j2ee.model.Kunde;
 @FunctionalInterface
 public interface KundenService
 {
-    /**
-     * @return {@link List}
-     */
     List<Kunde> getData();
 }

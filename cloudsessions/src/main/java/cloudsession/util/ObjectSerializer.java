@@ -16,20 +16,14 @@ import org.slf4j.LoggerFactory;
  */
 public final class ObjectSerializer
 {
-    /**
-     *
-     */
     public static final Logger LOGGER = LoggerFactory.getLogger(ObjectSerializer.class);
+
     // @formatter:on
-    /**
-     *
-     */
-    // @formatter:off
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper()
             .configure(SerializationFeature.INDENT_OUTPUT, true)
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            ;
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    // @formatter:off
 
     public static <T> T fromJson(final InputStream inputStream, Class<T> valueType)
     {

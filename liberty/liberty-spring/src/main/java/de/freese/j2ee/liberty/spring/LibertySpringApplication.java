@@ -11,21 +11,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class LibertySpringApplication extends SpringBootServletInitializer
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
-    /**
-     * Konfiguriert die SpringApplication.
-     *
-     * @param builder {@link SpringApplicationBuilder}
-     *
-     * @return {@link SpringApplicationBuilder}
-     */
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder)
     {
         //@formatter:off

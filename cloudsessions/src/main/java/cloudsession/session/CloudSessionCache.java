@@ -13,16 +13,8 @@ import org.slf4j.LoggerFactory;
  */
 public class CloudSessionCache implements CloudSession
 {
-    /**
-     *
-     */
     public static final String TIMEOUT = "timeout";
 
-    /**
-     * @param timeout Long
-     *
-     * @return boolean
-     */
     private static boolean timeoutReached(final Long timeout)
     {
         if (timeout != null)
@@ -33,29 +25,14 @@ public class CloudSessionCache implements CloudSession
         return false;
     }
 
-    /**
-     *
-     */
     private final Map<String, Map<String, String>> cache = new ConcurrentHashMap<>();
-    /**
-     *
-     */
+
     private final CloudSession cloudSession;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final long sessionLiveTime;
 
-    /**
-     * Erstellt ein neues {@link CloudSessionCache} Object.
-     *
-     * @param cloudSession {@link CloudSession}
-     * @param sessionLiveTime {@link Duration}
-     */
     public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime)
     {
         super();
@@ -154,10 +131,6 @@ public class CloudSessionCache implements CloudSession
         return cloudSessionValue;
     }
 
-    /**
-     * @param sessionID String
-     * @param entry {@link Map}
-     */
     private void renewTimeout(final String sessionID, final Map<String, String> entry)
     {
         // calculate new timeout

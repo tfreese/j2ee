@@ -1,9 +1,10 @@
 // Created: 21.06.2018
 package de.freese.j2ee.liberty.spring;
 
-import javax.annotation.Resource;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import jakarta.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,17 +19,9 @@ import org.springframework.jndi.JndiTemplate;
 @Profile("liberty")
 public class ConfigLiberty
 {
-    /**
-     *
-     */
     @Resource
     private Environment env;
 
-    /**
-     * @return {@link DataSource}
-     *
-     * @throws NamingException Falls was schiefgeht.
-     */
     @Bean
     public DataSource dataSource() throws NamingException
     {

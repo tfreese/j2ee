@@ -3,14 +3,15 @@ package de.freese.j2ee.jmx;
 
 import java.lang.management.ManagementFactory;
 
-import javax.annotation.PostConstruct;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,31 +22,18 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class JmxBeanExtension
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxBeanExtension.class);
 
-    // /**
-    // *
-    // */
     // @Inject
-    // private LogInterceptor interceptor = null;
-    /**
-     *
-     */
+    // private LogInterceptor interceptor;
+
     @Inject
     @JmxBean
     // @Any
     private Instance<Object> jmxBeans;
-    /**
-     *
-     */
+
     private MBeanServer mBeanServer;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @PostConstruct
     public void exportsBean() throws Exception
     {

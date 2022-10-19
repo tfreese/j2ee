@@ -1,10 +1,10 @@
 // Created: 28.05.2018
 package de.freese.j2ee.liberty.config;
 
-import javax.annotation.PostConstruct;
-
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,14 +17,8 @@ import org.slf4j.LoggerFactory;
 @LocalBean
 public class NoViewBean
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * Erstellt ein neues {@link NoViewBean} Object.
-     */
     public NoViewBean()
     {
         super();
@@ -32,25 +26,16 @@ public class NoViewBean
         getLogger().info("{}: Constructor called", getClass().getSimpleName());
     }
 
-    /**
-     * @return {@link Logger}
-     */
     public Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return {@link String}
-     */
     public String getValue()
     {
         return "Hello World";
     }
 
-    /**
-     *
-     */
     @PostConstruct
     public void postConstruct()
     {

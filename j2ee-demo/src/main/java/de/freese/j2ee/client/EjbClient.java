@@ -16,16 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class EjbClient
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(EjbClient.class);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // Properties props = new Properties();
