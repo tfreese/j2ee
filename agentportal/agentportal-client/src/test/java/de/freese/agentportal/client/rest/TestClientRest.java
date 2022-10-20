@@ -8,8 +8,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Unmarshaller;
 
 import de.freese.agentportal.common.model.SecretNews;
 
@@ -18,11 +18,6 @@ import de.freese.agentportal.common.model.SecretNews;
  */
 final class TestClientRest
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // selectOne(1);
@@ -33,11 +28,6 @@ final class TestClientRest
         selectAll();
     }
 
-    /**
-     * @param oid long
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void delete(final long oid) throws Exception
     {
         System.err.println("TestClientRest.delete()");
@@ -57,12 +47,6 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    /**
-     * @param title String
-     * @param text String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void insert(final String title, final String text) throws Exception
     {
         System.err.println("TestClientRest.insert()");
@@ -86,9 +70,6 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     static void selectAll() throws Exception
     {
         System.err.println("TestClientRest.selectAll()");
@@ -119,11 +100,6 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    /**
-     * @param oid long
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void selectOne(final long oid) throws Exception
     {
         System.err.println("TestClientRest.selectOne()");
@@ -166,13 +142,6 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    /**
-     * @param id long
-     * @param title String
-     * @param text String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void update(final long id, final String title, final String text) throws Exception
     {
         System.err.println("TestClientRest.update()");
@@ -202,9 +171,6 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    /**
-     * Erstellt ein neues {@link TestClientRest} Object.
-     */
     private TestClientRest()
     {
         super();

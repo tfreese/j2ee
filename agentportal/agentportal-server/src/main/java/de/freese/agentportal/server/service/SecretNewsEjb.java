@@ -2,14 +2,7 @@ package de.freese.agentportal.server.service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.service.ISecretNewsService;
-import de.freese.agentportal.server.cdi.AgentPortalEm;
-import de.freese.agentportal.server.dao.SecretNewsHighDao;
-import de.freese.agentportal.server.dao.SecretNewsLowDao;
+import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Remote;
 import jakarta.ejb.SessionContext;
@@ -17,6 +10,13 @@ import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.service.ISecretNewsService;
+import de.freese.agentportal.server.cdi.AgentPortalEm;
+import de.freese.agentportal.server.dao.SecretNewsHighDao;
+import de.freese.agentportal.server.dao.SecretNewsLowDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,35 +32,24 @@ import org.slf4j.LoggerFactory;
 // })
 public class SecretNewsEjb implements ISecretNewsService
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsEjb.class);
-    /**
-     *
-     */
+
     @Resource
     private SessionContext context;
-    /**
-     *
-     */
+
     // @Inject
     // @Secured
     @EJB
     // (mappedName = "secureNewsDAO")
     private SecretNewsHighDao daoHigh;
     // private ISecretNewsDao daoHigh;
-    /**
-     *
-     */
+
     // @Inject
     // @Unsecured
     // private SecretNewsLowDao daoLow = null;
     @EJB
     private SecretNewsLowDao daoLow;
-    /**
-     *
-     */
+
     @Inject
     @AgentPortalEm
     private EntityManager entityManager1;
@@ -96,9 +85,6 @@ public class SecretNewsEjb implements ISecretNewsService
         return this.daoLow.getNews();
     }
 
-    /**
-     *
-     */
     protected void logCallerInfo()
     {
         StringBuilder sb = new StringBuilder();

@@ -6,19 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionDTO;
@@ -36,34 +33,20 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJPA extends AbstractTest
 {
-    /**
-     *
-     */
     private static EntityManagerFactory ENTITYMANAGERFACTORY;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         ENTITYMANAGERFACTORY.close();
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
-        Properties properties = getHibernateProperties();
-        Map<String, Object> config = new HashMap<>();
-
-        properties.keySet().forEach(key ->
-                config.put((String) key, properties.getProperty((String) key))
-        );
+        Map<String, Object> config = getHibernateConfig();
 
         // resources/META-INF/persistence.xml
         try
@@ -99,7 +82,6 @@ class TestJPA extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test020SelectAll()
      */
-    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test020SelectAll()
@@ -154,7 +136,6 @@ class TestJPA extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test040NativeQuery()
      */
-    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test040NativeQuery()
@@ -168,19 +149,19 @@ class TestJPA extends AbstractTest
         // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
         // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
         // !!! Kein Caching bei Native-Queries !!!
-        Query query = entityManager.createNamedQuery("allPersons.native");
+        TypedQuery<Object[]> typedQuery = entityManager.createNamedQuery("allPersons.native", Object[].class);
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
-        List<Object[]> rows = query.getResultList();
+        List<Object[]> rows = typedQuery.getResultList();
         rows.forEach(row ->
         {
             Person person = new Person((String) row[1], (String) row[2]);
-            person.setID(((BigInteger) row[0]).longValue());
+            person.setID((long) row[0]);
 
             persons.add(person);
         });
 
-        query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+        Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
         // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
         for (Person person : persons)
@@ -190,7 +171,7 @@ class TestJPA extends AbstractTest
             rows.forEach(row ->
             {
                 Address address = new Address((String) row[1]);
-                address.setID(((BigInteger) row[0]).longValue());
+                address.setID((long) row[0]);
 
                 person.addAddress(address);
             });
@@ -202,9 +183,6 @@ class TestJPA extends AbstractTest
         entityManager.close();
     }
 
-    /**
-     *
-     */
     @Test
     void test6Projection()
     {
@@ -237,9 +215,6 @@ class TestJPA extends AbstractTest
         entityManager.close();
     }
 
-    /**
-     *
-     */
     @Test
     void test99Statistics()
     {

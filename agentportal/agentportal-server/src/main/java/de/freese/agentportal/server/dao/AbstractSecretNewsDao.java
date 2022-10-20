@@ -3,9 +3,9 @@ package de.freese.agentportal.server.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.server.cdi.Resources;
@@ -15,17 +15,11 @@ import de.freese.agentportal.server.cdi.Resources;
  */
 public abstract class AbstractSecretNewsDao implements ISecretNewsDao
 {
-    /**
-     *
-     */
     // @Inject
     // @AgentPortalEm
     @PersistenceContext(unitName = Resources.EM_UNIT)
     private EntityManager entityManager;
 
-    // /**
-    // *
-    // */
     // @Inject
     // private UserTransaction utx;
 
@@ -54,8 +48,5 @@ public abstract class AbstractSecretNewsDao implements ISecretNewsDao
         return query.getResultList();
     }
 
-    /**
-     * @return int
-     */
     protected abstract int getSecurityLevel();
 }

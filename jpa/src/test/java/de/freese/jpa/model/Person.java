@@ -6,26 +6,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
-import javax.persistence.QueryHint;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Cacheable;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.QueryHint;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -64,9 +64,6 @@ import org.hibernate.annotations.FetchMode;
 // @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
 public class Person implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 413810580854319964L;
     /**
@@ -86,9 +83,7 @@ public class Person implements Serializable
     @Column(name = "COOL", precision = 1, scale = 0)
     @ColumnDefault("false")
     private Boolean cool;
-    /**
-     *
-     */
+
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", initialValue = 1, allocationSize = 10)
@@ -100,31 +95,18 @@ public class Person implements Serializable
     // @GeneratedValue(generator = "my-generator")
     @Access(AccessType.FIELD)
     private long id = -1;
-    /**
-     *
-     */
+
     @Column(name = "NAME", length = 50, nullable = false)
     private String name;
-    /**
-     *
-     */
+
     @Column(name = "VORNAME", length = 50, nullable = false)
     private String vorname;
 
-    /**
-     * Creates a new {@link Person} object.
-     */
     public Person()
     {
         super();
     }
 
-    /**
-     * Creates a new {@link Person} object.
-     *
-     * @param name String
-     * @param vorname String
-     */
     public Person(final String name, final String vorname)
     {
         super();
@@ -133,43 +115,27 @@ public class Person implements Serializable
         setVorname(vorname);
     }
 
-    /**
-     * @param address {@link Address}
-     */
     public void addAddress(final Address address)
     {
         this.addresses.add(address);
         address.setPerson(this);
     }
 
-    /**
-     * @return List<Address>
-     */
-
     public List<Address> getAddresses()
     {
         return this.addresses;
     }
 
-    /**
-     * @return long
-     */
     public long getID()
     {
         return this.id;
     }
 
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return String
-     */
     public String getVorname()
     {
         return this.vorname;
@@ -184,25 +150,16 @@ public class Person implements Serializable
         return Long.valueOf(getID()).hashCode();
     }
 
-    /**
-     * @param id long
-     */
     public void setID(final long id)
     {
         this.id = id;
     }
 
-    /**
-     * @param name String
-     */
     public void setName(final String name)
     {
         this.name = name;
     }
 
-    /**
-     * @param vorname String
-     */
     public void setVorname(final String vorname)
     {
         this.vorname = vorname;

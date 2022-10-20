@@ -10,26 +10,13 @@ import java.util.Objects;
  */
 public class MyProjectionDTO implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8195470174423798274L;
-    /**
-     *
-     */
+
     private final Long id;
-    /**
-     *
-     */
+
     private final String name;
 
-    /**
-     * Erstellt ein neues {@link MyProjectionDTO} Object.
-     *
-     * @param id Long
-     * @param name String
-     */
     public MyProjectionDTO(final Long id, final String name)
     {
         super();
@@ -53,26 +40,20 @@ public class MyProjectionDTO implements Serializable
         return Objects.equals(getId(), dto.getId()) && Objects.equals(getName(), dto.getName());
     }
 
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(getId(), getName());
-    }
-
-    /**
-     * @return Long
-     */
     public Long getId()
     {
         return this.id;
     }
 
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getId(), getName());
     }
 
     /**

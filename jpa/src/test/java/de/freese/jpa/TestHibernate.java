@@ -6,25 +6,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionDTO;
 import de.freese.jpa.model.Person;
-import de.freese.sql.querydsl.TEmployee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.transform.ResultTransformer;
-import org.hibernate.type.LongType;
-import org.hibernate.type.StringType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -37,47 +33,36 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHibernate extends AbstractTest
 {
-    /**
-     *
-     */
     private static SessionFactory SESSIONFACTORY;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         SESSIONFACTORY.close();
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
-        Configuration config = new Configuration();
-        config.addProperties(getHibernateProperties());
+        Map<String, Object> config = getHibernateConfig();
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config).build();
 
-        config.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
-        // config.addResource("META-INF/orm.xml");
-
-        // configures settings from hibernate.cfg.xml
-        // StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
-
+        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        metadataSources.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
+        //        metadataSources.addResource("META-INF/orm.xml");
+ 
         try
         {
-            SESSIONFACTORY = config.buildSessionFactory(registry);
+            Metadata metadata = metadataSources.buildMetadata();
+            SESSIONFACTORY = metadata.getSessionFactoryBuilder().build();
         }
         catch (Exception ex)
         {
             // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory
             // so destroy it manually.
-            StandardServiceRegistryBuilder.destroy(registry);
+            StandardServiceRegistryBuilder.destroy(serviceRegistry);
 
             LOGGER.error(ex.getMessage(), ex);
         }
@@ -98,12 +83,12 @@ class TestHibernate extends AbstractTest
 
             persons.stream().map(person ->
             {
-                session.save(person);
+                session.persist(person);
                 return person;
             }).forEach(person ->
             {
                 // person.getAddresses().forEach(address -> {
-                // session.save(address);
+                // session.persist(address);
                 // });
             });
 
@@ -117,7 +102,6 @@ class TestHibernate extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test020SelectAll()
      */
-    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test020SelectAll()
@@ -128,7 +112,7 @@ class TestHibernate extends AbstractTest
 
             Query<Person> query;
             // Caching aktiviert in Person Definition
-            query = session.getNamedQuery("allPersons");
+            query = session.createNamedQuery("allPersons", Person.class);
             // Caching muss explizit aktiviert werden
             // query = session.createQuery("from Person order by id asc");
             // query.setCacheable(true).setCacheRegion("person");
@@ -155,15 +139,15 @@ class TestHibernate extends AbstractTest
             // session.beginTransaction();
 
             // Caching aktiviert in Person Definition
-            Query<?> query;
-            query = session.getNamedQuery("personByVorname");
+            Query<Person> query;
+            query = session.createNamedQuery("personByVorname", Person.class);
             // Caching muss explizit aktiviert werden
             // query = session.createQuery("from Person where vorname=:vorname order by name asc");
             // query.setCacheable(true).setCacheRegion("person");
 
             query.setParameter("vorname", vorname);
 
-            Person person = (Person) query.getSingleResult();
+            Person person = query.getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
 
@@ -174,51 +158,52 @@ class TestHibernate extends AbstractTest
     /**
      * @see de.freese.jpa.AbstractTest#test040NativeQuery()
      */
-    @SuppressWarnings("unchecked")
     @Override
     @Test
     public void test040NativeQuery()
     {
-        List<Person> persons = new ArrayList<>();
-
         try (Session session = SESSIONFACTORY.openSession())
         {
             // session.beginTransaction();
 
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
             // !!! Kein Caching bei Named-Queries !!!
-            Query<Object[]> query = session.getNamedQuery("allPersons.native");
-            // query.addScalar("id", LongType.INSTANCE).addScalar("name", StringType.INSTANCE).addScalar("vorname", StringType.INSTANCE);
+            Query<Object[]> query = session.createNamedQuery("allPersons.native", Object[].class);
             // query.setCacheable(true).setCacheRegion("person");
-
-            // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
-            NativeQuery<Object[]> nativeQuery1 = query.unwrap(NativeQuery.class);
-            nativeQuery1.addSynchronizedQuerySpace("T_PERSON");
-
-            List<Object[]> rows = nativeQuery1.getResultList();
-            rows.forEach(row ->
+            query.setTupleTransformer((tuple, aliases) ->
             {
-                Person person = new Person((String) row[1], (String) row[2]);
-                person.setID(((BigInteger) row[0]).longValue());
+                Person person = new Person((String) tuple[1], (String) tuple[2]);
+                person.setID((long) tuple[0]);
 
-                persons.add(person);
+                return person;
             });
 
-            NativeQuery<Object[]> nativeQuery2 =
-                    session.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
-            nativeQuery2.addScalar("id", LongType.INSTANCE).addScalar("street", StringType.INSTANCE);
+            // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
+            NativeQuery<Person> nativeQuery1 = query.unwrap(NativeQuery.class);
+            nativeQuery1.addSynchronizedQuerySpace("T_PERSON");
+
+            List<Person> persons = nativeQuery1.getResultList();
+            assertEquals(3, persons.size());
+
+            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+            //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
+            nativeQuery2.setTupleTransformer((tuple, aliases) ->
+            {
+                Address address = new Address((String) tuple[1]);
+                address.setID((long) tuple[0]);
+
+                return address;
+            });
 
             persons.forEach(person ->
             {
                 nativeQuery2.setParameter("person_id", person.getID());
-                List<Object[]> addresses = nativeQuery2.getResultList();
 
-                addresses.forEach(value ->
+                List<Address> addresses = nativeQuery2.getResultList();
+
+                addresses.forEach(address ->
                 {
-                    Address address = new Address((String) value[1]);
-                    address.setID((long) value[0]);
-
                     person.addAddress(address);
                 });
             });
@@ -229,9 +214,6 @@ class TestHibernate extends AbstractTest
         }
     }
 
-    /**
-     *
-     */
     @Test
     void test060Projection()
     {
@@ -261,65 +243,6 @@ class TestHibernate extends AbstractTest
         }
     }
 
-    /**
-     *
-     */
-    @Test
-    @SuppressWarnings(
-            {
-                    "deprecation", "unchecked", "serial"
-            })
-    void test080Transformer()
-    {
-        try (Session session = SESSIONFACTORY.openSession())
-        {
-            Query<TEmployee> query = session.createNativeQuery("select ID, NAME, VORNAME from T_PERSON order by NAME asc");
-            query = query.setResultTransformer(new ResultTransformer()
-            {
-                /**
-                 */
-                @SuppressWarnings("rawtypes")
-                @Override
-                public List transformList(final List collection)
-                {
-                    return collection;
-                }
-
-                /**
-                 *
-                 */
-                @Override
-                public Object transformTuple(final Object[] tuple, final String[] aliases)
-                {
-                    TEmployee employee = new TEmployee();
-                    employee.setMyId(((Number) tuple[0]).longValue());
-                    employee.setName((String) tuple[1]);
-                    employee.setVorname((String) tuple[2]);
-
-                    return employee;
-                }
-            });
-            // query = query.setResultTransformer(Transformers.aliasToBean(TEmployee.class));
-            // query.addScalar("name").addScalar("vorName")
-
-            List<TEmployee> result = query.getResultList();
-
-            assertNotNull(result);
-            assertFalse(result.isEmpty());
-
-            for (int i = 1; i <= result.size(); i++)
-            {
-                TEmployee employee = result.get(i - 1);
-
-                assertEquals("Name" + i, employee.getName());
-                assertEquals("Vorname" + i, employee.getVorname());
-            }
-        }
-    }
-
-    /**
-     *
-     */
     @Test
     void test099Statistics()
     {

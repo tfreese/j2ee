@@ -5,25 +5,25 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * @author Thomas Freese
@@ -42,130 +42,83 @@ import javax.xml.bind.annotation.XmlType;
         })
 public class SecretNews implements Serializable
 {
-    /**
-     *
-     */
     public static final int SECURITY_LEVEL_HIGH = 2;
-    /**
-     *
-     */
+
     public static final int SECURITY_LEVEL_LOW = 1;
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -5472649703030734238L;
-    /**
-     *
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @SequenceGenerator(name = "seq", sequenceName = "seq_news", initialValue = 1, allocationSize = 1)
     @Column(name = "ID", nullable = false)
     @XmlAttribute
     private Long id;
-    /**
-     *
-     */
+
     @Column(name = "LEVEL", nullable = false)
     @NotNull
     private int securityLevel = SecretNews.SECURITY_LEVEL_LOW;
-    /**
-     *
-     */
+
     @Column(name = "TEXT", nullable = false)
     @Size(min = 10)
     private String text;
-    /**
-     *
-     */
+
     @Column(name = "TIMESTAMP", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     @XmlElement(required = false)
     private Date timestamp;
-    /**
-     *
-     */
+
     @Column(name = "TITLE", nullable = false)
     @Size(min = 5)
     private String title;
 
-    /**
-     * @return Long
-     */
     public Long getId()
     {
         return this.id;
     }
 
-    /**
-     * @return int
-     */
     public int getSecurityLevel()
     {
         return this.securityLevel;
     }
 
-    /**
-     * @return String
-     */
     public String getText()
     {
         return this.text;
     }
 
-    /**
-     * @return {@link Date}
-     */
     public Date getTimestamp()
     {
         return this.timestamp;
     }
 
-    /**
-     * @return String
-     */
     public String getTitle()
     {
         return this.title;
     }
 
-    /**
-     * @param id Long
-     */
     public void setId(final Long id)
     {
         this.id = id;
     }
 
-    /**
-     * @param securityLevel int
-     */
     public void setSecurityLevel(final int securityLevel)
     {
         this.securityLevel = securityLevel;
     }
 
-    /**
-     * @param text String
-     */
     public void setText(final String text)
     {
         this.text = text;
     }
 
-    /**
-     * @param timestamp {@link Date}
-     */
     public void setTimestamp(final Date timestamp)
     {
         this.timestamp = timestamp;
     }
 
-    /**
-     * @param title String
-     */
     public void setTitle(final String title)
     {
         this.title = title;

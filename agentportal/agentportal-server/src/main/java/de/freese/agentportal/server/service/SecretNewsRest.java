@@ -3,28 +3,28 @@ package de.freese.agentportal.server.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionAttribute;
+import jakarta.ejb.TransactionAttributeType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.common.model.SecretNewsList;
 import de.freese.agentportal.server.cdi.Resources;
-import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
-import jakarta.ejb.TransactionAttributeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,25 +41,16 @@ import org.slf4j.LoggerFactory;
 // })
 public class SecretNewsRest
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsRest.class);
-    /**
-     *
-     */
+
     @Context
     private SecurityContext context;
-    /**
-     *
-     */
+
     @PersistenceContext(unitName = Resources.EM_UNIT)
     private EntityManager em;
 
     /**
      * curl -X DELETE -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
-     *
-     * @param id long
      */
     @DELETE
     @Path("/{id:\\d+}")
@@ -77,9 +68,6 @@ public class SecretNewsRest
 
     /**
      * curl -X PUT -H "Accept: application/json" localhost:8080/secretnews/rest/news?title=" + title + "&text=" + text
-     *
-     * @param title String
-     * @param text String
      */
     @PUT
     @Consumes(MediaType.TEXT_PLAIN)
@@ -100,8 +88,6 @@ public class SecretNewsRest
 
     /**
      * curl -X GET -H "Accept: text/plain" localhost:8080/secretnews/rest/news
-     *
-     * @return {@link List}
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -126,8 +112,6 @@ public class SecretNewsRest
 
     /**
      * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news
-     *
-     * @return {@link List}
      */
     @SuppressWarnings("unchecked")
     @GET
@@ -153,10 +137,6 @@ public class SecretNewsRest
 
     /**
      * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
-     *
-     * @param id long
-     *
-     * @return {@link SecretNews}
      */
     @GET
     @Produces(
@@ -177,10 +157,6 @@ public class SecretNewsRest
     /**
      * curl -X POST -H "Accept: application/json" localhost:8080/secretnews/rest/news/<br>
      * In den OutputStream: <secretNews id=\"1\"><title>CCC</title><text>DDD</text></secretNews>
-     *
-     * @param news {@link SecretNews}
-     *
-     * @return String
      */
     @POST
     @Consumes(
@@ -203,9 +179,6 @@ public class SecretNewsRest
         return "OK";
     }
 
-    /**
-     *
-     */
     private void logCallerInfo()
     {
         StringBuilder sb = new StringBuilder();

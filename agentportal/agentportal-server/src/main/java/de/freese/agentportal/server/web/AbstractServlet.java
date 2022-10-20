@@ -2,8 +2,8 @@ package de.freese.agentportal.server.web;
 
 import java.io.Serial;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,27 +13,16 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractServlet extends HttpServlet
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8687076224457775615L;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @param request {@link HttpServletRequest}
-     */
     protected void logCallerInfo(final HttpServletRequest request)
     {
         StringBuilder sb = new StringBuilder();

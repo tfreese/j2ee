@@ -3,10 +3,10 @@ package de.freese.agentportal.server.web;
 import java.io.IOException;
 import java.io.Serial;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Thomas Freese
@@ -18,14 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 // }))
 public class ShowSecretNews extends AbstractServlet
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2003269226079797807L;
 
     /**
-     * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
     protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException

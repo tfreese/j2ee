@@ -3,18 +3,18 @@ package de.freese.agentportal.server.service;
 
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import de.freese.agentportal.common.model.SecretNews;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+
+import de.freese.agentportal.common.model.SecretNews;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,21 +26,13 @@ import org.slf4j.LoggerFactory;
 @LocalBean
 public class StartUp
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
-    /**
-     *
-     */
+
     // @Inject
     // @AgentPortalEm
     @PersistenceContext(unitName = "agentPortalJPA")
     private EntityManager em;
 
-    /**
-     *
-     */
     @PostConstruct
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void myPostConstruct()
@@ -83,9 +75,6 @@ public class StartUp
         this.em.persist(entity);
     }
 
-    /**
-     *
-     */
     @PreDestroy
     public void myPreDestroy()
     {
