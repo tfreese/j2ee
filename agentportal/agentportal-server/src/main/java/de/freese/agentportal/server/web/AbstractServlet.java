@@ -16,7 +16,7 @@ public abstract class AbstractServlet extends HttpServlet
     @Serial
     private static final long serialVersionUID = 8687076224457775615L;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private transient final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Logger getLogger()
     {

@@ -39,9 +39,9 @@ public class NonStickySessionServlet extends HttpServlet
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final CloudSession cloudSession;
-    
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private transient final CloudSession cloudSession;
+
+    private transient final Logger logger = LoggerFactory.getLogger(getClass());
 
     public NonStickySessionServlet()
     {

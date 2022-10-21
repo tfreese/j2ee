@@ -26,7 +26,6 @@ public final class Utils
         return (T) bean;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T inject(final Class<T> type)
     {
         Object bean = CACHE.get().computeIfAbsent(type.getName(), key ->
@@ -40,7 +39,6 @@ public final class Utils
         return (T) bean;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T lookup(final String jndiName)
     {
         Object object = null;

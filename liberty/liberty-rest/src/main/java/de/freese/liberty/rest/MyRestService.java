@@ -17,8 +17,6 @@ public class MyRestService
 {
     /**
      * http://localhost:9080/liberty-rest/liberty/service/properties
-     *
-     * @return {@link JsonObject}
      */
     @GET
     @Path("properties")
@@ -26,17 +24,23 @@ public class MyRestService
     public JsonObject getProperties()
     {
         System.out.printf("%s_MyRestService.getProperties%n", Thread.currentThread().getName());
-        
-        JsonObjectBuilder builder = Json.createObjectBuilder();
 
-        System.getProperties().keySet().stream().sorted().forEach(key -> builder.add((String) key, System.getProperty((String) key)));
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+
+        // @formatter:off
+        System.getProperties().keySet().stream()
+                .sorted()
+                .map(String.class::cast)
+                .forEach(key -> jsonObjectBuilder.add(key, System.getProperty(key)))
+        ;
+        // @formatter:on
 
         // @formatter:off
 //        System.getProperties()
-//            .forEach((key, value) -> builder.add((String) key, (String) value))
+//            .forEach((key, value) -> jsonObjectBuilder.add((String) key, (String) value))
 //        ;
         // @formatter:on
 
-        return builder.build();
+        return jsonObjectBuilder.build();
     }
 }

@@ -3,6 +3,7 @@ package de.freese.liberty.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
+
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.junit.jupiter.api.Test;
 
@@ -34,8 +36,11 @@ class EndpointTest
         {
             assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
-            Map<String, String> props = response.readEntity(Map.class);
+            String jsonValue = response.readEntity(String.class);
+            assertNotNull(jsonValue);
 
+            Map<String, String> props = response.readEntity(Map.class);
+            assertNotNull(props);
             assertFalse(props.isEmpty());
             assertEquals(System.getProperty("os.name"), props.get("os.name"), "The system property for the local and remote JVM should match");
         }
