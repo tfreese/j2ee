@@ -30,6 +30,19 @@
         <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
     </scm>
 
+    <developers>
+        <developer>
+            <id>tfreese</id>
+            <name>Thomas Freese</name>
+            <url>${project.organization.url}</url>
+            <roles>
+                <role>developer</role>
+                <role>architect</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+
     <modules>
         <module>agentportal</module>
         <module>cloudsessions</module>
