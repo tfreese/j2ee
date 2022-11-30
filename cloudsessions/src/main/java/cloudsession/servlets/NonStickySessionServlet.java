@@ -39,9 +39,52 @@ public class NonStickySessionServlet extends HttpServlet
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private transient final CloudSession cloudSession;
+    static String formatDate(final long creationTime)
+    {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(creationTime);
 
-    private transient final Logger logger = LoggerFactory.getLogger(getClass());
+        return gc.getTime().toString();
+    }
+
+    static StringBuilder printHeaders(HttpServletRequest request)
+    {
+        Enumeration<?> names = request.getHeaderNames();
+        StringBuilder html = new StringBuilder();
+        html.append("<table>\n");
+        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Headers</th></tr>\n");
+
+        while (names.hasMoreElements())
+        {
+            String nextName = (String) names.nextElement();
+            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
+        }
+
+        html.append("</table>\n");
+
+        return html;
+    }
+
+    static StringBuilder printParameters(HttpServletRequest request)
+    {
+        Enumeration<?> names = request.getParameterNames();
+        StringBuilder html = new StringBuilder();
+        html.append("<table>\n");
+        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
+
+        while (names.hasMoreElements())
+        {
+            String nextName = (String) names.nextElement();
+            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
+        }
+
+        html.append("</table>\n");
+
+        return html;
+    }
+
+    private final transient CloudSession cloudSession;
+    private final transient Logger logger = LoggerFactory.getLogger(getClass());
 
     public NonStickySessionServlet()
     {
@@ -155,49 +198,5 @@ public class NonStickySessionServlet extends HttpServlet
         {
             this.logger.error(ex.getMessage(), ex);
         }
-    }
-
-    private String formatDate(final long creationTime)
-    {
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTimeInMillis(creationTime);
-
-        return gc.getTime().toString();
-    }
-
-    private StringBuilder printHeaders(HttpServletRequest request)
-    {
-        Enumeration<?> names = request.getHeaderNames();
-        StringBuilder html = new StringBuilder();
-        html.append("<table>\n");
-        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Headers</th></tr>\n");
-
-        while (names.hasMoreElements())
-        {
-            String nextName = (String) names.nextElement();
-            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
-        }
-
-        html.append("</table>\n");
-
-        return html;
-    }
-
-    private StringBuilder printParameters(HttpServletRequest request)
-    {
-        Enumeration<?> names = request.getParameterNames();
-        StringBuilder html = new StringBuilder();
-        html.append("<table>\n");
-        html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
-
-        while (names.hasMoreElements())
-        {
-            String nextName = (String) names.nextElement();
-            html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
-        }
-
-        html.append("</table>\n");
-
-        return html;
     }
 }

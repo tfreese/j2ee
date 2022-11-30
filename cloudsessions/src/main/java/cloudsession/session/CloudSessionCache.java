@@ -15,7 +15,7 @@ public class CloudSessionCache implements CloudSession
 {
     public static final String TIMEOUT = "timeout";
 
-    private static boolean timeoutReached(final Long timeout)
+    private static boolean isTimeoutReached(final Long timeout)
     {
         if (timeout != null)
         {
@@ -57,7 +57,7 @@ public class CloudSessionCache implements CloudSession
 
             return checkValueInCloudAndUpdateLocal(sessionID, name, null);
         }
-        else if (timeoutReached(Optional.ofNullable(entry.get(TIMEOUT)).map(Long::valueOf).orElse(null)))
+        else if (isTimeoutReached(Optional.ofNullable(entry.get(TIMEOUT)).map(Long::valueOf).orElse(null)))
         {
             this.logger.info("entry [{}] has timeout -> check if present in cloud!", sessionID);
 
