@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 public class MyRestService
 {
     /**
-     * http://localhost:9080/liberty-rest/liberty/service/properties
+     * http://localhost:9080/liberty-rest/my-liberty/service/properties
      */
     @GET
     @Path("properties")

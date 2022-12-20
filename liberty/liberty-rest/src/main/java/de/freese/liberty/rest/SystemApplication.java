@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.Application;
  *
  * @author Thomas Freese
  */
-@ApplicationPath("liberty")
+@ApplicationPath("my-liberty")
 public class SystemApplication extends Application
 {
 }

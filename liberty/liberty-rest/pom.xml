@@ -22,9 +22,6 @@
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
         <warContext>${project.artifactId}</warContext>
-
-        <!-- Für die jakarta Variante -->
-        <jersey.version>3.0.8</jersey.version>
     </properties>
 
     <build>
@@ -51,7 +48,7 @@
                     <!--                        <type>zip</type>-->
                     <!--                    </assemblyArtifact>-->
                     <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
-                    <serverName>rest</serverName>
+                    <serverName>${project.artifactId}</serverName>
                     <stripVersion>true</stripVersion>
                     <appsDirectory>apps</appsDirectory>
                     <configDirectory>${liberty.configDirectory}/wl_config</configDirectory>
@@ -127,12 +124,12 @@
         </dependency>
 
         <!-- test scope -->
-        <!-- Implementierung für jakarta.ws.rs.client -->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Implementation for jakarta.ws.rs.client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
@@ -148,7 +145,6 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
