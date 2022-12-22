@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import jakarta.persistence.SharedCacheMode;
@@ -33,12 +34,15 @@ public abstract class AbstractTest
 
     protected static Map<String, Object> getHibernateConfig()
     {
+        //        long id = System.nanoTime();
+        String id = UUID.randomUUID().toString();
+
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:test;shutdown=true");
+        hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:" + id + ";shutdown=true");
         hikariConfig.setUsername("sa");
         hikariConfig.setPassword("");
-        hikariConfig.setPoolName("hikari-hsqldb");
+        hikariConfig.setPoolName("hikari-" + id);
         hikariConfig.setMinimumIdle(1);
         hikariConfig.setMaximumPoolSize(8);
         hikariConfig.setAutoCommit(false);
