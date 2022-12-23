@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Alles was mit J2EE Technologien zu tun hat.</description>
+    <description>All J2EE related things.</description>
     <url>https://github.com/tfreese/j2ee</url>
     <inceptionYear>2011</inceptionYear>
 
@@ -65,13 +65,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-bom</artifactId>
-                <version>${version_jakarta.platform}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>jakarta.platform</groupId>-->
+            <!--                <artifactId>jakarta.jakartaee-bom</artifactId>-->
+            <!--                <version>${version_jakarta.platform}</version>-->
+            <!--                <scope>import</scope>-->
+            <!--                <type>pom</type>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>io.awspring.cloud</groupId>
@@ -80,7 +80,7 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            
+
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
