@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Properties;
 
-import de.freese.agentportal.common.service.ISecretNewsService;
 import jakarta.ejb.EJB;
 import jakarta.ejb.embeddable.EJBContainer;
+
+import de.freese.agentportal.common.service.ISecretNewsService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ class TestEjb
      * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
-    static void BeforeAll() throws Exception
+    static void beforeAll() throws Exception
     {
         Properties props = new Properties();
         // props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.openejb.client.LocalInitialContextFactory");

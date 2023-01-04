@@ -33,12 +33,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJPA extends AbstractTest
 {
-    private static EntityManagerFactory ENTITYMANAGERFACTORY;
+    private static EntityManagerFactory entityManagerFactory;
 
     @AfterAll
     static void afterAll()
     {
-        ENTITYMANAGERFACTORY.close();
+        entityManagerFactory.close();
     }
 
     @BeforeAll
@@ -51,7 +51,7 @@ class TestJPA extends AbstractTest
         // resources/META-INF/persistence.xml
         try
         {
-            ENTITYMANAGERFACTORY = Persistence.createEntityManagerFactory("de.freese.test", config);
+            entityManagerFactory = Persistence.createEntityManagerFactory("de.freese.test", config);
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ class TestJPA extends AbstractTest
     @Test
     public void test010Insert()
     {
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
         List<Person> persons = createPersons();
@@ -86,7 +86,7 @@ class TestJPA extends AbstractTest
     @Test
     public void test020SelectAll()
     {
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         // entityManager.getTransaction().begin();
 
         Query query;
@@ -113,7 +113,7 @@ class TestJPA extends AbstractTest
     {
         String vorname = "Vorname1";
 
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         // entityManager.getTransaction().begin();
 
         Query query;
@@ -142,7 +142,7 @@ class TestJPA extends AbstractTest
     {
         List<Person> persons = new ArrayList<>();
 
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
 
         // entityManager.getTransaction().begin();
@@ -186,7 +186,7 @@ class TestJPA extends AbstractTest
     @Test
     void test6Projection()
     {
-        EntityManager entityManager = ENTITYMANAGERFACTORY.createEntityManager();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         // entityManager.getTransaction().begin();
 
         StringBuilder hql = new StringBuilder();
@@ -218,7 +218,7 @@ class TestJPA extends AbstractTest
     @Test
     void test99Statistics()
     {
-        dumpStatistics(System.out, (SessionFactoryImpl) ENTITYMANAGERFACTORY);
+        dumpStatistics(System.out, (SessionFactoryImpl) entityManagerFactory);
 
         assertTrue(true);
     }

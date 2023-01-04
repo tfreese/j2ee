@@ -33,12 +33,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHibernate extends AbstractTest
 {
-    private static SessionFactory SESSIONFACTORY;
+    private static SessionFactory sessionFactory;
 
     @AfterAll
     static void afterAll()
     {
-        SESSIONFACTORY.close();
+        sessionFactory.close();
     }
 
     @BeforeAll
@@ -52,11 +52,11 @@ class TestHibernate extends AbstractTest
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
         metadataSources.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
         //        metadataSources.addResource("META-INF/orm.xml");
- 
+
         try
         {
             Metadata metadata = metadataSources.buildMetadata();
-            SESSIONFACTORY = metadata.getSessionFactoryBuilder().build();
+            sessionFactory = metadata.getSessionFactoryBuilder().build();
         }
         catch (Exception ex)
         {
@@ -75,7 +75,7 @@ class TestHibernate extends AbstractTest
     @Test
     public void test010Insert()
     {
-        try (Session session = SESSIONFACTORY.openSession())
+        try (Session session = sessionFactory.openSession())
         {
             session.beginTransaction();
 
@@ -106,7 +106,7 @@ class TestHibernate extends AbstractTest
     @Test
     public void test020SelectAll()
     {
-        try (Session session = SESSIONFACTORY.openSession())
+        try (Session session = sessionFactory.openSession())
         {
             // session.beginTransaction();
 
@@ -134,7 +134,7 @@ class TestHibernate extends AbstractTest
     {
         String vorname = "Vorname1";
 
-        try (Session session = SESSIONFACTORY.openSession())
+        try (Session session = sessionFactory.openSession())
         {
             // session.beginTransaction();
 
@@ -162,7 +162,7 @@ class TestHibernate extends AbstractTest
     @Test
     public void test040NativeQuery()
     {
-        try (Session session = SESSIONFACTORY.openSession())
+        try (Session session = sessionFactory.openSession())
         {
             // session.beginTransaction();
 
@@ -217,7 +217,7 @@ class TestHibernate extends AbstractTest
     @Test
     void test060Projection()
     {
-        try (Session session = SESSIONFACTORY.openSession())
+        try (Session session = sessionFactory.openSession())
         {
             StringBuilder hql = new StringBuilder();
             hql.append("select");
@@ -246,7 +246,7 @@ class TestHibernate extends AbstractTest
     @Test
     void test099Statistics()
     {
-        dumpStatistics(System.out, SESSIONFACTORY);
+        dumpStatistics(System.out, sessionFactory);
 
         assertTrue(true);
     }
