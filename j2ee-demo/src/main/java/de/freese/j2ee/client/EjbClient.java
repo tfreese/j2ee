@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class EjbClient
+public final class EjbClient
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(EjbClient.class);
 
@@ -38,5 +38,10 @@ public class EjbClient
         {
             LOGGER.info("{}", kunde);
         }
+    }
+
+    private EjbClient()
+    {
+        super();
     }
 }

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class RestClient
+public final class RestClient
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 
@@ -173,5 +173,10 @@ public class RestClient
         LOGGER.info("Location: {}", connection.getHeaderField("Location"));
 
         connection.disconnect();
+    }
+
+    private RestClient()
+    {
+        super();
     }
 }
