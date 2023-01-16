@@ -76,7 +76,7 @@ public class Person implements Serializable
     @OrderBy("street desc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
-    private final List<Address> addresses = new ArrayList<>();
+    private transient final List<Address> addresses = new ArrayList<>();
     /**
      * , columnDefinition="Decimal(10,2) default '100.00'"
      */

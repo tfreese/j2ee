@@ -185,7 +185,7 @@ class TestHibernate extends AbstractTest
             List<Person> persons = nativeQuery1.getResultList();
             assertEquals(3, persons.size());
 
-            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
+            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc", Address.class);
             //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
             nativeQuery2.setTupleTransformer((tuple, aliases) ->
