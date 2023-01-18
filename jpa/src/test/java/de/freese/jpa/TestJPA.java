@@ -66,17 +66,18 @@ class TestJPA extends AbstractTest
     @Test
     public void test010Insert()
     {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
+        {
+            entityManager.getTransaction().begin();
 
-        List<Person> persons = createPersons();
-        persons.forEach(entityManager::persist);
+            List<Person> persons = createPersons();
+            persons.forEach(entityManager::persist);
 
-        validateTest1Insert(persons);
+            validateTest1Insert(persons);
 
-        entityManager.flush(); // ohne flush kein insert
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            entityManager.flush(); // ohne flush kein insert
+            entityManager.getTransaction().commit();
+        }
     }
 
     /**
@@ -86,22 +87,23 @@ class TestJPA extends AbstractTest
     @Test
     public void test020SelectAll()
     {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        // entityManager.getTransaction().begin();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
+        {
+            // entityManager.getTransaction().begin();
 
-        Query query;
-        // Caching aktiviert in Person Definition
-        query = entityManager.createNamedQuery("allPersons");
-        // Caching muss explizit aktiviert werden
-        // query = entityManager.createQuery("from Person order by id asc");
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
+            Query query;
+            // Caching aktiviert in Person Definition
+            query = entityManager.createNamedQuery("allPersons");
+            // Caching muss explizit aktiviert werden
+            // query = entityManager.createQuery("from Person order by id asc");
+            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
-        List<Person> persons = query.getResultList();
+            List<Person> persons = query.getResultList();
 
-        validateTest2SelectAll(persons);
+            validateTest2SelectAll(persons);
 
-        // entityManager.getTransaction().commit();
-        entityManager.close();
+            // entityManager.getTransaction().commit();
+        }
     }
 
     /**
@@ -113,24 +115,25 @@ class TestJPA extends AbstractTest
     {
         String vorname = "Vorname1";
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        // entityManager.getTransaction().begin();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
+        {
+            // entityManager.getTransaction().begin();
 
-        Query query;
-        // Caching aktiviert in Person Definition
-        query = entityManager.createNamedQuery("personByVorname");
-        // Caching muss explizit aktiviert werden
-        // query = entityManager.createQuery("from Person where vorname=:vorname order by name asc");
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
+            Query query;
+            // Caching aktiviert in Person Definition
+            query = entityManager.createNamedQuery("personByVorname");
+            // Caching muss explizit aktiviert werden
+            // query = entityManager.createQuery("from Person where vorname=:vorname order by name asc");
+            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
-        query.setParameter("vorname", vorname);
+            query.setParameter("vorname", vorname);
 
-        Person person = (Person) query.getSingleResult();
+            Person person = (Person) query.getSingleResult();
 
-        validateTest3SelectVorname(Arrays.asList(person), vorname);
+            validateTest3SelectVorname(Arrays.asList(person), vorname);
 
-        // entityManager.getTransaction().commit();
-        entityManager.close();
+            // entityManager.getTransaction().commit();
+        }
     }
 
     /**
@@ -142,77 +145,79 @@ class TestJPA extends AbstractTest
     {
         List<Person> persons = new ArrayList<>();
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
-
-        // entityManager.getTransaction().begin();
-        // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
-        // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
-        // !!! Kein Caching bei Native-Queries !!!
-        TypedQuery<Object[]> typedQuery = entityManager.createNamedQuery("allPersons.native", Object[].class);
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
-
-        List<Object[]> rows = typedQuery.getResultList();
-        rows.forEach(row ->
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
         {
-            Person person = new Person((String) row[1], (String) row[2]);
-            person.setID((long) row[0]);
+            // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
 
-            persons.add(person);
-        });
+            // entityManager.getTransaction().begin();
+            // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
+            // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
+            // !!! Kein Caching bei Native-Queries !!!
+            TypedQuery<Object[]> typedQuery = entityManager.createNamedQuery("allPersons.native", Object[].class);
+            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
 
-        Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :person_id order by street desc");
-        // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
-
-        for (Person person : persons)
-        {
-            query.setParameter("person_id", person.getID());
-            rows = query.getResultList();
+            List<Object[]> rows = typedQuery.getResultList();
             rows.forEach(row ->
             {
-                Address address = new Address((String) row[1]);
-                address.setID((long) row[0]);
+                Person person = new Person((String) row[1], (String) row[2]);
+                person.setID((long) row[0]);
 
-                person.addAddress(address);
+                persons.add(person);
             });
+
+            Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
+            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
+
+            for (Person person : persons)
+            {
+                query.setParameter("personId", person.getID());
+                rows = query.getResultList();
+                rows.forEach(row ->
+                {
+                    Address address = new Address((String) row[1]);
+                    address.setID((long) row[0]);
+
+                    person.addAddress(address);
+                });
+            }
+
+            validateTest2SelectAll(persons);
+
+            // entityManager.getTransaction().commit();
         }
-
-        validateTest2SelectAll(persons);
-
-        // entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
     @Test
     void test6Projection()
     {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        // entityManager.getTransaction().begin();
-
-        StringBuilder hql = new StringBuilder();
-        hql.append("select");
-        hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
-        hql.append("p.id");
-        hql.append(", p.name");
-        hql.append(")");
-        hql.append(" from Person p");
-        hql.append(" order by p.name asc");
-
-        TypedQuery<MyProjectionDTO> query = entityManager.createQuery(hql.toString(), MyProjectionDTO.class);
-        List<MyProjectionDTO> result = query.getResultList();
-
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-
-        for (int i = 1; i <= result.size(); i++)
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
         {
-            MyProjectionDTO dto = result.get(i - 1);
+            // entityManager.getTransaction().begin();
 
-            assertEquals("Name" + i, dto.getName());
+            StringBuilder hql = new StringBuilder();
+            hql.append("select");
+            hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
+            hql.append("p.id");
+            hql.append(", p.name");
+            hql.append(")");
+            hql.append(" from Person p");
+            hql.append(" order by p.name asc");
+
+            TypedQuery<MyProjectionDTO> query = entityManager.createQuery(hql.toString(), MyProjectionDTO.class);
+            List<MyProjectionDTO> result = query.getResultList();
+
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
+
+            for (int i = 1; i <= result.size(); i++)
+            {
+                MyProjectionDTO dto = result.get(i - 1);
+
+                assertEquals("Name" + i, dto.getName());
+            }
+
+            // entityManager.getTransaction().commit();
         }
-
-        // entityManager.getTransaction().commit();
-        entityManager.close();
     }
 
     @Test

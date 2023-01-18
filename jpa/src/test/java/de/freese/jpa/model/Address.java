@@ -57,7 +57,7 @@ public class Address implements Serializable
     private long id = -1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PERSON"), nullable = false)
+    @JoinColumn(name = "PERSON_ID", foreignKey = @ForeignKey(name = "FK_PERSON"), nullable = false, referencedColumnName = "ID")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
     private Person person;
 
@@ -116,7 +116,7 @@ public class Address implements Serializable
         {
             builder.append(", person=").append(this.person.getID());
         }
-        
+
         builder.append("]");
 
         return builder.toString();
@@ -128,7 +128,7 @@ public class Address implements Serializable
     @PrePersist
     void preInsert()
     {
-        // TODO
+        // TODO preInsert
         System.out.println("Address.preInsert()");
     }
 
