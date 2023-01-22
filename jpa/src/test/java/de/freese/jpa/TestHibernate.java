@@ -111,14 +111,12 @@ class TestHibernate extends AbstractTest
         {
             // session.beginTransaction();
 
-            Query<Person> query;
-            // Caching aktiviert in Person Definition
-            query = session.createNamedQuery("allPersons", Person.class);
             // Caching muss explizit aktiviert werden
-            // query = session.createQuery("from Person order by id asc");
-            // query.setCacheable(true).setCacheRegion("person");
+            // List<Person> persons = session.createQuery("from Person order by id asc")
+            // .setCacheable(true).setCacheRegion("person").getResultList();
 
-            List<Person> persons = query.getResultList();
+            // Caching aktiviert in Person Definition
+            List<Person> persons = session.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
 
@@ -139,16 +137,12 @@ class TestHibernate extends AbstractTest
         {
             // session.beginTransaction();
 
-            // Caching aktiviert in Person Definition
-            Query<Person> query;
-            query = session.createNamedQuery("personByVorname", Person.class);
             // Caching muss explizit aktiviert werden
-            // query = session.createQuery("from Person where vorname=:vorname order by name asc");
-            // query.setCacheable(true).setCacheRegion("person");
+            // Person person = session.createQuery("from Person where vorname=:vorname order by name asc")
+            // .setCacheable(true).setCacheRegion("person").getSingleResult();
 
-            query.setParameter("vorname", vorname);
-
-            Person person = query.getSingleResult();
+            // Caching aktiviert in Person Definition
+            Person person = session.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
 
@@ -181,10 +175,8 @@ class TestHibernate extends AbstractTest
                     });
 
             // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
-            NativeQuery<Person> nativeQuery1 = query.unwrap(NativeQuery.class);
-            nativeQuery1.addSynchronizedQuerySpace("T_PERSON");
+            List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
 
-            List<Person> persons = nativeQuery1.getResultList();
             assertNotNull(persons);
             assertEquals(3, persons.size());
 
@@ -201,9 +193,7 @@ class TestHibernate extends AbstractTest
 
             persons.forEach(person ->
             {
-                nativeQuery2.setParameter("personId", person.getID(), Long.class);
-
-                List<Address> addresses = nativeQuery2.getResultList();
+                List<Address> addresses = nativeQuery2.setParameter("personId", person.getID(), Long.class).getResultList();
 
                 addresses.forEach(address ->
                 {
@@ -231,8 +221,7 @@ class TestHibernate extends AbstractTest
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            Query<MyProjectionDTO> query = session.createQuery(hql.toString(), MyProjectionDTO.class);
-            List<MyProjectionDTO> result = query.getResultList();
+            List<MyProjectionDTO> result = session.createQuery(hql.toString(), MyProjectionDTO.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());

@@ -15,7 +15,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionDTO;
@@ -91,14 +90,12 @@ class TestJPA extends AbstractTest
         {
             // entityManager.getTransaction().begin();
 
-            Query query;
-            // Caching aktiviert in Person Definition
-            query = entityManager.createNamedQuery("allPersons");
             // Caching muss explizit aktiviert werden
-            // query = entityManager.createQuery("from Person order by id asc");
-            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
+            // List<Person> persons = entityManager.createQuery("from Person order by id asc")
+            // .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getResultList();
 
-            List<Person> persons = query.getResultList();
+            // Caching aktiviert in Person Definition
+            List<Person> persons = entityManager.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
 
@@ -119,16 +116,12 @@ class TestJPA extends AbstractTest
         {
             // entityManager.getTransaction().begin();
 
-            Query query;
             // Caching aktiviert in Person Definition
-            query = entityManager.createNamedQuery("personByVorname");
+            Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
+
             // Caching muss explizit aktiviert werden
-            // query = entityManager.createQuery("from Person where vorname=:vorname order by name asc");
-            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
-
-            query.setParameter("vorname", vorname);
-
-            Person person = (Person) query.getSingleResult();
+            // Person person = entityManager.createQuery("from Person where vorname=:vorname order by name asc", Person.class)
+            // setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
 
@@ -153,10 +146,10 @@ class TestJPA extends AbstractTest
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
             // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
             // !!! Kein Caching bei Native-Queries !!!
-            TypedQuery<Object[]> typedQuery = entityManager.createNamedQuery("allPersons.native", Object[].class);
-            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person");
+            List<Object[]> rows = entityManager.createNamedQuery("allPersons.native", Object[].class)
+                    //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
+                    .getResultList();
 
-            List<Object[]> rows = typedQuery.getResultList();
             rows.forEach(row ->
             {
                 Person person = new Person((String) row[1], (String) row[2]);
@@ -170,8 +163,8 @@ class TestJPA extends AbstractTest
 
             for (Person person : persons)
             {
-                query.setParameter("personId", person.getID());
-                rows = query.getResultList();
+                rows = query.setParameter("personId", person.getID()).getResultList();
+
                 rows.forEach(row ->
                 {
                     Address address = new Address((String) row[1]);
@@ -203,8 +196,7 @@ class TestJPA extends AbstractTest
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            TypedQuery<MyProjectionDTO> query = entityManager.createQuery(hql.toString(), MyProjectionDTO.class);
-            List<MyProjectionDTO> result = query.getResultList();
+            List<MyProjectionDTO> result = entityManager.createQuery(hql.toString(), MyProjectionDTO.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());

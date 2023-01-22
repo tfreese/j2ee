@@ -23,7 +23,7 @@ public final class Utils
     {
         Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> lookupBean(type));
 
-        return (T) bean;
+        return type.cast(bean);
     }
 
     public static <T> T inject(final Class<T> type)
@@ -36,10 +36,10 @@ public final class Utils
             return bm.getReference(b, type, bm.createCreationalContext(b));
         });
 
-        return (T) bean;
+        return type.cast(bean);
     }
 
-    public static <T> T lookup(final String jndiName)
+    public static <T> T lookup(final String jndiName, final Class<T> type)
     {
         Object object = null;
 
@@ -54,12 +54,12 @@ public final class Utils
             throw new RuntimeException(nex);
         }
 
-        return (T) object;
+        return type.cast(object);
     }
 
     private static <T> T lookupBean(final Class<T> type)
     {
-        return lookup("java:module/" + type.getSimpleName());
+        return lookup("java:module/" + type.getSimpleName(), type);
     }
 
     private Utils()

@@ -63,7 +63,7 @@ public class MyRestFacade extends AbstractBean
         {
             try
             {
-                this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
+                this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService", MyService.class);
                 // this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
                 // this.serviceBean = Utils.ejb(MyServiceBean.class);
             }

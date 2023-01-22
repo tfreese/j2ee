@@ -11,7 +11,6 @@ import jakarta.ejb.TransactionAttribute;
 import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import jakarta.transaction.UserTransaction;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -66,9 +65,9 @@ public class RestService
     {
         LOGGER.info("id = {}", id);
 
-        Query query = this.entityManager.createQuery("delete from Kunde where id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        this.entityManager.createQuery("delete from Kunde where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
     }
 
     @GET
@@ -81,9 +80,7 @@ public class RestService
     {
         LOGGER.info("");
 
-        Query query = this.entityManager.createQuery("select k from Kunde k");
-
-        return query.getResultList();
+        return this.entityManager.createQuery("select k from Kunde k", Kunde.class).getResultList();
     }
 
     @GET
@@ -98,10 +95,8 @@ public class RestService
     {
         LOGGER.info("id = {}", id);
 
-        Query query = this.entityManager.createQuery("select k from Kunde k where k.id = :id");
-        query.setParameter("id", id);
-
-        List<Kunde> kunden = query.getResultList();
+        List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).
+                setParameter("id", id).getResultList();
 
         if (kunden.size() == 1)
         {
