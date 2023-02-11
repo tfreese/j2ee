@@ -17,23 +17,22 @@ import jakarta.persistence.SharedCacheMode;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.Person;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.Person;
+
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractTest
-{
+public abstract class AbstractTest {
     protected static final Logger LOGGER = LoggerFactory.getLogger("TestLogger");
 
-    protected static Map<String, Object> getHibernateConfig()
-    {
+    protected static Map<String, Object> getHibernateConfig() {
         //        long id = System.nanoTime();
         String id = UUID.randomUUID().toString();
 
@@ -71,8 +70,7 @@ public abstract class AbstractTest
         // Logger 'org.hibernate.type.descriptor.sql.BasicBinder' auf TRACE für Parameter in Prepared-Statements.
         // config.put(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
-        config.put(AvailableSettings.GENERATE_STATISTICS,
-                Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
+        config.put(AvailableSettings.GENERATE_STATISTICS, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
 
         // Caching
         // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory");
@@ -119,17 +117,14 @@ public abstract class AbstractTest
 
     public abstract void test040NativeQuery();
 
-    protected List<Person> createPersons()
-    {
+    protected List<Person> createPersons() {
         List<Person> persons = new ArrayList<>();
 
-        for (int i = 1; i <= 3; i++)
-        {
+        for (int i = 1; i <= 3; i++) {
             Person person = new Person("Name" + i, "Vorname" + i);
             persons.add(person);
 
-            for (int j = 1; j <= 3; j++)
-            {
+            for (int j = 1; j <= 3; j++) {
                 Address address = new Address("Street" + i + "" + j);
                 person.addAddress(address);
             }
@@ -138,8 +133,7 @@ public abstract class AbstractTest
         return persons;
     }
 
-    protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory)
-    {
+    protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory) {
         // if (System.out == ps)
         // {
         // // Erst mal deaktiviert
@@ -160,8 +154,7 @@ public abstract class AbstractTest
         // Globaler 2nd lvl Cache
         double hitRatio = 0;
 
-        if ((stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount()) > 0)
-        {
+        if ((stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount()) > 0) {
             hitRatio = stats.getSecondLevelCacheHitCount() / (stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount());
         }
 
@@ -172,8 +165,7 @@ public abstract class AbstractTest
         // Globaler Query Cache
         hitRatio = 0;
 
-        if ((stats.getQueryCacheHitCount() + stats.getQueryCacheMissCount()) > 0)
-        {
+        if ((stats.getQueryCacheHitCount() + stats.getQueryCacheMissCount()) > 0) {
             hitRatio = stats.getQueryCacheHitCount() / (stats.getQueryCacheHitCount() + stats.getQueryCacheMissCount());
         }
 
@@ -204,8 +196,7 @@ public abstract class AbstractTest
 
         ps.println();
         ps.println("QueryRegionStatistics");
-        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s ->
-        {
+        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s -> {
 
             long hitCount = s.getHitCount();
             long missCount = s.getMissCount();
@@ -242,17 +233,14 @@ public abstract class AbstractTest
         ps.println();
     }
 
-    protected void validateTest1Insert(final List<Person> persons)
-    {
-        for (int i = 0; i < persons.size(); i++)
-        {
+    protected void validateTest1Insert(final List<Person> persons) {
+        for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);
 
             assertEquals(1 + i, person.getID());
             assertEquals(3, person.getAddresses().size());
 
-            for (int j = 0; j < person.getAddresses().size(); j++)
-            {
+            for (int j = 0; j < person.getAddresses().size(); j++) {
                 Address address = person.getAddresses().get(j);
 
                 long addressIdExpected = ((person.getID() - 1) * person.getAddresses().size()) + j + 1;
@@ -262,13 +250,11 @@ public abstract class AbstractTest
         }
     }
 
-    protected void validateTest2SelectAll(final List<Person> persons)
-    {
+    protected void validateTest2SelectAll(final List<Person> persons) {
         assertNotNull(persons);
         assertEquals(3, persons.size());
 
-        for (int i = 0; i < persons.size(); i++)
-        {
+        for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);
             LOGGER.info(person.toString());
 
@@ -282,8 +268,7 @@ public abstract class AbstractTest
         }
     }
 
-    protected void validateTest3SelectVorname(final List<Person> persons, final String vorname)
-    {
+    protected void validateTest3SelectVorname(final List<Person> persons, final String vorname) {
         assertNotNull(persons);
         assertEquals(1, persons.size());
 

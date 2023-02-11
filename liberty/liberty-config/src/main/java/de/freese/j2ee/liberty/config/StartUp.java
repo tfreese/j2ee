@@ -22,8 +22,7 @@ import de.freese.j2ee.liberty.config.service.MyService;
 @Startup
 @Singleton
 @LocalBean
-public class StartUp extends AbstractBean
-{
+public class StartUp extends AbstractBean {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
 
@@ -41,87 +40,68 @@ public class StartUp extends AbstractBean
      */
     @Override
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         super.postConstruct();
 
         query(this.dataSource, "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
 
-        try
-        {
+        try {
             getLogger().info("Sysdate: {}", this.serviceBean.getSysDate());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
-        if (this.noViewBean == null)
-        {
+        if (this.noViewBean == null) {
             getLogger().warn("NoViewBean is null, try ejb lookup with java:module/TestBean");
 
-            try
-            {
+            try {
                 this.noViewBean = Utils.ejb(NoViewBean.class);
 
-                if (this.noViewBean != null)
-                {
+                if (this.noViewBean != null) {
                     getLogger().warn("NoViewBean lookup successfull");
                 }
             }
-            catch (RuntimeException rex)
-            {
+            catch (RuntimeException rex) {
                 getLogger().error(rex.getMessage());
             }
         }
 
-        if (this.noViewBean == null)
-        {
+        if (this.noViewBean == null) {
             getLogger().warn("NoViewBean is null, try inject lookup");
 
-            try
-            {
+            try {
                 this.noViewBean = Utils.inject(NoViewBean.class);
 
-                if (this.noViewBean != null)
-                {
+                if (this.noViewBean != null) {
                     getLogger().warn("NoViewBean lookup successfull");
                 }
             }
-            catch (RuntimeException rex)
-            {
+            catch (RuntimeException rex) {
                 getLogger().error(rex.getMessage());
             }
         }
 
-        try
-        {
+        try {
             getLogger().info("NoViewBean: {}", this.noViewBean.getValue());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage());
         }
     }
 
-    private void query(final DataSource dataSource, final String sql)
-    {
-        try
-        {
+    private void query(final DataSource dataSource, final String sql) {
+        try {
             int value = 0;
 
-            try (Connection con = dataSource.getConnection();
-                 Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery(sql))
-            {
+            try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 rs.next();
                 value = rs.getInt(1);
             }
 
             getLogger().info("Value: {}", value);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }

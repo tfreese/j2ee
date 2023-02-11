@@ -7,7 +7,6 @@ import java.util.Set;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface UsageLogMBean
-{
+public interface UsageLogMBean {
     Set<String> getParameters();
 }

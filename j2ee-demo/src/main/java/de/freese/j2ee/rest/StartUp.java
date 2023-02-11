@@ -12,9 +12,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
-import de.freese.j2ee.model.Kunde;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.j2ee.model.Kunde;
 
 /**
  * @author Thomas Freese
@@ -22,8 +23,7 @@ import org.slf4j.LoggerFactory;
 @Startup
 @Singleton
 @LocalBean
-public class StartUp
-{
+public class StartUp {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
 
     @PersistenceContext(unitName = "j2eeJPA")
@@ -31,15 +31,13 @@ public class StartUp
 
     @PostConstruct
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void myPostConstruct()
-    {
+    public void myPostConstruct() {
         StartUp.LOGGER.info("");
 
         Query query = this.entityManager.createQuery("select count(*) from Kunde");
         Number result = (Number) query.getSingleResult();
 
-        if (result.intValue() == 0)
-        {
+        if (result.intValue() == 0) {
             StartUp.LOGGER.info("fill DataBase");
 
             Kunde kunde = new Kunde();
@@ -51,8 +49,7 @@ public class StartUp
     }
 
     @PreDestroy
-    public void myPreDestroy()
-    {
+    public void myPreDestroy() {
         LOGGER.info("");
     }
 }

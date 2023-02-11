@@ -16,10 +16,8 @@ import de.freese.agentportal.common.model.SecretNews;
 /**
  * @author Thomas Freese
  */
-final class TestClientRest
-{
-    public static void main(final String[] args) throws Exception
-    {
+final class TestClientRest {
+    public static void main(final String[] args) throws Exception {
         // selectOne(1);
         // update(1, "Thomas Freese", "Update Test");
         selectAll();
@@ -28,8 +26,7 @@ final class TestClientRest
         selectAll();
     }
 
-    static void delete(final long oid) throws Exception
-    {
+    static void delete(final long oid) throws Exception {
         System.err.println("TestClientRest.delete()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
@@ -47,8 +44,7 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    static void insert(final String title, final String text) throws Exception
-    {
+    static void insert(final String title, final String text) throws Exception {
         System.err.println("TestClientRest.insert()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news?title=" + title + "&text=" + text);
@@ -59,8 +55,7 @@ final class TestClientRest
         // connection.setRequestProperty("Accept", "text/xml");
         // connection.setRequestProperty("Accept", "text/plain");
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
@@ -70,8 +65,7 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    static void selectAll() throws Exception
-    {
+    static void selectAll() throws Exception {
         System.err.println("TestClientRest.selectAll()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news");
@@ -80,8 +74,7 @@ final class TestClientRest
         // connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Accept", "text/xml");
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
@@ -91,8 +84,7 @@ final class TestClientRest
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line = reader.readLine();
 
-        while (line != null)
-        {
+        while (line != null) {
             System.out.println(line);
             line = reader.readLine();
         }
@@ -100,8 +92,7 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    static void selectOne(final long oid) throws Exception
-    {
+    static void selectOne(final long oid) throws Exception {
         System.err.println("TestClientRest.selectOne()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
@@ -110,30 +101,24 @@ final class TestClientRest
         // connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Accept", "text/xml");
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
         System.out.println("Content-Type = " + connection.getContentType());
         System.out.println("Location: " + connection.getHeaderField("Location"));
 
-        try (InputStream inputStream = connection.getInputStream())
-        {
+        try (InputStream inputStream = connection.getInputStream()) {
             JAXBContext context = JAXBContext.newInstance(SecretNews.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             SecretNews news = (SecretNews) unmarshaller.unmarshal(inputStream);
             System.out.println(news);
         }
 
-        try (InputStream inputStream = connection.getInputStream();
-             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader))
-        {
+        try (InputStream inputStream = connection.getInputStream(); InputStreamReader inputStreamReader = new InputStreamReader(inputStream); BufferedReader reader = new BufferedReader(inputStreamReader)) {
             String line = reader.readLine();
 
-            while (line != null)
-            {
+            while (line != null) {
                 System.out.println(line);
                 line = reader.readLine();
             }
@@ -142,8 +127,7 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    static void update(final long id, final String title, final String text) throws Exception
-    {
+    static void update(final long id, final String title, final String text) throws Exception {
         System.err.println("TestClientRest.update()");
 
         URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news");
@@ -153,15 +137,13 @@ final class TestClientRest
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "text/xml");
 
-        try (OutputStream out = connection.getOutputStream())
-        {
+        try (OutputStream out = connection.getOutputStream()) {
             String xml = "<secretNews id=\"" + id + "\"><securityLevel>1</securityLevel><title>" + title + "</title><text>" + text + "</text></secretNews>";
             out.write(xml.getBytes());
             out.flush();
         }
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Failed to update");
         }
 
@@ -171,8 +153,7 @@ final class TestClientRest
         connection.disconnect();
     }
 
-    private TestClientRest()
-    {
+    private TestClientRest() {
         super();
     }
 }

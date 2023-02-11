@@ -28,20 +28,13 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author Thomas Freese
  */
 @Entity
-@Table(name = "T_ADDRESS", schema = "PUBLIC", uniqueConstraints =
-        {
-                @UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames =
-                        {
-                                "PERSON_ID", "STREET"
-                        })
-        })
+@Table(name = "T_ADDRESS", schema = "PUBLIC", uniqueConstraints = {@UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames = {"PERSON_ID", "STREET"})})
 @DynamicInsert
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
 // @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
-public class Address implements Serializable
-{
+public class Address implements Serializable {
     @Serial
     private static final long serialVersionUID = 2678405627217507543L;
 
@@ -64,40 +57,33 @@ public class Address implements Serializable
     @Column(name = "STREET", length = 50, nullable = false)
     private String street;
 
-    public Address()
-    {
+    public Address() {
         super();
     }
 
-    public Address(final String street)
-    {
+    public Address(final String street) {
         super();
 
         setStreet(street);
     }
 
-    public long getID()
-    {
+    public long getID() {
         return this.id;
     }
 
-    public Person getPerson()
-    {
+    public Person getPerson() {
         return this.person;
     }
 
-    public String getStreet()
-    {
+    public String getStreet() {
         return this.street;
     }
 
-    public void setID(final long id)
-    {
+    public void setID(final long id) {
         this.id = id;
     }
 
-    public void setStreet(final String street)
-    {
+    public void setStreet(final String street) {
         this.street = street;
     }
 
@@ -105,15 +91,13 @@ public class Address implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Address [");
         builder.append("id=").append(this.id);
         builder.append(", street=").append(this.street);
 
-        if (this.person != null)
-        {
+        if (this.person != null) {
             builder.append(", person=").append(this.person.getID());
         }
 
@@ -126,14 +110,12 @@ public class Address implements Serializable
      * PreUpdate
      */
     @PrePersist
-    void preInsert()
-    {
+    void preInsert() {
         // TODO preInsert
         System.out.println("Address.preInsert()");
     }
 
-    void setPerson(final Person person)
-    {
+    void setPerson(final Person person) {
         this.person = person;
     }
 }

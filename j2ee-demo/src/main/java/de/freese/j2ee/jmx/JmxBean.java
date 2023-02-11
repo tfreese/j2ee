@@ -13,12 +13,8 @@ import jakarta.inject.Qualifier;
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-        {
-                ElementType.TYPE, ElementType.FIELD
-        })
-public @interface JmxBean
-{
+@Target({ElementType.TYPE, ElementType.FIELD})
+public @interface JmxBean {
     // @Nonbinding
     // public String objectName() default "";
 }

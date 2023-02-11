@@ -8,16 +8,16 @@ import java.util.Properties;
 import jakarta.ejb.EJB;
 import jakarta.ejb.embeddable.EJBContainer;
 
-import de.freese.agentportal.common.service.ISecretNewsService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import de.freese.agentportal.common.service.ISecretNewsService;
+
 /**
  * @author Thomas Freese
  */
-class TestEjb
-{
+class TestEjb {
     /**
      *
      */
@@ -27,10 +27,8 @@ class TestEjb
      *
      */
     @AfterAll
-    public static void afterAll()
-    {
-        if (container != null)
-        {
+    public static void afterAll() {
+        if (container != null) {
             container.close();
         }
     }
@@ -39,8 +37,7 @@ class TestEjb
      * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         Properties props = new Properties();
         // props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.openejb.client.LocalInitialContextFactory");
         props.setProperty("jdbc/agentPortal", "new://Resource?type=DataSource");
@@ -62,8 +59,7 @@ class TestEjb
      * @throws Exception Falls was schiefgeht.
      */
     @BeforeEach
-    void beforeEach() throws Exception
-    {
+    void beforeEach() throws Exception {
         // TODO container.getContext().bind("inject", this);
     }
 
@@ -71,8 +67,7 @@ class TestEjb
      *
      */
     @org.junit.jupiter.api.Test
-    void testService()
-    {
+    void testService() {
         // Was the EJB injected?
         // TODO assertTrue(this.service != null);
         assertTrue(true);

@@ -14,9 +14,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
-import de.freese.agentportal.common.model.SecretNews;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.agentportal.common.model.SecretNews;
 
 /**
  * @author Thomas Freese
@@ -24,8 +25,7 @@ import org.slf4j.LoggerFactory;
 @Startup
 @Singleton
 @LocalBean
-public class StartUp
-{
+public class StartUp {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartUp.class);
 
     // @Inject
@@ -35,15 +35,13 @@ public class StartUp
 
     @PostConstruct
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void myPostConstruct()
-    {
+    public void myPostConstruct() {
         LOGGER.info("");
 
         Query query = this.em.createQuery("select count(n.id) from SecretNews n");
         Number result = (Number) query.getSingleResult();
 
-        if (result.intValue() > 0)
-        {
+        if (result.intValue() > 0) {
             return;
         }
 
@@ -76,8 +74,7 @@ public class StartUp
     }
 
     @PreDestroy
-    public void myPreDestroy()
-    {
+    public void myPreDestroy() {
         LOGGER.info("");
     }
 }

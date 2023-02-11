@@ -12,13 +12,14 @@ import jakarta.ejb.TransactionAttributeType;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.common.service.ISecretNewsService;
 import de.freese.agentportal.server.cdi.AgentPortalEm;
 import de.freese.agentportal.server.dao.SecretNewsHighDao;
 import de.freese.agentportal.server.dao.SecretNewsLowDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -30,8 +31,7 @@ import org.slf4j.LoggerFactory;
 // {
 // "AgentPortalRoleHigh", "AgentPortalRoleLow"
 // })
-public class SecretNewsEjb implements ISecretNewsService
-{
+public class SecretNewsEjb implements ISecretNewsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsEjb.class);
 
     @Resource
@@ -60,8 +60,7 @@ public class SecretNewsEjb implements ISecretNewsService
     @Override
     // @RolesAllowed("AgentPortalRoleHigh")
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<SecretNews> getAllSecretNews4High()
-    {
+    public List<SecretNews> getAllSecretNews4High() {
         LOGGER.info("");
         logCallerInfo();
 
@@ -77,39 +76,32 @@ public class SecretNewsEjb implements ISecretNewsService
     // "AgentPortalRoleHigh", "AgentPortalRoleLow"
     // })
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public List<SecretNews> getAllSecretNews4Low()
-    {
+    public List<SecretNews> getAllSecretNews4Low() {
         LOGGER.info("");
         logCallerInfo();
 
         return this.daoLow.getNews();
     }
 
-    protected void logCallerInfo()
-    {
+    protected void logCallerInfo() {
         StringBuilder sb = new StringBuilder();
         sb.append("user=");
 
-        try
-        {
+        try {
             sb.append(this.context.getCallerPrincipal().getName());
             sb.append(", role=");
 
-            if (this.context.isCallerInRole("AgentPortalRoleHigh"))
-            {
+            if (this.context.isCallerInRole("AgentPortalRoleHigh")) {
                 sb.append("AgentPortalRoleHigh");
             }
-            else if (this.context.isCallerInRole("AgentPortalRoleLow"))
-            {
+            else if (this.context.isCallerInRole("AgentPortalRoleLow")) {
                 sb.append("AgentPortalRoleLow");
             }
-            else
-            {
+            else {
                 sb.append("<unknown>");
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             sb.append("<unknown>");
         }
 

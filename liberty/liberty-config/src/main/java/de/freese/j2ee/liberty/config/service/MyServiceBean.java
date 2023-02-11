@@ -24,8 +24,7 @@ import de.freese.j2ee.liberty.config.AbstractBean;
 @Stateless
 // @LocalBean
 // @Local(MyService.class)
-public class MyServiceBean extends AbstractBean implements MyService
-{
+public class MyServiceBean extends AbstractBean implements MyService {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
 
@@ -33,17 +32,13 @@ public class MyServiceBean extends AbstractBean implements MyService
      * @see de.freese.j2ee.liberty.config.service.MyService#getSysDate()
      */
     @Override
-    public Date getSysDate() throws SQLException
-    {
+    public Date getSysDate() throws SQLException {
         getLogger().info("getSysDate");
 
         String sql = "VALUES (CURRENT_DATE)";
         Date date = null;
 
-        try (Connection con = this.dataSource.getConnection();
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(sql))
-        {
+        try (Connection con = this.dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
             date = rs.getDate(1);
         }
@@ -55,8 +50,7 @@ public class MyServiceBean extends AbstractBean implements MyService
      * @see de.freese.j2ee.liberty.config.service.MyService#getSystemProperties()
      */
     @Override
-    public Map<String, String> getSystemProperties()
-    {
+    public Map<String, String> getSystemProperties() {
         getLogger().info("getSystemProperties");
 
         Map<String, String> map = new TreeMap<>();
@@ -72,12 +66,10 @@ public class MyServiceBean extends AbstractBean implements MyService
      */
     @Override
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         super.postConstruct();
 
-        if (this.dataSource == null)
-        {
+        if (this.dataSource == null) {
             getLogger().error("Datasource is null !");
         }
     }

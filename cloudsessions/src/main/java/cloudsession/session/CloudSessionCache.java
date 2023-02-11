@@ -11,14 +11,11 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class CloudSessionCache implements CloudSession
-{
+public class CloudSessionCache implements CloudSession {
     public static final String TIMEOUT = "timeout";
 
-    private static boolean isTimeoutReached(final Long timeout)
-    {
-        if (timeout != null)
-        {
+    private static boolean isTimeoutReached(final Long timeout) {
+        if (timeout != null) {
             return System.currentTimeMillis() > timeout;
         }
 
@@ -33,8 +30,7 @@ public class CloudSessionCache implements CloudSession
 
     private final long sessionLiveTime;
 
-    public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime)
-    {
+    public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime) {
         super();
 
         this.cloudSession = cloudSession;
@@ -45,26 +41,22 @@ public class CloudSessionCache implements CloudSession
      * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
-    public String getSessionValue(final String sessionID, final String name)
-    {
+    public String getSessionValue(final String sessionID, final String name) {
         // search in my cache
         Map<String, String> entry = this.cache.get(sessionID);
 
-        if (entry == null)
-        {
+        if (entry == null) {
             // if not found in cache ...
             this.logger.info("no entry [{},{}] found in memory cache!", sessionID, name);
 
             return checkValueInCloudAndUpdateLocal(sessionID, name, null);
         }
-        else if (isTimeoutReached(Optional.ofNullable(entry.get(TIMEOUT)).map(Long::valueOf).orElse(null)))
-        {
+        else if (isTimeoutReached(Optional.ofNullable(entry.get(TIMEOUT)).map(Long::valueOf).orElse(null))) {
             this.logger.info("entry [{}] has timeout -> check if present in cloud!", sessionID);
 
             return checkValueInCloudAndUpdateLocal(sessionID, name, entry);
         }
-        else
-        {
+        else {
             this.logger.info("entry [{},{}] found in memory cache!", sessionID, name);
         }
 
@@ -78,8 +70,7 @@ public class CloudSessionCache implements CloudSession
      * @see CloudSession#remove(java.lang.String)
      */
     @Override
-    public void remove(final String sessionID)
-    {
+    public void remove(final String sessionID) {
         this.cloudSession.remove(sessionID);
         this.cache.remove(sessionID);
     }
@@ -88,8 +79,7 @@ public class CloudSessionCache implements CloudSession
      * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void setSessionValue(final String sessionID, final String name, final String value)
-    {
+    public void setSessionValue(final String sessionID, final String name, final String value) {
         this.logger.info("setting entry [{},{},{}]", sessionID, name, value);
 
         Map<String, String> entry = this.cache.computeIfAbsent(sessionID, key -> new ConcurrentHashMap<>());
@@ -103,27 +93,22 @@ public class CloudSessionCache implements CloudSession
         renewTimeout(sessionID, entry);
     }
 
-    private String checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, String> entry)
-    {
+    private String checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, String> entry) {
         String cloudSessionValue = this.cloudSession.getSessionValue(sessionID, name);
 
-        if (cloudSessionValue != null)
-        {
+        if (cloudSessionValue != null) {
             this.logger.info("found value [{}] in persistent cache!", cloudSessionValue);
 
-            if (entry == null)
-            {
+            if (entry == null) {
                 // set local entry and update timeout in cloud
                 setSessionValue(sessionID, name, cloudSessionValue);
             }
-            else
-            {
+            else {
                 // renew all timeouts
                 renewTimeout(sessionID, entry);
             }
         }
-        else
-        {
+        else {
             // remove session information
             remove(sessionID);
         }
@@ -131,8 +116,7 @@ public class CloudSessionCache implements CloudSession
         return cloudSessionValue;
     }
 
-    private void renewTimeout(final String sessionID, final Map<String, String> entry)
-    {
+    private void renewTimeout(final String sessionID, final Map<String, String> entry) {
         // calculate new timeout
         String timeout = Long.toString(System.currentTimeMillis() + this.sessionLiveTime);
 

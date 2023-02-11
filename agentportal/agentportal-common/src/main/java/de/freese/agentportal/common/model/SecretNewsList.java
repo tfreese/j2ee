@@ -13,18 +13,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "newslist")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SecretNewsList
-{
+public class SecretNewsList {
     @XmlElement(required = true)
     private List<SecretNews> news;
 
-    public List<SecretNews> getNews()
-    {
+    public List<SecretNews> getNews() {
         return this.news;
     }
 
-    public void setNews(final List<SecretNews> news)
-    {
+    public void setNews(final List<SecretNews> news) {
         this.news = news;
     }
 }

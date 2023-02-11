@@ -22,11 +22,12 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.agentportal.common.model.SecretNews;
 import de.freese.agentportal.common.model.SecretNewsList;
 import de.freese.agentportal.server.cdi.Resources;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -39,8 +40,7 @@ import org.slf4j.LoggerFactory;
 // {
 // "AgentPortalRoleHigh", "AgentPortalRoleLow"
 // })
-public class SecretNewsRest
-{
+public class SecretNewsRest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecretNewsRest.class);
 
     @Context
@@ -56,8 +56,7 @@ public class SecretNewsRest
     @Path("/{id:\\d+}")
     // Nur Zahlen erlaubt.
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void delete(@PathParam("id") final long id)
-    {
+    public void delete(@PathParam("id") final long id) {
         LOGGER.info("");
         logCallerInfo();
 
@@ -72,8 +71,7 @@ public class SecretNewsRest
     @PUT
     @Consumes(MediaType.TEXT_PLAIN)
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void insert(@QueryParam("title") final String title, @QueryParam("text") final String text)
-    {
+    public void insert(@QueryParam("title") final String title, @QueryParam("text") final String text) {
         LOGGER.info("");
         logCallerInfo();
 
@@ -92,8 +90,7 @@ public class SecretNewsRest
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     // @RolesAllowed("AgentPortalRoleHigh")
-    public String newsAsString()
-    {
+    public String newsAsString() {
         LOGGER.info("");
         logCallerInfo();
 
@@ -101,8 +98,7 @@ public class SecretNewsRest
 
         StringBuilder sb = new StringBuilder();
 
-        for (SecretNews entity : news)
-        {
+        for (SecretNews entity : news) {
             sb.append(entity);
             sb.append("\n");
         }
@@ -115,13 +111,9 @@ public class SecretNewsRest
      */
     @SuppressWarnings("unchecked")
     @GET
-    @Produces(
-            {
-                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-            })
+    @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     // @RolesAllowed("AgentPortalRoleHigh")
-    public SecretNewsList newsAsXML()
-    {
+    public SecretNewsList newsAsXML() {
         LOGGER.info("");
         logCallerInfo();
 
@@ -139,15 +131,11 @@ public class SecretNewsRest
      * curl -X GET -H "Accept: application/json" localhost:8080/secretnews/rest/news/3
      */
     @GET
-    @Produces(
-            {
-                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML
-            })
+    @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{id:\\d+}")
     // Nur Zahlen erlaubt.
     // @RolesAllowed("AgentPortalRoleHigh")
-    public SecretNews newsAsXML(@PathParam("id") final long id)
-    {
+    public SecretNews newsAsXML(@PathParam("id") final long id) {
         LOGGER.info("");
         logCallerInfo();
 
@@ -159,18 +147,13 @@ public class SecretNewsRest
      * In den OutputStream: <secretNews id=\"1\"><title>CCC</title><text>DDD</text></secretNews>
      */
     @POST
-    @Consumes(
-            {
-                    MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON
-            })
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String update(final SecretNews news)
-    {
+    public String update(final SecretNews news) {
         LOGGER.info("");
         logCallerInfo();
 
-        if (news.getTimestamp() != null)
-        {
+        if (news.getTimestamp() != null) {
             news.setTimestamp(new Date());
         }
 
@@ -179,31 +162,25 @@ public class SecretNewsRest
         return "OK";
     }
 
-    private void logCallerInfo()
-    {
+    private void logCallerInfo() {
         StringBuilder sb = new StringBuilder();
         sb.append("user=");
 
-        try
-        {
+        try {
             sb.append(this.context.getUserPrincipal().getName());
             sb.append(", role=");
 
-            if (this.context.isUserInRole("AgentPortalRoleHigh"))
-            {
+            if (this.context.isUserInRole("AgentPortalRoleHigh")) {
                 sb.append("AgentPortalRoleHigh");
             }
-            else if (this.context.isUserInRole("AgentPortalRoleLow"))
-            {
+            else if (this.context.isUserInRole("AgentPortalRoleLow")) {
                 sb.append("AgentPortalRoleLow");
             }
-            else
-            {
+            else {
                 sb.append("<unknown>");
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             sb.append("<unknown>");
         }
 

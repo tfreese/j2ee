@@ -21,8 +21,7 @@ import de.freese.j2ee.liberty.config.service.MyService;
  */
 // @RequestScoped
 @Path("service")
-public class MyRestFacade extends AbstractBean
-{
+public class MyRestFacade extends AbstractBean {
     @EJB
     private MyService serviceBean;
 
@@ -32,8 +31,7 @@ public class MyRestFacade extends AbstractBean
     @GET
     @Path("sysdate")
     @Produces(MediaType.APPLICATION_JSON)
-    public Date getSysdate() throws SQLException
-    {
+    public Date getSysdate() throws SQLException {
         getLogger().info("getSysdate");
 
         return getServiceBean().getSysDate();
@@ -45,8 +43,7 @@ public class MyRestFacade extends AbstractBean
     @GET
     @Path("properties")
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getSystemProperties()
-    {
+    public JsonObject getSystemProperties() {
         getLogger().info("getSystemProperties");
 
         JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -57,18 +54,14 @@ public class MyRestFacade extends AbstractBean
         return builder.build();
     }
 
-    private MyService getServiceBean()
-    {
-        if (this.serviceBean == null)
-        {
-            try
-            {
+    private MyService getServiceBean() {
+        if (this.serviceBean == null) {
+            try {
                 this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService", MyService.class);
                 // this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService");
                 // this.serviceBean = Utils.ejb(MyServiceBean.class);
             }
-            catch (RuntimeException ex)
-            {
+            catch (RuntimeException ex) {
                 getLogger().error(ex.getMessage(), ex.getCause());
             }
         }

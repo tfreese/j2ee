@@ -10,9 +10,10 @@ import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 
+import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.jmx.JmxBean;
 import de.freese.j2ee.jmx.UsageLogMBean;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -21,8 +22,7 @@ import org.slf4j.LoggerFactory;
 @Interceptor
 @MyLogging
 @JmxBean
-public class LogInterceptor implements UsageLogMBean
-{
+public class LogInterceptor implements UsageLogMBean {
     private static final Set<String> parameters = new TreeSet<>();
 
     // @PostConstruct
@@ -40,20 +40,17 @@ public class LogInterceptor implements UsageLogMBean
      * @see UsageLogMBean#getParameters()
      */
     @Override
-    public Set<String> getParameters()
-    {
+    public Set<String> getParameters() {
         return LogInterceptor.parameters;
     }
 
     @AroundInvoke
-    public Object logNameRequest(final InvocationContext ctx) throws Exception
-    {
+    public Object logNameRequest(final InvocationContext ctx) throws Exception {
         Object[] params = ctx.getParameters();
 
         String parameter = Arrays.toString(params);
 
-        if (parameter == null)
-        {
+        if (parameter == null) {
             parameter = "";
         }
 

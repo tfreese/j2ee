@@ -17,14 +17,12 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @Profile("tomcat")
-public class ConfigTomcat
-{
+public class ConfigTomcat {
     @Resource
     private Environment env;
 
     @Bean
-    public DataSource dataSource() throws NamingException
-    {
+    public DataSource dataSource() throws NamingException {
         JDBCDataSource dataSource = new JDBCDataSource();
         dataSource.setURL("jdbc:hsqldb:mem:liberty-spring");
         dataSource.setUser("sa");

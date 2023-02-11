@@ -20,8 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 @Startup
 @Singleton
-public class JmxBeanExtension
-{
+public class JmxBeanExtension {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxBeanExtension.class);
 
     // @Inject
@@ -35,19 +34,16 @@ public class JmxBeanExtension
     private MBeanServer mBeanServer;
 
     @PostConstruct
-    public void exportsBean() throws Exception
-    {
+    public void exportsBean() throws Exception {
         LOGGER.info("JmxBeanExtension.exportsBean()");
 
         this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-        if (this.jmxBeans == null)
-        {
+        if (this.jmxBeans == null) {
             return;
         }
 
-        for (Object bean : this.jmxBeans)
-        {
+        for (Object bean : this.jmxBeans) {
             Class<?> beanClass = bean.getClass();
             // Object bean = this.interceptor;
             // Class<?> beanClass = LogInterceptor.class;
@@ -55,12 +51,10 @@ public class JmxBeanExtension
             String annotationValue = beanClass.getSimpleName();
             ObjectName objectName = null;
 
-            if ("".equals(annotationValue))
-            {
+            if ("".equals(annotationValue)) {
                 objectName = new ObjectName(beanClass.getName());
             }
-            else
-            {
+            else {
                 objectName = new ObjectName(annotationValue + ":type=" + beanClass.getName());
             }
 

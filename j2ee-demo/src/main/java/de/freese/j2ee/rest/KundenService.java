@@ -10,7 +10,6 @@ import de.freese.j2ee.model.Kunde;
  */
 // @Remote
 @FunctionalInterface
-public interface KundenService
-{
+public interface KundenService {
     List<Kunde> getData();
 }

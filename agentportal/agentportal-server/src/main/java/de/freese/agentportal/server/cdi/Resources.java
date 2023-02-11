@@ -16,8 +16,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class Resources
-{
+public class Resources {
     public static final String EM_UNIT = "agentPortalJPA";
 
     @Produces
@@ -31,14 +30,12 @@ public class Resources
     private EntityManager entityManager;
 
     @Produces
-    public FacesContext getFacesContext()
-    {
+    public FacesContext getFacesContext() {
         return FacesContext.getCurrentInstance();
     }
 
     @Produces
-    public Logger getLogger(final InjectionPoint ip)
-    {
+    public Logger getLogger(final InjectionPoint ip) {
         String category = ip.getMember().getDeclaringClass().getName();
 
         return LoggerFactory.getLogger(category);

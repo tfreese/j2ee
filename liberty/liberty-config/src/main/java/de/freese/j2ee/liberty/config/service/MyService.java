@@ -9,8 +9,7 @@ import java.util.Map;
  * @author Thomas Freese
  */
 // @Local
-public interface MyService
-{
+public interface MyService {
     Date getSysDate() throws SQLException;
 
     Map<String, String> getSystemProperties();

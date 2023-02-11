@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestService
-{
+public class RestService {
     @Resource
     private DataSource dataSource;
 
@@ -32,8 +31,7 @@ public class RestService
      * http://localhost:PORT/liberty-spring/ping
      */
     @GetMapping("/ping")
-    public boolean ping()
-    {
+    public boolean ping() {
         return true;
     }
 
@@ -41,16 +39,12 @@ public class RestService
      * http://localhost:PORT/liberty-spring/sysdate
      */
     @GetMapping("/sysdate")
-    public String sysdate() throws Exception
-    {
+    public String sysdate() throws Exception {
         String sysDate = null;
         // sysDate =
         // LocalDateTime.now().toString() + " at " + InetAddress.getLocalHost().getHostName() + "/" + InetAddress.getLocalHost().getCanonicalHostName();
 
-        try (Connection con = this.dataSource.getConnection();
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("VALUES (CURRENT_DATE)"))
-        {
+        try (Connection con = this.dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("VALUES (CURRENT_DATE)")) {
             rs.next();
             sysDate = rs.getDate(1).toString();
         }

@@ -17,14 +17,12 @@ import org.springframework.jndi.JndiTemplate;
  */
 @Configuration
 @Profile("liberty")
-public class ConfigLiberty
-{
+public class ConfigLiberty {
     @Resource
     private Environment env;
 
     @Bean
-    public DataSource dataSource() throws NamingException
-    {
+    public DataSource dataSource() throws NamingException {
         // JndiObjectFactoryBean
         // JndiDataSourceLookup
         return (DataSource) new JndiTemplate().lookup(this.env.getProperty("datasource.jndi.name"));

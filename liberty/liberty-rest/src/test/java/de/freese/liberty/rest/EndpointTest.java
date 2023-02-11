@@ -20,21 +20,18 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class EndpointTest
-{
+class EndpointTest {
     /**
      * http://localhost:9080/liberty-rest/liberty/service/properties
      */
     @Test
-    void testGetProperties() throws Exception
-    {
+    void testGetProperties() throws Exception {
         String url = "http://localhost:9080/liberty-rest/my-liberty/service/properties";
 
         Client client = ClientBuilder.newClient().register(JacksonJaxbJsonProvider.class);
         WebTarget webTarget = client.target(url);
 
-        try (Response response = webTarget.request().get())
-        {
+        try (Response response = webTarget.request().get()) {
             assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
             String jsonValue = response.readEntity(String.class);
@@ -49,8 +46,7 @@ class EndpointTest
             assertFalse(map.isEmpty());
             assertEquals(System.getProperty("os.name"), map.get("os.name"), "The system property for the local and remote 'os.name' should match");
         }
-        finally
-        {
+        finally {
             client.close();
         }
     }

@@ -14,11 +14,7 @@ import jakarta.interceptor.InterceptorBinding;
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-        {
-                ElementType.TYPE, ElementType.METHOD
-        })
+@Target({ElementType.TYPE, ElementType.METHOD})
 @InterceptorBinding
-public @interface MyLogging
-{
+public @interface MyLogging {
 }

@@ -21,24 +21,20 @@ import com.amazonaws.services.simpledb.model.ReplaceableItem;
 /**
  * @author Thomas Freese
  */
-public class CloudSessionAmazon implements CloudSession
-{
+public class CloudSessionAmazon implements CloudSession {
     private static final String SESSIONS_DOMAIN = "Sessions";
 
     private final AmazonSimpleDB amazonClient;
 
-    public CloudSessionAmazon()
-    {
+    public CloudSessionAmazon() {
         super();
 
         final AWSCredentials credentials;
 
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties"))
-        {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties")) {
             credentials = new PropertiesCredentials(inputStream);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new AmazonServiceException(ex.getMessage());
         }
 
@@ -50,14 +46,11 @@ public class CloudSessionAmazon implements CloudSession
      * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
-    public String getSessionValue(final String sessionID, final String name)
-    {
+    public String getSessionValue(final String sessionID, final String name) {
         GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
-        for (Attribute attribute : gar.getAttributes())
-        {
-            if (attribute.getName().equals(name))
-            {
+        for (Attribute attribute : gar.getAttributes()) {
+            if (attribute.getName().equals(name)) {
                 return attribute.getValue();
             }
         }
@@ -69,8 +62,7 @@ public class CloudSessionAmazon implements CloudSession
      * @see CloudSession#remove(java.lang.String)
      */
     @Override
-    public void remove(final String sessionID)
-    {
+    public void remove(final String sessionID) {
         DeletableItem deletableItem = new DeletableItem().withName(sessionID);
 
         this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
@@ -80,8 +72,7 @@ public class CloudSessionAmazon implements CloudSession
      * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void setSessionValue(final String sessionID, final String name, final String value)
-    {
+    public void setSessionValue(final String sessionID, final String name, final String value) {
         ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
         ReplaceableItem replaceableItem = new ReplaceableItem().withName(sessionID).withAttributes(replaceableAttribute);
 

@@ -29,19 +29,12 @@ import jakarta.xml.bind.annotation.XmlType;
  * @author Thomas Freese
  */
 @Entity
-@Table(name = "SECRET_NEWS", uniqueConstraints = @UniqueConstraint(columnNames =
-        {
-                "TITLE"
-        }))
+@Table(name = "SECRET_NEWS", uniqueConstraints = @UniqueConstraint(columnNames = {"TITLE"}))
 @NamedQuery(name = "selectAllSecretNews", query = "SELECT sne FROM SecretNews sne WHERE sne.securityLevel <= :securityLevel ORDER BY sne.timestamp DESC")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder =
-        {
-                "securityLevel", "title", "timestamp", "text"
-        })
-public class SecretNews implements Serializable
-{
+@XmlType(propOrder = {"securityLevel", "title", "timestamp", "text"})
+public class SecretNews implements Serializable {
     public static final int SECURITY_LEVEL_HIGH = 2;
 
     public static final int SECURITY_LEVEL_LOW = 1;
@@ -74,53 +67,43 @@ public class SecretNews implements Serializable
     @Size(min = 5)
     private String title;
 
-    public Long getId()
-    {
+    public Long getId() {
         return this.id;
     }
 
-    public int getSecurityLevel()
-    {
+    public int getSecurityLevel() {
         return this.securityLevel;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return this.text;
     }
 
-    public Date getTimestamp()
-    {
+    public Date getTimestamp() {
         return this.timestamp;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setSecurityLevel(final int securityLevel)
-    {
+    public void setSecurityLevel(final int securityLevel) {
         this.securityLevel = securityLevel;
     }
 
-    public void setText(final String text)
-    {
+    public void setText(final String text) {
         this.text = text;
     }
 
-    public void setTimestamp(final Date timestamp)
-    {
+    public void setTimestamp(final Date timestamp) {
         this.timestamp = timestamp;
     }
 
-    public void setTitle(final String title)
-    {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -128,8 +111,7 @@ public class SecretNews implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("SecretNewsEntity [id=");
         builder.append(this.id);

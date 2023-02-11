@@ -16,9 +16,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
-import de.freese.jpa.model.Person;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,34 +23,33 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.Person;
+
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestJPA extends AbstractTest
-{
+class TestJPA extends AbstractTest {
     private static EntityManagerFactory entityManagerFactory;
 
     @AfterAll
-    static void afterAll()
-    {
+    static void afterAll() {
         entityManagerFactory.close();
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
         Map<String, Object> config = getHibernateConfig();
 
         // resources/META-INF/persistence.xml
-        try
-        {
+        try {
             entityManagerFactory = Persistence.createEntityManagerFactory("de.freese.test", config);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }
@@ -63,10 +59,8 @@ class TestJPA extends AbstractTest
      */
     @Override
     @Test
-    public void test010Insert()
-    {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
-        {
+    public void test010Insert() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             entityManager.getTransaction().begin();
 
             List<Person> persons = createPersons();
@@ -84,10 +78,8 @@ class TestJPA extends AbstractTest
      */
     @Override
     @Test
-    public void test020SelectAll()
-    {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
-        {
+    public void test020SelectAll() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
             // Caching muss explizit aktiviert werden
@@ -108,12 +100,10 @@ class TestJPA extends AbstractTest
      */
     @Override
     @Test
-    public void test030SelectVorname()
-    {
+    public void test030SelectVorname() {
         String vorname = "Vorname1";
 
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
-        {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
             // Caching aktiviert in Person Definition
@@ -134,12 +124,10 @@ class TestJPA extends AbstractTest
      */
     @Override
     @Test
-    public void test040NativeQuery()
-    {
+    public void test040NativeQuery() {
         List<Person> persons = new ArrayList<>();
 
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
-        {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
 
             // entityManager.getTransaction().begin();
@@ -150,8 +138,7 @@ class TestJPA extends AbstractTest
                     //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
                     .getResultList();
 
-            rows.forEach(row ->
-            {
+            rows.forEach(row -> {
                 Person person = new Person((String) row[1], (String) row[2]);
                 person.setID((long) row[0]);
 
@@ -161,12 +148,10 @@ class TestJPA extends AbstractTest
             Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
             // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
-            for (Person person : persons)
-            {
+            for (Person person : persons) {
                 rows = query.setParameter("personId", person.getID()).getResultList();
 
-                rows.forEach(row ->
-                {
+                rows.forEach(row -> {
                     Address address = new Address((String) row[1]);
                     address.setID((long) row[0]);
 
@@ -181,10 +166,8 @@ class TestJPA extends AbstractTest
     }
 
     @Test
-    void test6Projection()
-    {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager())
-        {
+    void test6Projection() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
             StringBuilder hql = new StringBuilder();
@@ -201,8 +184,7 @@ class TestJPA extends AbstractTest
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
-            for (int i = 1; i <= result.size(); i++)
-            {
+            for (int i = 1; i <= result.size(); i++) {
                 MyProjectionDTO dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
@@ -213,8 +195,7 @@ class TestJPA extends AbstractTest
     }
 
     @Test
-    void test99Statistics()
-    {
+    void test99Statistics() {
         dumpStatistics(System.out, (SessionFactoryImpl) entityManagerFactory);
 
         assertTrue(true);

@@ -3,8 +3,6 @@ package de.freese.agentportal.client.rest;
 
 import java.util.Date;
 
-import de.freese.agentportal.common.model.SecretNews;
-import de.freese.agentportal.common.model.SecretNewsList;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,13 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import de.freese.agentportal.common.model.SecretNews;
+import de.freese.agentportal.common.model.SecretNewsList;
+
 /**
  * @author Thomas Freese
  */
-final class TestClientRestTemplate
-{
-    public static void main(final String[] args) throws Exception
-    {
+final class TestClientRestTemplate {
+    public static void main(final String[] args) throws Exception {
         RestTemplate template = new RestTemplate();
 
         selectOne(template, 1);
@@ -29,8 +28,7 @@ final class TestClientRestTemplate
         selectAll(template);
     }
 
-    static void delete(final RestTemplate template, final long oid) throws Exception
-    {
+    static void delete(final RestTemplate template, final long oid) throws Exception {
         System.err.println("TestClientRest.delete()");
 
         // URL url = new URL("http://localhost:8080/de.freese.agentportal.server/rest/news/" + oid);
@@ -48,8 +46,7 @@ final class TestClientRestTemplate
         // connection.disconnect();
     }
 
-    static void insert(final RestTemplate template, final String title, final String text) throws Exception
-    {
+    static void insert(final RestTemplate template, final String title, final String text) throws Exception {
         System.err.println("TestClientRest.insert()");
 
         // template.postForObject("http://localhost:8080/de.freese.agentportal.server/rest/news/?title={title}&text={text}", Void.class, title,text);
@@ -73,8 +70,7 @@ final class TestClientRestTemplate
         // connection.disconnect();
     }
 
-    static void selectAll(final RestTemplate template) throws Exception
-    {
+    static void selectAll(final RestTemplate template) throws Exception {
         System.err.println("TestClientRest.selectAll()");
 
         // String response = template.getForObject("http://localhost:8080/de.freese.agentportal.server/rest/news", String.class);
@@ -84,26 +80,22 @@ final class TestClientRestTemplate
         // headers.set("Accept", "application/json");
         headers.set("Accept", "application/xml");
 
-        ResponseEntity<SecretNewsList> response = template.exchange("http://localhost:8080/de.freese.agentportal.server/rest/news", HttpMethod.GET,
-                new HttpEntity<String>(headers), SecretNewsList.class);
+        ResponseEntity<SecretNewsList> response = template.exchange("http://localhost:8080/de.freese.agentportal.server/rest/news", HttpMethod.GET, new HttpEntity<String>(headers), SecretNewsList.class);
         System.out.println(response);
 
-        for (SecretNews news : response.getBody().getNews())
-        {
+        for (SecretNews news : response.getBody().getNews()) {
             System.out.println(news);
         }
     }
 
-    static void selectOne(final RestTemplate template, final long oid) throws Exception
-    {
+    static void selectOne(final RestTemplate template, final long oid) throws Exception {
         System.err.println("TestClientRestTemplate.selectOne()");
 
         SecretNews news = template.getForObject("http://localhost:8080/de.freese.agentportal.server/rest/news/{id}", SecretNews.class, oid);
         System.out.println(news);
     }
 
-    static void update(final RestTemplate template, final long id, final String title, final String text) throws Exception
-    {
+    static void update(final RestTemplate template, final long id, final String title, final String text) throws Exception {
         System.err.println("TestClientRest.update()");
 
         SecretNews news = new SecretNews();
@@ -125,13 +117,11 @@ final class TestClientRestTemplate
 
         HttpEntity<SecretNews> entity = new HttpEntity<>(news, headers);
 
-        ResponseEntity<String> response =
-                template.exchange("http://localhost:8080/de.freese.agentportal.server/rest/news", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = template.exchange("http://localhost:8080/de.freese.agentportal.server/rest/news", HttpMethod.POST, entity, String.class);
         System.out.println(response);
     }
 
-    private TestClientRestTemplate()
-    {
+    private TestClientRestTemplate() {
         super();
     }
 }

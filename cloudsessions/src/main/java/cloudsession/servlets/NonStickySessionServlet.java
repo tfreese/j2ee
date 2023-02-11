@@ -26,8 +26,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 @WebServlet(name = "NonStickySessionServlet", urlPatterns = {"/session"}, loadOnStartup = 1)
-public class NonStickySessionServlet extends HttpServlet
-{
+public class NonStickySessionServlet extends HttpServlet {
     private static final String CREATION_TIME = "creationTime";
 
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
@@ -39,23 +38,20 @@ public class NonStickySessionServlet extends HttpServlet
     @Serial
     private static final long serialVersionUID = 1L;
 
-    static String formatDate(final long creationTime)
-    {
+    static String formatDate(final long creationTime) {
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTimeInMillis(creationTime);
 
         return gc.getTime().toString();
     }
 
-    static StringBuilder printHeaders(HttpServletRequest request)
-    {
+    static StringBuilder printHeaders(HttpServletRequest request) {
         Enumeration<?> names = request.getHeaderNames();
         StringBuilder html = new StringBuilder();
         html.append("<table>\n");
         html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Headers</th></tr>\n");
 
-        while (names.hasMoreElements())
-        {
+        while (names.hasMoreElements()) {
             String nextName = (String) names.nextElement();
             html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
         }
@@ -65,15 +61,13 @@ public class NonStickySessionServlet extends HttpServlet
         return html;
     }
 
-    static StringBuilder printParameters(HttpServletRequest request)
-    {
+    static StringBuilder printParameters(HttpServletRequest request) {
         Enumeration<?> names = request.getParameterNames();
         StringBuilder html = new StringBuilder();
         html.append("<table>\n");
         html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
 
-        while (names.hasMoreElements())
-        {
+        while (names.hasMoreElements()) {
             String nextName = (String) names.nextElement();
             html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
         }
@@ -86,8 +80,7 @@ public class NonStickySessionServlet extends HttpServlet
     private final transient CloudSession cloudSession;
     private final transient Logger logger = LoggerFactory.getLogger(getClass());
 
-    public NonStickySessionServlet()
-    {
+    public NonStickySessionServlet() {
         super();
 
         // CloudSession cs = new CloudSessionAmazon();
@@ -99,27 +92,23 @@ public class NonStickySessionServlet extends HttpServlet
      * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
-    public void service(final HttpServletRequest request, final HttpServletResponse response)
-    {
+    public void service(final HttpServletRequest request, final HttpServletResponse response) {
         StringBuilder html = new StringBuilder();
         html.append("<html>\n");
 
         html.append(printHeaders(request)).append("<br/><br/>\n");
         html.append(printParameters(request)).append("<br/><br/>\n");
 
-        if (request.getParameter("invalidate") != null)
-        {
+        if (request.getParameter("invalidate") != null) {
             request.getSession().invalidate();
 
             html.append("Session invalidated\n");
             html.append("</html>");
 
-            try (ServletOutputStream outputStream = response.getOutputStream())
-            {
+            try (ServletOutputStream outputStream = response.getOutputStream()) {
                 outputStream.print(html.toString());
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 this.logger.error(ex.getMessage(), ex);
             }
 
@@ -128,8 +117,7 @@ public class NonStickySessionServlet extends HttpServlet
 
         html.append("<table>\n");
 
-        if (request.getSession() != null)
-        {
+        if (request.getSession() != null) {
             HttpSession session = request.getSession();
 
             //String sessionID = session.getId(); // Das ist die aktuelle Session, wir wollen aber die alte.
@@ -141,13 +129,11 @@ public class NonStickySessionServlet extends HttpServlet
             // TODO SessionSwitch ss = new SessionSwitch(session);
             Long lat = this.cloudSession.getSessionValueAsLong(sessionID, LAST_ACCESS_TIME);
 
-            if (lat != null)
-            {
+            if (lat != null) {
                 html.append("<tr><td>lastAccessTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(lat), ZoneId.systemDefault())).append("</td></tr>\n");
                 html.append("<tr><td>verbleibende Zeit im Cache</td><td>").append((SESSION_LIVE_TIME.toMillis() + lat) - System.currentTimeMillis()).append(" millis</td></tr>\n");
             }
-            else
-            {
+            else {
                 html.append("<tr><td>lastAccessTime</td><td>Not in Cache !!!</td></tr>\n");
             }
 
@@ -157,15 +143,13 @@ public class NonStickySessionServlet extends HttpServlet
             html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneId.systemDefault())).append("</td></tr>\n");
             html.append("<tr><td>current Time</td><td>").append(LocalDateTime.now()).append("</td></tr>\n");
 
-            if (!session.getId().equals(sessionID))
-            {
+            if (!session.getId().equals(sessionID)) {
                 // check if cookie session has no timeout
                 // TODO
                 // if no timeout set new cookieSessionID and delete old cookieSessionID
                 Long val = this.cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
 
-                if (val != null)
-                {
+                if (val != null) {
                     this.cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
                     // TODO cs.remove(cookieSessionID);
                 }
@@ -173,13 +157,11 @@ public class NonStickySessionServlet extends HttpServlet
 
             String reqUser = request.getParameter(USER);
 
-            if (reqUser != null)
-            {
+            if (reqUser != null) {
                 this.cloudSession.setSessionValue(sessionID, USER, reqUser);
                 html.append("<tr><td>user</td><td>").append(reqUser).append("</td></tr>\n");
             }
-            else
-            {
+            else {
                 String csUser = this.cloudSession.getSessionValue(sessionID, USER);
                 html.append("<tr><td>user</td><td>").append(csUser).append("</td></tr>\n");
             }
@@ -190,12 +172,10 @@ public class NonStickySessionServlet extends HttpServlet
         html.append("<br/><br/><a href=\"./session?invalidate=true\">kill session</a>").append("\n");
         html.append("</html>");
 
-        try (ServletOutputStream outputStream = response.getOutputStream())
-        {
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
             outputStream.print(html.toString());
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             this.logger.error(ex.getMessage(), ex);
         }
     }

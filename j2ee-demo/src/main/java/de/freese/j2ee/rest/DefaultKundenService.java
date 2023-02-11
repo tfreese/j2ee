@@ -9,11 +9,12 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyEntityManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -21,8 +22,7 @@ import org.slf4j.LoggerFactory;
 @Stateless
 // (name="Example", mappedName="ejb/SimpleBeanJNDI")
 @Remote(KundenService.class)
-public class DefaultKundenService implements KundenService
-{
+public class DefaultKundenService implements KundenService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultKundenService.class);
 
     @Inject
@@ -35,8 +35,7 @@ public class DefaultKundenService implements KundenService
     @SuppressWarnings("unchecked")
     @Override
     @MyLogging
-    public List<Kunde> getData()
-    {
+    public List<Kunde> getData() {
         LOGGER.info("");
 
         Query query = this.entityManager.createQuery("select k from Kunde k");

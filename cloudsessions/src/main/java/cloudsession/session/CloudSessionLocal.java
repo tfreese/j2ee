@@ -18,18 +18,14 @@ import cloudsession.util.ObjectSerializer;
 /**
  * @author Thomas Freese
  */
-public class CloudSessionLocal implements CloudSession
-{
+public class CloudSessionLocal implements CloudSession {
     private static final Path DATA_PATH = Paths.get(System.getProperty("java.io.tmpdir"), "cloudSession.json");
 
-    private static void storeProps(final Map<String, Map<String, String>> map)
-    {
-        try (OutputStream outputStream = Files.newOutputStream(DATA_PATH, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))
-        {
+    private static void storeProps(final Map<String, Map<String, String>> map) {
+        try (OutputStream outputStream = Files.newOutputStream(DATA_PATH, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             ObjectSerializer.toJson(outputStream, map);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -40,8 +36,7 @@ public class CloudSessionLocal implements CloudSession
      * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
      */
     @Override
-    public String getSessionValue(final String sessionID, final String name)
-    {
+    public String getSessionValue(final String sessionID, final String name) {
         return getMap().computeIfAbsent(sessionID, key -> new HashMap<>()).get(name);
     }
 
@@ -49,8 +44,7 @@ public class CloudSessionLocal implements CloudSession
      * @see CloudSession#remove(java.lang.String)
      */
     @Override
-    public void remove(final String sessionID)
-    {
+    public void remove(final String sessionID) {
         getMap().remove(sessionID);
 
         storeProps(getMap());
@@ -60,55 +54,44 @@ public class CloudSessionLocal implements CloudSession
      * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void setSessionValue(final String sessionID, final String name, final String value)
-    {
+    public void setSessionValue(final String sessionID, final String name, final String value) {
         getMap().computeIfAbsent(sessionID, key -> new HashMap<>()).put(name, value);
 
         storeProps(getMap());
     }
 
-    private Map<String, Map<String, String>> getMap()
-    {
-        if (map == null)
-        {
-            try
-            {
+    private Map<String, Map<String, String>> getMap() {
+        if (map == null) {
+            try {
                 map = new ConcurrentHashMap<>();
 
-                if (!Files.exists(DATA_PATH))
-                {
+                if (!Files.exists(DATA_PATH)) {
                     Files.createDirectories(DATA_PATH.getParent());
                     Files.createFile(DATA_PATH);
 
                     return map;
                 }
 
-                try (InputStream inputStream = Files.newInputStream(DATA_PATH, StandardOpenOption.READ))
-                {
+                try (InputStream inputStream = Files.newInputStream(DATA_PATH, StandardOpenOption.READ)) {
                     Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, Map.class);
 
-                    if (mapJson != null)
-                    {
+                    if (mapJson != null) {
                         mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
                     }
                 }
 
                 // Veraltete Session-Einträge entfernen.
-                for (Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); )
-                {
+                for (Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
                     Map<String, String> data = iterator.next();
 
-                    if (data.get(CloudSessionCache.TIMEOUT) != null)
-                    {
-                        if (System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT)))
-                        {
+                    if (data.get(CloudSessionCache.TIMEOUT) != null) {
+                        if (System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT))) {
                             iterator.remove();
                         }
                     }
                 }
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

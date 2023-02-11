@@ -23,20 +23,13 @@ import jakarta.xml.bind.annotation.XmlType;
  * @author Thomas Freese
  */
 @Entity
-@Table(name = "KUNDE", uniqueConstraints = @UniqueConstraint(columnNames =
-        {
-                "NAME", "VORNAME"
-        }))
+@Table(name = "KUNDE", uniqueConstraints = @UniqueConstraint(columnNames = {"NAME", "VORNAME"}))
 // @Cacheable
 // @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "hibernate.test")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder =
-        {
-                "name", "vorname"
-        })
-public class Kunde implements Serializable
-{
+@XmlType(propOrder = {"name", "vorname"})
+public class Kunde implements Serializable {
     @Serial
     private static final long serialVersionUID = 8686116858992640271L;
 
@@ -54,33 +47,27 @@ public class Kunde implements Serializable
     @Size(min = 3)
     private String vorname;
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getVorname()
-    {
+    public String getVorname() {
         return this.vorname;
     }
 
-    public void setId(final long id)
-    {
+    public void setId(final long id) {
         this.id = id;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setVorname(final String vorname)
-    {
+    public void setVorname(final String vorname) {
         this.vorname = vorname;
     }
 
@@ -88,8 +75,7 @@ public class Kunde implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Kunde [id=" + this.id + ", name=" + this.name + ", vorname=" + this.vorname + "]";
     }
 }

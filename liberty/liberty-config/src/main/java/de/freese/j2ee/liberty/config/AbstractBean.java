@@ -9,25 +9,21 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractBean
-{
+public abstract class AbstractBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected AbstractBean()
-    {
+    protected AbstractBean() {
         super();
 
         getLogger().info("{}: Constructor called", getClass().getSimpleName());
     }
 
-    public Logger getLogger()
-    {
+    public Logger getLogger() {
         return this.logger;
     }
 
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         getLogger().info("postConstruct");
     }
 }

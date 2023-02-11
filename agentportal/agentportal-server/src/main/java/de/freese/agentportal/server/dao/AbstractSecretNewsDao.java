@@ -13,8 +13,7 @@ import de.freese.agentportal.server.cdi.Resources;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractSecretNewsDao implements ISecretNewsDao
-{
+public abstract class AbstractSecretNewsDao implements ISecretNewsDao {
     // @Inject
     // @AgentPortalEm
     @PersistenceContext(unitName = Resources.EM_UNIT)
@@ -27,8 +26,7 @@ public abstract class AbstractSecretNewsDao implements ISecretNewsDao
      * @see ISecretNewsDao#get(long)
      */
     @Override
-    public SecretNews get(final long id)
-    {
+    public SecretNews get(final long id) {
         Query query = this.entityManager.createQuery("select n from SecretNewsEntity n where id = :id");
         query.setParameter("id", id);
 
@@ -40,8 +38,7 @@ public abstract class AbstractSecretNewsDao implements ISecretNewsDao
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<SecretNews> getNews()
-    {
+    public List<SecretNews> getNews() {
         Query query = this.entityManager.createNamedQuery("selectAllSecretNews");
         query.setParameter("securityLevel", getSecurityLevel()).getResultList();
 

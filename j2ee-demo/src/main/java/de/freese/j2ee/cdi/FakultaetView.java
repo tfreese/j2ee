@@ -10,8 +10,7 @@ import jakarta.validation.constraints.Max;
  */
 @Named
 @RequestScoped
-public class FakultaetView
-{
+public class FakultaetView {
     private long fakt;
 
     @Inject
@@ -21,31 +20,26 @@ public class FakultaetView
     @Max(5)
     private int n;
 
-    public String calculate()
-    {
+    public String calculate() {
         System.out.println("Test " + getN());
         setFakt(this.fakultaet.getFakultaet(getN()));
 
         return null;
     }
 
-    public long getFakt()
-    {
+    public long getFakt() {
         return this.fakt;
     }
 
-    public int getN()
-    {
+    public int getN() {
         return this.n;
     }
 
-    public void setFakt(final long fakt)
-    {
+    public void setFakt(final long fakt) {
         this.fakt = fakt;
     }
 
-    public void setN(final int n)
-    {
+    public void setN(final int n) {
         this.n = n;
     }
 }

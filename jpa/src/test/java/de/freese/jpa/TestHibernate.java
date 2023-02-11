@@ -10,9 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
-import de.freese.jpa.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -28,23 +25,24 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.Person;
+
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestHibernate extends AbstractTest
-{
+class TestHibernate extends AbstractTest {
     private static SessionFactory sessionFactory;
 
     @AfterAll
-    static void afterAll()
-    {
+    static void afterAll() {
         sessionFactory.close();
     }
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
         Map<String, Object> config = getHibernateConfig();
@@ -54,13 +52,11 @@ class TestHibernate extends AbstractTest
         metadataSources.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
         //        metadataSources.addResource("META-INF/orm.xml");
 
-        try
-        {
+        try {
             Metadata metadata = metadataSources.buildMetadata();
             sessionFactory = metadata.getSessionFactoryBuilder().build();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory
             // so destroy it manually.
             StandardServiceRegistryBuilder.destroy(serviceRegistry);
@@ -74,20 +70,16 @@ class TestHibernate extends AbstractTest
      */
     @Override
     @Test
-    public void test010Insert()
-    {
-        try (Session session = sessionFactory.openSession())
-        {
+    public void test010Insert() {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             List<Person> persons = createPersons();
 
-            persons.stream().map(person ->
-            {
+            persons.stream().map(person -> {
                 session.persist(person);
                 return person;
-            }).forEach(person ->
-            {
+            }).forEach(person -> {
                 // person.getAddresses().forEach(address -> {
                 // session.persist(address);
                 // });
@@ -105,10 +97,8 @@ class TestHibernate extends AbstractTest
      */
     @Override
     @Test
-    public void test020SelectAll()
-    {
-        try (Session session = sessionFactory.openSession())
-        {
+    public void test020SelectAll() {
+        try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
             // Caching muss explizit aktiviert werden
@@ -129,12 +119,10 @@ class TestHibernate extends AbstractTest
      */
     @Override
     @Test
-    public void test030SelectVorname()
-    {
+    public void test030SelectVorname() {
         String vorname = "Vorname1";
 
-        try (Session session = sessionFactory.openSession())
-        {
+        try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
             // Caching muss explizit aktiviert werden
@@ -156,23 +144,19 @@ class TestHibernate extends AbstractTest
     @Override
     @Test
     @Disabled("Strange Error Message in Address call: 'Unable to find column position by name: PERSON_ID'")
-    public void test040NativeQuery()
-    {
-        try (Session session = sessionFactory.openSession())
-        {
+    public void test040NativeQuery() {
+        try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
             // !!! Kein Caching bei Named-Queries !!!
             // query.setCacheable(true).setCacheRegion("person");
-            Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class)
-                    .setTupleTransformer((tuple, aliases) ->
-                    {
-                        Person person = new Person((String) tuple[1], (String) tuple[2]);
-                        person.setID((long) tuple[0]);
+            Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class).setTupleTransformer((tuple, aliases) -> {
+                Person person = new Person((String) tuple[1], (String) tuple[2]);
+                person.setID((long) tuple[0]);
 
-                        return person;
-                    });
+                return person;
+            });
 
             // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
             List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
@@ -182,21 +166,17 @@ class TestHibernate extends AbstractTest
 
             //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
-            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc", Address.class)
-                    .setTupleTransformer((tuple, aliases) ->
-                    {
-                        Address address = new Address((String) tuple[1]);
-                        address.setID((long) tuple[0]);
+            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc", Address.class).setTupleTransformer((tuple, aliases) -> {
+                Address address = new Address((String) tuple[1]);
+                address.setID((long) tuple[0]);
 
-                        return address;
-                    });
+                return address;
+            });
 
-            persons.forEach(person ->
-            {
+            persons.forEach(person -> {
                 List<Address> addresses = nativeQuery2.setParameter("personId", person.getID(), Long.class).getResultList();
 
-                addresses.forEach(address ->
-                {
+                addresses.forEach(address -> {
                     person.addAddress(address);
                 });
             });
@@ -208,10 +188,8 @@ class TestHibernate extends AbstractTest
     }
 
     @Test
-    void test060Projection()
-    {
-        try (Session session = sessionFactory.openSession())
-        {
+    void test060Projection() {
+        try (Session session = sessionFactory.openSession()) {
             StringBuilder hql = new StringBuilder();
             hql.append("select");
             hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
@@ -226,8 +204,7 @@ class TestHibernate extends AbstractTest
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
-            for (int i = 1; i <= result.size(); i++)
-            {
+            for (int i = 1; i <= result.size(); i++) {
                 MyProjectionDTO dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
@@ -236,8 +213,7 @@ class TestHibernate extends AbstractTest
     }
 
     @Test
-    void test099Statistics()
-    {
+    void test099Statistics() {
         dumpStatistics(System.out, sessionFactory);
 
         assertTrue(true);

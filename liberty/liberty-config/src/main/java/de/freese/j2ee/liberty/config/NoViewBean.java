@@ -15,30 +15,25 @@ import org.slf4j.LoggerFactory;
  */
 @Stateless
 @LocalBean
-public class NoViewBean
-{
+public class NoViewBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public NoViewBean()
-    {
+    public NoViewBean() {
         super();
 
         getLogger().info("{}: Constructor called", getClass().getSimpleName());
     }
 
-    public Logger getLogger()
-    {
+    public Logger getLogger() {
         return this.logger;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return "Hello World";
     }
 
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         getLogger().info("postConstruct");
     }
 }

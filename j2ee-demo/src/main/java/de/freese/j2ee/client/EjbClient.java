@@ -6,20 +6,19 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-import de.freese.j2ee.model.Kunde;
-import de.freese.j2ee.rest.KundenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.j2ee.model.Kunde;
+import de.freese.j2ee.rest.KundenService;
 
 /**
  * @author Thomas Freese
  */
-public final class EjbClient
-{
+public final class EjbClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(EjbClient.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // Properties props = new Properties();
         // props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "com.sun.enterprise.naming.SerialInitContextFactory");
         // props.setProperty(Context.URL_PKG_PREFIXES, "com.sun.enterprise.naming");
@@ -34,14 +33,12 @@ public final class EjbClient
         KundenService service = (KundenService) ctx.lookup(KundenService.class.getName());
         List<Kunde> kunden = service.getData();
 
-        for (Kunde kunde : kunden)
-        {
+        for (Kunde kunde : kunden) {
             LOGGER.info("{}", kunde);
         }
     }
 
-    private EjbClient()
-    {
+    private EjbClient() {
         super();
     }
 }

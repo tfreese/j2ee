@@ -15,8 +15,7 @@ import javax.security.sasl.RealmCallback;
  *
  * @author Thomas Freese
  */
-public class MyJAASCallbackHandler implements CallbackHandler
-{
+public class MyJAASCallbackHandler implements CallbackHandler {
     /**
      *
      */
@@ -35,11 +34,8 @@ public class MyJAASCallbackHandler implements CallbackHandler
      * @param password String
      * @param userRealm String
      */
-    public static void setCredential(final String username, final String password,
-                                     final String userRealm)
-    {
-        synchronized (MyJAASCallbackHandler.class)
-        {
+    public static void setCredential(final String username, final String password, final String userRealm) {
+        synchronized (MyJAASCallbackHandler.class) {
             MyJAASCallbackHandler.username = username;
             MyJAASCallbackHandler.password = password;
             MyJAASCallbackHandler.userRealm = userRealm;
@@ -50,26 +46,19 @@ public class MyJAASCallbackHandler implements CallbackHandler
      * @see javax.security.auth.callback.CallbackHandler#handle(javax.security.auth.callback.Callback[])
      */
     @Override
-    public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException
-    {
-        synchronized (MyJAASCallbackHandler.class)
-        {
-            for (Callback current : callbacks)
-            {
-                if (current instanceof RealmCallback rcb)
-                {
+    public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
+        synchronized (MyJAASCallbackHandler.class) {
+            for (Callback current : callbacks) {
+                if (current instanceof RealmCallback rcb) {
                     rcb.setText(MyJAASCallbackHandler.userRealm);
                 }
-                else if (current instanceof NameCallback ncb)
-                {
+                else if (current instanceof NameCallback ncb) {
                     ncb.setName(MyJAASCallbackHandler.username);
                 }
-                else if (current instanceof PasswordCallback pcb)
-                {
+                else if (current instanceof PasswordCallback pcb) {
                     pcb.setPassword(MyJAASCallbackHandler.password.toCharArray());
                 }
-                else
-                {
+                else {
                     throw new UnsupportedCallbackException(current);
                 }
             }

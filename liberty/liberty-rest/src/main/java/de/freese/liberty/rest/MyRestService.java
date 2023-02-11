@@ -13,16 +13,14 @@ import jakarta.ws.rs.core.MediaType;
  * @author Thomas Freese
  */
 @Path("service")
-public class MyRestService
-{
+public class MyRestService {
     /**
      * http://localhost:9080/liberty-rest/my-liberty/service/properties
      */
     @GET
     @Path("properties")
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getProperties()
-    {
+    public JsonObject getProperties() {
         System.out.printf("%s_MyRestService.getProperties%n", Thread.currentThread().getName());
 
         JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();

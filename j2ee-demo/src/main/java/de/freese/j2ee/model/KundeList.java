@@ -13,18 +13,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "kundelist")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class KundeList
-{
+public class KundeList {
     @XmlElement(required = true)
     private List<Kunde> kunden;
 
-    public List<Kunde> getKunden()
-    {
+    public List<Kunde> getKunden() {
         return this.kunden;
     }
 
-    public void setKunden(final List<Kunde> kunden)
-    {
+    public void setKunden(final List<Kunde> kunden) {
         this.kunden = kunden;
     }
 }

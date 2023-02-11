@@ -25,12 +25,13 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.j2ee.interceptor.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyDataSource;
 import de.freese.j2ee.persistence.MyEntityManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -38,8 +39,7 @@ import org.slf4j.LoggerFactory;
 @Stateless
 // (name="Example", mappedName="ejb/SimpleBeanJNDI")
 @Path("/kunde")
-public class RestService
-{
+public class RestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
 
     @Context
@@ -61,45 +61,32 @@ public class RestService
     // Nur Zahlen erlaubt.
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @MyLogging
-    public void delete(@PathParam("id") final long id)
-    {
+    public void delete(@PathParam("id") final long id) {
         LOGGER.info("id = {}", id);
 
-        this.entityManager.createQuery("delete from Kunde where id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+        this.entityManager.createQuery("delete from Kunde where id = :id").setParameter("id", id).executeUpdate();
     }
 
     @GET
-    @Produces(
-            {
-                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-            })
+    @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
     @MyLogging
-    public List<Kunde> getAsXML()
-    {
+    public List<Kunde> getAsXML() {
         LOGGER.info("");
 
         return this.entityManager.createQuery("select k from Kunde k", Kunde.class).getResultList();
     }
 
     @GET
-    @Produces(
-            {
-                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-            })
+    @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
     @Path("/{id:\\d+}")
     // Nur Zahlen erlaubt.
     @MyLogging
-    public Kunde getByID(@PathParam("id") final long id)
-    {
+    public Kunde getByID(@PathParam("id") final long id) {
         LOGGER.info("id = {}", id);
 
-        List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).
-                setParameter("id", id).getResultList();
+        List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).setParameter("id", id).getResultList();
 
-        if (kunden.size() == 1)
-        {
+        if (kunden.size() == 1) {
             return kunden.get(0);
         }
 
@@ -109,8 +96,7 @@ public class RestService
     @PUT
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @MyLogging
-    public void insertKunde(@QueryParam("name") final String name, @QueryParam("vorname") final String vorname)
-    {
+    public void insertKunde(@QueryParam("name") final String name, @QueryParam("vorname") final String vorname) {
         LOGGER.info("name = {}, vorname = {}", name, vorname);
 
         Kunde kunde = new Kunde();
@@ -121,16 +107,11 @@ public class RestService
     }
 
     @POST
-    @Consumes(
-            {
-                    MediaType.TEXT_XML, MediaType.APPLICATION_JSON
-            })
+    @Consumes({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @MyLogging
-    public String update(final Kunde kunde)
-    {
-        if (LOGGER.isInfoEnabled())
-        {
+    public String update(final Kunde kunde) {
+        if (LOGGER.isInfoEnabled()) {
             LOGGER.info(kunde.toString());
         }
 

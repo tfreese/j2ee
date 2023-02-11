@@ -10,10 +10,8 @@ import jakarta.ws.rs.core.Application;
  * @author Thomas Freese
  */
 @ApplicationPath("rest")
-public class RestApplication extends Application
-{
-    public RestApplication()
-    {
+public class RestApplication extends Application {
+    public RestApplication() {
         super();
     }
 }

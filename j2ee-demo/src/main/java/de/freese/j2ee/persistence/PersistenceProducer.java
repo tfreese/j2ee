@@ -11,8 +11,7 @@ import jakarta.persistence.PersistenceContext;
 /**
  * @author Thomas Freese
  */
-public class PersistenceProducer
-{
+public class PersistenceProducer {
     @Produces
     @MyDataSource
     @Resource(mappedName = "jdbc/hsqldb-memory")

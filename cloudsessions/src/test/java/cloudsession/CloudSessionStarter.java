@@ -9,10 +9,8 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  */
 @ServletComponentScan
 @SpringBootApplication
-public final class CloudSessionStarter
-{
-    public static void main(String[] args)
-    {
+public final class CloudSessionStarter {
+    public static void main(String[] args) {
         SpringApplication.run(CloudSessionStarter.class, args);
     }
 
@@ -30,8 +28,7 @@ public final class CloudSessionStarter
     //        return servRegBean;
     //    }
 
-    private CloudSessionStarter()
-    {
+    private CloudSessionStarter() {
         super();
     }
 }

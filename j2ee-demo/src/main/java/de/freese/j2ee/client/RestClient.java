@@ -12,19 +12,18 @@ import java.nio.charset.StandardCharsets;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 
-import de.freese.j2ee.model.Kunde;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.j2ee.model.Kunde;
 
 /**
  * @author Thomas Freese
  */
-public final class RestClient
-{
+public final class RestClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         // selectOne(1);
         // update();
         selectAll();
@@ -33,8 +32,7 @@ public final class RestClient
         selectAll();
     }
 
-    static void delete(final long oid) throws Exception
-    {
+    static void delete(final long oid) throws Exception {
         System.err.println("RestClient.delete()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
@@ -52,8 +50,7 @@ public final class RestClient
         connection.disconnect();
     }
 
-    static void insert(final String name, final String vorname) throws Exception
-    {
+    static void insert(final String name, final String vorname) throws Exception {
         LOGGER.info("RestClient.insert()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde?name=" + name + "&vorname=" + vorname);
@@ -73,8 +70,7 @@ public final class RestClient
         connection.disconnect();
     }
 
-    static void selectAll() throws Exception
-    {
+    static void selectAll() throws Exception {
         LOGGER.info("RestClient.selectAll()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
@@ -83,8 +79,7 @@ public final class RestClient
         connection.setRequestProperty("Accept", "application/json");
         // connection.setRequestProperty("Accept", "text/xml");
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
@@ -94,8 +89,7 @@ public final class RestClient
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         String line = reader.readLine();
 
-        while (line != null)
-        {
+        while (line != null) {
             LOGGER.info(line);
             line = reader.readLine();
         }
@@ -103,8 +97,7 @@ public final class RestClient
         connection.disconnect();
     }
 
-    static void selectOne(final long oid) throws Exception
-    {
+    static void selectOne(final long oid) throws Exception {
         LOGGER.info("RestClient.selectOne()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
@@ -113,8 +106,7 @@ public final class RestClient
         // connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Accept", "text/xml");
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Operation failed: " + connection.getResponseCode());
         }
 
@@ -124,21 +116,16 @@ public final class RestClient
         JAXBContext context = JAXBContext.newInstance(Kunde.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        try (InputStream inputStream = connection.getInputStream())
-        {
+        try (InputStream inputStream = connection.getInputStream()) {
             Kunde kunde = (Kunde) unmarshaller.unmarshal(inputStream);
             LOGGER.info("{}", kunde);
         }
 
-        try (InputStream inputStream = connection.getInputStream();
-             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(inputStreamReader))
-        {
+        try (InputStream inputStream = connection.getInputStream(); InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8); BufferedReader reader = new BufferedReader(inputStreamReader)) {
 
             String line = reader.readLine();
 
-            while (line != null)
-            {
+            while (line != null) {
                 LOGGER.info(line);
                 line = reader.readLine();
             }
@@ -147,8 +134,7 @@ public final class RestClient
         connection.disconnect();
     }
 
-    static void update() throws Exception
-    {
+    static void update() throws Exception {
         LOGGER.info("RestClient.update()");
 
         URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
@@ -158,14 +144,12 @@ public final class RestClient
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "text/xml");
 
-        try (OutputStream out = connection.getOutputStream())
-        {
+        try (OutputStream out = connection.getOutputStream()) {
             out.write("<kunde id=\"1\"><name>CCC</name><vorname>DDD</vorname></kunde>".getBytes(StandardCharsets.UTF_8));
             out.flush();
         }
 
-        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-        {
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Failed to update");
         }
 
@@ -175,8 +159,7 @@ public final class RestClient
         connection.disconnect();
     }
 
-    private RestClient()
-    {
+    private RestClient() {
         super();
     }
 }

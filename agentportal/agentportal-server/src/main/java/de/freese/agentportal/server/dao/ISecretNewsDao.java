@@ -3,15 +3,15 @@ package de.freese.agentportal.server.dao;
 
 import java.util.List;
 
-import de.freese.agentportal.common.model.SecretNews;
 import jakarta.ejb.Local;
+
+import de.freese.agentportal.common.model.SecretNews;
 
 /**
  * @author Thomas Freese
  */
 @Local
-public interface ISecretNewsDao
-{
+public interface ISecretNewsDao {
     /**
      * @param id long
      *

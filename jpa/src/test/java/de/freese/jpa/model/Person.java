@@ -39,40 +39,21 @@ import org.hibernate.annotations.FetchMode;
  * @author Thomas Freese
  */
 @Entity
-@Table(name = "T_PERSON", schema = "PUBLIC", uniqueConstraints =
-        {
-                @UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames =
-                        {
-                                "NAME", "VORNAME"
-                        })
-        })
+@Table(name = "T_PERSON", schema = "PUBLIC", uniqueConstraints = {@UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames = {"NAME", "VORNAME"})})
 @DynamicInsert
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
-@NamedQueries(
-        {
-                @NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints =
-                        {
-                                @QueryHint(name = "org.hibernate.cacheable", value = "true")
-                        }), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints =
-                {
-                        @QueryHint(name = "org.hibernate.cacheable", value = "true")
-                })
-        })
+@NamedQueries({@NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})})
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
-public class Person implements Serializable
-{
+public class Person implements Serializable {
     @Serial
     private static final long serialVersionUID = 413810580854319964L;
     /**
      * orphanRemoval = true
      */
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true, cascade =
-            {
-                    CascadeType.ALL
-            })
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     @OrderBy("street desc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
@@ -102,42 +83,35 @@ public class Person implements Serializable
     @Column(name = "VORNAME", length = 50, nullable = false)
     private String vorname;
 
-    public Person()
-    {
+    public Person() {
         super();
     }
 
-    public Person(final String name, final String vorname)
-    {
+    public Person(final String name, final String vorname) {
         super();
 
         setName(name);
         setVorname(vorname);
     }
 
-    public void addAddress(final Address address)
-    {
+    public void addAddress(final Address address) {
         this.addresses.add(address);
         address.setPerson(this);
     }
 
-    public List<Address> getAddresses()
-    {
+    public List<Address> getAddresses() {
         return this.addresses;
     }
 
-    public long getID()
-    {
+    public long getID() {
         return this.id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getVorname()
-    {
+    public String getVorname() {
         return this.vorname;
     }
 
@@ -145,23 +119,19 @@ public class Person implements Serializable
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Long.valueOf(getID()).hashCode();
     }
 
-    public void setID(final long id)
-    {
+    public void setID(final long id) {
         this.id = id;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setVorname(final String vorname)
-    {
+    public void setVorname(final String vorname) {
         this.vorname = vorname;
     }
 
@@ -169,8 +139,7 @@ public class Person implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Person [");
         builder.append("id=").append(this.id);
@@ -186,10 +155,8 @@ public class Person implements Serializable
      * @PreUpdate
      */
     @PrePersist
-    void preInsert()
-    {
-        if (this.cool == null)
-        {
+    void preInsert() {
+        if (this.cool == null) {
             this.cool = false;
         }
     }

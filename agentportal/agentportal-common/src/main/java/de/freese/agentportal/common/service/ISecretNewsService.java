@@ -7,8 +7,7 @@ import de.freese.agentportal.common.model.SecretNews;
 /**
  * @author Thomas Freese
  */
-public interface ISecretNewsService
-{
+public interface ISecretNewsService {
     /**
      * Zugriff nur nach Berechtigung.
      *

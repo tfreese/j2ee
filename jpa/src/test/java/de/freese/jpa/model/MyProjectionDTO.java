@@ -8,8 +8,7 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class MyProjectionDTO implements Serializable
-{
+public class MyProjectionDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 8195470174423798274L;
 
@@ -17,8 +16,7 @@ public class MyProjectionDTO implements Serializable
 
     private final String name;
 
-    public MyProjectionDTO(final Long id, final String name)
-    {
+    public MyProjectionDTO(final Long id, final String name) {
         super();
 
         this.id = id;
@@ -26,33 +24,27 @@ public class MyProjectionDTO implements Serializable
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if (!(o instanceof MyProjectionDTO dto))
-        {
+        if (!(o instanceof MyProjectionDTO dto)) {
             return false;
         }
 
         return Objects.equals(getId(), dto.getId()) && Objects.equals(getName(), dto.getName());
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return this.id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(getId(), getName());
     }
 
@@ -60,8 +52,7 @@ public class MyProjectionDTO implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder(getClass().getSimpleName());
         sb.append("[");
         sb.append("id = ").append(this.id);

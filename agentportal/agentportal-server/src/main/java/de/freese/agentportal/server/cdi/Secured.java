@@ -13,11 +13,7 @@ import jakarta.inject.Qualifier;
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-@Target(
-        {
-                ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER
-        })
-public @interface Secured
-{
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+public @interface Secured {
 
 }

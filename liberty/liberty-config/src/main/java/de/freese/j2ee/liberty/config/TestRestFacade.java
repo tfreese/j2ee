@@ -15,13 +15,11 @@ import jakarta.ws.rs.core.MediaType;
  * @author Thomas Freese
  */
 @Path("/")
-public class TestRestFacade extends AbstractBean
-{
+public class TestRestFacade extends AbstractBean {
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
 
-    public TestRestFacade()
-    {
+    public TestRestFacade() {
         super();
 
         // ManagedThreadFactory threadFactory =
@@ -39,8 +37,7 @@ public class TestRestFacade extends AbstractBean
      */
     @Override
     @PostConstruct
-    public void postConstruct()
-    {
+    public void postConstruct() {
         super.postConstruct();
 
         this.executorService.execute(() -> getLogger().info("postConstruct with ManagedExecutorService"));
@@ -52,8 +49,7 @@ public class TestRestFacade extends AbstractBean
     @GET
     @Path("test")
     @Produces(MediaType.APPLICATION_JSON)
-    public String test() throws SQLException
-    {
+    public String test() throws SQLException {
         getLogger().info("test");
 
         return "Test";

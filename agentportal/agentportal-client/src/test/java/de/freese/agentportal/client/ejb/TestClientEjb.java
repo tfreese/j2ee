@@ -8,14 +8,12 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class TestClientEjb
-{
+class TestClientEjb {
     /**
      * @throws Exception Falls was schiefgeht.
      */
     @Test
-    void glassfishAccess() throws Exception
-    {
+    void glassfishAccess() throws Exception {
         // TODO
         // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Config für lokale Maschine.
         // Context ctx = new InitialContext();

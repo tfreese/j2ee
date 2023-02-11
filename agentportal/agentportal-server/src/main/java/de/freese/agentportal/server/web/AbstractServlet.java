@@ -11,43 +11,35 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractServlet extends HttpServlet
-{
+public abstract class AbstractServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 8687076224457775615L;
 
     private transient final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected void logCallerInfo(final HttpServletRequest request)
-    {
+    protected void logCallerInfo(final HttpServletRequest request) {
         StringBuilder sb = new StringBuilder();
         sb.append("user=");
 
-        try
-        {
+        try {
             sb.append(request.getUserPrincipal().getName());
             sb.append(", role=");
 
-            if (request.isUserInRole("AgentPortalRoleHigh"))
-            {
+            if (request.isUserInRole("AgentPortalRoleHigh")) {
                 sb.append("AgentPortalRoleHigh");
             }
-            else if (request.isUserInRole("AgentPortalRoleLow"))
-            {
+            else if (request.isUserInRole("AgentPortalRoleLow")) {
                 sb.append("AgentPortalRoleLow");
             }
-            else
-            {
+            else {
                 sb.append("<unknown>");
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             sb.append("<unknown>");
         }
 

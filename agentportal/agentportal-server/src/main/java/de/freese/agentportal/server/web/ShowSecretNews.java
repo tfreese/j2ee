@@ -16,8 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 // {
 // "AgentPortalRoleHigh", "AgentPortalRoleLow"
 // }))
-public class ShowSecretNews extends AbstractServlet
-{
+public class ShowSecretNews extends AbstractServlet {
     @Serial
     private static final long serialVersionUID = 2003269226079797807L;
 
@@ -25,8 +24,7 @@ public class ShowSecretNews extends AbstractServlet
      * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
      */
     @Override
-    protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         logCallerInfo(request);
 
         // if (request.isUserInRole("AgentPortalRoleHigh"))

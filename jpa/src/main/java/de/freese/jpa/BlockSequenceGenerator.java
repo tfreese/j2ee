@@ -25,8 +25,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class BlockSequenceGenerator implements IdentifierGenerator
-{
+public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
 
     private final Queue<Long> idQueue = new LinkedList<>();
@@ -36,18 +35,15 @@ public class BlockSequenceGenerator implements IdentifierGenerator
     private String sequenceName;
 
     @Override
-    public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException
-    {
+    public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException {
         this.sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
         this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
 
-        if ((this.sequenceName == null) || this.sequenceName.isBlank())
-        {
+        if ((this.sequenceName == null) || this.sequenceName.isBlank()) {
             throw new MappingException("sequenceName required");
         }
 
-        if (this.blockSize < 1)
-        {
+        if (this.blockSize < 1) {
             throw new MappingException("blockSize >= 1 required");
         }
     }
@@ -56,8 +52,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator
      * @see org.hibernate.id.IdentifierGenerator#generate(org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
      */
     @Override
-    public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException
-    {
+    public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException {
         LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", this.blockSize, this.sequenceName);
 
         // String query = String.format("select %s from %s", session.getEntityPersister(object.getClass().getName(), object).getIdentifierPropertyName(),
@@ -65,10 +60,8 @@ public class BlockSequenceGenerator implements IdentifierGenerator
         //
         // Stream ids = session.createQuery(query).stream();
 
-        synchronized (this.idQueue)
-        {
-            if (this.idQueue.isEmpty())
-            {
+        synchronized (this.idQueue) {
+            if (this.idQueue.isEmpty()) {
                 // try
                 // {
                 // NativeQuery<Long> nativeQuery = session.createNativeQuery("call next value for " + this.sequenceName, Long.class);
@@ -85,14 +78,10 @@ public class BlockSequenceGenerator implements IdentifierGenerator
                 // throw ex;
                 // }
 
-                session.doWork(connection ->
-                {
-                    try (Statement statement = connection.createStatement())
-                    {
-                        for (int i = 0; i < this.blockSize; i++)
-                        {
-                            try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName))
-                            {
+                session.doWork(connection -> {
+                    try (Statement statement = connection.createStatement()) {
+                        for (int i = 0; i < this.blockSize; i++) {
+                            try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName)) {
                                 resultSet.next();
                                 long id = resultSet.getLong(1);
 
