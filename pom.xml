@@ -47,7 +47,6 @@
     </properties>
 
     <modules>
-        <module>agentportal</module>
         <module>cloudsessions</module>
         <module>j2ee-demo</module>
         <module>jpa</module>
