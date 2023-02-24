@@ -26,8 +26,8 @@
 
     <scm>
         <url>${project.url}</url>
-        <connection>scm:git:git://github.com/tfreese/j2ee.git</connection>
-        <developerConnection>scm:git:https://github.com/tfreese/j2ee.git</developerConnection>
+        <connection>scm:git:git@github.com/tfreese/j2ee.git</connection>
+        <developerConnection>scm:git:git@github.com/tfreese/j2ee.git</developerConnection>
     </scm>
 
     <developers>
