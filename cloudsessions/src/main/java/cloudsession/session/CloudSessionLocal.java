@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cloudsession.util.ObjectSerializer;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * @author Thomas Freese
@@ -73,7 +74,10 @@ public class CloudSessionLocal implements CloudSession {
                 }
 
                 try (InputStream inputStream = Files.newInputStream(DATA_PATH, StandardOpenOption.READ)) {
-                    Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, Map.class);
+                    TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<Map<String, Map<String, String>>>() {
+                    };
+
+                    Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, typeRef);
 
                     if (mapJson != null) {
                         mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
