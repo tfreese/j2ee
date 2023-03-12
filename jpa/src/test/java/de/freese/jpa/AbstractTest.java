@@ -13,11 +13,18 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import javax.cache.CacheManager;
+
 import jakarta.persistence.SharedCacheMode;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.hibernate.Cache;
 import org.hibernate.SessionFactory;
+import org.hibernate.cache.jcache.ConfigSettings;
+import org.hibernate.cache.jcache.internal.JCacheRegionFactory;
+import org.hibernate.cache.spi.CacheImplementor;
+import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
@@ -66,23 +73,25 @@ public abstract class AbstractTest {
         // config.put(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
         // Über die Property 'AvailableSettings.SHOW_SQL' schreibt Hibernate die Logs direkt in die Console.
-        // Besser: Logger 'org.hibernate.SQL' auf DEBUG setzen !
-        // Logger 'org.hibernate.type.descriptor.sql.BasicBinder' auf TRACE für Parameter in Prepared-Statements.
+        // Besser: Logger 'org.hibernate.SQL' auf DEBUG setzen.
+        // Logger 'org.hibernate.orm.jdbc.bind' auf TRACE für Parameter in Prepared-Statements.
+        // Logger 'org.hibernate.orm.jdbc.extract' auf TRACE für Werte in Select-Statements.
         // config.put(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.GENERATE_STATISTICS, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
 
         // Caching
-        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory");
-        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.internal.EhcacheRegionFactory");
         // config.put(AvailableSettings.CACHE_REGION_FACTORY, "de.freese.jpa.OnTheFlyEhcacheRegionFactory");
-        //        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
-        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
-        // config.put(ConfigSettings.MISSING_CACHE_STRATEGY, "create-warn"); // Deklarativ fehlende Caches automatisch aus DEFAULT-Konfiguration erzeugen.
+        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
+        //        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test");
         config.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
         config.put(AvailableSettings.USE_QUERY_CACHE, "true");
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
+
+        config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
+        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, "create-warn"); // Deklarativ fehlende Caches automatisch aus DEFAULT-Konfiguration erzeugen.
+        //        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, "fail");
 
         // Sonstiges
         // config.put(AvailableSettings.DEFAULT_SCHEMA, "...");
@@ -173,31 +182,29 @@ public abstract class AbstractTest {
         ps.println("SQL Query Miss Count: " + stats.getQueryCacheMissCount());
         ps.println("SQL Query Hit ratio %: " + (hitRatio * 100));
 
-        // ps.println();
-        // ps.println("CollectionStatistics");
-        // Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(s -> s != null).forEach(s -> {
-        //
-        // long hitCount = s.getCacheHitCount();
-        // long missCount = s.getCacheMissCount();
-        // double ratio = hitCount / (hitCount + missCount);
-        //
-        // ps.println("Cache Region.........: " + s);
-        //
-        // ps.println("Hit Count............: " + hitCount);
-        // ps.println("Miss Count...........: " + missCount);
-        // ps.println("Hit ratio[%].........: " + (ratio * 100));
-        //
-        // ps.println(s.getCacheRegionName() + " puts " + s.getCachePutCount());
-        // ps.println(s.getCacheRegionName() + " fetches " + s.getFetchCount());
-        // ps.println(s.getCacheRegionName() + " loads " + s.getLoadCount());
-        // ps.println(s.getCacheRegionName() + " updates " + s.getUpdateCount());
-        // ps.println();
-        // });
+        ps.println();
+        ps.println("CollectionStatistics");
+        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(s -> s != null).forEach(s -> {
+            long hitCount = s.getCacheHitCount();
+            long missCount = s.getCacheMissCount();
+            double ratio = hitCount / (hitCount + missCount);
+
+            ps.println("Cache Region.........: " + s);
+
+            ps.println("Hit Count............: " + hitCount);
+            ps.println("Miss Count...........: " + missCount);
+            ps.println("Hit ratio[%].........: " + (ratio * 100));
+
+            ps.println(s.getCacheRegionName() + " puts " + s.getCachePutCount());
+            ps.println(s.getCacheRegionName() + " fetches " + s.getFetchCount());
+            ps.println(s.getCacheRegionName() + " loads " + s.getLoadCount());
+            ps.println(s.getCacheRegionName() + " updates " + s.getUpdateCount());
+            ps.println();
+        });
 
         ps.println();
         ps.println("QueryRegionStatistics");
         Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s -> {
-
             long hitCount = s.getHitCount();
             long missCount = s.getMissCount();
             double ratio = hitCount / (hitCount + missCount);
@@ -229,6 +236,14 @@ public abstract class AbstractTest {
         ps.println("EntityStatistics");
         Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(ps::println);
         // @formatter:on
+
+        ps.println();
+
+        Cache cache = sessionFactory.getCache();
+        CacheImplementor cacheImplementor = (CacheImplementor) cache;
+        RegionFactory regionFactory = cacheImplementor.getRegionFactory();
+        JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
+        CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
 
         ps.println();
     }

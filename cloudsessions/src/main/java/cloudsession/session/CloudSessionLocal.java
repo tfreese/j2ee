@@ -74,7 +74,7 @@ public class CloudSessionLocal implements CloudSession {
                 }
 
                 try (InputStream inputStream = Files.newInputStream(DATA_PATH, StandardOpenOption.READ)) {
-                    TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<Map<String, Map<String, String>>>() {
+                    TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<>() {
                     };
 
                     Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, typeRef);

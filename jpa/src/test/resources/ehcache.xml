@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Configuration>
-<ehcache>
-    <diskStore />
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
-    <defaultCache
-        maxElementsInMemory="10000"
-        maxElementsOnDisk="0"
-        diskSpoolBufferSizeMB="0"
-        eternal="false"
-        timeToIdleSeconds="300"
-        timeToLiveSeconds="600"
-        overflowToDisk="false"
-		diskPersistent="false"
-		diskExpiryThreadIntervalSeconds="0"
-		memoryStoreEvictionPolicy="LFU"        
-    />
+    <default-serializers>
+        <serializer type="java.lang.Object">org.ehcache.impl.serialization.PlainJavaSerializer</serializer>
+    </default-serializers>
 
-    <cache name="hibernate.test.default-query-results-region"
-           maxElementsInMemory="50000"
-           maxElementsOnDisk="0"
-           diskSpoolBufferSizeMB="0"
-           eternal="false"
-           timeToIdleSeconds="900"
-           timeToLiveSeconds="1800"
-           overflowToDisk="false"
-           diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="300"
-           memoryStoreEvictionPolicy="LFU"
-    />
-    
-    <cache name="hibernate.test.default-update-timestamps-region"
-           maxElementsInMemory="50000"
-           maxElementsOnDisk="0"
-           diskSpoolBufferSizeMB="0"
-           eternal="false"
-           timeToIdleSeconds="900"
-           timeToLiveSeconds="1800"
-           overflowToDisk="false"
-           diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="300"
-           memoryStoreEvictionPolicy="LFU"
-    />
-    
-    <cache name="hibernate.test.collections"
-           maxElementsInMemory="2000"
-           maxElementsOnDisk="0"
-           diskSpoolBufferSizeMB="0"
-           eternal="false"
-           timeToIdleSeconds="900"
-           timeToLiveSeconds="1800"
-           overflowToDisk="false"
-           diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="300"
-           memoryStoreEvictionPolicy="LFU"
-    />       
+    <default-copiers>
+        <copier type="java.lang.Object">org.ehcache.impl.copy.IdentityCopier</copier>
+    </default-copiers>
 
-</ehcache>
+    <persistence directory="${java.io.tmpdir}/ehcache/" />
+
+    <cache-template name="default">
+        <!--        <key-type copier="org.ehcache.impl.copy.SerializingCopier" serializer="org.ehcache.impl.serialization.StringSerializer">java.lang.String</key-type>-->
+        <key-type serializer="org.ehcache.impl.serialization.PlainJavaSerializer">java.lang.Object</key-type>
+        <value-type serializer="org.ehcache.impl.serialization.PlainJavaSerializer">java.lang.Object</value-type>
+
+        <expiry>
+            <!--ttl unit="seconds">3</ttl-->
+            <!--tti unit="seconds">3</tti-->
+            <none />
+        </expiry>
+
+        <resources>
+            <heap unit="entries">200</heap>
+            <offheap unit="MB">5</offheap>
+        </resources>
+
+        <heap-store-settings>
+            <max-object-graph-size>2000</max-object-graph-size>
+            <max-object-size unit="kB">5</max-object-size>
+        </heap-store-settings>
+    </cache-template>
+
+    <cache alias="hibernate.test.default-update-timestamps-region" uses-template="default">
+        <resources>
+            <heap unit="entries">2000</heap>
+            <offheap unit="MB">25</offheap>
+            <disk persistent="true" unit="MB">50</disk>
+        </resources>
+    </cache>
+
+    <cache alias="hibernate.test.default-query-results-region" uses-template="default">
+    </cache>
+
+    <cache alias="hibernate.test.address" uses-template="default">
+    </cache>
+
+    <cache alias="hibernate.test.collections" uses-template="default">
+    </cache>
+
+    <cache alias="hibernate.test.person" uses-template="default">
+    </cache>
+
+</config>
