@@ -84,12 +84,6 @@
             </dependency>
 
             <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-api</artifactId>
-                <version>${version_jakarta.platform}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
                 <version>${version_io.openliberty}</version>
