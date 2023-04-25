@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -40,7 +39,7 @@ class EndpointTest {
             System.out.println(jsonValue);
 
             //            Map<String, String> map = response.readEntity(Map.class);
-            Map<String, Object> map = new ObjectMapper().readValue(jsonValue, HashMap.class);
+            HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, HashMap.class);
 
             assertNotNull(map);
             assertFalse(map.isEmpty());
