@@ -5,11 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
+ * <a href="http://localhost:8088/session">session-demo</a>
+ *
  * @author Thomas Freese
  */
 @ServletComponentScan
 @SpringBootApplication
-public final class CloudSessionStarter {
+public class CloudSessionStarter {
     public static void main(String[] args) {
         SpringApplication.run(CloudSessionStarter.class, args);
     }
@@ -27,8 +29,4 @@ public final class CloudSessionStarter {
     //
     //        return servRegBean;
     //    }
-
-    private CloudSessionStarter() {
-        super();
-    }
 }

@@ -1,12 +1,6 @@
 package cloudsession.session;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.PropertiesCredentials;
+import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.AmazonSimpleDBClientBuilder;
 import com.amazonaws.services.simpledb.model.Attribute;
@@ -29,17 +23,17 @@ public class CloudSessionAmazon implements CloudSession {
     public CloudSessionAmazon() {
         super();
 
-        final AWSCredentials credentials;
-
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties")) {
-            credentials = new PropertiesCredentials(inputStream);
-        }
-        catch (IOException ex) {
-            throw new AmazonServiceException(ex.getMessage());
-        }
-
-        // this.amazonClient = new AmazonSimpleDBClient(credentials);
-        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        //        final AWSCredentials credentials;
+        //
+        //        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties")) {
+        //            credentials = new PropertiesCredentials(inputStream);
+        //        }
+        //        catch (IOException ex) {
+        //            throw new AmazonServiceException(ex.getMessage());
+        //        }
+        //
+        //        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new ClasspathPropertiesFileCredentialsProvider()).build();
     }
 
     /**

@@ -32,8 +32,6 @@
     </build>
 
     <dependencies>
-        <!-- org.springframework.cloud:spring-cloud-aws-dependencies -->
-
         <!-- compile scope -->
         <dependency>
             <groupId>com.amazonaws</groupId>

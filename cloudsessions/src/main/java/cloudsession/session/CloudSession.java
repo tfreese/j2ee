@@ -2,11 +2,7 @@ package cloudsession.session;
 
 import java.util.Optional;
 
-import jakarta.servlet.http.HttpSession;
-
 /**
- * Interface für Zugriff auf Inhalt der {@link HttpSession}.
- *
  * @author Thomas Freese
  */
 public interface CloudSession {

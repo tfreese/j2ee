@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * <a href="http://localhost:8088/session">session-demo</a>
+ *
  * @author Thomas Freese
  */
 @WebServlet(name = "NonStickySessionServlet", urlPatterns = {"/session"}, loadOnStartup = 1)
@@ -107,6 +109,7 @@ public class NonStickySessionServlet extends HttpServlet {
 
             try (ServletOutputStream outputStream = response.getOutputStream()) {
                 outputStream.print(html.toString());
+                outputStream.flush();
             }
             catch (IOException ex) {
                 this.logger.error(ex.getMessage(), ex);
@@ -120,10 +123,19 @@ public class NonStickySessionServlet extends HttpServlet {
         if (request.getSession() != null) {
             HttpSession session = request.getSession();
 
-            //String sessionID = session.getId(); // Das ist die aktuelle Session, wir wollen aber die alte.
-            String sessionID = request.getHeader("cookie").split("=")[1];
+            //String sessionID = session.getId(); // This is the current Session, but we want the old one.
+            String sessionID = null;
 
-            html.append("<tr><td>cookieSessionID</td><td>").append(request.getHeader("cookie")).append("</td></tr>\n");
+            String cookie = request.getHeader("cookie");
+
+            if (cookie != null) {
+                sessionID = cookie.split("=")[1];
+            }
+            else {
+                cookie = "";
+            }
+
+            html.append("<tr><td>cookieSessionID</td><td>").append(cookie).append("</td></tr>\n");
             html.append("<tr><td>sessionID</td><td>").append(session.getId()).append("</td></tr>\n");
 
             // TODO SessionSwitch ss = new SessionSwitch(session);
@@ -174,6 +186,7 @@ public class NonStickySessionServlet extends HttpServlet {
 
         try (ServletOutputStream outputStream = response.getOutputStream()) {
             outputStream.print(html.toString());
+            outputStream.flush();
         }
         catch (IOException ex) {
             this.logger.error(ex.getMessage(), ex);

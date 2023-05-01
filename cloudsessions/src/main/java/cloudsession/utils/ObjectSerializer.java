@@ -1,4 +1,4 @@
-package cloudsession.util;
+package cloudsession.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

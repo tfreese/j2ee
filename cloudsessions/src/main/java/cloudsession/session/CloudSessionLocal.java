@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloudsession.util.ObjectSerializer;
+import cloudsession.utils.ObjectSerializer;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -25,6 +25,7 @@ public class CloudSessionLocal implements CloudSession {
     private static void storeProps(final Map<String, Map<String, String>> map) {
         try (OutputStream outputStream = Files.newOutputStream(DATA_PATH, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             ObjectSerializer.toJson(outputStream, map);
+            outputStream.flush();
         }
         catch (IOException ex) {
             throw new UncheckedIOException(ex);
@@ -84,7 +85,7 @@ public class CloudSessionLocal implements CloudSession {
                     }
                 }
 
-                // Veraltete Session-Einträge entfernen.
+                // Remove old Session-Entries.
                 for (Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
                     Map<String, String> data = iterator.next();
 
