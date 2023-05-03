@@ -37,6 +37,11 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-simpledb</artifactId>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>software.amazon.awssdk</groupId>-->
+        <!--            <artifactId>aws-sdk-java</artifactId>-->
+        <!--            <version>2.20.58</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

@@ -16,7 +16,7 @@ import com.amazonaws.services.simpledb.model.ReplaceableItem;
  * @author Thomas Freese
  */
 public class CloudSessionAmazon implements CloudSession {
-    private static final String SESSIONS_DOMAIN = "Sessions";
+    private static final String SESSIONS_DOMAIN = "sessions";
 
     private final AmazonSimpleDB amazonClient;
 
