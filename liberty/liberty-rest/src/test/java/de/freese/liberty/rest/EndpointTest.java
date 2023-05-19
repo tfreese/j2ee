@@ -12,6 +12,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,9 @@ class EndpointTest {
 
             System.out.println(jsonValue);
 
-            //            Map<String, String> map = response.readEntity(Map.class);
-            HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, HashMap.class);
+            TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
+            };
+            HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, typeReference);
 
             assertNotNull(map);
             assertFalse(map.isEmpty());
