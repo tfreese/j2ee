@@ -38,15 +38,15 @@
             <!-- mvn clean liberty:clean-server liberty:run liberty:stop -->
             <!-- liberty:stop -->
             <plugin>
-                <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
-                    <!--                    <assemblyArtifact>-->
-                    <!--                        <groupId>io.openliberty</groupId>-->
-                    <!--                        <artifactId>openliberty-runtime</artifactId>-->
-                    <!--                        <version>${version_io.openliberty}</version>-->
-                    <!--                        <type>zip</type>-->
-                    <!--                    </assemblyArtifact>-->
+                    <assemblyArtifact>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>${version_io.openliberty}</version>
+                        <type>zip</type>
+                    </assemblyArtifact>
                     <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>
                     <serverName>${project.artifactId}</serverName>
                     <stripVersion>true</stripVersion>
@@ -68,7 +68,7 @@
                         <id>stop-server-before-clean</id>
                         <phase>pre-clean</phase>
                         <goals>
-                            <goal>stop-server</goal>
+                            <goal>stop</goal>
                         </goals>
                     </execution>
                     <execution>
@@ -76,14 +76,14 @@
                         <phase>initialize</phase>
                         <goals>
                             <goal>install-server</goal>
-                            <goal>create-server</goal>
+                            <goal>create</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>install-apps</id>
                         <phase>process-test-sources</phase>
                         <goals>
-                            <goal>install-apps</goal>
+                            <goal>deploy</goal>
                         </goals>
                     </execution>
                     <!-- JUnit braucht laufenden Server -->
@@ -91,21 +91,21 @@
                         <id>test-start-server</id>
                         <phase>process-test-classes</phase>
                         <goals>
-                            <goal>test-start-server</goal>
+                            <goal>test-start</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>test-stop-server</id>
                         <phase>prepare-package</phase>
                         <goals>
-                            <goal>test-stop-server</goal>
+                            <goal>test-stop</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>package-server</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>stop-server</goal>
+                            <goal>stop</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -147,7 +147,7 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
