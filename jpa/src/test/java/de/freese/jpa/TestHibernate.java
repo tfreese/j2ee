@@ -159,14 +159,16 @@ class TestHibernate extends AbstractTest {
             });
 
             // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
-            List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
+            List<Person> persons = query.getResultList();
+            //            List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
 
             assertNotNull(persons);
             assertEquals(3, persons.size());
 
             //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
-            NativeQuery<Address> nativeQuery2 = session.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc", Address.class).setTupleTransformer((tuple, aliases) -> {
+            String sql = "select id, street from T_ADDRESS where person_id = :personId order by street desc";
+            NativeQuery<Address> nativeQuery2 = session.createNativeQuery(sql, Address.class).setTupleTransformer((tuple, aliases) -> {
                 Address address = new Address((String) tuple[1]);
                 address.setID((long) tuple[0]);
 

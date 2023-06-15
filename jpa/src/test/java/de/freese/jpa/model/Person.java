@@ -50,6 +50,7 @@ import org.hibernate.annotations.FetchMode;
 public class Person implements Serializable {
     @Serial
     private static final long serialVersionUID = 413810580854319964L;
+
     /**
      * orphanRemoval = true
      */
@@ -58,16 +59,17 @@ public class Person implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
     private final List<Address> addresses = new ArrayList<>();
+
     /**
      * , columnDefinition="Decimal(10,2) default '100.00'"
      */
-    @Column(name = "COOL", precision = 1, scale = 0)
+    @Column(name = "COOL", precision = 1)
     @ColumnDefault("false")
     private Boolean cool;
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
-    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", initialValue = 1, allocationSize = 10)
+    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 10)
     @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     // @GenericGenerator(name = "my-generator", parameters =
     // {
@@ -151,9 +153,6 @@ public class Person implements Serializable {
         return builder.toString();
     }
 
-    /**
-     * @PreUpdate
-     */
     @PrePersist
     void preInsert() {
         if (this.cool == null) {

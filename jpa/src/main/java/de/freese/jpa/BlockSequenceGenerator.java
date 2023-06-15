@@ -1,6 +1,7 @@
 // Created: 11.07.2018
 package de.freese.jpa;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -27,8 +28,10 @@ import org.slf4j.LoggerFactory;
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
+    @Serial
+    private static final long serialVersionUID = -8510962789727550315L;
 
-    private final Queue<Long> idQueue = new LinkedList<>();
+    private final transient Queue<Long> idQueue = new LinkedList<>();
 
     private int blockSize;
 

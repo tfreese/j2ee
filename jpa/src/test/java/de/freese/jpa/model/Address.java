@@ -40,7 +40,7 @@ public class Address implements Serializable {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
-    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", initialValue = 1, allocationSize = 10)
+    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 10)
     @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
     // @GenericGenerator(name = "my-generator", parameters =
     // {
@@ -111,7 +111,6 @@ public class Address implements Serializable {
      */
     @PrePersist
     void preInsert() {
-        // TODO preInsert
         System.out.println("Address.preInsert()");
     }
 

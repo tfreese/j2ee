@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -125,8 +124,6 @@ class TestJPA extends AbstractTest {
     @Override
     @Test
     public void test040NativeQuery() {
-        List<Person> persons = new ArrayList<>();
-
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
 
@@ -134,22 +131,25 @@ class TestJPA extends AbstractTest {
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
             // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
             // !!! Kein Caching bei Native-Queries !!!
-            List<Object[]> rows = entityManager.createNamedQuery("allPersons.native", Object[].class)
+            List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
                     //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
-                    .getResultList();
-
-            rows.forEach(row -> {
-                Person person = new Person((String) row[1], (String) row[2]);
-                person.setID((long) row[0]);
-
-                persons.add(person);
-            });
+                    .getResultStream().map(row -> {
+                        Person person = new Person((String) row[1], (String) row[2]);
+                        person.setID((long) row[0]);
+                        return person;
+                    }).toList();
 
             Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
             // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
             for (Person person : persons) {
-                rows = query.setParameter("personId", person.getID()).getResultList();
+                //                query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
+                //                    Address address = new Address((String) row[1]);
+                //                    address.setID((long) row[0]);
+                //                    return address;
+                //                }).forEach(person::addAddress);
+
+                List<Object[]> rows = query.setParameter("personId", person.getID()).getResultList();
 
                 rows.forEach(row -> {
                     Address address = new Address((String) row[1]);

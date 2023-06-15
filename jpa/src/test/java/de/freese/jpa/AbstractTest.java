@@ -109,7 +109,6 @@ public abstract class AbstractTest {
         config.put(AvailableSettings.STATEMENT_BATCH_SIZE, "30");
         config.put(AvailableSettings.STATEMENT_FETCH_SIZE, "100");
 
-        config.put(AvailableSettings.USE_REFLECTION_OPTIMIZER, "false");
         //        config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
         config.put(AvailableSettings.USE_MINIMAL_PUTS, "false");
         config.put(AvailableSettings.USE_STRUCTURED_CACHE, "false");
@@ -134,7 +133,7 @@ public abstract class AbstractTest {
             persons.add(person);
 
             for (int j = 1; j <= 3; j++) {
-                Address address = new Address("Street" + i + "" + j);
+                Address address = new Address("Street" + i + j);
                 person.addAddress(address);
             }
         }
