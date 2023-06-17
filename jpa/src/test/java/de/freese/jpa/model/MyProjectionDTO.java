@@ -28,6 +28,7 @@ public class MyProjectionDTO implements Serializable {
         if (this == o) {
             return true;
         }
+        
         if (!(o instanceof MyProjectionDTO dto)) {
             return false;
         }

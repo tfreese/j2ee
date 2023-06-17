@@ -2,19 +2,70 @@
 <entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns="https://jakarta.ee/xml/ns/persistence/orm"
                  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
-          https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd" version="3.0">
+          https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd" version="3.1">
 
     <!-- orm.xml überschreibt Annotations in den Entities -->
+    <!-- Einbindung über persistence.xml: <mapping-file>META-INF/orm.xml</mapping-file> -->
+
     <!--persistence-unit-metadata>
         <persistence-unit-defaults>
             <access>FIELD</access>
         </persistence-unit-defaults>
     </persistence-unit-metadata-->
 
-    <!-- Workaround für Hibernate-Bug: SequenceGeneratoren können über Annotations nicht wiederverwendet werden -->
-    <!-- Workaround nicht mehr notwendig -->
+    <sequence-generator name="seq_gen_person" sequence-name="PERSON_SEQ" initial-value="1" allocation-size="5" />
+    <sequence-generator name="seq_gen_address" sequence-name="ADDRESS_SEQ" initial-value="1" allocation-size="5" />
 
-    <!--sequence-generator name="seq_gen_person" sequence-name="PERSON_SEQ" initial-value="1" allocation-size="10" />
-    <sequence-generator name="seq_gen_address" sequence-name="ADDRESS_SEQ" initial-value="1" allocation-size="10" /-->
+    <named-query name="allPersons">
+        <query>
+            select p from Person p order by p.id asc
+        </query>
+    </named-query>
+    <named-native-query name="allPersons.native">
+        <query>
+            select p.id, p.name, p.vorname from T_PERSON p order by p.id asc
+        </query>
+    </named-native-query>
+    <entity class="de.freese.jpa.model.Person" name="Person">
+        <table name="T_PERSON" />
+        <attributes>
+            <id name="id">
+                <column name="ID" />
+                <generated-value strategy="SEQUENCE" generator="seq_gen_person" />
+            </id>
+            <basic name="name">
+                <column name="NAME" length="50" nullable="false" />
+            </basic>
+            <basic name="vorname">
+                <column name="VORNAME" length="50" nullable="false" />
+            </basic>
+            <one-to-many name="addresses" target-entity="de.freese.jpa.model.Address" mapped-by="person" fetch="LAZY" orphan-removal="true">
+                <order-by>street desc</order-by>
+                <cascade>
+                    <cascade-all />
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="de.freese.jpa.model.Address" name="Address">
+        <table name="T_ADDRESS" />
+        <attributes>
+            <id name="id">
+                <column name="ID" />
+                <generated-value strategy="SEQUENCE" generator="seq_gen_address" />
+            </id>
+            <basic name="street">
+                <column name="STREET" length="50" nullable="false" />
+            </basic>
+            <many-to-one name="person" target-entity="de.freese.jpa.model.Person" fetch="LAZY">
+                <join-column name="PERSON_ID" referenced-column-name="ID" />
+                <foreign-key name="FK_PERSON" />
+                <cascade>
+                    <cascade-persist />
+                </cascade>
+            </many-to-one>
+        </attributes>
+    </entity>
 
 </entity-mappings>

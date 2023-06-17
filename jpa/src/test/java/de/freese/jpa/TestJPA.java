@@ -125,7 +125,8 @@ class TestJPA extends AbstractTest {
     @Test
     public void test040NativeQuery() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            // java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
+            // Connection connection = entityManager.unwrap(Connection.class);
+            // Session session = entityManager.unwrap(Session.class);
 
             // entityManager.getTransaction().begin();
             // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!

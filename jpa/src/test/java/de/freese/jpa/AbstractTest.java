@@ -22,6 +22,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.Cache;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.jcache.ConfigSettings;
+import org.hibernate.cache.jcache.MissingCacheStrategy;
 import org.hibernate.cache.jcache.internal.JCacheRegionFactory;
 import org.hibernate.cache.spi.CacheImplementor;
 import org.hibernate.cache.spi.RegionFactory;
@@ -57,6 +58,7 @@ public abstract class AbstractTest {
         Map<String, Object> config = new HashMap<>();
 
         // Connection Properties
+        // ****************************************************************************************
         // config.put(AvailableSettings.DATASOURCE, "jdbc/DS");
         config.put(AvailableSettings.DATASOURCE, new HikariDataSource(hikariConfig));
         config.put(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect");
@@ -67,11 +69,14 @@ public abstract class AbstractTest {
         //        config.put(AvailableSettings.PASS, "");
 
         // Schema erzeugen
+        // ****************************************************************************************
         // config.put(AvailableSettings.HBM2DDL_AUTO, "none");
         config.put(AvailableSettings.HBM2DDL_AUTO, "create");
         // config.put(AvailableSettings.HBM2DDL_AUTO, "create-drop");
         // config.put(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
+        // Logging
+        // ****************************************************************************************
         // Über die Property 'AvailableSettings.SHOW_SQL' schreibt Hibernate die Logs direkt in die Console.
         // Besser: Logger 'org.hibernate.SQL' auf DEBUG setzen.
         // Logger 'org.hibernate.orm.jdbc.bind' auf TRACE für Parameter in Prepared-Statements.
@@ -81,6 +86,7 @@ public abstract class AbstractTest {
         config.put(AvailableSettings.GENERATE_STATISTICS, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
 
         // Caching
+        // ****************************************************************************************
         // config.put(AvailableSettings.CACHE_REGION_FACTORY, "de.freese.jpa.OnTheFlyEhcacheRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
         //        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
@@ -90,10 +96,12 @@ public abstract class AbstractTest {
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
 
         config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
-        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, "create-warn"); // Deklarativ fehlende Caches automatisch aus DEFAULT-Konfiguration erzeugen.
-        //        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, "fail");
+
+        // Deklarativ fehlende Caches automatisch aus DEFAULT-Konfiguration erzeugen.
+        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
 
         // Sonstiges
+        // ****************************************************************************************
         // config.put(AvailableSettings.DEFAULT_SCHEMA, "...");
         // config.put(AvailableSettings.SESSION_FACTORY_NAME, "de.freese.test"); // JNDI-Name
         config.put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
