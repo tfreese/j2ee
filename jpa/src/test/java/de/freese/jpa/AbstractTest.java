@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
+import de.freese.jpa.model.StrippedStringType;
 
 /**
  * @author Thomas Freese
@@ -68,7 +69,7 @@ public abstract class AbstractTest {
         //        config.put(AvailableSettings.USER, "sa");
         //        config.put(AvailableSettings.PASS, "");
 
-        // Schema erzeugen
+        // Create Schema
         // ****************************************************************************************
         // config.put(AvailableSettings.HBM2DDL_AUTO, "none");
         config.put(AvailableSettings.HBM2DDL_AUTO, "create");
@@ -77,10 +78,10 @@ public abstract class AbstractTest {
 
         // Logging
         // ****************************************************************************************
-        // Über die Property 'AvailableSettings.SHOW_SQL' schreibt Hibernate die Logs direkt in die Console.
-        // Besser: Logger 'org.hibernate.SQL' auf DEBUG setzen.
-        // Logger 'org.hibernate.orm.jdbc.bind' auf TRACE für Parameter in Prepared-Statements.
-        // Logger 'org.hibernate.orm.jdbc.extract' auf TRACE für Werte in Select-Statements.
+        // By the Property 'AvailableSettings.SHOW_SQL' Hibernate writes the Logs to the Console.
+        // Better: Logger 'org.hibernate.SQL' set to DEBUG.
+        // Logger 'org.hibernate.orm.jdbc.bind' to TRACE for Parameter in Prepared-Statements.
+        // Logger 'org.hibernate.orm.jdbc.extract' to TRACE for Werte in Select-Statements.
         // config.put(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.GENERATE_STATISTICS, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
@@ -97,10 +98,10 @@ public abstract class AbstractTest {
 
         config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
 
-        // Deklarativ fehlende Caches automatisch aus DEFAULT-Konfiguration erzeugen.
+        // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
         config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
 
-        // Sonstiges
+        // Misc
         // ****************************************************************************************
         // config.put(AvailableSettings.DEFAULT_SCHEMA, "...");
         // config.put(AvailableSettings.SESSION_FACTORY_NAME, "de.freese.test"); // JNDI-Name
@@ -133,15 +134,18 @@ public abstract class AbstractTest {
 
     public abstract void test040NativeQuery();
 
+    /**
+     * Spaces will be removed by {@link StrippedStringType}.
+     **/
     protected List<Person> createPersons() {
         List<Person> persons = new ArrayList<>();
 
         for (int i = 1; i <= 3; i++) {
-            Person person = new Person("Name" + i, "Vorname" + i);
+            Person person = new Person("   Name" + i, "   Vorname" + i);
             persons.add(person);
 
             for (int j = 1; j <= 3; j++) {
-                Address address = new Address("Street" + i + j);
+                Address address = new Address("   Street" + i + j);
                 person.addAddress(address);
             }
         }
@@ -150,12 +154,6 @@ public abstract class AbstractTest {
     }
 
     protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory) {
-        // if (System.out == ps)
-        // {
-        // // Erst mal deaktiviert
-        // return;
-        // }
-
         Statistics stats = sessionFactory.getStatistics();
 
         long txCount = stats.getTransactionCount();
@@ -167,7 +165,7 @@ public abstract class AbstractTest {
         ps.println("Begin Transaction Count : " + txCount);
         ps.println("Commit Transaction Count: " + stats.getSuccessfulTransactionCount());
 
-        // Globaler 2nd lvl Cache
+        // Global 2nd lvl Cache
         double hitRatio = 0;
 
         if ((stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount()) > 0) {
@@ -225,12 +223,12 @@ public abstract class AbstractTest {
             ps.println();
         });
 
-        // Objektspezifische Statistiken
+        // Objekt specific Statistics
         // Metamodel metamodel = sessionFactory.getMetamodel();
         // Metamodel metamodel = ((SessionFactoryImplementor) sessionFactory).getMetamodel();
         // Map<String, ClassMetadata> classMetadata = sessionFactory.getAllClassMetadata();
 
-        // Klassennamen sortieren
+        // Sort by Class name.
         // @formatter:off
 //        classMetadata.values().stream()
 //            .map(cmd -> cmd.getEntityName())

@@ -13,8 +13,8 @@
         </persistence-unit-defaults>
     </persistence-unit-metadata-->
 
-    <sequence-generator name="seq_gen_person" sequence-name="PERSON_SEQ" initial-value="1" allocation-size="5" />
-    <sequence-generator name="seq_gen_address" sequence-name="ADDRESS_SEQ" initial-value="1" allocation-size="5" />
+    <sequence-generator name="seq_gen_person" sequence-name="PERSON_SEQ" initial-value="1" allocation-size="1" />
+    <sequence-generator name="seq_gen_address" sequence-name="ADDRESS_SEQ" initial-value="1" allocation-size="1" />
 
     <named-query name="allPersons">
         <query>

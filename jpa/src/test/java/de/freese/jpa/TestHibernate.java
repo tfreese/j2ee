@@ -49,16 +49,16 @@ class TestHibernate extends AbstractTest {
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config).build();
 
         MetadataSources metadataSources = new MetadataSources(serviceRegistry);
-        metadataSources.addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
-        //        metadataSources.addResource("META-INF/orm.xml");
+        metadataSources.addPackage("de.freese.jpa.model") // for package-info.java
+                .addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
+        //        .addResource("META-INF/orm.xml");
 
         try {
             Metadata metadata = metadataSources.buildMetadata();
             sessionFactory = metadata.getSessionFactoryBuilder().build();
         }
         catch (Exception ex) {
-            // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory
-            // so destroy it manually.
+            // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory so destroy it manually.
             StandardServiceRegistryBuilder.destroy(serviceRegistry);
 
             LOGGER.error(ex.getMessage(), ex);
@@ -101,11 +101,11 @@ class TestHibernate extends AbstractTest {
         try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
-            // Caching muss explizit aktiviert werden
+            // Caching must be enabled explicitly.
             // List<Person> persons = session.createQuery("from Person order by id asc")
             // .setCacheable(true).setCacheRegion("person").getResultList();
 
-            // Caching aktiviert in Person Definition
+            // Caching is enabled in Mapping.
             List<Person> persons = session.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
@@ -125,11 +125,11 @@ class TestHibernate extends AbstractTest {
         try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
-            // Caching muss explizit aktiviert werden
+            // Caching must be enabled explicitly.
             // Person person = session.createQuery("from Person where vorname=:vorname order by name asc")
             // .setCacheable(true).setCacheRegion("person").getSingleResult();
 
-            // Caching aktiviert in Person Definition
+            // Caching is enabled in Mapping.
             Person person = session.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
@@ -148,8 +148,8 @@ class TestHibernate extends AbstractTest {
         try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
-            // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
-            // !!! Kein Caching bei Named-Queries !!!
+            // !!! Aliases won't work in Native-Queries without Mapping object !!!
+            // !!! No Caching for Named-Queries !!!
             // query.setCacheable(true).setCacheRegion("person");
             Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class).setTupleTransformer((tuple, aliases) -> {
                 Person person = new Person((String) tuple[1], (String) tuple[2]);
@@ -158,7 +158,7 @@ class TestHibernate extends AbstractTest {
                 return person;
             });
 
-            // Flush auf T_PERSON erzwingen, damit NativeQuery auch Daten aus der Session erwischt.
+            // Force flush on T_PERSON, so the NativeQuery can access the cached Data from the Session.
             List<Person> persons = query.getResultList();
             //            List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
 

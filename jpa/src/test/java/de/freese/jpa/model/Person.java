@@ -23,7 +23,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.QueryHint;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -34,6 +33,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 
 /**
  * @author Thomas Freese
@@ -69,7 +69,7 @@ public class Person implements Serializable {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
-    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 10)
+    //    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1) // see package-info.java
     @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     // @GenericGenerator(name = "my-generator", parameters =
     // {
@@ -80,9 +80,11 @@ public class Person implements Serializable {
     private long id = -1;
 
     @Column(name = "NAME", length = 50, nullable = false)
+    @Type(value = StrippedStringType.class)
     private String name;
 
     @Column(name = "VORNAME", length = 50, nullable = false)
+    @Type(value = StrippedStringType.class)
     private String vorname;
 
     public Person() {

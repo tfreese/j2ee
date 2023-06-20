@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
+
     @Serial
     private static final long serialVersionUID = -8510962789727550315L;
 
@@ -58,11 +59,6 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
     public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException {
         LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", this.blockSize, this.sequenceName);
 
-        // String query = String.format("select %s from %s", session.getEntityPersister(object.getClass().getName(), object).getIdentifierPropertyName(),
-        // object.getClass().getSimpleName());
-        //
-        // Stream ids = session.createQuery(query).stream();
-
         synchronized (this.idQueue) {
             if (this.idQueue.isEmpty()) {
                 // try
@@ -86,9 +82,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
                         for (int i = 0; i < this.blockSize; i++) {
                             try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName)) {
                                 resultSet.next();
-                                long id = resultSet.getLong(1);
-
-                                this.idQueue.offer(id);
+                                this.idQueue.offer(resultSet.getLong(1));
                             }
                         }
                     }

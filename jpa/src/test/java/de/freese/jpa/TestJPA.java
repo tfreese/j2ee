@@ -15,7 +15,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 
-import org.hibernate.internal.SessionFactoryImpl;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -67,7 +67,7 @@ class TestJPA extends AbstractTest {
 
             validateTest1Insert(persons);
 
-            entityManager.flush(); // ohne flush kein insert
+            entityManager.flush(); // without no flush -> no insert
             entityManager.getTransaction().commit();
         }
     }
@@ -81,11 +81,11 @@ class TestJPA extends AbstractTest {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
-            // Caching muss explizit aktiviert werden
+            // Caching must be enabled explicitly.
             // List<Person> persons = entityManager.createQuery("from Person order by id asc")
             // .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getResultList();
 
-            // Caching aktiviert in Person Definition
+            // Caching is enabled in Mapping.
             List<Person> persons = entityManager.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
@@ -105,10 +105,10 @@ class TestJPA extends AbstractTest {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
-            // Caching aktiviert in Person Definition
+            // Caching is enabled in Mapping.
             Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
-            // Caching muss explizit aktiviert werden
+            // Caching must be enabled explicitly.
             // Person person = entityManager.createQuery("from Person where vorname=:vorname order by name asc", Person.class)
             // setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getSingleResult();
 
@@ -129,9 +129,9 @@ class TestJPA extends AbstractTest {
             // Session session = entityManager.unwrap(Session.class);
 
             // entityManager.getTransaction().begin();
-            // !!! Aliase funktionieren bei Native-Queries ohne Mappingobjekt nicht !!!
-            // !!! Scalar Werte (addScalar) wie in Hibernate funktionieren bei JPA nicht !!!
-            // !!! Kein Caching bei Native-Queries !!!
+            // !!! Aliases won't work in Native-Queries without Mapping object !!!
+            // !!! Scalar Values (addScalar) like in Hibernate are not working for JPA !!!
+            // !!! No Caching for Named-Queries !!!
             List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
                     //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
                     .getResultStream().map(row -> {
@@ -197,7 +197,7 @@ class TestJPA extends AbstractTest {
 
     @Test
     void test99Statistics() {
-        dumpStatistics(System.out, (SessionFactoryImpl) entityManagerFactory);
+        dumpStatistics(System.out, entityManagerFactory.unwrap(SessionFactory.class));
 
         assertTrue(true);
     }

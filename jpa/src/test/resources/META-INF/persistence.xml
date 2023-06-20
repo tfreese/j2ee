@@ -13,6 +13,8 @@
 
         <!--        <mapping-file>META-INF/orm.xml</mapping-file>-->
         <!--        <jar-file>moduleB.jar</jar-file>-->
+        
+        <class>de.freese.jpa.model</class> <!-- for package-info.java -->
         <!--        <class>de.freese.jpa.model.Person</class>-->
         <!--        <class>de.freese.jpa.model.Address</class>-->
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

@@ -15,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -23,6 +22,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
 /**
  * @author Thomas Freese
@@ -40,7 +40,7 @@ public class Address implements Serializable {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
-    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 10)
+    //    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1) // see package-info.java
     @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
     // @GenericGenerator(name = "my-generator", parameters =
     // {
@@ -55,6 +55,7 @@ public class Address implements Serializable {
     private Person person;
 
     @Column(name = "STREET", length = 50, nullable = false)
+    @Type(value = StrippedStringType.class)
     private String street;
 
     public Address() {
