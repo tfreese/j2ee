@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
 
 /**
@@ -65,9 +65,6 @@ class TestHibernate extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test010Insert()
-     */
     @Override
     @Test
     public void test010Insert() {
@@ -87,14 +84,11 @@ class TestHibernate extends AbstractTest {
 
             validateTest1Insert(persons);
 
-            session.flush(); // ohne flush kein insert
+            //            session.flush(); // without no flush -> no insert
             session.getTransaction().commit();
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test020SelectAll()
-     */
     @Override
     @Test
     public void test020SelectAll() {
@@ -114,9 +108,6 @@ class TestHibernate extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test030SelectVorname()
-     */
     @Override
     @Test
     public void test030SelectVorname() {
@@ -138,9 +129,6 @@ class TestHibernate extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test040NativeQuery()
-     */
     @Override
     @Test
     @Disabled("Strange Error Message in Address call: 'Unable to find column position by name: PERSON_ID'")
@@ -194,20 +182,21 @@ class TestHibernate extends AbstractTest {
         try (Session session = sessionFactory.openSession()) {
             StringBuilder hql = new StringBuilder();
             hql.append("select");
-            hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
+            hql.append(" new de.freese.jpa.model.MyProjectionVo");
+            hql.append(" (");
             hql.append("p.id");
             hql.append(", p.name");
             hql.append(")");
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            List<MyProjectionDTO> result = session.createQuery(hql.toString(), MyProjectionDTO.class).getResultList();
+            List<MyProjectionVo> result = session.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++) {
-                MyProjectionDTO dto = result.get(i - 1);
+                MyProjectionVo dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
             }

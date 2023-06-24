@@ -23,7 +23,7 @@
 #-Dcom.ibm.jsse2.sp800-131=transition
 
 # java tempdir
-#-Djava.io.tmpdir=/appl/webappl/star/java.io.tmpdir
+-Djava.io.tmpdir=/tmp/ibm-wlp/usr/servers/demo/java.io.tmpdir
 
 
 # Remote debugging
@@ -45,4 +45,3 @@
 
 # debug Connection Settings
 #-Djavax.net.debug=all
-

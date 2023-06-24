@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Configuration>
 <server description="Stage specific variables">
 
 	<!-- Stage Name for jndiEntry --> 
@@ -7,7 +6,7 @@
 	<variable name="STAGE" value="dev" />
 
 	<!-- deploy folder -->
-	<variable name="DEPLOY_FOLDER" value="appl_dropins" />
+    <!--	<variable name="deploy_folder" value="${deploy_folder}" />-->
 
     <!-- DB Variables-->
     <variable name="datasource_url" value="jdbc:hsqldb:mem:liberty" />

@@ -28,6 +28,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <skip>false</skip>
                             <outputDirectory>${project.build.directory}/libs</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
@@ -35,7 +36,6 @@
                             <stripVersion>false</stripVersion>
                             <includeScope>compile</includeScope>
                             <includeScope>runtime</includeScope>
-                            <skip>false</skip>
                         </configuration>
                     </execution>
                 </executions>
@@ -47,22 +47,22 @@
                     <packagingExcludes>pom.xml</packagingExcludes>
                     <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
                     <warName>${project.artifactId}</warName>
-                    <webResources>
-                        <resource>
-                            <directory>${basedir}/config/javaee</directory>
-                            <targetPath>META-INF</targetPath>
-                            <includes>
-                                <include>ejb-jar.xml</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <directory>${basedir}/config/javaee</directory>
-                            <targetPath>WEB-INF</targetPath>
-                            <includes>
-                                <include>beans.xml</include>
-                            </includes>
-                        </resource>
-                    </webResources>
+                    <!--                    <webResources>-->
+                    <!--                        <resource>-->
+                    <!--                            <directory>${basedir}/config/javaee</directory>-->
+                    <!--                            <targetPath>META-INF</targetPath>-->
+                    <!--                            <includes>-->
+                    <!--                                <include>ejb-jar.xml</include>-->
+                    <!--                            </includes>-->
+                    <!--                        </resource>-->
+                    <!--                        <resource>-->
+                    <!--                            <directory>${basedir}/config/javaee</directory>-->
+                    <!--                            <targetPath>WEB-INF</targetPath>-->
+                    <!--                            <includes>-->
+                    <!--                                <include>beans.xml</include>-->
+                    <!--                            </includes>-->
+                    <!--                        </resource>-->
+                    <!--                    </webResources>-->
                 </configuration>
             </plugin>
         </plugins>

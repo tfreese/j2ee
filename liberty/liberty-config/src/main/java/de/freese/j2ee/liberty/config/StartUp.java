@@ -94,7 +94,9 @@ public class StartUp extends AbstractBean {
         try {
             int value = 0;
 
-            try (Connection con = dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            try (Connection con = dataSource.getConnection();
+                 Statement stmt = con.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
                 rs.next();
                 value = rs.getInt(1);
             }

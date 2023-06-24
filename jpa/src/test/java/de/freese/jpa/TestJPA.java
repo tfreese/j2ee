@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import de.freese.jpa.model.Address;
-import de.freese.jpa.model.MyProjectionDTO;
+import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
 
 /**
@@ -53,9 +53,6 @@ class TestJPA extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test010Insert()
-     */
     @Override
     @Test
     public void test010Insert() {
@@ -67,14 +64,11 @@ class TestJPA extends AbstractTest {
 
             validateTest1Insert(persons);
 
-            entityManager.flush(); // without no flush -> no insert
+            //            entityManager.flush(); // without no flush -> no insert
             entityManager.getTransaction().commit();
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test020SelectAll()
-     */
     @Override
     @Test
     public void test020SelectAll() {
@@ -94,9 +88,6 @@ class TestJPA extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test030SelectVorname()
-     */
     @Override
     @Test
     public void test030SelectVorname() {
@@ -118,9 +109,6 @@ class TestJPA extends AbstractTest {
         }
     }
 
-    /**
-     * @see de.freese.jpa.AbstractTest#test040NativeQuery()
-     */
     @Override
     @Test
     public void test040NativeQuery() {
@@ -173,20 +161,21 @@ class TestJPA extends AbstractTest {
 
             StringBuilder hql = new StringBuilder();
             hql.append("select");
-            hql.append(" new de.freese.jpa.model.MyProjectionDTO(");
+            hql.append(" new de.freese.jpa.model.MyProjectionVo");
+            hql.append(" (");
             hql.append("p.id");
             hql.append(", p.name");
             hql.append(")");
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            List<MyProjectionDTO> result = entityManager.createQuery(hql.toString(), MyProjectionDTO.class).getResultList();
+            List<MyProjectionVo> result = entityManager.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++) {
-                MyProjectionDTO dto = result.get(i - 1);
+                MyProjectionVo dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
             }

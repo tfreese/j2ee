@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class MyProjectionDTO implements Serializable {
+public class MyProjectionVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 8195470174423798274L;
 
@@ -16,7 +16,7 @@ public class MyProjectionDTO implements Serializable {
 
     private final String name;
 
-    public MyProjectionDTO(final Long id, final String name) {
+    public MyProjectionVo(final Long id, final String name) {
         super();
 
         this.id = id;
@@ -28,8 +28,8 @@ public class MyProjectionDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        
-        if (!(o instanceof MyProjectionDTO dto)) {
+
+        if (!(o instanceof MyProjectionVo dto)) {
             return false;
         }
 

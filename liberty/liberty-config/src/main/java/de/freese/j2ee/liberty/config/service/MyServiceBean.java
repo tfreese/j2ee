@@ -38,7 +38,9 @@ public class MyServiceBean extends AbstractBean implements MyService {
         String sql = "VALUES (CURRENT_DATE)";
         Date date = null;
 
-        try (Connection con = this.dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection con = this.dataSource.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
             date = rs.getDate(1);
         }

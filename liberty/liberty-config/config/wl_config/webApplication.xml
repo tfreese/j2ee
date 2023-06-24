@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Configuration>
 <server description="application definition">
 
-	<!-- Shared libraries; move global libraries from lib/global to somewhere else -->
-	<library id="applicationLib">
-			<fileset dir="${appl_path}/appl_libs" includes="*.*" excludes="hsqldb*.jar" />
-			<folder dir="${appl_path}/wl_config" />
-	</library>
-		
-	<!-- war file application which uses shared library. Deployment directory like appl_monitor must be created by project-->
-	<webApplication
-        id="liberty_demo" 
-        name="liberty_demo" 
-        location="${appl_path}/${DEPLOY_FOLDER}/liberty-config.war"
-		contextRoot="config">
-		<classloader commonLibraryRef="applicationLib, hsqldbDriver" />
-	</webApplication>
+    <!-- Shared libraries; move global libraries from lib/global to somewhere else -->
+    <library id="applicationLib">
+        <fileset dir="${server_home}/appl/appl_libs" includes="*.*" excludes="hsqldb*.jar" />
+        <folder dir="${server_home}/appl/wl_config" />
+    </library>
+
+    <!-- war file application which uses shared library. Deployment directory like appl_monitor must be created by project-->
+    <webApplication
+            id="liberty_demo"
+            name="liberty_demo"
+            location="${server_home}/appl/${deploy_folder}/liberty-config.war"
+            contextRoot="config">
+        <classloader commonLibraryRef="applicationLib, hsqldbDriver" />
+    </webApplication>
 
     <!-- für Arquillian -->
     <!--applicationMonitor updateTrigger="mbean" /-->
-    
-	<!-- disable hot deployment -->
-	<applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
-	
-	<!-- disable configuration file monitoring -->
-	<config updateTrigger="disabled" />
-	<webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
-	<cdi12 enableImplicitBeanArchives="false" />
 
-	<basicRegistry id="defaultBasicRegistry" />
+    <!-- disable hot deployment -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
 
-	<transaction totalTranLifetimeTimeout="6h" clientInactivityTimeout="30m" />
+    <!-- disable configuration file monitoring -->
+    <config updateTrigger="disabled" />
+    <webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
+    <cdi12 enableImplicitBeanArchives="false" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+
+    <transaction totalTranLifetimeTimeout="6h" clientInactivityTimeout="30m" />
 
 </server>
-

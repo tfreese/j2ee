@@ -33,7 +33,7 @@ import org.hibernate.annotations.Type;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
-// @Immutable // Alle Attribute nur über Konstruktor, keine Setter.
+// @Immutable // All Attributes over Constructor, no Setter.
 public class Address implements Serializable {
     @Serial
     private static final long serialVersionUID = 2678405627217507543L;
