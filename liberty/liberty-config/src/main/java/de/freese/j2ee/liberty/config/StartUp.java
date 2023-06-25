@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
-import jakarta.ejb.LocalBean;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 
@@ -21,7 +20,6 @@ import de.freese.j2ee.liberty.config.service.MyService;
  */
 @Startup
 @Singleton
-@LocalBean
 public class StartUp extends AbstractBean {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;

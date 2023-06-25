@@ -2,7 +2,6 @@
 package de.freese.j2ee.liberty.config;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 @Stateless
-@LocalBean
 public class NoViewBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * @author Thomas Freese
  */
-// @Local
 public interface MyService {
     Date getSysDate() throws SQLException;
 

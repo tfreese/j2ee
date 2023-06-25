@@ -22,8 +22,6 @@ import de.freese.j2ee.liberty.config.AbstractBean;
  * @author Thomas Freese
  */
 @Stateless
-// @LocalBean
-// @Local(MyService.class)
 public class MyServiceBean extends AbstractBean implements MyService {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;

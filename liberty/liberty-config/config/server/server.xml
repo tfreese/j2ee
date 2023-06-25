@@ -2,21 +2,21 @@
 <server description="Liberty Basis-Konfiguration">
 
     <featureManager>
-        <feature>concurrent-1.0</feature>
-        <feature>jndi-1.0</feature>
-        <feature>localConnector-1.0</feature>
-        <!--feature>ssl-1.0</feature-->
+        <!--        <feature>concurrent-3.0</feature>-->
+        <!--        <feature>jndi-1.0</feature>-->
+        <!--        <feature>localConnector-1.0</feature>-->
+        <!--        <feature>ssl-1.0</feature>-->
     </featureManager>
 
     <logging consoleLogLevel="INFO" maxFileSize="50" maxFiles="10" traceFormat="ADVANCED" />
     <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="${wl_cookiename}" />
     <webContainer deferServletLoad="false" />
-    <applicationMonitor dropins="dropins" dropinsEnabled="true" pollingRate="5000ms" updateTrigger="polled" />
+    <!--    <applicationMonitor dropins="dropins" dropinsEnabled="false" pollingRate="5000ms" updateTrigger="polled" />-->
 
     <include location="${server_home}/appl/wl_config/appl.xml" />
 
     <!-- sslOptionsRef="defaultSSLConfig" -->
-    <httpEndpoint host="${wl_hostname}" httpPort="${wl_httpPort}" httpsPort="${wl_httpsPort}" id="defaultHttpEndpoint">
+    <httpEndpoint id="defaultHttpEndpoint" host="${wl_hostname}" httpPort="${wl_httpPort}" httpsPort="${wl_httpsPort}">
         <tcpOptions soReuseAddr="true" />
     </httpEndpoint>
     <httpOptions removeServerHeader="true" />
@@ -28,9 +28,9 @@
 
     <ssl id="defaultSSLSettings" clientAuthentication="false" clientAuthenticationSupported="false" keyStoreRef="defaultKeyStore"
         trustStoreRef="defaultTrustStore"
-        securityLevel="HIGH" sslProtocol="TLSv1.2" />
+        securityLevel="HIGH" sslProtocol="TLSv1.2" /-->
 
-    <sslDefault sslRef="defaultSSLSettings" />
-    <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" /-->
+    <!--    <sslDefault sslRef="defaultSSLSettings" />-->
+    <!--    <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" />-->
 
 </server>

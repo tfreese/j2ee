@@ -19,7 +19,6 @@ import de.freese.j2ee.liberty.config.service.MyService;
 /**
  * @author Thomas Freese
  */
-// @RequestScoped
 @Path("service")
 public class MyRestFacade extends AbstractBean {
     @EJB

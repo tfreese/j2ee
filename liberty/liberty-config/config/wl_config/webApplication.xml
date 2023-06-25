@@ -25,7 +25,7 @@
     <!-- disable configuration file monitoring -->
     <config updateTrigger="disabled" />
     <webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
-    <cdi12 enableImplicitBeanArchives="false" />
+    <cdi enableImplicitBeanArchives="false" />
 
     <basicRegistry id="defaultBasicRegistry" />
 
