@@ -2,14 +2,14 @@
 package de.freese.j2ee.liberty.config.service;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
  * @author Thomas Freese
  */
 public interface MyService {
-    Date getSysDate() throws SQLException;
+    LocalDateTime getSysDate() throws SQLException;
 
     Map<String, String> getSystemProperties();
 }

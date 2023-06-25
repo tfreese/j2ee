@@ -25,9 +25,9 @@ public class StartUp extends AbstractBean {
     private DataSource dataSource;
 
     /**
-     * No-View Beans (ohne Interface) funktionieren komischerweise nicht !
+     * No-View Beans (without Interface) doesn't work ?!
      */
-    // @EJB
+    //    @EJB
     private NoViewBean noViewBean;
 
     @EJB
@@ -51,13 +51,13 @@ public class StartUp extends AbstractBean {
         }
 
         if (this.noViewBean == null) {
-            getLogger().warn("NoViewBean is null, try ejb lookup with java:module/TestBean");
+            getLogger().warn("NoViewBean is null, try ejb lookup");
 
             try {
                 this.noViewBean = Utils.ejb(NoViewBean.class);
 
                 if (this.noViewBean != null) {
-                    getLogger().warn("NoViewBean lookup successfull");
+                    getLogger().warn("NoViewBean lookup successfully");
                 }
             }
             catch (RuntimeException rex) {
@@ -72,7 +72,22 @@ public class StartUp extends AbstractBean {
                 this.noViewBean = Utils.inject(NoViewBean.class);
 
                 if (this.noViewBean != null) {
-                    getLogger().warn("NoViewBean lookup successfull");
+                    getLogger().warn("NoViewBean lookup successfully");
+                }
+            }
+            catch (RuntimeException rex) {
+                getLogger().error(rex.getMessage());
+            }
+        }
+
+        if (this.noViewBean == null) {
+            getLogger().warn("NoViewBean is null, try jndi lookup");
+
+            try {
+                this.noViewBean = Utils.lookup("java:module/NoViewBean!de.freese.j2ee.liberty.config.NoViewBean", NoViewBean.class);
+
+                if (this.noViewBean != null) {
+                    getLogger().warn("NoViewBean lookup successfully");
                 }
             }
             catch (RuntimeException rex) {

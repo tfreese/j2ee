@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -26,29 +26,24 @@ public class MyServiceBean extends AbstractBean implements MyService {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
 
-    /**
-     * @see de.freese.j2ee.liberty.config.service.MyService#getSysDate()
-     */
     @Override
-    public Date getSysDate() throws SQLException {
+    public LocalDateTime getSysDate() throws SQLException {
         getLogger().info("getSysDate");
 
-        String sql = "VALUES (CURRENT_DATE)";
-        Date date = null;
+        //        String sql = "VALUES (CURRENT_DATE)";
+        String sql = "VALUES (CURRENT_TIMESTAMP)";
+        LocalDateTime localDateTime = null;
 
         try (Connection con = this.dataSource.getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
-            date = rs.getDate(1);
+            localDateTime = rs.getTimestamp(1).toLocalDateTime();
         }
 
-        return date;
+        return localDateTime;
     }
 
-    /**
-     * @see de.freese.j2ee.liberty.config.service.MyService#getSystemProperties()
-     */
     @Override
     public Map<String, String> getSystemProperties() {
         getLogger().info("getSystemProperties");
@@ -61,9 +56,6 @@ public class MyServiceBean extends AbstractBean implements MyService {
         return map;
     }
 
-    /**
-     * @see de.freese.j2ee.liberty.config.AbstractBean#postConstruct()
-     */
     @Override
     @PostConstruct
     public void postConstruct() {

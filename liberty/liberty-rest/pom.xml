@@ -44,6 +44,8 @@
                     <assemblyArtifact>
                         <groupId>io.openliberty</groupId>
                         <artifactId>openliberty-runtime</artifactId>
+                        <!--                        <groupId>com.ibm.websphere.appserver.runtime</groupId>-->
+                        <!--                        <artifactId>wlp-jakartaee10</artifactId>-->
                         <version>${version_io.openliberty}</version>
                         <type>zip</type>
                     </assemblyArtifact>
