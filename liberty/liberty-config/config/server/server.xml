@@ -22,6 +22,15 @@
     <httpOptions removeServerHeader="true" />
     <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
 
+    <!-- IIOPS Port -->
+    <!--    <iiopEndpoint id="defaultIiopEndpoint" iiopPort="${wl_iiopPort}">-->
+    <!--        <iiopsOptions iiopsPort="${wl_iiopsPort}" sslRef="defaultSSLSettings"/>-->
+    <!--    </iiopEndpoint>-->
+
+    <!-- JMS Port -->
+    <!--    <wasJmsEndpoint id="InboundJmsEndpoint" wasJmsPort="${wl_jmsPort}" wasJmsSSLPort="${wl_jmsSslPort}">-->
+    <!--    </wasJmsEndpoint>-->
+
     <!-- defaultSSLSettings-->
     <!--keyStore id="defaultKeyStore" location="${server_home}/resources/security/key-default.jks" password="..." readOnly="true" type="jks" />
     <keyStore id="defaultTrustStore" location="${server_home}/resources/security/trust-default.jks" password="..." readOnly="true" type="jks" />

@@ -16,6 +16,12 @@
         <classloader commonLibraryRef="applicationLib, hsqldbDriver" />
     </webApplication>
 
+    <logging isoDateFormat="true" />
+
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
+
     <!-- für Arquillian -->
     <!--applicationMonitor updateTrigger="mbean" /-->
 
@@ -29,6 +35,7 @@
 
     <basicRegistry id="defaultBasicRegistry" />
 
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
     <transaction totalTranLifetimeTimeout="6h" clientInactivityTimeout="30m" />
 
 </server>

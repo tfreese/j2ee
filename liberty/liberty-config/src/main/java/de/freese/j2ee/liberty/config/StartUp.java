@@ -26,6 +26,7 @@ public class StartUp extends AbstractBean {
 
     /**
      * No-View Beans (without Interface) doesn't work ?!
+     * Only if configured in ejb-jar.xml
      */
     //    @EJB
     private NoViewBean noViewBean;

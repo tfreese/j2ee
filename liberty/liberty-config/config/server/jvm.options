@@ -15,6 +15,10 @@
 
 # debug
 #-XshowSettings:all
+#-Xjit:exclude={com/wily/util/*}
+
+# Profiling
+#-agentpath:C:\\devtools\jprofiler9\bin\windows-x64\jprofilerti.dll=port=8849
 
 # security variables
 #-Dcom.ibm.crypto.provider.doAESInHardware=true
@@ -45,3 +49,6 @@
 
 # debug Connection Settings
 #-Djavax.net.debug=all
+
+# JDBC JNDI Lookup fuer Log4J aktivieren, damit in die DB geloggt werden kann.
+-Dlog4j2.enableJndiJdbc=true

@@ -35,6 +35,7 @@ import de.freese.j2ee.liberty.config.service.MyService;
 public class MyRestFacade extends AbstractBean {
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
+    
     @EJB
     private MyService serviceBean;
 

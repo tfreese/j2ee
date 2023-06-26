@@ -2,14 +2,13 @@
 package de.freese.j2ee.liberty.config;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Stateless;
 
 /**
  * SessionBean without Interface.
  *
  * @author Thomas Freese
  */
-@Stateless
+//@Stateless
 //@LocalBean
 public class NoViewBean extends AbstractBean {
 
