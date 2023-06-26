@@ -59,7 +59,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>${version_io.openliberty.tools_liberty-maven-plugin}</version>
+                    <version>${liberty-maven-plugin.version>}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -78,7 +78,7 @@
             <dependency>
                 <groupId>com.amazonaws</groupId>
                 <artifactId>aws-java-sdk-bom</artifactId>
-                <version>${version_com.amazonaws}</version>
+                <version>${amazonaws.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -86,7 +86,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>${version_io.openliberty}</version>
+                <version>${openliberty.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
