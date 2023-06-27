@@ -30,7 +30,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warName>${project.artifactId}</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>pom.xml</packagingExcludes>
                 </configuration>
@@ -46,7 +45,7 @@
                         <artifactId>openliberty-runtime</artifactId>
                         <!--                        <groupId>com.ibm.websphere.appserver.runtime</groupId>-->
                         <!--                        <artifactId>wlp-jakartaee10</artifactId>-->
-                        <version>${version_io.openliberty}</version>
+                        <version>${openliberty.version}</version>
                         <type>zip</type>
                     </assemblyArtifact>
                     <assemblyInstallDirectory>${java.io.tmpdir}/liberty</assemblyInstallDirectory>

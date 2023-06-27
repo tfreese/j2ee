@@ -46,7 +46,6 @@
                 <configuration>
                     <packagingExcludes>pom.xml</packagingExcludes>
                     <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                    <warName>${project.artifactId}</warName>
                     <!--                    <webResources>-->
                     <!--                        <resource>-->
                     <!--                            <directory>${basedir}/config/javaee</directory>-->

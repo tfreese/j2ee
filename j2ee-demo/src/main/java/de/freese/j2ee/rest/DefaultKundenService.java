@@ -21,7 +21,7 @@ import de.freese.j2ee.persistence.MyEntityManager;
  */
 @Stateless
 // (name="Example", mappedName="ejb/SimpleBeanJNDI")
-@Remote(KundenService.class)
+@Remote(de.freese.j2ee.rest.KundenService.class)
 public class DefaultKundenService implements KundenService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultKundenService.class);
 

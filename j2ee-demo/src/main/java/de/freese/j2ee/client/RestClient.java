@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.bind.JAXBContext;
@@ -35,8 +35,8 @@ public final class RestClient {
     static void delete(final long oid) throws Exception {
         System.err.println("RestClient.delete()");
 
-        URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URI uri = URI.create("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("DELETE");
 
         // if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
@@ -53,8 +53,8 @@ public final class RestClient {
     static void insert(final String name, final String vorname) throws Exception {
         LOGGER.info("RestClient.insert()");
 
-        URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde?name=" + name + "&vorname=" + vorname);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URI uri = URI.create("http://localhost:8080/de.freese.j2ee/rest/kunde?name=" + name + "&vorname=" + vorname);
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("PUT");
         // connection.setRequestProperty("Accept", "application/json");
         // connection.setRequestProperty("Accept", "text/xml");
@@ -73,8 +73,8 @@ public final class RestClient {
     static void selectAll() throws Exception {
         LOGGER.info("RestClient.selectAll()");
 
-        URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URI uri = URI.create("http://localhost:8080/de.freese.j2ee/rest/kunde");
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/json");
         // connection.setRequestProperty("Accept", "text/xml");
@@ -100,8 +100,8 @@ public final class RestClient {
     static void selectOne(final long oid) throws Exception {
         LOGGER.info("RestClient.selectOne()");
 
-        URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URI uri = URI.create("http://localhost:8080/de.freese.j2ee/rest/kunde/" + oid);
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setRequestMethod("GET");
         // connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Accept", "text/xml");
@@ -121,7 +121,9 @@ public final class RestClient {
             LOGGER.info("{}", kunde);
         }
 
-        try (InputStream inputStream = connection.getInputStream(); InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8); BufferedReader reader = new BufferedReader(inputStreamReader)) {
+        try (InputStream inputStream = connection.getInputStream();
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(inputStreamReader)) {
 
             String line = reader.readLine();
 
@@ -137,8 +139,8 @@ public final class RestClient {
     static void update() throws Exception {
         LOGGER.info("RestClient.update()");
 
-        URL url = new URL("http://localhost:8080/de.freese.j2ee/rest/kunde");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URI uri = URI.create("http://localhost:8080/de.freese.j2ee/rest/kunde");
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects(false);
         connection.setRequestMethod("POST");
