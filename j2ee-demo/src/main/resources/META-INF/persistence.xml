@@ -13,8 +13,8 @@
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <validation-mode>AUTO</validation-mode>
-        <properties>
 
+        <properties>
             <property name="hibernate.bytecode.use_reflection_optimizer" value="false" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
             <property name="hibernate.cache.use_minimal_puts" value="false" />
