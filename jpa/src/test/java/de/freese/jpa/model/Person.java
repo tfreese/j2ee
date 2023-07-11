@@ -33,7 +33,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Type;
 
 /**
  * @author Thomas Freese
@@ -80,11 +79,9 @@ public class Person implements Serializable {
     private long id = -1;
 
     @Column(name = "NAME", length = 50, nullable = false)
-    @Type(value = StrippedStringType.class)
     private String name;
 
     @Column(name = "VORNAME", length = 50, nullable = false)
-    @Type(value = StrippedStringType.class)
     private String vorname;
 
     public Person() {

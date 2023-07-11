@@ -22,7 +22,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Type;
 
 /**
  * @author Thomas Freese
@@ -55,7 +54,6 @@ public class Address implements Serializable {
     private Person person;
 
     @Column(name = "STREET", length = 50, nullable = false)
-    @Type(value = StrippedStringType.class)
     private String street;
 
     public Address() {

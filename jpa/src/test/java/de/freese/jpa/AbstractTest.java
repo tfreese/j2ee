@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
-import de.freese.jpa.model.StrippedStringType;
+import de.freese.jpa.utils.StringStripConverter;
 
 /**
  * @author Thomas Freese
@@ -135,7 +135,7 @@ public abstract class AbstractTest {
     public abstract void test040NativeQuery();
 
     /**
-     * Spaces will be removed by {@link StrippedStringType}.
+     * Spaces will be removed by {@link StringStripConverter}.
      **/
     protected List<Person> createPersons() {
         List<Person> persons = new ArrayList<>();
