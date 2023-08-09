@@ -47,7 +47,10 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <packagingExcludes>pom.xml</packagingExcludes><!-- , WEB-INF/lib/*.jar -->
+
+                    <!-- Skinny WAR ohne Jars -->
+                    <!--skinnyWars>false</skinnyWars--> <!-- Funktioniert alleine nicht. -->
+                    <packagingExcludes>pom.xml, WEB-INF/lib/*.jar</packagingExcludes>
                 </configuration>
             </plugin>
         </plugins>

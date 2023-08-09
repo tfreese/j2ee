@@ -15,6 +15,22 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Projekt für J2EE Beispiele</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+
+                    <!-- Skinny WAR ohne Jars -->
+                    <!--skinnyWars>false</skinnyWars--> <!-- Funktioniert alleine nicht. -->
+                    <packagingExcludes>pom.xml, WEB-INF/lib/*.jar</packagingExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- compile scope -->
         <dependency>

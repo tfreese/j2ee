@@ -25,7 +25,7 @@
 
                     <!-- Skinny WAR ohne Jars -->
                     <!--skinnyWars>false</skinnyWars--> <!-- Funktioniert alleine nicht. -->
-                    <!--packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes-->
+                    <packagingExcludes>pom.xml, WEB-INF/lib/*.jar</packagingExcludes>
                 </configuration>
             </plugin>
         </plugins>
