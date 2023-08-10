@@ -91,7 +91,7 @@ public abstract class AbstractTest {
         // config.put(AvailableSettings.CACHE_REGION_FACTORY, "de.freese.jpa.OnTheFlyEhcacheRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
         //        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
-        config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test");
+        config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test." + id);
         config.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
         config.put(AvailableSettings.USE_QUERY_CACHE, "true");
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
