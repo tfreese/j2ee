@@ -16,6 +16,7 @@ import jakarta.enterprise.inject.spi.CDI;
  * @author Thomas Freese
  */
 public final class Utils {
+    
     private static final ThreadLocal<Map<String, Object>> CACHE = ThreadLocal.withInitial(HashMap::new);
 
     public static <T> T ejb(final Class<T> type) {
