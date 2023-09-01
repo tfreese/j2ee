@@ -12,7 +12,7 @@ import org.hibernate.engine.transaction.jta.platform.internal.AbstractJtaPlatfor
 
 /**
  * @author Thomas Freese
- * @see <a href="https://hibernate.atlassian.net/browse/HHH-10388">Hibernate Bug</a>
+ * <a href="https://hibernate.atlassian.net/browse/HHH-10388">Hibernate Bug</a>
  */
 public class WebSphereLibertyJtaPlatform extends AbstractJtaPlatform {
     @Serial

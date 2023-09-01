@@ -90,9 +90,6 @@ public class NonStickySessionServlet extends HttpServlet {
         this.cloudSession = new CloudSessionCache(cs, SESSION_LIVE_TIME);
     }
 
-    /**
-     * @see jakarta.servlet.http.HttpServlet#service(jakarta.servlet.http.HttpServletRequest, jakarta.servlet.http.HttpServletResponse)
-     */
     @Override
     public void service(final HttpServletRequest request, final HttpServletResponse response) {
         StringBuilder html = new StringBuilder();

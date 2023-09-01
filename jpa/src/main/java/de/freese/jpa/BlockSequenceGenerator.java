@@ -52,9 +52,6 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
         }
     }
 
-    /**
-     * @see org.hibernate.id.IdentifierGenerator#generate(org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
-     */
     @Override
     public Serializable generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException {
         LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", this.blockSize, this.sequenceName);

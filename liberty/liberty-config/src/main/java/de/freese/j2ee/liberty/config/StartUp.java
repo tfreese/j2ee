@@ -34,9 +34,6 @@ public class StartUp extends AbstractBean {
     @EJB
     private MyService serviceBean;
 
-    /**
-     * @see de.freese.j2ee.liberty.config.AbstractBean#postConstruct()
-     */
     @Override
     @PostConstruct
     public void postConstruct() {

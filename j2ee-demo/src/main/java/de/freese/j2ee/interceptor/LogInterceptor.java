@@ -36,9 +36,6 @@ public class LogInterceptor implements UsageLogMBean {
     // mBeanServer.registerMBean(this, objectName);
     // }
 
-    /**
-     * @see UsageLogMBean#getParameters()
-     */
     @Override
     public Set<String> getParameters() {
         return LogInterceptor.parameters;

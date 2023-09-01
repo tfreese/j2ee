@@ -34,17 +34,11 @@ public class CloudSessionLocal implements CloudSession {
 
     private Map<String, Map<String, String>> map;
 
-    /**
-     * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
-     */
     @Override
     public String getSessionValue(final String sessionID, final String name) {
         return getMap().computeIfAbsent(sessionID, key -> new HashMap<>()).get(name);
     }
 
-    /**
-     * @see CloudSession#remove(java.lang.String)
-     */
     @Override
     public void remove(final String sessionID) {
         getMap().remove(sessionID);
@@ -52,9 +46,6 @@ public class CloudSessionLocal implements CloudSession {
         storeProps(getMap());
     }
 
-    /**
-     * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void setSessionValue(final String sessionID, final String name, final String value) {
         getMap().computeIfAbsent(sessionID, key -> new HashMap<>()).put(name, value);

@@ -29,9 +29,6 @@ public class DefaultKundenService implements KundenService {
     @MyEntityManager
     private EntityManager entityManager;
 
-    /**
-     * @see KundenService#getData()
-     */
     @SuppressWarnings("unchecked")
     @Override
     @MyLogging

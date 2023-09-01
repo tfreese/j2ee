@@ -86,9 +86,6 @@ public class Address implements Serializable {
         this.street = street;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

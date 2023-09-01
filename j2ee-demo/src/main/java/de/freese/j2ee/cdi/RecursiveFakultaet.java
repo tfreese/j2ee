@@ -5,9 +5,6 @@ package de.freese.j2ee.cdi;
  */
 @Recursive
 public class RecursiveFakultaet implements Fakultaet {
-    /**
-     * @see Fakultaet#getFakultaet(int)
-     */
     @Override
     public long getFakultaet(final int n) {
         if (n > 1) {

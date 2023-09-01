@@ -49,9 +49,6 @@ public class MyProjectionVo implements Serializable {
         return Objects.hash(getId(), getName());
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(getClass().getSimpleName());

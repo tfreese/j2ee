@@ -5,9 +5,6 @@ package de.freese.j2ee.cdi;
  */
 @Iterative
 public class IterativFakultaet implements Fakultaet {
-    /**
-     * @see Fakultaet#getFakultaet(int)
-     */
     @Override
     public long getFakultaet(final int n) {
         long res = 1;

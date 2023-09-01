@@ -71,9 +71,6 @@ public class Kunde implements Serializable {
         this.vorname = vorname;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "Kunde [id=" + this.id + ", name=" + this.name + ", vorname=" + this.vorname + "]";

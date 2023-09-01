@@ -116,9 +116,6 @@ public class Person implements Serializable {
         return this.vorname;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return Long.valueOf(getID()).hashCode();
@@ -136,9 +133,6 @@ public class Person implements Serializable {
         this.vorname = vorname;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

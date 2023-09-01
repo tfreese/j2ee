@@ -37,9 +37,6 @@ public class CloudSessionCache implements CloudSession {
         this.sessionLiveTime = sessionLiveTime.toMillis();
     }
 
-    /**
-     * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
-     */
     @Override
     public String getSessionValue(final String sessionID, final String name) {
         // search in my cache
@@ -66,18 +63,12 @@ public class CloudSessionCache implements CloudSession {
         return entry.get(name);
     }
 
-    /**
-     * @see CloudSession#remove(java.lang.String)
-     */
     @Override
     public void remove(final String sessionID) {
         this.cloudSession.remove(sessionID);
         this.cache.remove(sessionID);
     }
 
-    /**
-     * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void setSessionValue(final String sessionID, final String name, final String value) {
         this.logger.info("setting entry [{},{},{}]", sessionID, name, value);

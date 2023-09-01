@@ -36,9 +36,6 @@ public class CloudSessionAmazon implements CloudSession {
         this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new ClasspathPropertiesFileCredentialsProvider()).build();
     }
 
-    /**
-     * @see CloudSession#getSessionValue(java.lang.String, java.lang.String)
-     */
     @Override
     public String getSessionValue(final String sessionID, final String name) {
         GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
@@ -52,9 +49,6 @@ public class CloudSessionAmazon implements CloudSession {
         return null;
     }
 
-    /**
-     * @see CloudSession#remove(java.lang.String)
-     */
     @Override
     public void remove(final String sessionID) {
         DeletableItem deletableItem = new DeletableItem().withName(sessionID);
@@ -62,9 +56,6 @@ public class CloudSessionAmazon implements CloudSession {
         this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
     }
 
-    /**
-     * @see CloudSession#setSessionValue(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void setSessionValue(final String sessionID, final String name, final String value) {
         ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
