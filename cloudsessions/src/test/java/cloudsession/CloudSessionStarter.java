@@ -17,7 +17,15 @@ public class CloudSessionStarter {
     }
 
     //    /**
-    //     * Hiermit dann ohne @ServletComponentScan.
+    //     * Ohne @ServletComponentScan, mit WebServlet-Annotation.
+    //     */
+    //    @Bean
+    //    public Servlet session() {
+    //        return new NonStickySessionServlet();
+    //    }
+    //
+    //    /**
+    //     * Ohne @ServletComponentScan, ohne WebServlet-Annotation.
     //     */
     //    @Bean
     //    public ServletRegistrationBean<HttpServlet> nonStickySessionServlet()
@@ -28,5 +36,24 @@ public class CloudSessionStarter {
     //        servRegBean.setLoadOnStartup(1);
     //
     //        return servRegBean;
+    //    }
+    //
+    //    /**
+    //     * Ohne @ServletComponentScan, ohne WebServlet-Annotation mit programmatischer Configuration.
+    //     */
+    //    @Configuration
+    //    public class ConfigureWeb implements ServletContextInitializer {
+    //
+    //        @Override
+    //        public void onStartup(ServletContext servletContext) throws ServletException {
+    //            registerServlet(servletContext);
+    //        }
+    //
+    //        private void registerServlet(ServletContext servletContext) {
+    //            ServletRegistration.Dynamic serviceServlet = servletContext.addServlet("NonStickySessionServlet", new NonStickySessionServlet());
+    //
+    //            serviceServlet.addMapping("/session");
+    //            serviceServlet.setLoadOnStartup(1);
+    //        }
     //    }
 }
