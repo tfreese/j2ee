@@ -1,0 +1,23 @@
+description = "JPA Demo Projekt"
+
+test {
+    maxParallelForks = 1
+}
+
+dependencies {
+    implementation("jakarta.validation:jakarta.validation-api")
+    implementation("org.hibernate.orm:hibernate-core")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+//    def ehcacheVersion = dependencyManagement.importedProperties["ehcache3.version"]
+
+    testImplementation("org.hibernate.orm:hibernate-jcache")
+    testImplementation("org.ehcache:ehcache::jakarta")
+    testImplementation("org.hibernate.validator:hibernate-validator")
+    testImplementation("org.hsqldb:hsqldb")
+    testImplementation("org.slf4j:jul-to-slf4j")
+}

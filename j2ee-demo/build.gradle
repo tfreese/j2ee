@@ -1,0 +1,31 @@
+plugins {
+    id "war"
+}
+
+description = "Projekt für J2EE Beispiele"
+
+war {
+    // Skinny-War
+//    rootSpec.exclude("**/*.jar")
+
+    // or by Filter
+//    classpath = classpath.filter { file ->
+//        !file.name.startsWith("slf4j-api") && !file.name.startsWith("aws-java-sdk-simpledb")
+//    }
+
+//    archiveFileName = "sample.war"
+//    webAppDirectory = file("src/main/webapp")
+//    from "src/rootContent'" // adds a file-set to the root of the archive
+//    webInf { from "src/additionalWebInf" } // adds a file-set to the WEB-INF dir.
+//    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
+}
+
+dependencies {
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+    runtimeOnly("org.hibernate.orm:hibernate-core")
+
+    providedCompile("jakarta.platform:jakarta.jakartaee-api")
+}

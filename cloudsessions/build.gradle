@@ -1,0 +1,33 @@
+plugins {
+    id "war"
+}
+
+description = "Beispiel zum Speichern von HTTP-Session in der Amazon Cloud."
+
+war {
+    // Skinny-War
+//    rootSpec.exclude("**/*.jar")
+
+    // or by Filter
+//    classpath = classpath.filter { file ->
+//        !file.name.startsWith("slf4j-api") && !file.name.startsWith("aws-java-sdk-simpledb")
+//    }
+
+//    archiveFileName = "sample.war"
+//    webAppDirectory = file("src/main/webapp")
+//    from "src/rootContent'" // adds a file-set to the root of the archive
+//    webInf { from "src/additionalWebInf" } // adds a file-set to the WEB-INF dir.
+//    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
+}
+
+dependencies {
+    implementation("com.amazonaws:aws-java-sdk-simpledb")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:jcl-over-slf4j")
+
+    providedCompile("jakarta.servlet:jakarta.servlet-api")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
+}

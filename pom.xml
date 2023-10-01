@@ -47,9 +47,6 @@
     </properties>
 
     <modules>
-        <module>cloudsessions</module>
-        <module>j2ee-demo</module>
-        <module>jpa</module>
         <module>liberty</module>
     </modules>
 
@@ -75,13 +72,13 @@
             <!--                <type>pom</type>-->
             <!--            </dependency>-->
 
-            <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-bom</artifactId>
-                <version>${amazonaws.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.amazonaws</groupId>-->
+            <!--                <artifactId>aws-java-sdk-bom</artifactId>-->
+            <!--                <version>${amazonaws.version}</version>-->
+            <!--                <scope>import</scope>-->
+            <!--                <type>pom</type>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>io.openliberty</groupId>

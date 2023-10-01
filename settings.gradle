@@ -1,0 +1,6 @@
+// Ohne rootProject.name würde der Name des Projekt-Verzeichnisses verwendet werden.
+//rootProject.name = "j2ee"
+
+include "cloudsessions"
+include "j2ee-demo"
+include "jpa"

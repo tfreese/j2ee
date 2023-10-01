@@ -30,13 +30,9 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "NonStickySessionServlet", urlPatterns = {"/session"}, loadOnStartup = 1)
 public class NonStickySessionServlet extends HttpServlet {
     private static final String CREATION_TIME = "creationTime";
-
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
-
     private static final Duration SESSION_LIVE_TIME = Duration.ofSeconds(15);
-
     private static final String USER = "user";
-
     @Serial
     private static final long serialVersionUID = 1L;
 
