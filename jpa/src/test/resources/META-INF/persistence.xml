@@ -15,8 +15,8 @@
         <!--        <jar-file>moduleB.jar</jar-file>-->
 
         <class>de.freese.jpa.model</class> <!-- for package-info.java -->
-        <!--        <class>de.freese.jpa.model.Person</class>-->
-        <!--        <class>de.freese.jpa.model.Address</class>-->
+        <class>de.freese.jpa.model.Person</class>
+        <class>de.freese.jpa.model.Address</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>

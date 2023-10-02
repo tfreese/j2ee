@@ -4,8 +4,14 @@ package de.freese.jpa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +34,7 @@ import org.hibernate.cache.spi.CacheImplementor;
 import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
+import org.junit.jupiter.api.AfterAll;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +47,16 @@ import de.freese.jpa.utils.StringStripConverter;
  */
 public abstract class AbstractTest {
     protected static final Logger LOGGER = LoggerFactory.getLogger("TestLogger");
+
+    @AfterAll
+    static void afterAll() throws IOException {
+        Path ehCachePath = Paths.get(System.getProperty("java.io.tmpdir"), "ehcache");
+
+        try (Stream<Path> stream = Files.walk(ehCachePath)) {
+            stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+            //            stream.sorted(Comparator.reverseOrder()).forEach(Files::delete);
+        }
+    }
 
     protected static Map<String, Object> getHibernateConfig() {
         //        long id = System.nanoTime();

@@ -10,7 +10,7 @@
         <copier type="java.lang.Object">org.ehcache.impl.copy.IdentityCopier</copier>
     </default-copiers>
 
-    <persistence directory="${java.io.tmpdir}/ehcache/" />
+    <!--    <persistence directory="${java.io.tmpdir}/ehcache" />-->
 
     <cache-template name="defaultCacheTemplate">
         <!--        <key-type copier="org.ehcache.impl.copy.SerializingCopier" serializer="org.ehcache.impl.serialization.StringSerializer">java.lang.String</key-type>-->
@@ -24,9 +24,8 @@
         </expiry>
 
         <resources>
-            <heap unit="entries">200</heap>
             <offheap unit="MB">10</offheap>
-            <disk persistent="true" unit="MB">20</disk>
+            <!--            <disk persistent="false" unit="MB">20</disk>-->
         </resources>
 
         <heap-store-settings>
@@ -37,9 +36,8 @@
 
     <cache alias="hibernate.test.default-update-timestamps-region" uses-template="defaultCacheTemplate">
         <resources>
-            <heap unit="entries">2000</heap>
             <offheap unit="MB">20</offheap>
-            <disk persistent="true" unit="MB">40</disk>
+            <!--            <disk persistent="true" unit="MB">40</disk>-->
         </resources>
     </cache>
 
