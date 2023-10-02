@@ -1,0 +1,55 @@
+plugins {
+    id "war"
+}
+
+description = "Demo für Liberty-Konfiguration"
+
+dependencies {
+    implementation("org.hibernate.orm:hibernate-core") {
+        exclude group: "jakarta.activation", module: "*"
+        exclude group: "jakarta.inject", module: "*"
+        exclude group: "jakarta.persistence", module: "*"
+        exclude group: "jakarta.transaction", module: "*"
+        exclude group: "jakarta.xml.bind", module: "*"
+    }
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.hsqldb:hsqldb")
+
+    providedCompile("io.openliberty.api:io.openliberty.transaction")
+    providedCompile("jakarta.platform:jakarta.jakartaee-api")
+}
+
+ant.importBuild("build.xml") { antTargetName ->
+    'ant-' + antTargetName
+}
+
+clean.finalizedBy("ant-clean")
+
+tasks.register("copyDependencies") {
+    group = "My Tasks"
+    description "Copy Dependencies to folder"
+
+    doLast {
+        ant.lifecycleLogLevel = "INFO"
+
+        def libFolder = layout.buildDirectory.dir("dependencies")
+
+        println("copy Dependencies to: " + libFolder.get())
+
+        delete libFolder
+
+        copy {
+            from configurations.runtimeClasspath - configurations.providedCompile {
+                include "*.jar"
+                include "*.rar"
+                //    exclude "ohj*"
+            }
+
+            into libFolder
+        }
+    }
+}
+
+//build.finalizedBy("copyDependencies", "ant-deploy")

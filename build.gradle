@@ -8,6 +8,7 @@ buildscript {
 
     dependencies {
         classpath("de.freese.gradle:gradle-plugins:$version_myConventionPlugin")
+        classpath("io.openliberty.tools:liberty-gradle-plugin:$version_libertyGradlePlugin")
         classpath("io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement")
     }
 }
@@ -24,6 +25,7 @@ subprojects {
 
         dependencies {
             dependency("com.amazonaws:aws-java-sdk-simpledb:$version_amazonAws")
+            dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakarta")
         }
     }

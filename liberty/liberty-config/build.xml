@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="liberty-config" default="deploy" basedir=".">
+
+    <property file="config/server/bootstrap.properties" />
+
+    <target name="clean">
+        <echo message="server_home=${server_home}" />
+
+        <mkdir dir="${server_home}" />
+
+        <delete includeEmptyDirs="true" failonerror="false" quiet="true" verbose="false">
+            <fileset dir="${server_home}/appl" />
+            <fileset dir="${server_home}/logs" />
+            <fileset dir="${server_home}/tranlog" />
+            <fileset dir="${server_home}/workarea" />
+            <fileset dir="${server_home}" casesensitive="yes">
+                <include name="derby.log" />
+                <include name="mqjms.log.0" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="prepare-server" depends="clean" description="Löscht vorhandene Verzeichnisse und legt diese neu an">
+        <!-- create folder structure -->
+        <mkdir dir="${server_home}/appl_data" />
+        <mkdir dir="${server_home}/appl_logs" />
+        <mkdir dir="${server_home}/appl/${deploy_folder}" />
+        <mkdir dir="${server_home}/appl/appl_libs" />
+        <mkdir dir="${server_home}/appl/wl_config" />
+
+        <!-- copy certificates -->
+        <!--sync todir="${server_home}/resources/security" overwrite="true">
+            <fileset dir="${basedir}/config/application/security"/>
+            <preserveintarget>
+                <include name="**/ltpa.keys"/>
+            </preserveintarget>
+        </sync-->
+    </target>
+
+    <target name="deploy" depends="prepare-server" description="Kopiert die Konfigurationsdateien und deployed das WAR">
+        <delete quiet="false" failonerror="false" verbose="true" description="Alte Logs, JARs und WARs löschen">
+            <fileset dir="${server_home}/logs" />
+            <fileset dir="${server_home}/tranlog" />
+            <fileset dir="${server_home}/workarea" />
+            <fileset dir="${server_home}/appl_logs" includes="**/*.log" />
+            <fileset dir="${server_home}/appl/appl_libs" includes="**/*.jar" />
+            <fileset dir="${server_home}/appl/${deploy_folder}" includes="**/*.war" />
+        </delete>
+
+        <fileset id="server.files" dir="${basedir}/config/server" description="Server config kopieren">
+            <include name="bootstrap.properties" />
+            <include name="jvm.options" />
+            <include name="server.env" />
+            <include name="server.xml" />
+        </fileset>
+        <copy todir="${server_home}" overwrite="true" verbose="true">
+            <fileset refid="server.files" />
+        </copy>
+
+        <fileset id="wl_config.files" dir="${basedir}/config/wl_config" description="App config kopieren">
+            <include name="appl.xml" />
+            <include name="dataSources.xml" />
+            <include name="jndiEntries.xml" />
+            <include name="logback.xml" />
+            <include name="mq.xml" />
+            <include name="stageVariables.xml" />
+            <include name="webApplication.xml" />
+        </fileset>
+        <copy todir="${server_home}/appl/wl_config" overwrite="true" verbose="true">
+            <fileset refid="wl_config.files" />
+        </copy>
+
+        <fileset id="appl_libs.files" dir="${basedir}/build/dependencies" description="Dependencies kopieren">
+            <include name="**/*.jar" />
+            <include name="**/*.rar" />
+        </fileset>
+        <copy todir="${server_home}/appl/appl_libs" flatten="true" overwrite="true" verbose="true">
+            <fileset refid="appl_libs.files" />
+        </copy>
+
+        <fileset id="war.files" dir="${basedir}/build" description="WAR kopieren">
+            <include name="**/*.war" />
+        </fileset>
+        <copy todir="${server_home}/appl/${deploy_folder}" flatten="true" overwrite="true" verbose="true">
+            <fileset refid="war.files" />
+        </copy>
+    </target>
+
+</project>

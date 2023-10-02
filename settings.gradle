@@ -4,3 +4,6 @@
 include "cloudsessions"
 include "j2ee-demo"
 include "jpa"
+include "liberty:liberty-config"
+include "liberty:liberty-rest"
+include "liberty:liberty-spring"

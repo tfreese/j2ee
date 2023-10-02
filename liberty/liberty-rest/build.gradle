@@ -1,0 +1,53 @@
+import java.awt.*
+
+plugins {
+    id "war"
+    id "liberty"
+}
+
+description = "Demo für REST-Services"
+// https://openliberty.io/guides/gradle-intro.html#getting-started
+
+ext {
+    liberty.server.var."default.http.port" = "9080"
+    liberty.server.var."default.https.port" = "9443"
+    liberty.server.var."app.context.root" = project.name
+}
+
+dependencies {
+    providedCompile("jakarta.platform:jakarta.jakartaee-api")
+
+    testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
+    testImplementation("org.glassfish.jersey.core:jersey-client")
+    testImplementation("org.glassfish.jersey.media:jersey-media-json-jackson")
+}
+
+test {
+    enabled = false
+
+    testLogging {
+        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
+//        exceptionFormat = TestExceptionFormat.FULL
+    }
+
+    systemProperty "http.port", liberty.server.var."default.http.port"
+    systemProperty "context.root", liberty.server.var."app.context.root"
+}
+
+tasks.register("openBrowser") {
+    group = "My Tasks"
+    description = "Open browser to the running application"
+
+    doLast {
+        String port = liberty.server.var."default.http.port"
+        String context = liberty.server.var."app.context.root"
+        String URL = "http://localhost:" + port + "/" + context + "/" + "servlet"
+
+        Desktop.getDesktop().browse(URL.toURI())
+        Desktop.getDesktop().browse(file("$buildDir/reports/tests/test/index.html").toURI())
+    }
+}
+
+//test.dependsOn "libertyStart"
+//test.finalizedBy(openBrowser)
+//clean.dependsOn "libertyStop"

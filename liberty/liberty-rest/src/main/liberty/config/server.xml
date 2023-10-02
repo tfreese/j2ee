@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configuration>
+<server description="Demo für REST-Services">
+
+    <featureManager>
+        <!--        <feature>jakartaee-9.1</feature>-->
+        <feature>restfulWS-3.0</feature>
+        <feature>jsonb-2.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${default.http.port}" httpsPort="${default.https.port}" />
+
+    <webApplication location="liberty-rest.war" contextRoot="${app.context.root}" />
+</server>

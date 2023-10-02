@@ -28,27 +28,25 @@ class EndpointTest {
     void testGetProperties() throws Exception {
         String url = "http://localhost:9080/liberty-rest/my-liberty/service/properties";
 
-        Client client = ClientBuilder.newClient().register(JacksonJaxbJsonProvider.class);
-        WebTarget webTarget = client.target(url);
+        try (Client client = ClientBuilder.newClient().register(JacksonJaxbJsonProvider.class)) {
+            WebTarget webTarget = client.target(url);
 
-        try (Response response = webTarget.request().get()) {
-            assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
+            try (Response response = webTarget.request().get()) {
+                assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
-            String jsonValue = response.readEntity(String.class);
-            assertNotNull(jsonValue);
+                String jsonValue = response.readEntity(String.class);
+                assertNotNull(jsonValue);
 
-            System.out.println(jsonValue);
+                System.out.println(jsonValue);
 
-            TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
-            };
-            HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, typeReference);
+                TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
+                };
+                HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, typeReference);
 
-            assertNotNull(map);
-            assertFalse(map.isEmpty());
-            assertEquals(System.getProperty("os.name"), map.get("os.name"), "The system property for the local and remote 'os.name' should match");
-        }
-        finally {
-            client.close();
+                assertNotNull(map);
+                assertFalse(map.isEmpty());
+                assertEquals(System.getProperty("os.name"), map.get("os.name"), "The system property for the local and remote 'os.name' should match");
+            }
         }
     }
 }

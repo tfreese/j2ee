@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <name>${project.groupId} - ${project.artifactId}</name>
-    <description>Demo für REST-Services</description>
+    <description>Demo für Spring-Integration</description>
 
     <properties>
         <liberty.dir>/opt/ibm-wlp</liberty.dir>
