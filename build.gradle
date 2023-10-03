@@ -20,11 +20,11 @@ subprojects {
 
     dependencyManagement {
         imports {
+            mavenBom("com.amazonaws:aws-java-sdk-bom:$version_amazonAws")
             mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
         }
 
         dependencies {
-            dependency("com.amazonaws:aws-java-sdk-simpledb:$version_amazonAws")
             dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakarta")
         }
