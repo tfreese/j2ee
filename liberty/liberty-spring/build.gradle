@@ -1,8 +1,9 @@
 import java.awt.*
 
 plugins {
+    id "java"
     id "war"
-    id "liberty"
+    id "io.openliberty.tools.gradle.Liberty"
 }
 
 description = "Demo für Spring-Integration"

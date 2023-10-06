@@ -1,4 +1,13 @@
-// Ohne rootProject.name würde der Name des Projekt-Verzeichnisses verwendet werden.
+// Can not be configured by Conventions-Plugin.
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
+
+// Without rootProject.name the Name of the Projekt-Directory is used.
 //rootProject.name = "j2ee"
 
 include "cloudsessions"
