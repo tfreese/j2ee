@@ -1,13 +1,25 @@
 plugins {
-    id "java"
     id "war"
 }
 
 description = "Beispiel zum Speichern von HTTP-Session in der Amazon Cloud."
 
+dependencies {
+    implementation("com.amazonaws:aws-java-sdk-simpledb")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:jcl-over-slf4j")
+
+    // providedCompile
+    compileOnly("jakarta.servlet:jakarta.servlet-api")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
+}
+
 war {
     // Skinny-War
-//    rootSpec.exclude("**/*.jar")
+    rootSpec.exclude("**/*.jar", "**/*.rar")
 
     // or by Filter
 //    classpath = classpath.filter { file ->
@@ -21,14 +33,13 @@ war {
 //    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
 }
 
-dependencies {
-    implementation("com.amazonaws:aws-java-sdk-simpledb")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("org.slf4j:slf4j-api")
+configurations {
+    cloudsessionsWar {}
+}
 
-    runtimeOnly("org.slf4j:jcl-over-slf4j")
+artifacts {
+    cloudsessionsWar(project.tasks.war)
 
-    providedCompile("jakarta.servlet:jakarta.servlet-api")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    // same as
+    // cloudsessionsWar(layout.buildDirectory.get().dir("libs").file("cloudsessions- " + project.version + ".war"))
 }

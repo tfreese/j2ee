@@ -1,0 +1,37 @@
+plugins {
+    id "java"
+}
+
+description = "Test for Integration."
+
+configurations {
+    cloudsessionsLibs {
+        extendsFrom(runtimeOnly)
+    }
+
+    cloudsessionsWar {}
+}
+
+dependencies {
+    cloudsessionsLibs(project(":cloudsessions"))
+    cloudsessionsWar(project(path: ":cloudsessions", configuration: "cloudsessionsWar"))
+}
+
+jar {
+    enabled = false
+}
+
+tasks.register("syncLibs", Sync) {
+    group = "My Tasks"
+
+    from(configurations.cloudsessionsLibs) {
+        exclude("cloudsessions*.jar")
+
+        // Required, if "providedCompile" is used and not "compileOnly" in the war-Projekt.
+        // exclude(group: "PROVIDED-DEPENDENCY")
+    }
+    from(configurations.cloudsessionsWar)
+    rename("cloudsessions-" + project.version + ".war", "cloudsessions.war")
+    into(layout.buildDirectory.dir("libs"))
+}
+build.finalizedBy("syncLibs")

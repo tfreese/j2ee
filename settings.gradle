@@ -11,6 +11,7 @@ pluginManagement {
 //rootProject.name = "j2ee"
 
 include "cloudsessions"
+include "cloudsessions-integration"
 include "j2ee-demo"
 include "jpa"
 include "liberty:liberty-config"

@@ -1,13 +1,23 @@
 plugins {
-    id "java"
     id "war"
 }
 
 description = "Projekt für J2EE Beispiele"
 
+dependencies {
+    implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    implementation("org.slf4j:slf4j-api")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
+    runtimeOnly("org.hibernate.orm:hibernate-core")
+
+    // providedCompile
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
+}
+
 war {
     // Skinny-War
-//    rootSpec.exclude("**/*.jar")
+    rootSpec.exclude("**/*.jar", "**/*.rar")
 
     // or by Filter
 //    classpath = classpath.filter { file ->
@@ -19,14 +29,4 @@ war {
 //    from "src/rootContent'" // adds a file-set to the root of the archive
 //    webInf { from "src/additionalWebInf" } // adds a file-set to the WEB-INF dir.
 //    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
-}
-
-dependencies {
-    implementation("jakarta.xml.bind:jakarta.xml.bind-api")
-    implementation("org.slf4j:slf4j-api")
-
-    runtimeOnly("org.slf4j:slf4j-simple")
-    runtimeOnly("org.hibernate.orm:hibernate-core")
-
-    providedCompile("jakarta.platform:jakarta.jakartaee-api")
 }

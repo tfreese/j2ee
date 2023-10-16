@@ -1,7 +1,6 @@
 import java.awt.*
 
 plugins {
-    id "java"
     id "war"
     id "io.openliberty.tools.gradle.Liberty"
 }
@@ -20,10 +19,11 @@ dependencies {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
 
-//    providedCompile("jakarta.platform:jakarta.jakartaee-web-api")
-    providedCompile("jakarta.platform:jakarta.jakartaee-api")
-    providedCompile("org.hsqldb:hsqldb")
-//    providedCompile("org.springframework.boot:spring-boot-starter-tomcat")
+    // providedCompile
+//    compileOnly("jakarta.platform:jakarta.jakartaee-web-api")
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
+    compileOnly("org.hsqldb:hsqldb")
+//    compileOnly("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 test {

@@ -1,7 +1,6 @@
 import java.awt.*
 
 plugins {
-    id "java"
     id "war"
     id "io.openliberty.tools.gradle.Liberty"
 }
@@ -16,7 +15,8 @@ ext {
 }
 
 dependencies {
-    providedCompile("jakarta.platform:jakarta.jakartaee-api")
+    // providedCompile
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
 
     testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
     testImplementation("org.glassfish.jersey.core:jersey-client")

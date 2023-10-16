@@ -4,22 +4,6 @@ plugins {
 
 description = "JPA Demo Projekt"
 
-test {
-//    testLogging {
-//        showStandardStreams = true
-//        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
-//        showExceptions = true
-//        showCauses = true
-//        showStackTraces = true
-//        exceptionFormat = TestExceptionFormat.FULL
-//    }
-//    enabled = false
-//    maxParallelForks = 1
-//    forkEvery = 0
-//    exclude "org/boo/**"
-//    exclude "**/Bar.class"
-}
-
 dependencies {
     implementation("jakarta.validation:jakarta.validation-api")
     implementation("org.hibernate.orm:hibernate-core")
@@ -36,4 +20,20 @@ dependencies {
     testImplementation("org.hibernate.validator:hibernate-validator")
     testImplementation("org.hsqldb:hsqldb")
     testImplementation("org.slf4j:jul-to-slf4j")
+}
+
+test {
+//    testLogging {
+//        showStandardStreams = true
+//        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
+//        showExceptions = true
+//        showCauses = true
+//        showStackTraces = true
+//        exceptionFormat = TestExceptionFormat.FULL
+//    }
+//    enabled = false
+//    maxParallelForks = 1
+//    forkEvery = 0
+//    exclude "org/boo/**"
+//    exclude "**/Bar.class"
 }

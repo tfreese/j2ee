@@ -1,5 +1,4 @@
 plugins {
-    id "java"
     id "war"
 }
 
@@ -18,8 +17,9 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.hsqldb:hsqldb")
 
-    providedCompile("io.openliberty.api:io.openliberty.transaction")
-    providedCompile("jakarta.platform:jakarta.jakartaee-api")
+    // providedCompile
+    compileOnly("io.openliberty.api:io.openliberty.transaction")
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
 }
 
 ant.importBuild("build.xml") { antTargetName ->
