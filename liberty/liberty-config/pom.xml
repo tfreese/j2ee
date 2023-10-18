@@ -136,7 +136,6 @@
         <dependency>
             <groupId>io.openliberty.api</groupId>
             <artifactId>io.openliberty.transaction</artifactId>
-            <version>1.1.77</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
