@@ -29,6 +29,7 @@ import de.freese.jpa.model.Person;
 /**
  * @author Thomas Freese
  */
+@SuppressWarnings("unchecked")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJPA extends AbstractTest {
     private static EntityManagerFactory entityManagerFactory;

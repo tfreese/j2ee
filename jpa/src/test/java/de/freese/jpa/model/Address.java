@@ -1,9 +1,6 @@
 // Created: 13.03.2010
 package de.freese.jpa.model;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,10 +30,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
 // @Immutable // All Attributes over Constructor, no Setter.
-public class Address implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 2678405627217507543L;
-
+public class Address {
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     //    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1) // see package-info.java

@@ -1,8 +1,6 @@
 // Created: 16.08.2006
 package de.freese.jpa.model;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +44,7 @@ import org.hibernate.annotations.FetchMode;
 @NamedQueries({@NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})})
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // All Attributes over Constructor, no Setter.
-public class Person implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 413810580854319964L;
-
+public class Person {
     /**
      * orphanRemoval = true
      */
