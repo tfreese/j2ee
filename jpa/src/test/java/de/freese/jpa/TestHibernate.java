@@ -21,9 +21,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionVo;
@@ -32,7 +30,6 @@ import de.freese.jpa.model.Person;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHibernate extends AbstractTest {
     private static SessionFactory sessionFactory;
 
@@ -55,7 +52,7 @@ class TestHibernate extends AbstractTest {
 
         try {
             Metadata metadata = metadataSources.buildMetadata();
-            sessionFactory = metadata.getSessionFactoryBuilder().build();
+            sessionFactory = metadata.buildSessionFactory();
         }
         catch (Exception ex) {
             // The registry would be destroyed by the SessionFactory, but we have trouble building the SessionFactory so destroy it manually.

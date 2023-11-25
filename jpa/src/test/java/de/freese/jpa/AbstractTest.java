@@ -35,6 +35,8 @@ import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,8 @@ import de.freese.jpa.utils.StringStripConverter;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractTest {
+@TestMethodOrder(MethodOrderer.MethodName.class)
+abstract class AbstractTest {
     protected static final Logger LOGGER = LoggerFactory.getLogger("TestLogger");
 
     @AfterAll
@@ -78,7 +81,8 @@ public abstract class AbstractTest {
         // Connection Properties
         // ****************************************************************************************
         // config.put(AvailableSettings.DATASOURCE, "jdbc/DS");
-        config.put(AvailableSettings.DATASOURCE, new HikariDataSource(hikariConfig));
+        //        config.put(AvailableSettings.DATASOURCE, new HikariDataSource(hikariConfig));
+        config.put("hibernate.connection.datasource", new HikariDataSource(hikariConfig));
         config.put(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect");
         //        config.put(AvailableSettings.DRIVER, "org.hsqldb.jdbc.JDBCDriver");
         //        config.put(AvailableSettings.URL, "jdbc:hsqldb:mem:" + System.currentTimeMillis());

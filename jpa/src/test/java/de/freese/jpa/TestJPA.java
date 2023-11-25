@@ -18,9 +18,7 @@ import jakarta.persistence.Query;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionVo;
@@ -30,7 +28,6 @@ import de.freese.jpa.model.Person;
  * @author Thomas Freese
  */
 @SuppressWarnings("unchecked")
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestJPA extends AbstractTest {
     private static EntityManagerFactory entityManagerFactory;
 
