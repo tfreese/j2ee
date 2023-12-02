@@ -9,7 +9,9 @@ configurations {
         extendsFrom(runtimeOnly)
     }
 
-    cloudsessionsWar {}
+    cloudsessionsWar {
+//        canBeConsumed = false
+    }
 }
 
 dependencies {
@@ -23,6 +25,8 @@ jar {
 
 tasks.register("syncLibs", Sync) {
     group = "My Tasks"
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from(configurations.cloudsessionsLibs) {
         exclude("cloudsessions*.jar")

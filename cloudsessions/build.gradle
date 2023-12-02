@@ -17,6 +17,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-web")
 }
 
+jar {
+    enabled false
+}
+
 war {
     // Skinny-War
     rootSpec.exclude("**/*.jar", "**/*.rar")
@@ -34,11 +38,20 @@ war {
 }
 
 configurations {
-    cloudsessionsWar {}
+    cloudsessionsWar {
+//        canBeConsumed = true
+//        canBeResolved = false
+//
+//        extendsFrom implementation, runtimeOnly
+    }
 }
 
 artifacts {
-    cloudsessionsWar(project.tasks.war)
+//    sharedConfig(TaskName with outputs.file(sharedFile))
+
+    cloudsessionsWar(project.tasks.war) {
+//        builtBy(build)
+    }
 
     // same as
     // cloudsessionsWar(layout.buildDirectory.get().dir("libs").file("cloudsessions- " + project.version + ".war"))
