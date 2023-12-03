@@ -10,7 +10,8 @@ configurations {
     }
 
     cloudsessionsWar {
-//        canBeConsumed = false
+        canBeConsumed = false
+        canBeResolved = true
     }
 }
 
@@ -26,7 +27,7 @@ jar {
 tasks.register("syncLibs", Sync) {
     group = "My Tasks"
 
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     from(configurations.cloudsessionsLibs) {
         exclude("cloudsessions*.jar")
@@ -35,7 +36,7 @@ tasks.register("syncLibs", Sync) {
         // exclude(group: "PROVIDED-DEPENDENCY")
     }
     from(configurations.cloudsessionsWar)
-    rename("cloudsessions-" + project.version + ".war", "cloudsessions.war")
+    rename("cloudsessions-" + project(":cloudsessions").version + ".war", "cloudsessions.war")
     into(layout.buildDirectory.dir("libs"))
 }
 build.finalizedBy("syncLibs")

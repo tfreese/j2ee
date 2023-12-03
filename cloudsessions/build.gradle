@@ -39,9 +39,9 @@ war {
 
 configurations {
     cloudsessionsWar {
-//        canBeConsumed = true
-//        canBeResolved = false
-//
+        canBeConsumed = true
+        canBeResolved = false
+
 //        extendsFrom implementation, runtimeOnly
     }
 }
