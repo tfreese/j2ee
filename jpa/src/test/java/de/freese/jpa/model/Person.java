@@ -3,6 +3,7 @@ package de.freese.jpa.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
@@ -92,7 +93,21 @@ public class Person {
 
     public void addAddress(final Address address) {
         this.addresses.add(address);
+
         address.setPerson(this);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof final Person person)) {
+            return false;
+        }
+
+        return id == person.id;
     }
 
     public List<Address> getAddresses() {
@@ -113,7 +128,7 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(getID()).hashCode();
+        return Objects.hash(id);
     }
 
     public void setID(final long id) {

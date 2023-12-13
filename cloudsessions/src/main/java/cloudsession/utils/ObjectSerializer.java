@@ -26,7 +26,7 @@ public final class ObjectSerializer {
             ;
     // @formatter:on
 
-    public static <T> T fromJson(final InputStream inputStream, Class<T> valueType) {
+    public static <T> T fromJson(final InputStream inputStream, final Class<T> valueType) {
         try {
             return JSON_MAPPER.readValue(inputStream, valueType);
         }
@@ -41,7 +41,7 @@ public final class ObjectSerializer {
         }
     }
 
-    public static <T> T fromJson(final InputStream inputStream, TypeReference<T> typeReference) {
+    public static <T> T fromJson(final InputStream inputStream, final TypeReference<T> typeReference) {
         try {
             return JSON_MAPPER.readValue(inputStream, typeReference);
         }
@@ -56,7 +56,7 @@ public final class ObjectSerializer {
         }
     }
 
-    public static void toJson(OutputStream outputStream, final Object o) {
+    public static void toJson(final OutputStream outputStream, final Object o) {
         if (o == null) {
             return;
         }

@@ -43,7 +43,7 @@ public class NonStickySessionServlet extends HttpServlet {
         return gc.getTime().toString();
     }
 
-    static StringBuilder printHeaders(HttpServletRequest request) {
+    static StringBuilder printHeaders(final HttpServletRequest request) {
         Enumeration<?> names = request.getHeaderNames();
         StringBuilder html = new StringBuilder();
         html.append("<table>\n");
@@ -59,7 +59,7 @@ public class NonStickySessionServlet extends HttpServlet {
         return html;
     }
 
-    static StringBuilder printParameters(HttpServletRequest request) {
+    static StringBuilder printParameters(final HttpServletRequest request) {
         Enumeration<?> names = request.getParameterNames();
         StringBuilder html = new StringBuilder();
         html.append("<table>\n");

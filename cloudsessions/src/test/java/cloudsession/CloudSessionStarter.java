@@ -12,7 +12,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @ServletComponentScan
 @SpringBootApplication
 public class CloudSessionStarter {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(CloudSessionStarter.class, args);
     }
 
@@ -45,11 +45,11 @@ public class CloudSessionStarter {
     //    public class ConfigureWeb implements ServletContextInitializer {
     //
     //        @Override
-    //        public void onStartup(ServletContext servletContext) throws ServletException {
+    //        public void onStartup(final ServletContext servletContext) throws ServletException {
     //            registerServlet(servletContext);
     //        }
     //
-    //        private void registerServlet(ServletContext servletContext) {
+    //        private void registerServlet(final ServletContext servletContext) {
     //            ServletRegistration.Dynamic serviceServlet = servletContext.addServlet("NonStickySessionServlet", new NonStickySessionServlet());
     //
     //            serviceServlet.addMapping("/session");

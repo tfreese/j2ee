@@ -19,19 +19,13 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.cache.CacheManager;
-
 import jakarta.persistence.SharedCacheMode;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.hibernate.Cache;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.MissingCacheStrategy;
-import org.hibernate.cache.jcache.internal.JCacheRegionFactory;
-import org.hibernate.cache.spi.CacheImplementor;
-import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
@@ -265,11 +259,11 @@ abstract class AbstractTest {
 
         ps.println();
 
-        Cache cache = sessionFactory.getCache();
-        CacheImplementor cacheImplementor = (CacheImplementor) cache;
-        RegionFactory regionFactory = cacheImplementor.getRegionFactory();
-        JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
-        CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
+        //        Cache cache = sessionFactory.getCache();
+        //        CacheImplementor cacheImplementor = (CacheImplementor) cache;
+        //        RegionFactory regionFactory = cacheImplementor.getRegionFactory();
+        //        JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
+        //        CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
 
         ps.println();
     }

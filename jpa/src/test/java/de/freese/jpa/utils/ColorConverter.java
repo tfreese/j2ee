@@ -11,7 +11,7 @@ import jakarta.persistence.AttributeConverter;
 public class ColorConverter implements AttributeConverter<Color, String> {
 
     @Override
-    public String convertToDatabaseColumn(Color attribute) {
+    public String convertToDatabaseColumn(final Color attribute) {
         if (attribute == null) {
             return null;
         }
@@ -20,7 +20,7 @@ public class ColorConverter implements AttributeConverter<Color, String> {
     }
 
     @Override
-    public Color convertToEntityAttribute(String dbData) {
+    public Color convertToEntityAttribute(final String dbData) {
         if (dbData == null) {
             return null;
         }
