@@ -16,7 +16,6 @@ public class FakultaetView {
     @Inject
     @Recursive
     private Fakultaet fakultaet;
-
     @Max(5)
     private int n;
 

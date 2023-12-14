@@ -42,16 +42,16 @@ class TestHibernate extends AbstractTest {
     static void beforeAll() {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
-        Map<String, Object> config = getHibernateConfig();
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config).build();
+        final Map<String, Object> config = getHibernateConfig();
+        final ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config).build();
 
-        MetadataSources metadataSources = new MetadataSources(serviceRegistry);
+        final MetadataSources metadataSources = new MetadataSources(serviceRegistry);
         metadataSources.addPackage("de.freese.jpa.model") // for package-info.java
                 .addAnnotatedClass(Person.class).addAnnotatedClass(Address.class);
         //        .addResource("META-INF/orm.xml");
 
         try {
-            Metadata metadata = metadataSources.buildMetadata();
+            final Metadata metadata = metadataSources.buildMetadata();
             sessionFactory = metadata.buildSessionFactory();
         }
         catch (Exception ex) {
@@ -68,7 +68,7 @@ class TestHibernate extends AbstractTest {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            List<Person> persons = createPersons();
+            final List<Person> persons = createPersons();
 
             persons.stream().map(person -> {
                 session.persist(person);
@@ -93,11 +93,11 @@ class TestHibernate extends AbstractTest {
             // session.beginTransaction();
 
             // Caching must be enabled explicitly.
-            // List<Person> persons = session.createQuery("from Person order by id asc")
+            // final List<Person> persons = session.createQuery("from Person order by id asc")
             // .setCacheable(true).setCacheRegion("person").getResultList();
 
             // Caching is enabled in Mapping.
-            List<Person> persons = session.createNamedQuery("allPersons", Person.class).getResultList();
+            final List<Person> persons = session.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
 
@@ -108,17 +108,17 @@ class TestHibernate extends AbstractTest {
     @Override
     @Test
     public void test030SelectVorname() {
-        String vorname = "Vorname1";
+        final String vorname = "Vorname1";
 
         try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
 
             // Caching must be enabled explicitly.
-            // Person person = session.createQuery("from Person where vorname=:vorname order by name asc")
+            // final Person person = session.createQuery("from Person where vorname=:vorname order by name asc")
             // .setCacheable(true).setCacheRegion("person").getSingleResult();
 
             // Caching is enabled in Mapping.
-            Person person = session.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
+            final Person person = session.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
 
@@ -136,32 +136,32 @@ class TestHibernate extends AbstractTest {
             // !!! Aliases won't work in Native-Queries without Mapping object !!!
             // !!! No Caching for Named-Queries !!!
             // query.setCacheable(true).setCacheRegion("person");
-            Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class).setTupleTransformer((tuple, aliases) -> {
-                Person person = new Person((String) tuple[1], (String) tuple[2]);
+            final Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class).setTupleTransformer((tuple, aliases) -> {
+                final Person person = new Person((String) tuple[1], (String) tuple[2]);
                 person.setID((long) tuple[0]);
 
                 return person;
             });
 
             // Force flush on T_PERSON, so the NativeQuery can access the cached Data from the Session.
-            List<Person> persons = query.getResultList();
-            //            List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
+            final List<Person> persons = query.getResultList();
+            //            final List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
 
             assertNotNull(persons);
             assertEquals(3, persons.size());
 
             //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
             // nativeQuery2.setCacheable(true).setCacheRegion("address");
-            String sql = "select id, street from T_ADDRESS where person_id = :personId order by street desc";
-            NativeQuery<Address> nativeQuery2 = session.createNativeQuery(sql, Address.class).setTupleTransformer((tuple, aliases) -> {
-                Address address = new Address((String) tuple[1]);
+            final String sql = "select id, street from T_ADDRESS where person_id = :personId order by street desc";
+            final NativeQuery<Address> nativeQuery2 = session.createNativeQuery(sql, Address.class).setTupleTransformer((tuple, aliases) -> {
+                final Address address = new Address((String) tuple[1]);
                 address.setID((long) tuple[0]);
 
                 return address;
             });
 
             persons.forEach(person -> {
-                List<Address> addresses = nativeQuery2.setParameter("personId", person.getID(), Long.class).getResultList();
+                final List<Address> addresses = nativeQuery2.setParameter("personId", person.getID(), Long.class).getResultList();
 
                 addresses.forEach(address -> {
                     person.addAddress(address);
@@ -177,7 +177,7 @@ class TestHibernate extends AbstractTest {
     @Test
     void test060Projection() {
         try (Session session = sessionFactory.openSession()) {
-            StringBuilder hql = new StringBuilder();
+            final StringBuilder hql = new StringBuilder();
             hql.append("select");
             hql.append(" new de.freese.jpa.model.MyProjectionVo");
             hql.append(" (");
@@ -187,13 +187,13 @@ class TestHibernate extends AbstractTest {
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            List<MyProjectionVo> result = session.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
+            final List<MyProjectionVo> result = session.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++) {
-                MyProjectionVo dto = result.get(i - 1);
+                final MyProjectionVo dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
             }

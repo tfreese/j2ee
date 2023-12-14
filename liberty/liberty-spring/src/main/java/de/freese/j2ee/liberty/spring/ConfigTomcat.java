@@ -23,7 +23,7 @@ public class ConfigTomcat {
 
     @Bean
     public DataSource dataSource() throws NamingException {
-        JDBCDataSource dataSource = new JDBCDataSource();
+        final JDBCDataSource dataSource = new JDBCDataSource();
         dataSource.setURL("jdbc:hsqldb:mem:liberty-spring");
         dataSource.setUser("sa");
         dataSource.setPassword("");

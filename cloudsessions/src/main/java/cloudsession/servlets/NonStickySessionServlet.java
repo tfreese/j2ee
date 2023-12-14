@@ -37,20 +37,20 @@ public class NonStickySessionServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     static String formatDate(final long creationTime) {
-        GregorianCalendar gc = new GregorianCalendar();
+        final GregorianCalendar gc = new GregorianCalendar();
         gc.setTimeInMillis(creationTime);
 
         return gc.getTime().toString();
     }
 
     static StringBuilder printHeaders(final HttpServletRequest request) {
-        Enumeration<?> names = request.getHeaderNames();
-        StringBuilder html = new StringBuilder();
+        final Enumeration<?> names = request.getHeaderNames();
+        final StringBuilder html = new StringBuilder();
         html.append("<table>\n");
         html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Headers</th></tr>\n");
 
         while (names.hasMoreElements()) {
-            String nextName = (String) names.nextElement();
+            final String nextName = (String) names.nextElement();
             html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getHeader(nextName)).append("</td></tr>\n");
         }
 
@@ -60,13 +60,13 @@ public class NonStickySessionServlet extends HttpServlet {
     }
 
     static StringBuilder printParameters(final HttpServletRequest request) {
-        Enumeration<?> names = request.getParameterNames();
-        StringBuilder html = new StringBuilder();
+        final Enumeration<?> names = request.getParameterNames();
+        final StringBuilder html = new StringBuilder();
         html.append("<table>\n");
         html.append("<tr><th colspan=\"2\" style=\"text-align: center\">Request Parameters</th></tr>\n");
 
         while (names.hasMoreElements()) {
-            String nextName = (String) names.nextElement();
+            final String nextName = (String) names.nextElement();
             html.append("<tr><td>").append(nextName).append("</td><td>").append(request.getParameter(nextName)).append("</td></tr>\n");
         }
 
@@ -81,14 +81,14 @@ public class NonStickySessionServlet extends HttpServlet {
     public NonStickySessionServlet() {
         super();
 
-        // CloudSession cs = new CloudSessionAmazon();
-        CloudSession cs = new CloudSessionLocal();
+        // final CloudSession cs = new CloudSessionAmazon();
+        final CloudSession cs = new CloudSessionLocal();
         this.cloudSession = new CloudSessionCache(cs, SESSION_LIVE_TIME);
     }
 
     @Override
     public void service(final HttpServletRequest request, final HttpServletResponse response) {
-        StringBuilder html = new StringBuilder();
+        final StringBuilder html = new StringBuilder();
         html.append("<html>\n");
 
         html.append(printHeaders(request)).append("<br/><br/>\n");
@@ -114,7 +114,7 @@ public class NonStickySessionServlet extends HttpServlet {
         html.append("<table>\n");
 
         if (request.getSession() != null) {
-            HttpSession session = request.getSession();
+            final HttpSession session = request.getSession();
 
             //String sessionID = session.getId(); // This is the current Session, but we want the old one.
             String sessionID = null;
@@ -132,7 +132,7 @@ public class NonStickySessionServlet extends HttpServlet {
             html.append("<tr><td>sessionID</td><td>").append(session.getId()).append("</td></tr>\n");
 
             // TODO SessionSwitch ss = new SessionSwitch(session);
-            Long lat = this.cloudSession.getSessionValueAsLong(sessionID, LAST_ACCESS_TIME);
+            final Long lat = this.cloudSession.getSessionValueAsLong(sessionID, LAST_ACCESS_TIME);
 
             if (lat != null) {
                 html.append("<tr><td>lastAccessTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(lat), ZoneId.systemDefault())).append("</td></tr>\n");
@@ -152,7 +152,7 @@ public class NonStickySessionServlet extends HttpServlet {
                 // check if cookie session has no timeout
                 // TODO
                 // if no timeout set new cookieSessionID and delete old cookieSessionID
-                Long val = this.cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
+                final Long val = this.cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
 
                 if (val != null) {
                     this.cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
@@ -160,14 +160,14 @@ public class NonStickySessionServlet extends HttpServlet {
                 }
             }
 
-            String reqUser = request.getParameter(USER);
+            final String reqUser = request.getParameter(USER);
 
             if (reqUser != null) {
                 this.cloudSession.setSessionValue(sessionID, USER, reqUser);
                 html.append("<tr><td>user</td><td>").append(reqUser).append("</td></tr>\n");
             }
             else {
-                String csUser = this.cloudSession.getSessionValue(sessionID, USER);
+                final String csUser = this.cloudSession.getSessionValue(sessionID, USER);
                 html.append("<tr><td>user</td><td>").append(csUser).append("</td></tr>\n");
             }
         }

@@ -26,22 +26,22 @@ class EndpointTest {
      */
     @Test
     void testGetProperties() throws Exception {
-        String url = "http://localhost:9080/liberty-rest/my-liberty/service/properties";
+        final String url = "http://localhost:9080/liberty-rest/my-liberty/service/properties";
 
         try (Client client = ClientBuilder.newClient().register(JacksonJaxbJsonProvider.class)) {
-            WebTarget webTarget = client.target(url);
+            final WebTarget webTarget = client.target(url);
 
             try (Response response = webTarget.request().get()) {
                 assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
-                String jsonValue = response.readEntity(String.class);
+                final String jsonValue = response.readEntity(String.class);
                 assertNotNull(jsonValue);
 
                 System.out.println(jsonValue);
 
-                TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
+                final TypeReference<HashMap<String, Object>> typeReference = new TypeReference<>() {
                 };
-                HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, typeReference);
+                final HashMap<String, Object> map = new ObjectMapper().readValue(jsonValue, typeReference);
 
                 assertNotNull(map);
                 assertFalse(map.isEmpty());

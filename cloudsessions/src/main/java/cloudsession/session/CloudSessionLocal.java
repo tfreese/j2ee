@@ -66,10 +66,10 @@ public class CloudSessionLocal implements CloudSession {
                 }
 
                 try (InputStream inputStream = Files.newInputStream(DATA_PATH, StandardOpenOption.READ)) {
-                    TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<>() {
+                    final TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<>() {
                     };
 
-                    Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, typeRef);
+                    final Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, typeRef);
 
                     if (mapJson != null) {
                         mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
@@ -78,7 +78,7 @@ public class CloudSessionLocal implements CloudSession {
 
                 // Remove old Session-Entries.
                 for (Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
-                    Map<String, String> data = iterator.next();
+                    final Map<String, String> data = iterator.next();
 
                     if (data.get(CloudSessionCache.TIMEOUT) != null) {
                         if (System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT))) {

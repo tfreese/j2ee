@@ -30,9 +30,9 @@ public class LogInterceptor implements UsageLogMBean {
     // {
     // System.out.println("LogInterceptor.exportsBean()");
     //
-    // ObjectName objectName = new ObjectName("LogInterceptor:type=" + getClass().getName());
+    // final ObjectName objectName = new ObjectName("LogInterceptor:type=" + getClass().getName());
     //
-    // MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+    // final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
     // mBeanServer.registerMBean(this, objectName);
     // }
 
@@ -43,7 +43,7 @@ public class LogInterceptor implements UsageLogMBean {
 
     @AroundInvoke
     public Object logNameRequest(final InvocationContext ctx) throws Exception {
-        Object[] params = ctx.getParameters();
+        final Object[] params = ctx.getParameters();
 
         String parameter = Arrays.toString(params);
 

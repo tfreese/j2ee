@@ -13,7 +13,6 @@ public class MyProjectionVo implements Serializable {
     private static final long serialVersionUID = 8195470174423798274L;
 
     private final Long id;
-
     private final String name;
 
     public MyProjectionVo(final Long id, final String name) {
@@ -51,7 +50,7 @@ public class MyProjectionVo implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
         sb.append("[");
         sb.append("id = ").append(this.id);
         sb.append(",name = ").append(this.name);

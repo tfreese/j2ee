@@ -23,7 +23,7 @@ public class MyRestService {
     public JsonObject getProperties() {
         System.out.printf("%s_MyRestService.getProperties%n", Thread.currentThread().getName());
 
-        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 
         // @formatter:off
         System.getProperties().keySet().stream()

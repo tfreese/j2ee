@@ -47,7 +47,7 @@ abstract class AbstractTest {
 
     @AfterAll
     static void afterAll() throws IOException {
-        Path ehCachePath = Paths.get(System.getProperty("java.io.tmpdir"), "ehcache");
+        final Path ehCachePath = Paths.get(System.getProperty("java.io.tmpdir"), "ehcache");
 
         try (Stream<Path> stream = Files.walk(ehCachePath)) {
             stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
@@ -57,9 +57,9 @@ abstract class AbstractTest {
 
     protected static Map<String, Object> getHibernateConfig() {
         //        long id = System.nanoTime();
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
 
-        HikariConfig hikariConfig = new HikariConfig();
+        final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:" + id + ";shutdown=true");
         hikariConfig.setUsername("sa");
@@ -70,7 +70,7 @@ abstract class AbstractTest {
         hikariConfig.setAutoCommit(false);
 
         // org.hibernate.cfg.Environment;
-        Map<String, Object> config = new HashMap<>();
+        final Map<String, Object> config = new HashMap<>();
 
         // Connection Properties
         // ****************************************************************************************
@@ -153,14 +153,14 @@ abstract class AbstractTest {
      * Spaces will be removed by {@link StringStripConverter}.
      **/
     protected List<Person> createPersons() {
-        List<Person> persons = new ArrayList<>();
+        final List<Person> persons = new ArrayList<>();
 
         for (int i = 1; i <= 3; i++) {
-            Person person = new Person("   Name" + i, "   Vorname" + i);
+            final Person person = new Person("   Name" + i, "   Vorname" + i);
             persons.add(person);
 
             for (int j = 1; j <= 3; j++) {
-                Address address = new Address("   Street" + i + j);
+                final Address address = new Address("   Street" + i + j);
                 person.addAddress(address);
             }
         }
@@ -169,10 +169,10 @@ abstract class AbstractTest {
     }
 
     protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory) {
-        Statistics stats = sessionFactory.getStatistics();
+        final Statistics stats = sessionFactory.getStatistics();
 
-        long txCount = stats.getTransactionCount();
-        long successfulTxCount = stats.getSuccessfulTransactionCount();
+        final long txCount = stats.getTransactionCount();
+        final long successfulTxCount = stats.getSuccessfulTransactionCount();
 
         ps.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
         ps.println("Session open Count......: " + stats.getSessionOpenCount());
@@ -205,9 +205,9 @@ abstract class AbstractTest {
         ps.println();
         ps.println("CollectionStatistics");
         Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(s -> s != null).forEach(s -> {
-            long hitCount = s.getCacheHitCount();
-            long missCount = s.getCacheMissCount();
-            double ratio = hitCount / (hitCount + missCount);
+            final long hitCount = s.getCacheHitCount();
+            final long missCount = s.getCacheMissCount();
+            final double ratio = hitCount / (hitCount + missCount);
 
             ps.println("Cache Region.........: " + s);
 
@@ -225,9 +225,9 @@ abstract class AbstractTest {
         ps.println();
         ps.println("QueryRegionStatistics");
         Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s -> {
-            long hitCount = s.getHitCount();
-            long missCount = s.getMissCount();
-            double ratio = hitCount / (hitCount + missCount);
+            final long hitCount = s.getHitCount();
+            final long missCount = s.getMissCount();
+            final double ratio = hitCount / (hitCount + missCount);
 
             ps.println("Cache Region.........: " + s);
             ps.println("Objects in Memory....: " + s.getElementCountInMemory());
@@ -239,9 +239,9 @@ abstract class AbstractTest {
         });
 
         // Objekt specific Statistics
-        // Metamodel metamodel = sessionFactory.getMetamodel();
-        // Metamodel metamodel = ((SessionFactoryImplementor) sessionFactory).getMetamodel();
-        // Map<String, ClassMetadata> classMetadata = sessionFactory.getAllClassMetadata();
+        // final Metamodel metamodel = sessionFactory.getMetamodel();
+        // final Metamodel metamodel = ((SessionFactoryImplementor) sessionFactory).getMetamodel();
+        // final Map<String, ClassMetadata> classMetadata = sessionFactory.getAllClassMetadata();
 
         // Sort by Class name.
         // @formatter:off
@@ -259,26 +259,26 @@ abstract class AbstractTest {
 
         ps.println();
 
-        //        Cache cache = sessionFactory.getCache();
-        //        CacheImplementor cacheImplementor = (CacheImplementor) cache;
-        //        RegionFactory regionFactory = cacheImplementor.getRegionFactory();
-        //        JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
-        //        CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
+        //        final Cache cache = sessionFactory.getCache();
+        //        final CacheImplementor cacheImplementor = (CacheImplementor) cache;
+        //        final RegionFactory regionFactory = cacheImplementor.getRegionFactory();
+        //        final JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
+        //        final CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
 
         ps.println();
     }
 
     protected void validateTest1Insert(final List<Person> persons) {
         for (int i = 0; i < persons.size(); i++) {
-            Person person = persons.get(i);
+            final Person person = persons.get(i);
 
             assertEquals(1 + i, person.getID());
             assertEquals(3, person.getAddresses().size());
 
             for (int j = 0; j < person.getAddresses().size(); j++) {
-                Address address = person.getAddresses().get(j);
+                final Address address = person.getAddresses().get(j);
 
-                long addressIdExpected = ((person.getID() - 1) * person.getAddresses().size()) + j + 1;
+                final long addressIdExpected = ((person.getID() - 1) * person.getAddresses().size()) + j + 1;
                 assertEquals(addressIdExpected, address.getID());
                 assertEquals(person, address.getPerson());
             }
@@ -290,7 +290,7 @@ abstract class AbstractTest {
         assertEquals(3, persons.size());
 
         for (int i = 0; i < persons.size(); i++) {
-            Person person = persons.get(i);
+            final Person person = persons.get(i);
             LOGGER.info(person.toString());
 
             assertEquals(1 + i, person.getID());
@@ -307,7 +307,7 @@ abstract class AbstractTest {
         assertNotNull(persons);
         assertEquals(1, persons.size());
 
-        Person person = persons.get(0);
+        final Person person = persons.get(0);
         assertEquals(1, person.getID());
         assertEquals(vorname, person.getVorname());
         assertEquals(3, person.getAddresses().size());

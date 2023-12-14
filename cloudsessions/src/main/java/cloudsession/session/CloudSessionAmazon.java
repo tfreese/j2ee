@@ -38,7 +38,7 @@ public class CloudSessionAmazon implements CloudSession {
 
     @Override
     public String getSessionValue(final String sessionID, final String name) {
-        GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
+        final GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
         for (Attribute attribute : gar.getAttributes()) {
             if (attribute.getName().equals(name)) {
@@ -51,15 +51,15 @@ public class CloudSessionAmazon implements CloudSession {
 
     @Override
     public void remove(final String sessionID) {
-        DeletableItem deletableItem = new DeletableItem().withName(sessionID);
+        final DeletableItem deletableItem = new DeletableItem().withName(sessionID);
 
         this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
     }
 
     @Override
     public void setSessionValue(final String sessionID, final String name, final String value) {
-        ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
-        ReplaceableItem replaceableItem = new ReplaceableItem().withName(sessionID).withAttributes(replaceableAttribute);
+        final ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
+        final ReplaceableItem replaceableItem = new ReplaceableItem().withName(sessionID).withAttributes(replaceableAttribute);
 
         this.amazonClient.batchPutAttributes(new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(replaceableItem));
     }

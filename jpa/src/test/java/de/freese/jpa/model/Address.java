@@ -82,7 +82,7 @@ public class Address {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Address [");
         builder.append("id=").append(this.id);
         builder.append(", street=").append(this.street);

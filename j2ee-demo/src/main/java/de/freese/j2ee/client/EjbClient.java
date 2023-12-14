@@ -19,7 +19,7 @@ public final class EjbClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(EjbClient.class);
 
     public static void main(final String[] args) throws Exception {
-        // Properties props = new Properties();
+        // final Properties props = new Properties();
         // props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "com.sun.enterprise.naming.SerialInitContextFactory");
         // props.setProperty(Context.URL_PKG_PREFIXES, "com.sun.enterprise.naming");
         // props.setProperty(Context.STATE_FACTORIES, "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
@@ -27,11 +27,11 @@ public final class EjbClient {
         // props.setProperty("org.omg.CORBA.ORBInitialPort", "3700");
 
         // glassfish/lib/appserv-rt.jar im ClassPath braucht keine Konfig für lokale Maschine.
-        Context ctx = new InitialContext();
+        final Context ctx = new InitialContext();
 
         // KundenService service = (KundenService) ctx.lookup("java:global/de.freese.j2ee/RestService");
-        KundenService service = (KundenService) ctx.lookup(KundenService.class.getName());
-        List<Kunde> kunden = service.getData();
+        final KundenService service = (KundenService) ctx.lookup(KundenService.class.getName());
+        final List<Kunde> kunden = service.getData();
 
         for (Kunde kunde : kunden) {
             LOGGER.info("{}", kunde);

@@ -38,11 +38,9 @@ public class Kunde implements Serializable {
     @SequenceGenerator(name = "seq", sequenceName = "kunde_SEQ", initialValue = 1, allocationSize = 1)
     @XmlAttribute
     private long id;
-
     @Column(name = "NAME", nullable = false)
     @Size(min = 3)
     private String name;
-
     @Column(name = "VORNAME", nullable = false)
     @Size(min = 3)
     private String vorname;

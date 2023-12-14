@@ -35,14 +35,14 @@ import de.freese.j2ee.liberty.config.service.MyService;
 public class MyRestFacade extends AbstractBean {
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
-    
+
     @EJB
     private MyService serviceBean;
 
     public MyRestFacade() {
         super();
 
-        // ManagedThreadFactory threadFactory =
+        // final ManagedThreadFactory threadFactory =
         // (ManagedThreadFactory) new InitialContext().lookup(
         // "java:comp/DefaultManagedThreadFactory");
 
@@ -59,13 +59,13 @@ public class MyRestFacade extends AbstractBean {
     @Path("jndi")
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getJndiTree() throws Exception {
-        List<String> names = Arrays.asList("", "java:global", "java:app", "java:module", "java:comp");
+        final List<String> names = Arrays.asList("", "java:global", "java:app", "java:module", "java:comp");
 
-        Map<String, Object> map = new TreeMap<>();
-        InitialContext initialContext = new InitialContext();
+        final Map<String, Object> map = new TreeMap<>();
+        final InitialContext initialContext = new InitialContext();
 
         for (String name : names) {
-            Context context = (Context) initialContext.lookup(name);
+            final Context context = (Context) initialContext.lookup(name);
             map.put(name, dumpContextNameClassPair(context));
             // map.put(name, dumpContextBinding(context));
             context.close();
@@ -97,8 +97,8 @@ public class MyRestFacade extends AbstractBean {
     public JsonObject getSystemProperties() {
         getLogger().info("getSystemProperties");
 
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        Map<String, String> properties = getServiceBean().getSystemProperties();
+        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final Map<String, String> properties = getServiceBean().getSystemProperties();
 
         properties.forEach(builder::add);
 
@@ -114,12 +114,12 @@ public class MyRestFacade extends AbstractBean {
     }
 
     private Map<String, Object> dumpContextBinding(final Context ctx) throws Exception {
-        NamingEnumeration<Binding> enumeration = ctx.listBindings("");
-        Map<String, Object> map = new TreeMap<>();
+        final NamingEnumeration<Binding> enumeration = ctx.listBindings("");
+        final Map<String, Object> map = new TreeMap<>();
 
         while (enumeration.hasMoreElements()) {
-            Binding binding = enumeration.next();
-            String name = binding.getName();
+            final Binding binding = enumeration.next();
+            final String name = binding.getName();
 
             Object tmp = null;
 
@@ -142,13 +142,13 @@ public class MyRestFacade extends AbstractBean {
     }
 
     private Map<String, Object> dumpContextNameClassPair(final Context ctx) throws Exception {
-        NamingEnumeration<NameClassPair> enumeration = ctx.list("");
-        Map<String, Object> map = new TreeMap<>();
+        final NamingEnumeration<NameClassPair> enumeration = ctx.list("");
+        final Map<String, Object> map = new TreeMap<>();
 
         while (enumeration.hasMoreElements()) {
-            NameClassPair pair = enumeration.next();
-            String name = pair.getName();
-            String className = pair.getClassName();
+            final NameClassPair pair = enumeration.next();
+            final String name = pair.getName();
+            final String className = pair.getClassName();
 
             boolean isSubContext = false;
 
@@ -160,7 +160,7 @@ public class MyRestFacade extends AbstractBean {
             }
 
             if (isSubContext) {
-                Context subContext = (Context) ctx.lookup(name);
+                final Context subContext = (Context) ctx.lookup(name);
 
                 map.put(name, dumpContextNameClassPair(subContext));
             }

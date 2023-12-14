@@ -25,12 +25,10 @@ public class JmxBeanExtension {
 
     // @Inject
     // private LogInterceptor interceptor;
-
     @Inject
     @JmxBean
     // @Any
     private Instance<Object> jmxBeans;
-
     private MBeanServer mBeanServer;
 
     @PostConstruct
@@ -44,11 +42,11 @@ public class JmxBeanExtension {
         }
 
         for (Object bean : this.jmxBeans) {
-            Class<?> beanClass = bean.getClass();
-            // Object bean = this.interceptor;
-            // Class<?> beanClass = LogInterceptor.class;
-            // String annotationValue = beanClass.getAnnotation(JmxBean.class).objectName();
-            String annotationValue = beanClass.getSimpleName();
+            final Class<?> beanClass = bean.getClass();
+            // final Object bean = this.interceptor;
+            // final Class<?> beanClass = LogInterceptor.class;
+            // final String annotationValue = beanClass.getAnnotation(JmxBean.class).objectName();
+            final String annotationValue = beanClass.getSimpleName();
             ObjectName objectName = null;
 
             if ("".equals(annotationValue)) {

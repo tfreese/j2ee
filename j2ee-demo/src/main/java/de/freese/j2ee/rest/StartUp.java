@@ -34,13 +34,13 @@ public class StartUp {
     public void myPostConstruct() {
         StartUp.LOGGER.info("");
 
-        Query query = this.entityManager.createQuery("select count(*) from Kunde");
-        Number result = (Number) query.getSingleResult();
+        final Query query = this.entityManager.createQuery("select count(*) from Kunde");
+        final Number result = (Number) query.getSingleResult();
 
         if (result.intValue() == 0) {
             StartUp.LOGGER.info("fill DataBase");
 
-            Kunde kunde = new Kunde();
+            final Kunde kunde = new Kunde();
             kunde.setName("Freese");
             kunde.setVorname("Thomas");
 

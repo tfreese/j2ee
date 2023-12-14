@@ -44,15 +44,12 @@ public class RestService {
 
     @Context
     private SecurityContext context;
-
     @Inject
     @MyDataSource
     private DataSource dataSource;
-
     @Inject
     @MyEntityManager
     private EntityManager entityManager;
-
     @Resource
     private UserTransaction ut;
 
@@ -84,10 +81,10 @@ public class RestService {
     public Kunde getByID(@PathParam("id") final long id) {
         LOGGER.info("id = {}", id);
 
-        List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).setParameter("id", id).getResultList();
+        final List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).setParameter("id", id).getResultList();
 
         if (kunden.size() == 1) {
-            return kunden.get(0);
+            return kunden.getFirst();
         }
 
         return null;
@@ -99,7 +96,7 @@ public class RestService {
     public void insertKunde(@QueryParam("name") final String name, @QueryParam("vorname") final String vorname) {
         LOGGER.info("name = {}, vorname = {}", name, vorname);
 
-        Kunde kunde = new Kunde();
+        final Kunde kunde = new Kunde();
         kunde.setName(name);
         kunde.setVorname(vorname);
 

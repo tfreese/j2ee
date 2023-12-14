@@ -11,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 //@Stateless
 //@LocalBean
 public class NoViewBean extends AbstractBean {
-
     public String getValue() {
         return "Hello World";
     }

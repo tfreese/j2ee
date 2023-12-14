@@ -23,14 +23,12 @@ import de.freese.j2ee.liberty.config.service.MyService;
 public class StartUp extends AbstractBean {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
-
     /**
      * No-View Beans (without Interface) doesn't work ?!
      * Only if configured in ejb-jar.xml
      */
     //    @EJB
     private NoViewBean noViewBean;
-
     @EJB
     private MyService serviceBean;
 

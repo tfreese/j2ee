@@ -23,11 +23,8 @@ public class CloudSessionCache implements CloudSession {
     }
 
     private final Map<String, Map<String, String>> cache = new ConcurrentHashMap<>();
-
     private final CloudSession cloudSession;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final long sessionLiveTime;
 
     public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime) {
@@ -40,7 +37,7 @@ public class CloudSessionCache implements CloudSession {
     @Override
     public String getSessionValue(final String sessionID, final String name) {
         // search in my cache
-        Map<String, String> entry = this.cache.get(sessionID);
+        final Map<String, String> entry = this.cache.get(sessionID);
 
         if (entry == null) {
             // if not found in cache ...
@@ -73,7 +70,7 @@ public class CloudSessionCache implements CloudSession {
     public void setSessionValue(final String sessionID, final String name, final String value) {
         this.logger.info("setting entry [{},{},{}]", sessionID, name, value);
 
-        Map<String, String> entry = this.cache.computeIfAbsent(sessionID, key -> new ConcurrentHashMap<>());
+        final Map<String, String> entry = this.cache.computeIfAbsent(sessionID, key -> new ConcurrentHashMap<>());
 
         // update value in my cache
         entry.put(name, value);
@@ -85,7 +82,7 @@ public class CloudSessionCache implements CloudSession {
     }
 
     private String checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, String> entry) {
-        String cloudSessionValue = this.cloudSession.getSessionValue(sessionID, name);
+        final String cloudSessionValue = this.cloudSession.getSessionValue(sessionID, name);
 
         if (cloudSessionValue != null) {
             this.logger.info("found value [{}] in persistent cache!", cloudSessionValue);
@@ -109,7 +106,7 @@ public class CloudSessionCache implements CloudSession {
 
     private void renewTimeout(final String sessionID, final Map<String, String> entry) {
         // calculate new timeout
-        String timeout = Long.toString(System.currentTimeMillis() + this.sessionLiveTime);
+        final String timeout = Long.toString(System.currentTimeMillis() + this.sessionLiveTime);
 
         // renew cloud session timeout
         this.cloudSession.setSessionValue(sessionID, TIMEOUT, timeout);

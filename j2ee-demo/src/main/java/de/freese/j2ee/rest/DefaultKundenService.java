@@ -35,7 +35,7 @@ public class DefaultKundenService implements KundenService {
     public List<Kunde> getData() {
         LOGGER.info("");
 
-        Query query = this.entityManager.createQuery("select k from Kunde k");
+        final Query query = this.entityManager.createQuery("select k from Kunde k");
 
         return query.getResultList();
     }

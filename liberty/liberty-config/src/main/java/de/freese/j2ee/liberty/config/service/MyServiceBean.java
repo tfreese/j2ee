@@ -31,7 +31,7 @@ public class MyServiceBean extends AbstractBean implements MyService {
         getLogger().info("getSysDate");
 
         //        String sql = "VALUES (CURRENT_DATE)";
-        String sql = "VALUES (CURRENT_TIMESTAMP)";
+        final String sql = "VALUES (CURRENT_TIMESTAMP)";
         LocalDateTime localDateTime = null;
 
         try (Connection con = this.dataSource.getConnection();
@@ -48,9 +48,9 @@ public class MyServiceBean extends AbstractBean implements MyService {
     public Map<String, String> getSystemProperties() {
         getLogger().info("getSystemProperties");
 
-        Map<String, String> map = new TreeMap<>();
+        final Map<String, String> map = new TreeMap<>();
 
-        Properties properties = System.getProperties();
+        final Properties properties = System.getProperties();
         properties.forEach((key, value) -> map.put((String) key, (String) value));
 
         return map;

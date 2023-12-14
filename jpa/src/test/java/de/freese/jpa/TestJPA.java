@@ -40,7 +40,7 @@ class TestJPA extends AbstractTest {
     static void beforeAll() {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
-        Map<String, Object> config = getHibernateConfig();
+        final Map<String, Object> config = getHibernateConfig();
 
         // resources/META-INF/persistence.xml
         try {
@@ -57,7 +57,7 @@ class TestJPA extends AbstractTest {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             entityManager.getTransaction().begin();
 
-            List<Person> persons = createPersons();
+            final List<Person> persons = createPersons();
             persons.forEach(entityManager::persist);
 
             validateTest1Insert(persons);
@@ -74,11 +74,11 @@ class TestJPA extends AbstractTest {
             // entityManager.getTransaction().begin();
 
             // Caching must be enabled explicitly.
-            // List<Person> persons = entityManager.createQuery("from Person order by id asc")
+            // final List<Person> persons = entityManager.createQuery("from Person order by id asc")
             // .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getResultList();
 
             // Caching is enabled in Mapping.
-            List<Person> persons = entityManager.createNamedQuery("allPersons", Person.class).getResultList();
+            final List<Person> persons = entityManager.createNamedQuery("allPersons", Person.class).getResultList();
 
             validateTest2SelectAll(persons);
 
@@ -89,16 +89,16 @@ class TestJPA extends AbstractTest {
     @Override
     @Test
     public void test030SelectVorname() {
-        String vorname = "Vorname1";
+        final String vorname = "Vorname1";
 
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
             // Caching is enabled in Mapping.
-            Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
+            final Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
             // Caching must be enabled explicitly.
-            // Person person = entityManager.createQuery("from Person where vorname=:vorname order by name asc", Person.class)
+            // final Person person = entityManager.createQuery("from Person where vorname=:vorname order by name asc", Person.class)
             // setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getSingleResult();
 
             validateTest3SelectVorname(Arrays.asList(person), vorname);
@@ -111,35 +111,35 @@ class TestJPA extends AbstractTest {
     @Test
     public void test040NativeQuery() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            // Connection connection = entityManager.unwrap(Connection.class);
-            // Session session = entityManager.unwrap(Session.class);
+            // final Connection connection = entityManager.unwrap(Connection.class);
+            // final Session session = entityManager.unwrap(Session.class);
 
             // entityManager.getTransaction().begin();
             // !!! Aliases won't work in Native-Queries without Mapping object !!!
             // !!! Scalar Values (addScalar) like in Hibernate are not working for JPA !!!
             // !!! No Caching for Named-Queries !!!
-            List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
+            final List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
                     //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
                     .getResultStream().map(row -> {
-                        Person person = new Person((String) row[1], (String) row[2]);
+                        final Person person = new Person((String) row[1], (String) row[2]);
                         person.setID((long) row[0]);
                         return person;
                     }).toList();
 
-            Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
+            final Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
             // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
             for (Person person : persons) {
                 //                query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
-                //                    Address address = new Address((String) row[1]);
+                //                    final Address address = new Address((String) row[1]);
                 //                    address.setID((long) row[0]);
                 //                    return address;
                 //                }).forEach(person::addAddress);
 
-                List<Object[]> rows = query.setParameter("personId", person.getID()).getResultList();
+                final List<Object[]> rows = query.setParameter("personId", person.getID()).getResultList();
 
                 rows.forEach(row -> {
-                    Address address = new Address((String) row[1]);
+                    final Address address = new Address((String) row[1]);
                     address.setID((long) row[0]);
 
                     person.addAddress(address);
@@ -157,7 +157,7 @@ class TestJPA extends AbstractTest {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             // entityManager.getTransaction().begin();
 
-            StringBuilder hql = new StringBuilder();
+            final StringBuilder hql = new StringBuilder();
             hql.append("select");
             hql.append(" new de.freese.jpa.model.MyProjectionVo");
             hql.append(" (");
@@ -167,13 +167,13 @@ class TestJPA extends AbstractTest {
             hql.append(" from Person p");
             hql.append(" order by p.name asc");
 
-            List<MyProjectionVo> result = entityManager.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
+            final List<MyProjectionVo> result = entityManager.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());
 
             for (int i = 1; i <= result.size(); i++) {
-                MyProjectionVo dto = result.get(i - 1);
+                final MyProjectionVo dto = result.get(i - 1);
 
                 assertEquals("Name" + i, dto.getName());
             }

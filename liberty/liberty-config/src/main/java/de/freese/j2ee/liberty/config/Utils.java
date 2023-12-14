@@ -21,15 +21,15 @@ public final class Utils {
     private static final ThreadLocal<Map<String, Object>> CACHE = ThreadLocal.withInitial(HashMap::new);
 
     public static <T> T ejb(final Class<T> type) {
-        Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> lookupBean(type));
+        final Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> lookupBean(type));
 
         return type.cast(bean);
     }
 
     public static <T> T inject(final Class<T> type) {
-        Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> {
-            BeanManager bm = CDI.current().getBeanManager();
-            Bean<T> b = (Bean) bm.getBeans(type).iterator().next();
+        final Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> {
+            final BeanManager bm = CDI.current().getBeanManager();
+            final Bean<T> b = (Bean) bm.getBeans(type).iterator().next();
 
             return bm.getReference(b, type, bm.createCreationalContext(b));
         });
@@ -41,7 +41,7 @@ public final class Utils {
         Object object = null;
 
         try {
-            Context context = new InitialContext();
+            final Context context = new InitialContext();
             object = context.lookup(jndiName);
             context.close();
         }
