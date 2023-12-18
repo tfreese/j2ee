@@ -23,7 +23,7 @@ import de.freese.j2ee.jmx.UsageLogMBean;
 @MyLogging
 @JmxBean
 public class LogInterceptor implements UsageLogMBean {
-    private static final Set<String> parameters = new TreeSet<>();
+    private static final Set<String> PARAMETERS = new TreeSet<>();
 
     // @PostConstruct
     // public void exportsBean() throws Exception
@@ -38,7 +38,7 @@ public class LogInterceptor implements UsageLogMBean {
 
     @Override
     public Set<String> getParameters() {
-        return LogInterceptor.parameters;
+        return LogInterceptor.PARAMETERS;
     }
 
     @AroundInvoke
@@ -51,7 +51,7 @@ public class LogInterceptor implements UsageLogMBean {
             parameter = "";
         }
 
-        LogInterceptor.parameters.add(parameter);
+        LogInterceptor.PARAMETERS.add(parameter);
 
         LoggerFactory.getLogger(ctx.getTarget().getClass()).info(parameter);
 
