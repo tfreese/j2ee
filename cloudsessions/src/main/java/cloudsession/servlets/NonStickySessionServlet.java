@@ -116,7 +116,7 @@ public class NonStickySessionServlet extends HttpServlet {
         if (request.getSession() != null) {
             final HttpSession session = request.getSession();
 
-            //String sessionID = session.getId(); // This is the current Session, but we want the old one.
+            // String sessionID = session.getId(); // This is the current Session, but we want the old one.
             String sessionID = null;
 
             String cookie = request.getHeader("cookie");
@@ -145,7 +145,8 @@ public class NonStickySessionServlet extends HttpServlet {
             this.cloudSession.setSessionValue(sessionID, CREATION_TIME, Long.toString(session.getCreationTime()));
             this.cloudSession.setSessionValue(sessionID, LAST_ACCESS_TIME, Long.toString(System.currentTimeMillis()));
 
-            html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneId.systemDefault())).append("</td></tr>\n");
+            html.append("<tr><td>creationTime</td><td>").append(LocalDateTime.ofInstant(Instant.ofEpochMilli(session.getCreationTime()), ZoneId.systemDefault()))
+                    .append("</td></tr>\n");
             html.append("<tr><td>current Time</td><td>").append(LocalDateTime.now()).append("</td></tr>\n");
 
             if (!session.getId().equals(sessionID)) {

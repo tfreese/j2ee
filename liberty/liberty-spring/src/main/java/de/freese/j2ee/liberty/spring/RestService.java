@@ -44,7 +44,9 @@ public class RestService {
         // sysDate =
         // LocalDateTime.now().toString() + " at " + InetAddress.getLocalHost().getHostName() + "/" + InetAddress.getLocalHost().getCanonicalHostName();
 
-        try (Connection con = this.dataSource.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("VALUES (CURRENT_DATE)")) {
+        try (Connection con = this.dataSource.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery("VALUES (CURRENT_DATE)")) {
             rs.next();
             sysDate = rs.getDate(1).toString();
         }

@@ -14,7 +14,7 @@
 // @formatter:on
 package de.freese.jpa.model;
 //
-//import org.hibernate.annotations.TypeDef;
+// import org.hibernate.annotations.TypeDef;
 
 import org.hibernate.annotations.ConverterRegistration;
 import org.hibernate.annotations.ConverterRegistrations;
