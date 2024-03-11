@@ -3,6 +3,7 @@ package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +16,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -126,19 +128,25 @@ class TestJPA extends AbstractTest {
                         return person;
                     }).toList();
 
+            assertNotNull(persons);
+            assertFalse(persons.isEmpty());
+
             final Query query = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc");
             // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
             for (Person person : persons) {
-                //                query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
-                //                    final Address address = new Address((String) row[1]);
-                //                    address.setID((long) row[0]);
-                //                    return address;
-                //                }).forEach(person::addAddress);
+                // query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
+                //     final Address address = new Address((String) row[1]);
+                //     address.setID((long) row[0]);
+                //     return address;
+                // }).forEach(person::addAddress);
 
-                final List<Object[]> rows = query.setParameter("personId", person.getID()).getResultList();
+                final List<Object[]> addresses = query.setParameter("personId", person.getID()).getResultList();
 
-                rows.forEach(row -> {
+                assertNotNull(addresses);
+                assertFalse(addresses.isEmpty());
+
+                addresses.forEach(row -> {
                     final Address address = new Address((String) row[1]);
                     address.setID((long) row[0]);
 
@@ -153,8 +161,12 @@ class TestJPA extends AbstractTest {
     }
 
     @Test
-    void test6Projection() {
+    void test060Projection() {
+        assertInstanceOf(SessionFactory.class, entityManagerFactory.unwrap(SessionFactory.class));
+
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            assertInstanceOf(Session.class, entityManager.unwrap(Session.class));
+
             // entityManager.getTransaction().begin();
 
             final StringBuilder hql = new StringBuilder();

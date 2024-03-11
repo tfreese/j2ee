@@ -42,10 +42,12 @@ import org.hibernate.annotations.FetchMode;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
-@NamedQueries({@NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}), @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})})
+@NamedQueries({@NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
+        @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc",
+                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})})
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // All Attributes over Constructor, no Setter.
-public class Person {
+public class Person extends AbstractEntity {
     /**
      * orphanRemoval = true
      */

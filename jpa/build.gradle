@@ -4,22 +4,31 @@ plugins {
 
 description = "JPA Demo Projekt"
 
+configurations.all {
+    exclude group: "ch.qos.logback", module: "logback-classic"
+}
+// configurations.testImplementation {
+//     exclude group: "ch.qos.logback", module: "logback-classic"
+// }
+
 dependencies {
-    implementation("jakarta.validation:jakarta.validation-api")
+    // implementation("jakarta.validation:jakarta.validation-api")
     implementation("org.hibernate.orm:hibernate-core")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
-        exclude group: "ch.qos.logback", module: "logback-classic"
+        // exclude group: "ch.qos.logback", module: "logback-classic"
+        // exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
-
-    runtimeOnly("org.slf4j:slf4j-simple")
+    // implementation("org.springframework.boot:spring-boot-starter-validation")
 
 //    def ehcacheVersion = dependencyManagement.importedProperties["ehcache3.version"]
 
     testImplementation("org.hibernate.orm:hibernate-jcache")
     testImplementation("org.ehcache:ehcache::jakarta")
-    testImplementation("org.hibernate.validator:hibernate-validator")
+    // testImplementation("org.hibernate.validator:hibernate-validator")
     testImplementation("org.hsqldb:hsqldb")
-    testImplementation("org.slf4j:jul-to-slf4j")
+    // testImplementation("org.slf4j:jul-to-slf4j")
+    
+    testRuntimeOnly("org.slf4j:slf4j-simple")
 }
 
 test {

@@ -93,10 +93,11 @@ abstract class AbstractTest {
 
         // Logging
         // ****************************************************************************************
-        // By the Property 'AvailableSettings.SHOW_SQL' Hibernate writes the Logs to the Console.
-        // Better: Logger 'org.hibernate.SQL' set to DEBUG.
+        // By the Property 'AvailableSettings.SHOW_SQL' Hibernate writes the Logs directly to the Console.
+        // Better:
+        // Logger 'org.hibernate.SQL' set to DEBUG.
         // Logger 'org.hibernate.orm.jdbc.bind' to TRACE for Parameter in Prepared-Statements.
-        // Logger 'org.hibernate.orm.jdbc.extract' to TRACE for Werte in Select-Statements.
+        // Logger 'org.hibernate.orm.jdbc.extract' to TRACE for Values in Select-Statements.
         // config.put(AvailableSettings.SHOW_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.FORMAT_SQL, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));
         config.put(AvailableSettings.GENERATE_STATISTICS, Boolean.toString(LOGGER.isTraceEnabled() || LOGGER.isDebugEnabled() || LOGGER.isInfoEnabled()));

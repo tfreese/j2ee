@@ -30,7 +30,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
 // @Immutable // All Attributes over Constructor, no Setter.
-public class Address {
+public class Address extends AbstractEntity {
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     //    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1) // see package-info.java

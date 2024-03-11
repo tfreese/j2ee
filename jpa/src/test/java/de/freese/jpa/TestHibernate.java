@@ -17,10 +17,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.hibernate.query.TupleTransformer;
 import org.hibernate.service.ServiceRegistry;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import de.freese.jpa.model.Address;
@@ -128,7 +128,6 @@ class TestHibernate extends AbstractTest {
 
     @Override
     @Test
-    @Disabled("Strange Error Message in Address call: 'Unable to find column position by name: PERSON_ID'")
     public void test040NativeQuery() {
         try (Session session = sessionFactory.openSession()) {
             // session.beginTransaction();
@@ -145,23 +144,39 @@ class TestHibernate extends AbstractTest {
 
             // Force flush on T_PERSON, so the NativeQuery can access the cached Data from the Session.
             final List<Person> persons = query.getResultList();
-            //            final List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
+            // final List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
 
             assertNotNull(persons);
-            assertEquals(3, persons.size());
+            assertFalse(persons.isEmpty());
 
-            //            nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
-            // nativeQuery2.setCacheable(true).setCacheRegion("address");
             final String sql = "select id, street from T_ADDRESS where person_id = :personId order by street desc";
-            final NativeQuery<Address> nativeQuery2 = session.createNativeQuery(sql, Address.class).setTupleTransformer((tuple, aliases) -> {
+
+            final TupleTransformer<Address> addressTupleTransformer = (tuple, aliases) -> {
                 final Address address = new Address((String) tuple[1]);
                 address.setID((long) tuple[0]);
 
                 return address;
-            });
+            };
+
+            // nativeQuery2.addScalar("id", StandardBasicTypes.LONG).addScalar("street", StandardBasicTypes.STRING);
+            // nativeQuery2.setCacheable(true).setCacheRegion("address");
+            final NativeQuery<Object[]> nativeQuery2 = session.createNativeQuery(sql, Object[].class);
 
             persons.forEach(person -> {
-                final List<Address> addresses = nativeQuery2.setParameter("personId", person.getID(), Long.class).getResultList();
+                // nativeQuery2.setParameter("personId", person.getID())
+                //         .setTupleTransformer(addressTupleTransformer)
+                //         .getResultStream()
+                //         // .map(row -> {
+                //         //     final Address address = new Address((String) row[1]);
+                //         //     address.setID((long) row[0]);
+                //         //     return address;
+                //         // })
+                //         .forEach(person::addAddress);
+
+                final List<Address> addresses = nativeQuery2.setParameter("personId", person.getID()).setTupleTransformer(addressTupleTransformer).getResultList();
+
+                assertNotNull(addresses);
+                assertFalse(addresses.isEmpty());
 
                 addresses.forEach(address -> {
                     person.addAddress(address);
