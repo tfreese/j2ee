@@ -14,12 +14,12 @@ dependencies {
     }
     implementation("org.slf4j:slf4j-api")
 
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.hsqldb:hsqldb")
-
     // providedCompile
     compileOnly("io.openliberty.api:io.openliberty.transaction")
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.hsqldb:hsqldb")
 }
 
 ant.importBuild("build.xml") { antTargetName ->

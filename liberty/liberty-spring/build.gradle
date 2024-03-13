@@ -19,10 +19,11 @@ dependencies {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
 
+    implementation("org.hsqldb:hsqldb")
+
     // providedCompile
 //    compileOnly("jakarta.platform:jakarta.jakartaee-web-api")
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
-    compileOnly("org.hsqldb:hsqldb")
 //    compileOnly("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
@@ -52,7 +53,7 @@ tasks.register("openBrowser") {
 
 //test.dependsOn "libertyStart"
 //test.finalizedBy(openBrowser)
-//clean.dependsOn "libertyStop"
+clean.dependsOn "libertyStop"
 
 //Für Platzhalter in application.properties/application.yml
 ext.artifactId = project.name

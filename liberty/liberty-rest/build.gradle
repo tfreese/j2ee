@@ -15,8 +15,8 @@ ext {
 }
 
 dependencies {
-    // providedCompile
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
+    compileOnly("org.eclipse.microprofile:microprofile:6.1")
 
     testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
     testImplementation("org.glassfish.jersey.core:jersey-client")
@@ -42,13 +42,15 @@ tasks.register("openBrowser") {
     doLast {
         String port = liberty.server.var."default.http.port"
         String context = liberty.server.var."app.context.root"
-        String URL = "http://localhost:" + port + "/" + context + "/" + "servlet"
+        String url = "http://localhost:" + port + "/" + context + "/" + "servlet"
 
-        Desktop.getDesktop().browse(URL.toURI())
-        Desktop.getDesktop().browse(file("$buildDir/reports/tests/test/index.html").toURI())
+        Desktop.getDesktop().browse(URI.create(url))
+
+        def index = layout.buildDirectory.get().dir("reports").dir("tests").dir("test").file("index.html").toString()
+        Desktop.getDesktop().browse(URI.create(index))
     }
 }
 
-//test.dependsOn "libertyStart"
-//test.finalizedBy(openBrowser)
-//clean.dependsOn "libertyStop"
+// test.dependsOn "libertyStart"
+// test.finalizedBy(openBrowser)
+clean.dependsOn "libertyStop"
