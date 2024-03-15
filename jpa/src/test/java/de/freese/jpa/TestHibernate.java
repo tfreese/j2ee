@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -217,7 +218,7 @@ class TestHibernate extends AbstractTest {
 
     @Test
     void test099Statistics() {
-        dumpStatistics(System.out, sessionFactory);
+        dumpStatistics(new PrintWriter(System.out), sessionFactory);
 
         assertTrue(true);
     }

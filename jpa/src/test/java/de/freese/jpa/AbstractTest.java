@@ -6,10 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,10 +26,12 @@ import jakarta.persistence.SharedCacheMode;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
 import org.hibernate.SessionFactory;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.MissingCacheStrategy;
 import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -56,7 +61,6 @@ abstract class AbstractTest {
     }
 
     protected static Map<String, Object> getHibernateConfig() {
-        //        long id = System.nanoTime();
         final String id = UUID.randomUUID().toString();
 
         final HikariConfig hikariConfig = new HikariConfig();
@@ -64,10 +68,21 @@ abstract class AbstractTest {
         hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:" + id + ";shutdown=true");
         hikariConfig.setUsername("sa");
         hikariConfig.setPassword("");
-        hikariConfig.setPoolName("hikari-" + id);
+        hikariConfig.setPoolName("hikari-" + hikariConfig.getJdbcUrl());
         hikariConfig.setMinimumIdle(1);
-        hikariConfig.setMaximumPoolSize(8);
+        hikariConfig.setMaximumPoolSize(4);
         hikariConfig.setAutoCommit(false);
+
+        final HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            final HikariPoolMXBean poolMXBean = hikariDataSource.getHikariPoolMXBean();
+
+            LOGGER.info("Connections: idle={}, active={}, waiting={}", poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(),
+                    poolMXBean.getThreadsAwaitingConnection());
+
+            hikariDataSource.close();
+        }, "shutdown"));
 
         // org.hibernate.cfg.Environment;
         final Map<String, Object> config = new HashMap<>();
@@ -75,14 +90,14 @@ abstract class AbstractTest {
         // Connection Properties
         // ****************************************************************************************
         // config.put(AvailableSettings.DATASOURCE, "jdbc/DS");
-        //        config.put(AvailableSettings.DATASOURCE, new HikariDataSource(hikariConfig));
-        config.put("hibernate.connection.datasource", new HikariDataSource(hikariConfig));
-        config.put(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect");
-        //        config.put(AvailableSettings.DRIVER, "org.hsqldb.jdbc.JDBCDriver");
-        //        config.put(AvailableSettings.URL, "jdbc:hsqldb:mem:" + System.currentTimeMillis());
+        config.put(AvailableSettings.JAKARTA_JTA_DATASOURCE, hikariDataSource);
+        // config.put(AvailableSettings.DATASOURCE,hikariDataSource);
+        // config.put(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect"); // Auto detected
+        // config.put(AvailableSettings.DRIVER, "org.hsqldb.jdbc.JDBCDriver");
+        // config.put(AvailableSettings.URL, "jdbc:hsqldb:mem:" + System.currentTimeMillis() + ";shutdown=true");
         // config.put(AvailableSettings.URL, "jdbc:hsqldb:file:hsqldb/person;readonly=true;shutdown=true");
-        //        config.put(AvailableSettings.USER, "sa");
-        //        config.put(AvailableSettings.PASS, "");
+        // config.put(AvailableSettings.USER, "sa");
+        // config.put(AvailableSettings.PASS, "");
 
         // Create Schema
         // ****************************************************************************************
@@ -104,14 +119,14 @@ abstract class AbstractTest {
 
         // Caching
         // ****************************************************************************************
-        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "de.freese.jpa.OnTheFlyEhcacheRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
-        //        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
+        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test." + id);
         config.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
         config.put(AvailableSettings.USE_QUERY_CACHE, "true");
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
 
+        // config.put(ConfigSettings.PROVIDER,"org.ehcache.jsr107.EhcacheCachingProvider");
         config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
 
         // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
@@ -128,13 +143,13 @@ abstract class AbstractTest {
         config.put(AvailableSettings.FLUSH_BEFORE_COMPLETION, "true");
         // config.put(AvailableSettings.JTA_PLATFORM, "<CLASS_NAME>");
 
-        //        config.put(AvailableSettings.QUERY_SUBSTITUTIONS, "true 1, false 0");
+        // config.put(AvailableSettings.QUERY_SUBSTITUTIONS, "true 1, false 0");
         config.put(AvailableSettings.ORDER_INSERTS, "true");
         config.put(AvailableSettings.ORDER_UPDATES, "true");
         config.put(AvailableSettings.STATEMENT_BATCH_SIZE, "30");
         config.put(AvailableSettings.STATEMENT_FETCH_SIZE, "100");
 
-        //        config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
+        // config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
         config.put(AvailableSettings.USE_MINIMAL_PUTS, "false");
         config.put(AvailableSettings.USE_STRUCTURED_CACHE, "false");
 
@@ -169,96 +184,163 @@ abstract class AbstractTest {
         return persons;
     }
 
-    protected void dumpStatistics(final PrintStream ps, final SessionFactory sessionFactory) {
+    protected void dumpStatistics(final PrintWriter pw, final SessionFactory sessionFactory) {
+        Object jdbcUrl = null;
+
+        for (String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
+            jdbcUrl = sessionFactory.getProperties().get(key);
+
+            if (jdbcUrl != null) {
+                break;
+            }
+        }
+
+        pw.println("----------------------------------------------");
+        pw.printf("PersistenceStatistics: %s%n", jdbcUrl);
+        pw.println("----------------------------------------------");
+        pw.println();
+
         final Statistics stats = sessionFactory.getStatistics();
 
-        final long txCount = stats.getTransactionCount();
-        final long successfulTxCount = stats.getSuccessfulTransactionCount();
+        pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
+        pw.println();
 
-        ps.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
-        ps.println("Session open Count......: " + stats.getSessionOpenCount());
-        ps.println("Session close Count.....: " + successfulTxCount);
-        ps.println("Begin Transaction Count : " + txCount);
-        ps.println("Commit Transaction Count: " + stats.getSuccessfulTransactionCount());
+        pw.println("Start Date..............: " + stats.getStart());
+        pw.println("Current Date............: " + LocalDateTime.now());
+        pw.println();
+        pw.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
+        pw.println("Session open Count......: " + stats.getSessionOpenCount());
+        pw.println("Session close Count.....: " + stats.getSuccessfulTransactionCount());
+        pw.println("Begin Transaction Count : " + stats.getTransactionCount());
+        pw.println("Commit Transaction Count: " + stats.getSuccessfulTransactionCount());
 
-        // Global 2nd lvl Cache
-        double hitRatio = 0;
+        pw.println();
+        pw.println("Query Cache");
+        long hitCount = stats.getQueryCacheHitCount();
+        long missCount = stats.getQueryCacheMissCount();
+        double hitRatio = (double) hitCount / (double) (hitCount + missCount);
 
-        if ((stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount()) > 0) {
-            hitRatio = stats.getSecondLevelCacheHitCount() / (stats.getSecondLevelCacheHitCount() + stats.getSecondLevelCacheMissCount());
+        if (Double.isNaN(hitRatio) || Double.isInfinite(hitRatio)) {
+            hitRatio = 0D;
         }
 
-        ps.println("Second Cache Hit Count...: " + stats.getSecondLevelCacheHitCount());
-        ps.println("Second Cache Miss Count..: " + stats.getSecondLevelCacheMissCount());
-        ps.println("Second Cache Hit ratio[%]: " + (hitRatio * 100));
+        pw.println("SQL Query Hit Count..: " + hitCount);
+        pw.println("SQL Query Miss Count.: " + missCount);
+        pw.println("SQL Query Hit ratio %: " + BigDecimal.valueOf(hitRatio * 100D).setScale(3, RoundingMode.HALF_UP));
 
-        // Globaler Query Cache
-        hitRatio = 0;
+        pw.println();
+        pw.println("2nd Level Cache");
+        hitCount = stats.getSecondLevelCacheHitCount();
+        missCount = stats.getSecondLevelCacheMissCount();
+        hitRatio = (double) hitCount / (double) (hitCount + missCount);
 
-        if ((stats.getQueryCacheHitCount() + stats.getQueryCacheMissCount()) > 0) {
-            hitRatio = stats.getQueryCacheHitCount() / (stats.getQueryCacheHitCount() + stats.getQueryCacheMissCount());
+        if (Double.isNaN(hitRatio) || Double.isInfinite(hitRatio)) {
+            hitRatio = 0D;
         }
 
-        ps.println("SQL Query Hit Count: " + stats.getQueryCacheHitCount());
-        ps.println("SQL Query Miss Count: " + stats.getQueryCacheMissCount());
-        ps.println("SQL Query Hit ratio %: " + (hitRatio * 100));
+        pw.println("2nd Level Cache Hit Count...: " + hitCount);
+        pw.println("2nd Level Cache Miss Count..: " + missCount);
+        pw.println("2nd Level Cache Hit ratio[%]: " + BigDecimal.valueOf(hitRatio * 100D).setScale(3, RoundingMode.HALF_UP));
 
-        ps.println();
-        ps.println("CollectionStatistics");
-        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(s -> s != null).forEach(s -> {
-            final long hitCount = s.getCacheHitCount();
-            final long missCount = s.getCacheMissCount();
-            final double ratio = hitCount / (hitCount + missCount);
+        pw.println();
+        pw.println("2nd Level Cache-Regions");
+        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getDomainDataRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
+            final long hCount = cacheStatistics.getHitCount();
+            final long mCount = cacheStatistics.getMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
 
-            ps.println("Cache Region.........: " + s);
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
 
-            ps.println("Hit Count............: " + hitCount);
-            ps.println("Miss Count...........: " + missCount);
-            ps.println("Hit ratio[%].........: " + (ratio * 100));
-
-            ps.println(s.getCacheRegionName() + " puts " + s.getCachePutCount());
-            ps.println(s.getCacheRegionName() + " fetches " + s.getFetchCount());
-            ps.println(s.getCacheRegionName() + " loads " + s.getLoadCount());
-            ps.println(s.getCacheRegionName() + " updates " + s.getUpdateCount());
-            ps.println();
+            pw.println("Cache Region.........: " + cacheStatistics.getRegionName());
+            pw.println("Objects in Memory....: " + cacheStatistics.getElementCountInMemory());
+            pw.println("Objects in Memory[MB]: " + BigDecimal.valueOf(cacheStatistics.getSizeInMemory() / 1024D / 1024D).setScale(3, RoundingMode.HALF_UP));
+            pw.println("Hit Count............: " + hCount);
+            pw.println("Miss Count...........: " + mCount);
+            pw.println("Hit ratio[%].........: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println();
         });
 
-        ps.println();
-        ps.println("QueryRegionStatistics");
-        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(s -> {
-            final long hitCount = s.getHitCount();
-            final long missCount = s.getMissCount();
-            final double ratio = hitCount / (hitCount + missCount);
+        pw.println();
+        pw.println("CollectionStatistics");
+        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(Objects::nonNull).forEach(collectionStatistics -> {
+            final long hCount = collectionStatistics.getCacheHitCount();
+            final long mCount = collectionStatistics.getCacheMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
 
-            ps.println("Cache Region.........: " + s);
-            ps.println("Objects in Memory....: " + s.getElementCountInMemory());
-            ps.println("Objects in Memory[MB]: " + (s.getSizeInMemory() / 1024D / 1024D));
-            ps.println("Hit Count............: " + hitCount);
-            ps.println("Miss Count...........: " + missCount);
-            ps.println("Hit ratio[%].........: " + (ratio * 100));
-            ps.println();
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region: " + collectionStatistics.getCacheRegionName());
+
+            pw.println("Hit Count...: " + hCount);
+            pw.println("Miss Count..: " + mCount);
+            pw.println("Hit ratio[%]: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+
+            pw.println("Puts...: " + collectionStatistics.getCachePutCount());
+            pw.println("Fetches: " + collectionStatistics.getFetchCount());
+            pw.println("Loads..: " + collectionStatistics.getLoadCount());
+            pw.println("Updates: " + collectionStatistics.getUpdateCount());
+            pw.println();
         });
 
-        // Objekt specific Statistics
+        pw.println();
+        pw.println("QueryRegionStatistics");
+        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(cacheRegionStatistics -> {
+            final long hCount = cacheRegionStatistics.getHitCount();
+            final long mCount = cacheRegionStatistics.getMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region.........: " + cacheRegionStatistics.getRegionName());
+            pw.println("Objects in Memory....: " + cacheRegionStatistics.getElementCountInMemory());
+            pw.println("Objects in Memory[MB]: " + (cacheRegionStatistics.getSizeInMemory() / 1024D / 1024D));
+            pw.println("Hit Count............: " + hCount);
+            pw.println("Miss Count...........: " + mCount);
+            pw.println("Hit ratio[%].........: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println();
+        });
+
+        pw.println();
+        pw.println("EntityStatistics");
+        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(entityStatistics -> {
+            final long hCount = entityStatistics.getCacheHitCount();
+            final long mCount = entityStatistics.getCacheMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region: " + entityStatistics.getCacheRegionName());
+            pw.println("Hit Count...: " + hCount);
+            pw.println("Miss Count..: " + mCount);
+            pw.println("Hit ratio[%]: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println("Fetches: " + entityStatistics.getFetchCount());
+            pw.println("Loads..: " + entityStatistics.getLoadCount());
+            pw.println("Inserts: " + entityStatistics.getInsertCount());
+            pw.println("Updates: " + entityStatistics.getUpdateCount());
+            pw.println("Deletes: " + entityStatistics.getDeleteCount());
+            pw.println();
+        });
+
         // final Metamodel metamodel = sessionFactory.getMetamodel();
         // final Metamodel metamodel = ((SessionFactoryImplementor) sessionFactory).getMetamodel();
         // final Map<String, ClassMetadata> classMetadata = sessionFactory.getAllClassMetadata();
-
+        //
         // Sort by Class name.
-        // @formatter:off
-//        classMetadata.values().stream()
-//            .map(cmd -> cmd.getEntityName())
+        // classMetadata.values().stream()
+        //     .map(cmd -> cmd.getEntityName())
 
-//        metamodel.getEntities().stream()
-//            .map(entityType -> entityType.getJavaType().getName())
-//            .sorted()
-//            .forEach(className -> {
-        ps.println();
-        ps.println("EntityStatistics");
-        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(ps::println);
-        // @formatter:on
-
-        ps.println();
+        // metamodel.getEntities().stream()
+        //     .map(entityType -> entityType.getJavaType().getName())
+        //     .sorted()
+        //     .forEach(className -> {
 
         //        final Cache cache = sessionFactory.getCache();
         //        final CacheImplementor cacheImplementor = (CacheImplementor) cache;
@@ -266,7 +348,8 @@ abstract class AbstractTest {
         //        final JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
         //        final CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
 
-        ps.println();
+        pw.println();
+        pw.flush();
     }
 
     protected void validateTest1Insert(final List<Person> persons) {

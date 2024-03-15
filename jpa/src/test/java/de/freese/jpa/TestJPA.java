@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -196,7 +197,7 @@ class TestJPA extends AbstractTest {
 
     @Test
     void test99Statistics() {
-        dumpStatistics(System.out, entityManagerFactory.unwrap(SessionFactory.class));
+        dumpStatistics(new PrintWriter(System.out), entityManagerFactory.unwrap(SessionFactory.class));
 
         assertTrue(true);
     }
