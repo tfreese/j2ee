@@ -33,11 +33,9 @@ public class MyRestService {
         ;
         // @formatter:on
 
-        // @formatter:off
-//        System.getProperties()
-//            .forEach((key, value) -> jsonObjectBuilder.add((String) key, (String) value))
-//        ;
-        // @formatter:on
+        // System.getProperties()
+        //         .forEach((key, value) -> jsonObjectBuilder.add((String) key, (String) value))
+        // ;
 
         return jsonObjectBuilder.build();
     }

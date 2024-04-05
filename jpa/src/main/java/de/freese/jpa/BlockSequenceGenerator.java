@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
-
     @Serial
     private static final long serialVersionUID = -8510962789727550315L;
 
@@ -43,7 +42,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
         this.sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
         this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
 
-        if ((this.sequenceName == null) || this.sequenceName.isBlank()) {
+        if (this.sequenceName == null || this.sequenceName.isBlank()) {
             throw new MappingException("sequenceName required");
         }
 
