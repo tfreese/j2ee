@@ -15,13 +15,12 @@ public class LibertySpringApplication extends SpringBootServletInitializer {
     }
 
     private static SpringApplicationBuilder configureApplication(final SpringApplicationBuilder builder) {
-        //@formatter:off
         return builder
-            .sources(LibertySpringApplication.class)
-            .bannerMode(Banner.Mode.OFF)
-            .headless(true)
-            .registerShutdownHook(true);
-        //@formatter:on
+                .sources(LibertySpringApplication.class)
+                .bannerMode(Banner.Mode.OFF)
+                .headless(true)
+                .registerShutdownHook(true);
+
         // .listeners(new ApplicationPidFileWriter("spring-boot-web.pid"))
         // .web(false)
     }

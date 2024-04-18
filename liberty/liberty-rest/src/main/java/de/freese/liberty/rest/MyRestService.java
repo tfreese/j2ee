@@ -25,13 +25,11 @@ public class MyRestService {
 
         final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 
-        // @formatter:off
         System.getProperties().keySet().stream()
                 .sorted()
                 .map(String.class::cast)
                 .forEach(key -> jsonObjectBuilder.add(key, System.getProperty(key)))
         ;
-        // @formatter:on
 
         // System.getProperties()
         //         .forEach((key, value) -> jsonObjectBuilder.add((String) key, (String) value))
