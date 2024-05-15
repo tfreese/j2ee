@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -31,15 +32,19 @@ import org.hibernate.annotations.DynamicUpdate;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "address")
 // @Immutable // All Attributes over Constructor, no Setter.
 public class Address extends AbstractEntity {
+    public static Address of(final String street) {
+        final Address address = new Address();
+
+        address.setStreet(street);
+
+        return address;
+    }
+
     @Id
-    @Column(name = "ID", unique = true, nullable = false)
-    //    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1) // see package-info.java
+    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1)
     @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
-    // @GenericGenerator(name = "my-generator", parameters =
-    // {
-    // @Parameter(name = "sequenceName", value = "ADDRESS_SEQ"), @Parameter(name = "blockSize", value = "5")
-    // }, strategy = "de.freese.jpa.BlockSequenceGenerator")
-    // @GeneratedValue(generator = "my-generator")
+    // @BlockSequence(name = "seq_gen_address", blockSize = 10) // Sequence won't be generated and must exist.
+    @Column(name = "ID", unique = true, nullable = false)
     private long id = -1;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,17 +53,8 @@ public class Address extends AbstractEntity {
     private Person person;
 
     @Column(name = "STREET", length = 50, nullable = false)
+    // @Convert(converter = StringStripConverter.class)
     private String street;
-
-    public Address() {
-        super();
-    }
-
-    public Address(final String street) {
-        super();
-
-        setStreet(street);
-    }
 
     public long getID() {
         return this.id;

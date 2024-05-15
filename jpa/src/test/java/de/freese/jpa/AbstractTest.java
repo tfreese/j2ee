@@ -39,9 +39,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jpa.converter.StringStripConverter;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.Person;
-import de.freese.jpa.utils.StringStripConverter;
 
 /**
  * @author Thomas Freese
@@ -172,11 +172,11 @@ abstract class AbstractTest {
         final List<Person> persons = new ArrayList<>();
 
         for (int i = 1; i <= 3; i++) {
-            final Person person = new Person("   Name" + i, "   Vorname" + i);
+            final Person person = Person.of("   Name" + i, "   Vorname" + i);
             persons.add(person);
 
             for (int j = 1; j <= 3; j++) {
-                final Address address = new Address("   Street" + i + j);
+                final Address address = Address.of("   Street" + i + j);
                 person.addAddress(address);
             }
         }
@@ -380,8 +380,7 @@ abstract class AbstractTest {
             assertEquals(1 + i, person.getID());
             assertEquals(3, person.getAddresses().size());
 
-            // for (Address address : person.getAddresses())
-            // {
+            // for (Address address : person.getAddresses()) {
             // LOGGER.info("\t" + address.toString());
             // }
         }
@@ -398,8 +397,7 @@ abstract class AbstractTest {
 
         LOGGER.info(person.toString());
 
-        // for (Address address : person.getAddresses())
-        // {
+        // for (Address address : person.getAddresses()) {
         // LOGGER.info("\t" + address.toString);
         // }
     }

@@ -22,6 +22,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.QueryHint;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -48,6 +49,15 @@ import org.hibernate.annotations.FetchMode;
 @NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // All Attributes over Constructor, no Setter.
 public class Person extends AbstractEntity {
+    public static Person of(final String name, final String vorname) {
+        final Person person = new Person();
+
+        person.setName(name);
+        person.setVorname(vorname);
+
+        return person;
+    }
+
     /**
      * orphanRemoval = true
      */
@@ -65,33 +75,20 @@ public class Person extends AbstractEntity {
     private Boolean cool;
 
     @Id
-    @Column(name = "ID", unique = true, nullable = false)
-    //    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1) // see package-info.java
+    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1)
     @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
-    // @GenericGenerator(name = "my-generator", parameters =
-    // {
-    // @Parameter(name = "sequenceName", value = "PERSON_SEQ"), @Parameter(name = "blockSize", value = "5")
-    // }, strategy = "de.freese.jpa.BlockSequenceGenerator")
-    // @GeneratedValue(generator = "my-generator")
+    // @BlockSequence(name = "seq_gen_person", blockSize = 10) // Sequence won't be generated and must exist.
+    @Column(name = "ID", unique = true, nullable = false)
     @Access(AccessType.FIELD)
     private long id = -1;
 
     @Column(name = "NAME", length = 50, nullable = false)
+    // @Convert(converter = StringStripConverter.class)
     private String name;
 
     @Column(name = "VORNAME", length = 50, nullable = false)
+    // @Convert(converter = StringStripConverter.class)
     private String vorname;
-
-    public Person() {
-        super();
-    }
-
-    public Person(final String name, final String vorname) {
-        super();
-
-        setName(name);
-        setVorname(vorname);
-    }
 
     public void addAddress(final Address address) {
         this.addresses.add(address);

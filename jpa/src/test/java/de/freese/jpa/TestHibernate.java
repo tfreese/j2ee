@@ -137,7 +137,7 @@ class TestHibernate extends AbstractTest {
             // !!! No Caching for Named-Queries !!!
             // query.setCacheable(true).setCacheRegion("person");
             final Query<Person> query = session.createNamedQuery("allPersons.native", Object[].class).setTupleTransformer((tuple, aliases) -> {
-                final Person person = new Person((String) tuple[1], (String) tuple[2]);
+                final Person person = Person.of((String) tuple[1], (String) tuple[2]);
                 person.setID((long) tuple[0]);
 
                 return person;
@@ -153,7 +153,7 @@ class TestHibernate extends AbstractTest {
             final String sql = "select id, street from T_ADDRESS where person_id = :personId order by street desc";
 
             final TupleTransformer<Address> addressTupleTransformer = (tuple, aliases) -> {
-                final Address address = new Address((String) tuple[1]);
+                final Address address = Address.of((String) tuple[1]);
                 address.setID((long) tuple[0]);
 
                 return address;
@@ -193,17 +193,18 @@ class TestHibernate extends AbstractTest {
     @Test
     void test060Projection() {
         try (Session session = sessionFactory.openSession()) {
-            final StringBuilder hql = new StringBuilder();
-            hql.append("select");
-            hql.append(" new de.freese.jpa.model.MyProjectionVo");
-            hql.append(" (");
-            hql.append("p.id");
-            hql.append(", p.name");
-            hql.append(")");
-            hql.append(" from Person p");
-            hql.append(" order by p.name asc");
+            final String hql = """
+                    select
+                        new de.freese.jpa.model.MyProjectionVo(
+                        p.id,
+                        p.name
+                        )
+                    from
+                        Person p
+                    order by p.name asc
+                    """;
 
-            final List<MyProjectionVo> result = session.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
+            final List<MyProjectionVo> result = session.createQuery(hql, MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());

@@ -124,7 +124,7 @@ class TestJPA extends AbstractTest {
             final List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
                     //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
                     .getResultStream().map(row -> {
-                        final Person person = new Person((String) row[1], (String) row[2]);
+                        final Person person = Person.of((String) row[1], (String) row[2]);
                         person.setID((long) row[0]);
                         return person;
                     }).toList();
@@ -148,7 +148,7 @@ class TestJPA extends AbstractTest {
                 assertFalse(addresses.isEmpty());
 
                 addresses.forEach(row -> {
-                    final Address address = new Address((String) row[1]);
+                    final Address address = Address.of((String) row[1]);
                     address.setID((long) row[0]);
 
                     person.addAddress(address);
@@ -170,17 +170,18 @@ class TestJPA extends AbstractTest {
 
             // entityManager.getTransaction().begin();
 
-            final StringBuilder hql = new StringBuilder();
-            hql.append("select");
-            hql.append(" new de.freese.jpa.model.MyProjectionVo");
-            hql.append(" (");
-            hql.append("p.id");
-            hql.append(", p.name");
-            hql.append(")");
-            hql.append(" from Person p");
-            hql.append(" order by p.name asc");
+            final String hql = """
+                    select
+                        new de.freese.jpa.model.MyProjectionVo(
+                        p.id,
+                        p.name
+                        )
+                    from
+                        Person p
+                    order by p.name asc
+                    """;
 
-            final List<MyProjectionVo> result = entityManager.createQuery(hql.toString(), MyProjectionVo.class).getResultList();
+            final List<MyProjectionVo> result = entityManager.createQuery(hql, MyProjectionVo.class).getResultList();
 
             assertNotNull(result);
             assertFalse(result.isEmpty());

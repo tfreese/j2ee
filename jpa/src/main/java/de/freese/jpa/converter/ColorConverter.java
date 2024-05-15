@@ -1,5 +1,5 @@
 // Created: 11.07.23
-package de.freese.jpa.utils;
+package de.freese.jpa.converter;
 
 import java.awt.Color;
 
