@@ -15,6 +15,7 @@ public class NoViewBean extends AbstractBean {
         return "Hello World";
     }
 
+    @Override
     @PostConstruct
     public void postConstruct() {
         getLogger().info("postConstruct");

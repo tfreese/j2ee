@@ -1,7 +1,6 @@
 package de.freese.j2ee.cdi;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.Max;
 
@@ -11,13 +10,21 @@ import jakarta.validation.constraints.Max;
 @Named
 @RequestScoped
 public class FakultaetView {
-    private long fakt;
+    // @Inject
+    // @Recursive
+    private final Fakultaet fakultaet;
 
-    @Inject
-    @Recursive
-    private Fakultaet fakultaet;
-    @Max(5)
+    private long fakt;
+    
+    // @Max(5)
     private int n;
+
+    public FakultaetView(final Fakultaet fakultaet, @Max(5) final int n) {
+        super();
+
+        this.fakultaet = fakultaet;
+        this.n = n;
+    }
 
     public String calculate() {
         System.out.println("Test " + getN());
