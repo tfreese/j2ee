@@ -60,6 +60,11 @@ abstract class AbstractTest {
         }
     }
 
+    // @Bean
+    // public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(final javax.cache.CacheManager cacheManager) {
+    //     return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
+    // }
+
     protected static Map<String, Object> getHibernateConfig() {
         final String id = UUID.randomUUID().toString();
 
@@ -121,16 +126,21 @@ abstract class AbstractTest {
         // ****************************************************************************************
         config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
         // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
-        config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test." + id);
+        config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test");
         config.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
         config.put(AvailableSettings.USE_QUERY_CACHE, "true");
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
 
-        // config.put(ConfigSettings.PROVIDER,"org.ehcache.jsr107.EhcacheCachingProvider");
-        config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
+        config.put(ConfigSettings.PROVIDER, "com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider");
+        config.put(ConfigSettings.CONFIG_URI, "caffeine.conf");
+
+        // config.put(ConfigSettings.PROVIDER, "org.ehcache.jsr107.EhcacheCachingProvider");
+        // config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
 
         // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
         config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
+
+        // config.put(ConfigSettings.CACHE_MANAGER, javax.cache.CacheManager);
 
         // Misc
         // ****************************************************************************************

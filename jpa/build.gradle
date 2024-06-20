@@ -20,6 +20,7 @@ dependencies {
         // exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 
     // runtimeOnly("org.hibernate.orm:hibernate-core")
 
@@ -27,6 +28,8 @@ dependencies {
 
     testImplementation("org.hibernate.orm:hibernate-jcache")
     testImplementation("org.ehcache:ehcache::jakarta")
+    testImplementation("com.github.ben-manes.caffeine:jcache")
+
     // testImplementation("org.hibernate.validator:hibernate-validator")
     testImplementation("org.hsqldb:hsqldb")
     // testImplementation("org.slf4j:jul-to-slf4j")
