@@ -29,6 +29,7 @@
             <!-- <property name="jakarta.persistence.jdbc.user" value="sa" /> -->
             <!-- <property name="jakarta.persistence.jdbc.password" value="" /> -->
             <!-- <property name="hibernate.javax.cache.provider" value="org.hibernate.cache.NoCacheProvider" /> -->
+            <property name="hibernate.connection.isolation" value="2" /> <!-- Connection.TRANSACTION_READ_COMMITTED -->
         </properties>
 
     </persistence-unit>

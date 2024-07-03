@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.SchemaAutoTooling;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.MissingCacheStrategy;
 import org.hibernate.cfg.AvailableSettings;
@@ -94,20 +96,19 @@ abstract class AbstractTest {
 
         // Connection Properties
         // ****************************************************************************************
-        // config.put(AvailableSettings.DATASOURCE, "jdbc/DS");
+        // config.put(AvailableSettings.JAKARTA_JTA_DATASOURCE, "jdbc/DS");
         config.put(AvailableSettings.JAKARTA_JTA_DATASOURCE, hikariDataSource);
-        // config.put(AvailableSettings.DATASOURCE,hikariDataSource);
         // config.put(AvailableSettings.DIALECT, "org.hibernate.dialect.HSQLDialect"); // Auto detected
-        // config.put(AvailableSettings.DRIVER, "org.hsqldb.jdbc.JDBCDriver");
-        // config.put(AvailableSettings.URL, "jdbc:hsqldb:mem:" + System.currentTimeMillis() + ";shutdown=true");
-        // config.put(AvailableSettings.URL, "jdbc:hsqldb:file:hsqldb/person;readonly=true;shutdown=true");
-        // config.put(AvailableSettings.USER, "sa");
-        // config.put(AvailableSettings.PASS, "");
+        // config.put(AvailableSettings.JAKARTA_JDBC_DRIVER, "org.hsqldb.jdbc.JDBCDriver");
+        // config.put(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:hsqldb:mem:" + System.currentTimeMillis() + ";shutdown=true");
+        // config.put(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:hsqldb:file:hsqldb/person;readonly=true;shutdown=true");
+        // config.put(AvailableSettings.JAKARTA_JDBC_USER, "sa");
+        // config.put(AvailableSettings.JAKARTA_JDBC_PASSWORD, "");
 
         // Create Schema
         // ****************************************************************************************
         // config.put(AvailableSettings.HBM2DDL_AUTO, "none");
-        config.put(AvailableSettings.HBM2DDL_AUTO, "create");
+        config.put(AvailableSettings.HBM2DDL_AUTO, SchemaAutoTooling.UPDATE.name().toLowerCase());
         // config.put(AvailableSettings.HBM2DDL_AUTO, "create-drop");
         // config.put(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
@@ -148,7 +149,7 @@ abstract class AbstractTest {
         // config.put(AvailableSettings.SESSION_FACTORY_NAME, "de.freese.test"); // JNDI-Name
         config.put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
         config.put(AvailableSettings.DEFAULT_BATCH_FETCH_SIZE, "32");
-        config.put(AvailableSettings.ISOLATION, "TRANSACTION_READ_COMMITTED");
+        config.put(AvailableSettings.ISOLATION, String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
 
         config.put(AvailableSettings.FLUSH_BEFORE_COMPLETION, "true");
         // config.put(AvailableSettings.JTA_PLATFORM, "<CLASS_NAME>");
@@ -174,6 +175,14 @@ abstract class AbstractTest {
     public abstract void test030SelectVorname();
 
     public abstract void test040NativeQuery();
+
+    public abstract void test050Projection();
+
+    public abstract void test060Update();
+
+    public abstract void test070Delete();
+
+    public abstract void test099Statistics();
 
     /**
      * Spaces will be removed by {@link StringStripConverter}.

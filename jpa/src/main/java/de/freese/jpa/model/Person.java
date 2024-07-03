@@ -82,7 +82,7 @@ public class Person extends AbstractEntity {
     @Access(AccessType.FIELD)
     private long id = -1;
 
-    @Column(name = "NAME", length = 50, nullable = false)
+    @Column(name = "NAME", columnDefinition = "varchar(255) default 'n.v.'")
     // @Convert(converter = StringStripConverter.class)
     private String name;
 

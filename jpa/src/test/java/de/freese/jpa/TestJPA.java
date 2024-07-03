@@ -161,8 +161,9 @@ class TestJPA extends AbstractTest {
         }
     }
 
+    @Override
     @Test
-    void test060Projection() {
+    public void test050Projection() {
         assertInstanceOf(SessionFactory.class, entityManagerFactory.unwrap(SessionFactory.class));
 
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
@@ -196,8 +197,56 @@ class TestJPA extends AbstractTest {
         }
     }
 
+    @Override
     @Test
-    void test99Statistics() {
+    public void test060Update() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            entityManager.getTransaction().begin();
+
+            // Does not update Timestamps (@UpdateTimestamp).
+            // final int affectedRows = entityManager.createQuery("update Person p set p.name = :name where p.id = :id")
+            //         .setParameter("name", "newName")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            //
+            // assertEquals(1, affectedRows);
+
+            // Alternative with additional Select.
+            final Person person = entityManager.find(Person.class, 1);
+            assertNotNull(person);
+            person.setName("newName");
+            entityManager.persist(person);
+
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    @Test
+    public void test070Delete() {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            entityManager.getTransaction().begin();
+
+            // Delete not Associations.
+            // final int affectedRows = entityManager.createQuery("delete Person p where p.id = :id")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            //
+            // assertEquals(1, affectedRows);
+
+            // Alternative with additional Select.
+            final Person person = entityManager.find(Person.class, 1);
+            assertNotNull(person);
+            person.setName("newName");
+            entityManager.remove(person);
+
+            entityManager.getTransaction().commit();
+        }
+    }
+
+    @Override
+    @Test
+    public void test099Statistics() {
         dumpStatistics(new PrintWriter(System.out), entityManagerFactory.unwrap(SessionFactory.class));
 
         assertTrue(true);

@@ -29,6 +29,9 @@ import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
 
 /**
+ * SessionFactory extends EntityManagerFactory<br>
+ * Session extends EntityManager
+ *
  * @author Thomas Freese
  */
 class TestHibernate extends AbstractTest {
@@ -67,7 +70,7 @@ class TestHibernate extends AbstractTest {
     @Test
     public void test010Insert() {
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            session.getTransaction().begin();
 
             final List<Person> persons = createPersons();
 
@@ -91,7 +94,7 @@ class TestHibernate extends AbstractTest {
     @Test
     public void test020SelectAll() {
         try (Session session = sessionFactory.openSession()) {
-            // session.beginTransaction();
+            // session.getTransaction().begin();
 
             // Caching must be enabled explicitly.
             // final List<Person> persons = session.createQuery("from Person order by id asc")
@@ -112,7 +115,7 @@ class TestHibernate extends AbstractTest {
         final String vorname = "Vorname1";
 
         try (Session session = sessionFactory.openSession()) {
-            // session.beginTransaction();
+            // session.getTransaction().begin();
 
             // Caching must be enabled explicitly.
             // final Person person = session.createQuery("from Person where vorname=:vorname order by name asc")
@@ -131,7 +134,7 @@ class TestHibernate extends AbstractTest {
     @Test
     public void test040NativeQuery() {
         try (Session session = sessionFactory.openSession()) {
-            // session.beginTransaction();
+            // session.getTransaction().begin();
 
             // !!! Aliases won't work in Native-Queries without Mapping object !!!
             // !!! No Caching for Named-Queries !!!
@@ -190,8 +193,9 @@ class TestHibernate extends AbstractTest {
         }
     }
 
+    @Override
     @Test
-    void test060Projection() {
+    public void test050Projection() {
         try (Session session = sessionFactory.openSession()) {
             final String hql = """
                     select
@@ -217,8 +221,56 @@ class TestHibernate extends AbstractTest {
         }
     }
 
+    @Override
     @Test
-    void test099Statistics() {
+    public void test060Update() {
+        try (Session session = sessionFactory.openSession()) {
+            session.getTransaction().begin();
+
+            // Does not update Timestamps (@UpdateTimestamp).
+            // final int affectedRows = session.createMutationQuery("update Person p set p.name = :name where p.id = :id")
+            //         .setParameter("name", "newName")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            //
+            // assertEquals(1, affectedRows);
+
+            // Alternative with additional Select.
+            final Person person = session.find(Person.class, 1);
+            assertNotNull(person);
+            person.setName("newName");
+            session.persist(person);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    @Test
+    public void test070Delete() {
+        try (Session session = sessionFactory.openSession()) {
+            session.getTransaction().begin();
+
+            // Delete not Associations.
+            // final int affectedRows = session.createMutationQuery("delete Person p where p.id = :id")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            //
+            // assertEquals(1, affectedRows);
+
+            // Alternative with additional Select.
+            final Person person = session.find(Person.class, 1);
+            assertNotNull(person);
+            person.setName("newName");
+            session.remove(person);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    @Test
+    public void test099Statistics() {
         dumpStatistics(new PrintWriter(System.out), sessionFactory);
 
         assertTrue(true);

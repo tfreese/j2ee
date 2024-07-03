@@ -9,8 +9,8 @@ import jakarta.persistence.Version;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+// import org.springframework.data.annotation.CreatedDate;
+// import org.springframework.data.annotation.LastModifiedDate;
 
 /**
  * @author Thomas Freese
@@ -28,7 +28,7 @@ public abstract class AbstractEntity {
     // private java.util.Date utilTimestamp;
 
     // @JsonIgnore
-    @CreatedDate
+    // @CreatedDate
     @CreationTimestamp
     // @NotNull(message = "CREATED Timestamp can not be blank")
     @Column(name = "CREATED", nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
@@ -39,7 +39,7 @@ public abstract class AbstractEntity {
     // private UUID id;
 
     // @JsonIgnore
-    @LastModifiedDate
+    // @LastModifiedDate
     @UpdateTimestamp
     // @NotNull(message = "UPDATED Timestamp can not be blank")
     @Column(name = "UPDATED", nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP") // default on update CURRENT_TIMESTAMP
