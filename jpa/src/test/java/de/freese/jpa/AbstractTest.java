@@ -2,7 +2,10 @@
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +26,15 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.SharedCacheMode;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.SchemaAutoTooling;
 import org.hibernate.cache.jcache.ConfigSettings;
@@ -37,12 +44,13 @@ import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jpa.converter.StringStripConverter;
 import de.freese.jpa.model.Address;
+import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
 
 /**
@@ -53,8 +61,12 @@ abstract class AbstractTest {
     protected static final Logger LOGGER = LoggerFactory.getLogger("TestLogger");
 
     @AfterAll
-    static void afterAll() throws IOException {
+    static void cleanUp() throws IOException {
         final Path ehCachePath = Paths.get(System.getProperty("java.io.tmpdir"), "ehcache");
+
+        if (!Files.exists(ehCachePath)) {
+            return;
+        }
 
         try (Stream<Path> stream = Files.walk(ehCachePath)) {
             stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
@@ -105,7 +117,7 @@ abstract class AbstractTest {
         // config.put(AvailableSettings.JAKARTA_JDBC_USER, "sa");
         // config.put(AvailableSettings.JAKARTA_JDBC_PASSWORD, "");
 
-        // Create Schema
+        // Schema
         // ****************************************************************************************
         // config.put(AvailableSettings.HBM2DDL_AUTO, "none");
         config.put(AvailableSettings.HBM2DDL_AUTO, SchemaAutoTooling.UPDATE.name().toLowerCase());
@@ -125,21 +137,24 @@ abstract class AbstractTest {
 
         // Caching
         // ****************************************************************************************
-        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
-        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
         config.put(AvailableSettings.CACHE_REGION_PREFIX, "hibernate.test");
         config.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, "true");
         config.put(AvailableSettings.USE_QUERY_CACHE, "true");
+        config.put(AvailableSettings.USE_MINIMAL_PUTS, "false");
+        config.put(AvailableSettings.USE_STRUCTURED_CACHE, "false");
         config.put(AvailableSettings.JAKARTA_SHARED_CACHE_MODE, SharedCacheMode.ALL);
+
+        // config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.internal.NoCachingRegionFactory");
+        config.put(AvailableSettings.CACHE_REGION_FACTORY, "org.hibernate.cache.jcache.internal.JCacheRegionFactory");
+
+        // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
+        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
 
         config.put(ConfigSettings.PROVIDER, "com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider");
         config.put(ConfigSettings.CONFIG_URI, "caffeine.conf");
 
         // config.put(ConfigSettings.PROVIDER, "org.ehcache.jsr107.EhcacheCachingProvider");
         // config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
-
-        // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
-        config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
 
         // config.put(ConfigSettings.CACHE_MANAGER, javax.cache.CacheManager);
 
@@ -161,46 +176,225 @@ abstract class AbstractTest {
         config.put(AvailableSettings.STATEMENT_FETCH_SIZE, "100");
 
         // config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
-        config.put(AvailableSettings.USE_MINIMAL_PUTS, "false");
-        config.put(AvailableSettings.USE_STRUCTURED_CACHE, "false");
 
         // config.put(ENTITY_INTERCEPTOR_CLASS, "... extends org.hibernate.EmptyInterceptor");
+
         return config;
     }
 
-    public abstract void test010Insert();
+    @Test
+    void test000Unwrap() {
+        assertInstanceOf(SessionFactory.class, getEntityManagerFactory().unwrap(SessionFactory.class));
 
-    public abstract void test020SelectAll();
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            assertInstanceOf(Session.class, entityManager.unwrap(Session.class));
+        }
+    }
 
-    public abstract void test030SelectVorname();
+    @Test
+    void test010Insert() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            entityManager.getTransaction().begin();
 
-    public abstract void test040NativeQuery();
+            final List<Person> persons = new ArrayList<>();
 
-    public abstract void test050Projection();
+            // Spaces will be removed by {@link StringStripConverter}.
+            for (int i = 1; i <= 3; i++) {
+                final Person person = Person.of("   Name" + i, "   Vorname" + i);
+                persons.add(person);
 
-    public abstract void test060Update();
+                for (int j = 1; j <= 3; j++) {
+                    final Address address = Address.of("   Street" + i + j);
+                    person.addAddress(address);
+                }
 
-    public abstract void test070Delete();
+                entityManager.persist(person);
+            }
 
-    public abstract void test099Statistics();
+            validatePersons(persons);
 
-    /**
-     * Spaces will be removed by {@link StringStripConverter}.
-     **/
-    protected List<Person> createPersons() {
-        final List<Person> persons = new ArrayList<>();
+            // entityManager.flush(); // without no flush -> no insert
+            entityManager.getTransaction().commit();
+        }
+    }
 
-        for (int i = 1; i <= 3; i++) {
-            final Person person = Person.of("   Name" + i, "   Vorname" + i);
-            persons.add(person);
+    @Test
+    void test020SelectAll() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            // Caching must be enabled explicitly.
+            // final List<Person> persons = entityManager.createQuery("from Person order by id asc")
+            // .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getResultList();
+            // session.createQuery("from Person order by id asc").setCacheable(true).setCacheRegion("person").getResultList();
 
-            for (int j = 1; j <= 3; j++) {
-                final Address address = Address.of("   Street" + i + j);
-                person.addAddress(address);
+            // Caching is enabled in Mapping.
+            final List<Person> persons = entityManager.createNamedQuery("allPersons", Person.class).getResultList();
+
+            // validateTest2SelectAll(persons);
+            validatePersons(persons);
+        }
+    }
+
+    @Test
+    void test030SelectVorname() {
+        final String vorname = "Vorname1";
+
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            // Caching is enabled in Mapping.
+            final Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
+
+            // Caching must be enabled explicitly.
+            // final Person person = entityManager.createQuery("from Person where vorname=:vorname order by name asc", Person.class)
+            // setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person").getSingleResult();
+            // session.createQuery("from Person where vorname=:vorname order by name asc").setCacheable(true).setCacheRegion("person").getSingleResult();
+
+            assertNotNull(person);
+            assertEquals(1, person.getID());
+            assertEquals(vorname, person.getVorname());
+            assertEquals(3, person.getAddresses().size());
+
+            LOGGER.info(person.toString());
+        }
+    }
+
+    @Test
+    void test040NativeQuery() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            // !!! Aliases won't work in Native-Queries without Mapping object !!!
+            // !!! Scalar Values (addScalar) like in Hibernate are not working for JPA !!!
+            // !!! No Caching for Named-Queries !!!
+            final List<Person> persons = entityManager.createNamedQuery("allPersons.native", Object[].class)
+                    //            .setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "person")
+                    .getResultStream().map(row -> {
+                        final Person person = Person.of((String) row[1], (String) row[2]);
+                        person.setID((long) row[0]);
+                        return person;
+                    }).toList();
+
+            // Force flush on T_PERSON, so the NativeQuery can access the cached Data from the Session.
+            // final List<Person> persons = query.unwrap(NativeQuery.class).addSynchronizedQuerySpace("T_PERSON").getResultList();
+
+            assertNotNull(persons);
+            assertFalse(persons.isEmpty());
+
+            final Query queryAddress = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc", Object[].class);
+            // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
+
+            for (Person person : persons) {
+                // query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
+                //     final Address address = new Address((String) row[1]);
+                //     address.setID((long) row[0]);
+                //     return address;
+                // }).forEach(person::addAddress);
+
+                @SuppressWarnings("unchecked") final List<Object[]> addresses = queryAddress.setParameter("personId", person.getID()).getResultList();
+
+                assertNotNull(addresses);
+                assertFalse(addresses.isEmpty());
+
+                addresses.forEach(row -> {
+                    final Address address = Address.of((String) row[1]);
+                    address.setID((long) row[0]);
+
+                    person.addAddress(address);
+                });
+            }
+
+            validatePersons(persons);
+        }
+    }
+
+    @Test
+    void test050Projection() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            final String hql = """
+                    select
+                        new de.freese.jpa.model.MyProjectionVo(
+                        p.id,
+                        p.name
+                        )
+                    from
+                        Person p
+                    order by p.name asc
+                    """;
+
+            final List<MyProjectionVo> result = entityManager.createQuery(hql, MyProjectionVo.class).getResultList();
+
+            assertNotNull(result);
+            assertFalse(result.isEmpty());
+
+            for (int i = 1; i <= result.size(); i++) {
+                final MyProjectionVo dto = result.get(i - 1);
+
+                assertEquals("Name" + i, dto.getName());
             }
         }
+    }
 
-        return persons;
+    @Test
+    void test060Update() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            entityManager.getTransaction().begin();
+
+            // With additional Select.
+            final Person person = entityManager.find(Person.class, 1);
+            assertNotNull(person);
+            person.setName("newName");
+            entityManager.persist(person);
+
+            // Does not update Timestamps (@UpdateTimestamp).
+            // final int affectedRows = entityManager.createQuery("update Person p set p.name = :name where p.id = :id")
+            //         .setParameter("name", "newName")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            // assertEquals(1, affectedRows);
+
+            entityManager.getTransaction().commit();
+
+            assertTrue(person.getUpdated().isAfter(person.getCreated()));
+        }
+    }
+
+    @Test
+    void test070Delete() {
+        try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            entityManager.getTransaction().begin();
+
+            // Plain delete.
+            final Person person = entityManager.getReference(Person.class, 1);
+            assertNotNull(person);
+            entityManager.remove(person);
+
+            // Alternative with additional Select.
+            // final Person person = entityManager.find(Person.class, 1);
+            // assertNotNull(person);
+            // entityManager.remove(person);
+
+            // Plain delete, doesn't delete Associations.
+            // final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            // final CriteriaDelete<Person> delete = builder.createCriteriaDelete(Person.class);
+            // final Root<Person> root = delete.from(Person.class);
+            // delete.where(builder.equal(root.get("id"), 1));
+            // final int affectedRows = entityManager.createQuery(delete).executeUpdate();
+            // assertEquals(1, affectedRows);
+
+            // Plain delete, doesn't delete Associations.
+            // final int affectedRows = entityManager.createQuery("delete Person p where p.id = :id")
+            //         .setParameter("id", 1)
+            //         .executeUpdate();
+            // assertEquals(1, affectedRows);
+
+            entityManager.getTransaction().commit();
+
+            final long count = entityManager.createQuery("select count(*) from Person", long.class).getSingleResult();
+            assertEquals(2, count);
+        }
+    }
+
+    @Test
+    void test099Statistics() {
+        dumpStatistics(new PrintWriter(System.out), getEntityManagerFactory().unwrap(SessionFactory.class));
+
+        assertTrue(true);
     }
 
     protected void dumpStatistics(final PrintWriter pw, final SessionFactory sessionFactory) {
@@ -371,53 +565,28 @@ abstract class AbstractTest {
         pw.flush();
     }
 
-    protected void validateTest1Insert(final List<Person> persons) {
+    protected abstract EntityManagerFactory getEntityManagerFactory();
+
+    protected void validatePersons(final List<Person> origin) {
+        final List<Person> persons = new ArrayList<>(origin);
+        persons.sort(Comparator.comparing(Person::getID));
+
         for (int i = 0; i < persons.size(); i++) {
             final Person person = persons.get(i);
 
             assertEquals(1 + i, person.getID());
             assertEquals(3, person.getAddresses().size());
 
-            for (int j = 0; j < person.getAddresses().size(); j++) {
-                final Address address = person.getAddresses().get(j);
+            final List<Address> addresses = new ArrayList<>(person.getAddresses());
+            addresses.sort(Comparator.comparing(Address::getID));
 
-                final long addressIdExpected = ((person.getID() - 1) * person.getAddresses().size()) + j + 1;
+            for (int j = 0; j < addresses.size(); j++) {
+                final Address address = addresses.get(j);
+
+                final long addressIdExpected = ((person.getID() - 1) * addresses.size()) + j + 1;
                 assertEquals(addressIdExpected, address.getID());
                 assertEquals(person, address.getPerson());
             }
         }
-    }
-
-    protected void validateTest2SelectAll(final List<Person> persons) {
-        assertNotNull(persons);
-        assertEquals(3, persons.size());
-
-        for (int i = 0; i < persons.size(); i++) {
-            final Person person = persons.get(i);
-            LOGGER.info(person.toString());
-
-            assertEquals(1 + i, person.getID());
-            assertEquals(3, person.getAddresses().size());
-
-            // for (Address address : person.getAddresses()) {
-            // LOGGER.info("\t" + address.toString());
-            // }
-        }
-    }
-
-    protected void validateTest3SelectVorname(final List<Person> persons, final String vorname) {
-        assertNotNull(persons);
-        assertEquals(1, persons.size());
-
-        final Person person = persons.get(0);
-        assertEquals(1, person.getID());
-        assertEquals(vorname, person.getVorname());
-        assertEquals(3, person.getAddresses().size());
-
-        LOGGER.info(person.toString());
-
-        // for (Address address : person.getAddresses()) {
-        // LOGGER.info("\t" + address.toString);
-        // }
     }
 }

@@ -16,6 +16,8 @@ dependencies {
     implementation("com.zaxxer:HikariCP")
     implementation("org.hibernate.orm:hibernate-core")
     implementation("org.slf4j:slf4j-api")
+    // implementation("javax.cache:cache-api")
+    implementation("com.github.ben-manes.caffeine:jcache")
 
     // implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
     //     // exclude group: "ch.qos.logback", module: "logback-classic"
@@ -25,7 +27,7 @@ dependencies {
     // implementation("org.springframework.boot:spring-boot-starter-cache")
 
     testImplementation("org.hibernate.orm:hibernate-jcache")
-    testImplementation("com.github.ben-manes.caffeine:jcache")
+    // testImplementation("com.github.ben-manes.caffeine:jcache")
 
     // def ehcacheVersion = dependencyManagement.importedProperties["ehcache3.version"]
     // testImplementation("org.ehcache:ehcache::jakarta")

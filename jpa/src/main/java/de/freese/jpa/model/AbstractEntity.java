@@ -18,6 +18,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    // @Id
+    // @GeneratedValue
+    // private UUID id;
+
     // @Temporal(TemporalType.TIME)
     // private java.util.Date utilTime;
     //
@@ -28,22 +32,17 @@ public abstract class AbstractEntity {
     // private java.util.Date utilTimestamp;
 
     // @JsonIgnore
+    // @NotNull(message = "CREATED Timestamp can not be blank")
     // @CreatedDate
     @CreationTimestamp
-    // @NotNull(message = "CREATED Timestamp can not be blank")
     @Column(name = "CREATED", nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP")
     private LocalDateTime created;
 
-    // @Id
-    // @GeneratedValue
-    // private UUID id;
-
     // @JsonIgnore
+    // @NotNull(message = "UPDATED Timestamp can not be blank")
     // @LastModifiedDate
     @UpdateTimestamp
-    // @NotNull(message = "UPDATED Timestamp can not be blank")
-    @Column(name = "UPDATED", nullable = false, columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP") // default on update CURRENT_TIMESTAMP
-    //  default on update CURRENT_TIMESTAMP
+    @Column(name = "UPDATED", columnDefinition = "TIMESTAMP on update CURRENT_TIMESTAMP")
     private LocalDateTime updated;
 
     // @JsonIgnore
