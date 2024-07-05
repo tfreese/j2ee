@@ -29,7 +29,7 @@ class TestHibernate extends AbstractTest {
     }
 
     @BeforeAll
-    static void beforeAll() {
+    static void beforeAll() throws Throwable {
         System.setProperty("org.jboss.logging.provider", "slf4j");
 
         final Map<String, Object> config = getHibernateConfig();

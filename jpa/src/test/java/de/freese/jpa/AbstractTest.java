@@ -24,13 +24,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
+
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.SharedCacheMode;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
@@ -49,6 +54,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jpa.cache.JCacheCaffeine;
+import de.freese.jpa.cache.JCacheManager;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
@@ -79,7 +86,7 @@ abstract class AbstractTest {
     //     return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
     // }
 
-    protected static Map<String, Object> getHibernateConfig() {
+    protected static Map<String, Object> getHibernateConfig() throws Throwable {
         final String id = UUID.randomUUID().toString();
 
         final HikariConfig hikariConfig = new HikariConfig();
@@ -150,13 +157,40 @@ abstract class AbstractTest {
         // Missing Caches are created automatically from the DEFAULT Cache-Configuration.
         config.put(ConfigSettings.MISSING_CACHE_STRATEGY, MissingCacheStrategy.CREATE_WARN.getExternalRepresentation());
 
-        config.put(ConfigSettings.PROVIDER, "com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider");
-        config.put(ConfigSettings.CONFIG_URI, "caffeine.conf");
+        // config.put(ConfigSettings.PROVIDER, "com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider");
+        // config.put(ConfigSettings.CONFIG_URI, "caffeine.conf");
 
         // config.put(ConfigSettings.PROVIDER, "org.ehcache.jsr107.EhcacheCachingProvider");
         // config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
 
-        // config.put(ConfigSettings.CACHE_MANAGER, javax.cache.CacheManager);
+        final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory = (cacheManager, cacheName) -> {
+            final Caffeine<Object, Object> caffeine;
+
+            if ("person".equals(cacheName)) {
+                caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
+            }
+            else {
+                caffeine = Caffeine.from("maximumSize=1000,expireAfterAccess=12h");
+            }
+
+            final com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache = caffeine
+                    .evictionListener((key, value, cause) -> LOGGER.info("Eviction: {} - {} = {}", cause, key, value))
+                    .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} = {}", cause, key, value))
+                    .build();
+
+            return new JCacheCaffeine<>(cacheManager, cacheName, caffeineCache);
+        };
+        config.put(ConfigSettings.CACHE_MANAGER, new JCacheManager(cacheFactory));
+
+        // config.put(ConfigSettings.PROVIDER, "de.freese.jpa.cache.JCachingProvider");
+        //
+        // // final Class<?> clazz = Class.forName("de.freese.jpa.cache.JCachingProvider");
+        // // final Method method = clazz.getDeclaredMethod("setCacheFactory", BiFunction.class);
+        // // method.invoke(null, cacheFactory);
+        //
+        // final MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(clazz, MethodHandles.lookup());
+        // final MethodHandle handle = methodLookup.findStaticSetter(clazz, "cacheFactory", BiFunction.class);
+        // handle.invoke(cacheFactory);
 
         // Misc
         // ****************************************************************************************
@@ -457,7 +491,7 @@ abstract class AbstractTest {
 
         pw.println();
         pw.println("2nd Level Cache-Regions");
-        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getDomainDataRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
+        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getCacheRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
             final long hCount = cacheStatistics.getHitCount();
             final long mCount = cacheStatistics.getMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);
