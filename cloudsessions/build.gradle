@@ -2,7 +2,7 @@ plugins {
     id "war"
 }
 
-description = "Beispiel zum Speichern von HTTP-Session in der Amazon Cloud."
+description = "Example for saving HTTP-Sessions in the Amazon Cloud."
 
 dependencies {
     implementation("com.amazonaws:aws-java-sdk-simpledb")

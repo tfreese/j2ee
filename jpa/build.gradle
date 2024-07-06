@@ -2,7 +2,7 @@ plugins {
     id "java"
 }
 
-description = "JPA Demo Projekt"
+description = "JPA Demo Project"
 
 configurations.all {
     exclude group: "ch.qos.logback", module: "logback-classic"
@@ -18,7 +18,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api")
     implementation("javax.cache:cache-api")
     implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("com.github.ben-manes.caffeine:jcache")
+    // implementation("com.github.ben-manes.caffeine:jcache")
 
     // implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
     //     // exclude group: "ch.qos.logback", module: "logback-classic"

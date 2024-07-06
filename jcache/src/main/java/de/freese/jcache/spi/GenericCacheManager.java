@@ -1,5 +1,5 @@
-// Created: 04 Juli 2024
-package de.freese.jpa.cache;
+// Created: 06 Juli 2024
+package de.freese.jcache.spi;
 
 import java.net.URI;
 import java.util.Map;
@@ -17,50 +17,34 @@ import javax.cache.spi.CachingProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.jcache.configuration.GenericConfiguration;
+
 /**
+ * Generic CacheManager with CacheFactory.<br>
+ * Inspired by CacheManagerImpl (com.github.ben-manes.caffeine:jcache).<br>
+ *
  * @author Thomas Freese
  */
-public final class JCacheManager implements CacheManager {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JCacheManager.class);
-
+public final class GenericCacheManager implements CacheManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericCacheManager.class);
     private final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory;
     private final Map<String, Cache<?, ?>> cacheMap = new ConcurrentHashMap<>(16);
-    private final CachingProvider cachingProvider;
-    private final ClassLoader classLoader;
-    private final boolean createLazy;
-    private final Properties properties;
+    private final GenericConfiguration configuration;
 
     private boolean closed;
 
-    public JCacheManager(final boolean createLazy, final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory) {
+    public GenericCacheManager(final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory, final GenericConfiguration configuration) {
         super();
 
-        this.createLazy = createLazy;
         this.cacheFactory = Objects.requireNonNull(cacheFactory, "cacheFactory required");
-        this.cachingProvider = null;
-        this.classLoader = Thread.currentThread().getContextClassLoader();
-        this.properties = JCachingProvider.DEFAULT_PROPERTIES;
-    }
-
-    JCacheManager(final boolean createLazy,
-                  final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory,
-                  final CachingProvider cachingProvider,
-                  final ClassLoader classLoader,
-                  final Properties properties) {
-        super();
-
-        this.createLazy = createLazy;
-        this.cacheFactory = Objects.requireNonNull(cacheFactory, "cacheFactory required");
-        this.cachingProvider = Objects.requireNonNull(cachingProvider, "cachingProvider required");
-        this.classLoader = Objects.requireNonNull(classLoader, "classLoader required");
-        this.properties = Objects.requireNonNull(properties, "properties required");
+        this.configuration = Objects.requireNonNull(configuration, "configuration required");
     }
 
     @Override
     public void close() {
         closed = true;
 
-        LOGGER.info("close");
+        LOGGER.debug("close");
 
         cacheMap.keySet().forEach(this::destroyCache);
 
@@ -83,7 +67,7 @@ public final class JCacheManager implements CacheManager {
 
     @Override
     public void destroyCache(final String cacheName) {
-        LOGGER.info("destroyCache: {}", cacheName);
+        LOGGER.debug("destroyCache: {}", cacheName);
 
         final Cache<?, ?> cache = cacheMap.remove(cacheName);
 
@@ -110,10 +94,6 @@ public final class JCacheManager implements CacheManager {
             throw new IllegalStateException("CacheManager is closed");
         }
 
-        if (createLazy) {
-            return createCache(cacheName, null);
-        }
-
         return (Cache<K, V>) cacheMap.get(cacheName);
     }
 
@@ -129,21 +109,37 @@ public final class JCacheManager implements CacheManager {
 
     @Override
     public CachingProvider getCachingProvider() {
-        return cachingProvider;
+        if (configuration != null) {
+            return configuration.getCachingProvider();
+        }
+
+        return null;
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        return classLoader;
+        if (configuration != null) {
+            return configuration.getClassLoader();
+        }
+
+        return Thread.currentThread().getContextClassLoader();
     }
 
     @Override
     public Properties getProperties() {
-        return properties;
+        if (configuration != null) {
+            return configuration.getProperties();
+        }
+
+        return null;
     }
 
     @Override
     public URI getURI() {
+        if (configuration != null) {
+            return configuration.getUri();
+        }
+
         return URI.create(getClass().getSimpleName());
     }
 

@@ -5,7 +5,7 @@ plugins {
     id "io.openliberty.tools.gradle.Liberty"
 }
 
-description = "Demo für Spring-Integration"
+description = "Demo for Spring-Integration"
 // https://openliberty.io/guides/gradle-intro.html#getting-started
 
 ext {

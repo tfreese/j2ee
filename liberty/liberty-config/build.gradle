@@ -2,7 +2,7 @@ plugins {
     id "war"
 }
 
-description = "Demo für Liberty-Konfiguration"
+description = "Demo for Liberty-Configuration"
 
 dependencies {
     implementation("org.hibernate.orm:hibernate-core") {

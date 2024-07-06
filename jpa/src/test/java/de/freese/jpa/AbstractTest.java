@@ -180,16 +180,20 @@ abstract class AbstractTest {
 
             return new JCacheCaffeine<>(cacheManager, cacheName, caffeineCache);
         };
-        config.put(ConfigSettings.CACHE_MANAGER, new JCacheManager(cacheFactory));
+        config.put(ConfigSettings.CACHE_MANAGER, new JCacheManager(true, cacheFactory));
 
         // config.put(ConfigSettings.PROVIDER, "de.freese.jpa.cache.JCachingProvider");
         //
-        // // final Class<?> clazz = Class.forName("de.freese.jpa.cache.JCachingProvider");
-        // // final Method method = clazz.getDeclaredMethod("setCacheFactory", BiFunction.class);
-        // // method.invoke(null, cacheFactory);
+        // final Class<?> clazz = Class.forName("de.freese.jpa.cache.JCachingProvider");
+        // Method method = clazz.getDeclaredMethod("setCreateLazy", boolean.class);
+        // method.invoke(null, true);
+        // method = clazz.getDeclaredMethod("setCacheFactory", BiFunction.class);
+        // method.invoke(null, cacheFactory);
         //
         // final MethodHandles.Lookup methodLookup = MethodHandles.privateLookupIn(clazz, MethodHandles.lookup());
-        // final MethodHandle handle = methodLookup.findStaticSetter(clazz, "cacheFactory", BiFunction.class);
+        // MethodHandle handle = methodLookup.findStaticSetter(clazz, "createLazy", boolean.class);
+        // handle.invoke(true);
+        // handle = methodLookup.findStaticSetter(clazz, "cacheFactory", BiFunction.class);
         // handle.invoke(cacheFactory);
 
         // Misc

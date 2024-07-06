@@ -2,7 +2,7 @@ plugins {
     id "war"
 }
 
-description = "Projekt für J2EE Beispiele"
+description = "Projekt for J2EE Examples"
 
 dependencies {
     implementation("jakarta.xml.bind:jakarta.xml.bind-api")
