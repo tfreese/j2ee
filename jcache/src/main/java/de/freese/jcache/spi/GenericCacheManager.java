@@ -27,6 +27,7 @@ import de.freese.jcache.configuration.GenericConfiguration;
  */
 public final class GenericCacheManager implements CacheManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericCacheManager.class);
+
     private final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory;
     private final Map<String, Cache<?, ?>> cacheMap = new ConcurrentHashMap<>(16);
     private final GenericConfiguration configuration;
@@ -94,6 +95,10 @@ public final class GenericCacheManager implements CacheManager {
             throw new IllegalStateException("CacheManager is closed");
         }
 
+        if (configuration.isCreateCachesLazy()) {
+            return createCache(cacheName, null);
+        }
+
         return (Cache<K, V>) cacheMap.get(cacheName);
     }
 
@@ -109,29 +114,17 @@ public final class GenericCacheManager implements CacheManager {
 
     @Override
     public CachingProvider getCachingProvider() {
-        if (configuration != null) {
-            return configuration.getCachingProvider();
-        }
-
-        return null;
+        return configuration.getCachingProvider();
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        if (configuration != null) {
-            return configuration.getClassLoader();
-        }
-
-        return Thread.currentThread().getContextClassLoader();
+        return configuration.getClassLoader();
     }
 
     @Override
     public Properties getProperties() {
-        if (configuration != null) {
-            return configuration.getProperties();
-        }
-
-        return null;
+        return configuration.getProperties();
     }
 
     @Override

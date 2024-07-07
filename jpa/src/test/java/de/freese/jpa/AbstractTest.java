@@ -54,8 +54,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jpa.cache.JCacheCaffeine;
-import de.freese.jpa.cache.JCacheManager;
+import de.freese.jcache.CaffeineCache;
+import de.freese.jcache.configuration.GenericConfiguration;
+import de.freese.jcache.spi.GenericCacheManager;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
@@ -163,10 +164,13 @@ abstract class AbstractTest {
         // config.put(ConfigSettings.PROVIDER, "org.ehcache.jsr107.EhcacheCachingProvider");
         // config.put(ConfigSettings.CONFIG_URI, "ehcache.xml");
 
+        // config.put(ConfigSettings.PROVIDER, "de.freese.jcache.spi.GenericCachingProvider");
+        // config.put(ConfigSettings.CONFIG_URI, "caffeineCacheConfig.properties");
+
         final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory = (cacheManager, cacheName) -> {
             final Caffeine<Object, Object> caffeine;
 
-            if ("person".equals(cacheName)) {
+            if ((config.get(AvailableSettings.CACHE_REGION_PREFIX) + ".person").equals(cacheName)) {
                 caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
             }
             else {
@@ -178,11 +182,10 @@ abstract class AbstractTest {
                     .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} = {}", cause, key, value))
                     .build();
 
-            return new JCacheCaffeine<>(cacheManager, cacheName, caffeineCache);
+            return new CaffeineCache<>(cacheManager, cacheName, caffeineCache);
         };
-        config.put(ConfigSettings.CACHE_MANAGER, new JCacheManager(true, cacheFactory));
+        config.put(ConfigSettings.CACHE_MANAGER, new GenericCacheManager(cacheFactory, GenericConfiguration.from(true)));
 
-        // config.put(ConfigSettings.PROVIDER, "de.freese.jpa.cache.JCachingProvider");
         //
         // final Class<?> clazz = Class.forName("de.freese.jpa.cache.JCachingProvider");
         // Method method = clazz.getDeclaredMethod("setCreateLazy", boolean.class);
@@ -214,7 +217,6 @@ abstract class AbstractTest {
         config.put(AvailableSettings.STATEMENT_FETCH_SIZE, "100");
 
         // config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
-
         // config.put(ENTITY_INTERCEPTOR_CLASS, "... extends org.hibernate.EmptyInterceptor");
 
         return config;

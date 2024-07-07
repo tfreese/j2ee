@@ -16,7 +16,9 @@ dependencies {
     implementation("com.zaxxer:HikariCP")
     implementation("org.hibernate.orm:hibernate-core")
     implementation("org.slf4j:slf4j-api")
-    implementation("javax.cache:cache-api")
+
+    implementation(project(":jcache"))
+    // implementation("javax.cache:cache-api")
     implementation("com.github.ben-manes.caffeine:caffeine")
     // implementation("com.github.ben-manes.caffeine:jcache")
 

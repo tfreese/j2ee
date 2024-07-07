@@ -4,6 +4,7 @@ package de.freese.jcache.spi;
 import static javax.cache.configuration.OptionalFeature.STORE_BY_REFERENCE;
 
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,23 +87,32 @@ public final class GenericCachingProvider implements CachingProvider {
     public CacheManager getCacheManager(final URI uri, final ClassLoader classLoader, final Properties properties) {
         final URI managerURI = getManagerUri(uri);
         final ClassLoader managerClassLoader = getManagerClassLoader(classLoader);
+
+        if (cacheManagers.computeIfAbsent(managerClassLoader, key -> new HashMap<>()).get(managerURI) != null) {
+            return cacheManagers.get(managerClassLoader).get(managerURI);
+        }
+
         final GenericConfiguration configuration;
 
         try {
             if (managerURI.equals(getDefaultURI())) {
-                configuration = GenericConfiguration.from(URI.create("defaultCacheConfig.properties"));
+                final URL defaultUrl = classLoader.getResource("defaultCacheConfig.properties");
+                configuration = GenericConfiguration.from(defaultUrl.toURI());
             }
             else {
                 configuration = GenericConfiguration.from(uri);
             }
 
-            configuration.setClassLoader(classLoader);
-            configuration.setProperties(properties);
-            configuration.setCachingProvider(this);
+            configuration.setClassLoader(classLoader)
+                    .setProperties(properties)
+                    .setCachingProvider(this);
 
             final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory = CacheFactory.from(configuration);
 
             final CacheManager cacheManager = new GenericCacheManager(cacheFactory, configuration);
+
+            // Create registered Caches.
+            configuration.getCacheBackends().keySet().forEach(cacheName -> cacheManager.createCache(cacheName, null));
 
             cacheManagers.computeIfAbsent(managerClassLoader, key -> new HashMap<>()).put(managerURI, cacheManager);
 
@@ -111,7 +121,12 @@ public final class GenericCachingProvider implements CachingProvider {
         catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
-            return null;
+            if (ex instanceof RuntimeException rex) {
+                throw rex;
+            }
+            else {
+                throw new RuntimeException(ex);
+            }
         }
     }
 

@@ -1,16 +1,16 @@
 plugins {
-    id "java"
+    id "java-library"
 }
 
 description = "JCache Implementation for generic Caches"
 
 dependencies {
-    implementation("javax.cache:cache-api")
+    api("javax.cache:cache-api")
     implementation("org.slf4j:slf4j-api")
 
     implementation("com.github.ben-manes.caffeine:caffeine")
 
-    testImplementation("com.github.ben-manes.caffeine:jcache")
+    // testImplementation("com.github.ben-manes.caffeine:jcache")
 
     testRuntimeOnly("org.slf4j:slf4j-simple")
 }

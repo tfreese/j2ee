@@ -15,6 +15,13 @@ import javax.cache.spi.CachingProvider;
 public final class GenericConfiguration {
     // implements Configuration<Object, Object>
 
+    public static GenericConfiguration from(final boolean createCachesLazy) {
+        return new GenericConfiguration(null)
+                .setCreateCachesLazy(createCachesLazy)
+                .setProperties(new Properties())
+                .setClassLoader(Thread.currentThread().getContextClassLoader());
+    }
+
     public static GenericConfiguration from(final URI uri) throws Exception {
         final Properties properties = new Properties();
 
@@ -79,27 +86,39 @@ public final class GenericConfiguration {
         return createCachesLazy;
     }
 
-    public void setCachingProvider(final CachingProvider cachingProvider) {
+    public GenericConfiguration setCachingProvider(final CachingProvider cachingProvider) {
         this.cachingProvider = cachingProvider;
+
+        return this;
     }
 
-    public void setClassLoader(final ClassLoader classLoader) {
+    public GenericConfiguration setClassLoader(final ClassLoader classLoader) {
         this.classLoader = classLoader;
+
+        return this;
     }
 
-    public void setProperties(final Properties properties) {
+    public GenericConfiguration setProperties(final Properties properties) {
         this.properties = properties;
+
+        return this;
     }
 
-    private void addCacheBackend(final String name, final String value) {
+    private GenericConfiguration addCacheBackend(final String name, final String value) {
         this.cacheBackends.put(name, value);
+
+        return this;
     }
 
-    private void setCacheImplementation(final String cacheImplementation) {
+    private GenericConfiguration setCacheImplementation(final String cacheImplementation) {
         this.cacheImplementation = cacheImplementation;
+
+        return this;
     }
 
-    private void setCreateCachesLazy(final boolean createCachesLazy) {
+    private GenericConfiguration setCreateCachesLazy(final boolean createCachesLazy) {
         this.createCachesLazy = createCachesLazy;
+
+        return this;
     }
 }

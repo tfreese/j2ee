@@ -1,5 +1,5 @@
-// Created: 04 Juli 2024
-package de.freese.jpa.cache;
+// Created: 06 Juli 2024
+package de.freese.jcache;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -10,14 +10,15 @@ import javax.cache.CacheManager;
 
 import com.github.benmanes.caffeine.cache.Cache;
 
+import de.freese.jcache.spi.AbstractCache;
+
 /**
  * @author Thomas Freese
  */
-public final class JCacheCaffeine<K, V> extends AbstractJCacheAdapter<K, V> {
-
+public final class CaffeineCache<K, V> extends AbstractCache<K, V> {
     private final Cache<K, V> cache;
 
-    public JCacheCaffeine(final CacheManager cacheManager, final String name, final Cache<K, V> cache) {
+    public CaffeineCache(final CacheManager cacheManager, final String name, final Cache<K, V> cache) {
         super(cacheManager, name);
 
         this.cache = Objects.requireNonNull(cache, "cache required");
@@ -25,7 +26,7 @@ public final class JCacheCaffeine<K, V> extends AbstractJCacheAdapter<K, V> {
 
     @Override
     public void clear() {
-        getLogger().info("clear: {}", getName());
+        getLogger().debug("clear");
 
         cache.invalidateAll();
     }
@@ -34,7 +35,7 @@ public final class JCacheCaffeine<K, V> extends AbstractJCacheAdapter<K, V> {
     public void close() {
         setClosed();
 
-        getLogger().info("close: {}", getName());
+        getLogger().debug("close");
 
         cache.invalidateAll();
         cache.cleanUp();
