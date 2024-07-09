@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings("unchecked")
 class TestJPA extends AbstractTest {
     private static EntityManagerFactory entityManagerFactory;
 
