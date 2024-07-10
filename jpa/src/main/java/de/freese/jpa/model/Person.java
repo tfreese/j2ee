@@ -74,10 +74,11 @@ public class Person extends AbstractEntity {
     @ColumnDefault("false")
     private Boolean cool;
 
-    @Id
-    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1)
-    @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     // @BlockSequence(name = "seq_gen_person", blockSize = 10) // Sequence won't be generated and must exist.
+    // @GeneratedValue(generator = "increment", strategy = GenerationType.AUTO) // select max(id) from
+    @Id
+    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     @Column(name = "ID", unique = true, nullable = false)
     @Access(AccessType.FIELD)
     private long id = -1;

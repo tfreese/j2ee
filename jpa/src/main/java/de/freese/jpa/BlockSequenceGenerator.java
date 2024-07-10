@@ -12,6 +12,7 @@ import java.util.Queue;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
+import org.hibernate.id.IncrementGenerator;
 import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ import org.slf4j.LoggerFactory;
  * Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
  *
  * @author Thomas Freese
+ *
+ * @see IncrementGenerator
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
