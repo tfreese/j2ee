@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 
 import jakarta.annotation.Resource;
 
-import org.hsqldb.jdbc.JDBCDataSource;
+import org.h2.jdbcx.JdbcConnectionPool;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,11 +23,14 @@ public class ConfigTomcat {
 
     @Bean
     public DataSource dataSource() throws NamingException {
-        final JDBCDataSource dataSource = new JDBCDataSource();
-        dataSource.setURL("jdbc:hsqldb:mem:liberty-spring");
-        dataSource.setUser("sa");
-        dataSource.setPassword("");
+        final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
+        pool.setMaxConnections(3);
 
-        return dataSource;
+        // final JDBCPool pool = new JDBCPool(3);
+        // pool.setURL("jdbc:hsqldb:mem:liberty-spring;shutdown=true");
+        // pool.setUser("sa");
+        // pool.setPassword("");
+
+        return pool;
     }
 }

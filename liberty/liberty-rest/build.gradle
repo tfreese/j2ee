@@ -1,5 +1,3 @@
-import java.awt.*
-
 plugins {
     id "war"
     id "io.openliberty.tools.gradle.Liberty"
@@ -36,7 +34,7 @@ test {
 }
 
 tasks.register("openBrowser") {
-    group = "My Tasks"
+    group = "MyTasks"
     description = "Open browser to the running application"
 
     doLast {
@@ -44,10 +42,8 @@ tasks.register("openBrowser") {
         String context = liberty.server.var."app.context.root"
         String url = "http://localhost:" + port + "/" + context + "/" + "servlet"
 
-        Desktop.getDesktop().browse(URI.create(url))
-
-        def index = layout.buildDirectory.get().dir("reports").dir("tests").dir("test").file("index.html").toString()
-        Desktop.getDesktop().browse(URI.create(index))
+        java.awt.Desktop.desktop.browse url.toURI()
+        java.awt.Desktop.desktop.browse layout.buildDirectory.get().dir("reports").dir("tests").dir("test").file("index.html")
     }
 }
 

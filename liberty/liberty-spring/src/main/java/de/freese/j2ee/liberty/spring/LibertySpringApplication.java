@@ -27,9 +27,11 @@ public class LibertySpringApplication extends SpringBootServletInitializer {
 
     /**
      * POM:<br>
-     * &lt;packaging>&gt;war&lt;/packaging&gt;<<br>
-     * Tomcat aus spring-boot-starter-web excludieren und explizit auf provided setzen.<br>
-     * Alle anderen J2EE-Jars auf provided setzen.
+     * <pre>{@code
+     * <packaging>war<packaging>
+     * }</pre>
+     * Exclude Tomcat from spring-boot-starter-web and set explicitly to provided.<br>
+     * All other JEE-Jars are provided.
      */
     @Override
     protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {

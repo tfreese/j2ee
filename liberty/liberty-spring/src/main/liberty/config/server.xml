@@ -8,16 +8,16 @@
     </featureManager>
 
     <!--library id="applicationLib">
-        <fileset dir="${server.config.dir}/apps_libs" includes="*.*" excludes="hsqldb*.jar"
+        <fileset dir="${server.config.dir}/apps_libs" includes="*.*" excludes="h2*.jar"
         />
         <folder dir="${server.config.dir}/apps_resources" />
         </library -->
 
-    <httpEndpoint id="defaultHttpEndpoint" httpPort="9090" httpsPort="9493" host="localhost">
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="${http.port}" httpsPort="${https.port}" host="localhost">
         <tcpOptions soReuseAddr="true" />
     </httpEndpoint>
 
-    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="liberty-spring">
+    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="${context.root}">
         <!--classloader commonLibraryRef="applicationLib" / -->
     </webApplication>
 

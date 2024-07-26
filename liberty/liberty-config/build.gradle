@@ -31,7 +31,7 @@ tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = 
 clean.finalizedBy("ant-clean")
 
 tasks.register("copyDependencies") {
-    group = "My Tasks"
+    group = "MyTasks"
     description "Copy Dependencies to folder"
 
     doLast {

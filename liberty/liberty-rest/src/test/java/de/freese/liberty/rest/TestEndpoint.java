@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class EndpointTest {
+class TestEndpoint {
     /**
      * http://localhost:9080/liberty-rest/liberty/service/properties
      */

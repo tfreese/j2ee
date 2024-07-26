@@ -1,4 +1,8 @@
-import java.awt.*
+buildscript {
+    dependencies {
+        classpath("io.openliberty.tools:liberty-ant-tasks:1.9.15")
+    }
+}
 
 plugins {
     id "war"
@@ -9,17 +13,25 @@ description = "Demo for Spring-Integration"
 // https://openliberty.io/guides/gradle-intro.html#getting-started
 
 ext {
-    liberty.server.var."default.http.port" = "9081"
-    liberty.server.var."default.https.port" = "9444"
-    liberty.server.var."app.context.root" = project.name
+    liberty.server.var."http.port" = "9081"
+    liberty.server.var."https.port" = "9444"
+    liberty.server.var."context.root" = project.name
+}
+
+configurations {
+    jdbcLib
 }
 
 dependencies {
+    libertyRuntime("io.openliberty:openliberty-kernel:24.0.0.7")
+    // libertyRuntime("io.openliberty:openliberty-runtime:24.0.0.7")
+
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
 
-    implementation("org.hsqldb:hsqldb")
+    implementation("com.h2database:h2")
+    jdbcLib("com.h2database:h2")
 
     // providedCompile
 //    compileOnly("jakarta.platform:jakarta.jakartaee-web-api")
@@ -27,33 +39,68 @@ dependencies {
 //    compileOnly("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
+tasks.register("copyJDBC", Copy) {
+    group = "MyTasks"
+
+    from configurations.jdbcLib
+    into layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("jdbc")
+    include "*.jar"
+}
+deploy.dependsOn("copyJDBC")
+
 test {
     testLogging {
         events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
 //        exceptionFormat = TestExceptionFormat.FULL
     }
 
-    systemProperty "http.port", liberty.server.var."default.http.port"
-    systemProperty "context.root", liberty.server.var."app.context.root"
+    systemProperty "http.port", liberty.server.var."http.port"
+    systemProperty "context.root", liberty.server.var."context.root"
 }
 
 tasks.register("openBrowser") {
-    group = "My Tasks"
+    group = "MyTasks"
     description = "Open browser to the running application"
 
     doLast {
-        String port = liberty.server.var."default.http.port"
-        String context = liberty.server.var."app.context.root"
-        String URL = "http://localhost:" + port + "/" + context + "/" + "servlet"
+        String port = liberty.server.var."http.port"
+        String context = liberty.server.var."context.root"
+        String url = "http://localhost:" + port + "/" + context + "/sysdate"
 
-        Desktop.getDesktop().browse(URL.toURI())
-        Desktop.getDesktop().browse(file("$buildDir/reports/tests/test/index.html").toURI())
+        java.awt.Desktop.desktop.browse url.toURI()
+        // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()
     }
 }
 
-//test.dependsOn "libertyStart"
-//test.finalizedBy(openBrowser)
+tasks.register("sleep") {
+    group = "MyTasks"
+    description = "Sleeps some seconds"
+
+    doLast {
+        logger.lifecycle("sleeping: {} seconds", 5)
+        sleep(5000)
+    }
+}
+
+test.dependsOn("libertyStart")
+test.finalizedBy("libertyStop")
+// test.finalizedBy("sleep")
+// test.finalizedBy("openBrowser")
 clean.dependsOn "libertyStop"
+
+liberty {
+    server {
+        name = project.name
+
+        stripVersion = true
+
+        // Clean logs, workarea, apps, dropins on server startup
+        clean = true
+
+        // Wait n seconds to verify application start.
+        // verifyAppStartTimeout = 30
+    }
+}
 
 //Für Platzhalter in application.properties/application.yml
 ext.artifactId = project.name

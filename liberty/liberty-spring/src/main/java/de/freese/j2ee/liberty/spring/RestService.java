@@ -41,14 +41,13 @@ public class RestService {
     @GetMapping("/sysdate")
     public String sysdate() throws Exception {
         String sysDate = null;
-        // sysDate =
-        // LocalDateTime.now().toString() + " at " + InetAddress.getLocalHost().getHostName() + "/" + InetAddress.getLocalHost().getCanonicalHostName();
+        // sysDate = LocalDateTime.now().toString() + " at " + InetAddress.getLocalHost().getHostName() + "/" + InetAddress.getLocalHost().getCanonicalHostName();
 
         try (Connection con = this.dataSource.getConnection();
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("VALUES (CURRENT_DATE)")) {
+             ResultSet rs = stmt.executeQuery("VALUES (CURRENT_TIMESTAMP)")) {
             rs.next();
-            sysDate = rs.getDate(1).toString();
+            sysDate = rs.getTimestamp(1).toString();
         }
 
         return sysDate + " at " + InetAddress.getLocalHost().getHostName();

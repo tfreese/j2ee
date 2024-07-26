@@ -2,24 +2,27 @@
 <server>
 
     <!-- jdbc driver-->
-    <library id="hsqldbDriver">
-        <fileset dir="${server.config.dir}/apps_libs" includes="hsqldb-*.jar" />
+    <library id="h2Driver">
+        <fileset dir="${server.config.dir}/jdbc" includes="h2-*.jar" />
     </library>
 
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" />
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
 
     <!-- javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource" -->
     <!-- javax.sql.DataSource="org.hsqldb.jdbc.JDBCDataSource" -->
     <!-- user="${datasource_user}" password="${datasource_pwd}" -->
-    <!--containerAuthDataRef="authDataHsqlDB"-->
+    <!--containerAuthDataRef="authDataH2DB"-->
+
     <dataSource
-            id="hsqldbDS"
-            jndiName="jdbc/hsqldbDS">
+            id="h2DS"
+            jndiName="jdbc/h2DS">
+
         <jdbcDriver
-                libraryRef="hsqldbDriver"
-                javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource" />
+                libraryRef="h2Driver"
+                javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"
+        />
         <properties
-                url="jdbc:hsqldb:mem:liberty-spring"
+                url="jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true"
                 user="sa"
                 password=""
         />
