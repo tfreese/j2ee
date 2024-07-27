@@ -5,8 +5,12 @@ plugins {
 
 description = "Demo for Liberty-Configuration"
 
+Properties properties = new Properties()
+file("config/bootstrap.properties").withInputStream { properties.load(it) }
+
 dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
+    // libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
 
     implementation("org.hibernate.orm:hibernate-core") {
         exclude group: "jakarta.activation", module: "*"
@@ -34,28 +38,46 @@ war {
 test.finalizedBy("libertyStop")
 clean.dependsOn("libertyStop")
 
-ant.lifecycleLogLevel = "INFO"
+// ant.lifecycleLogLevel = "INFO"
+//
+// // Register ANT-Tasks as Gradle-Tasks with Prefix "ant-" in Group "other".
+// ant.importBuild("ant_deploy.xml") { antTargetName -> "ant-" + antTargetName }
+// ant.properties["version"] = project.version
+//
+// // Set group property for all Ant tasks.
+// tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = "Ant" }
+//
+// clean.finalizedBy("ant-clean")
 
-// Register ANT-Tasks as Gradle-Tasks with Prefix "ant-" in Group "other".
-ant.importBuild("ant_build.xml") { antTargetName -> "ant-" + antTargetName }
-ant.properties["version"] = project.version
-
-// Set group property for all Ant tasks.
-tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = "Ant" }
-
-clean.finalizedBy("ant-clean")
-
-tasks.register("copyDependencies") {
+tasks.register("deployApp") {
     group = "MyTasks"
-    description "Copy Dependencies to folder"
+    description "Deploy Application"
+
+    dependsOn("build")
+    dependsOn("libertyCreate")
 
     doLast {
-        def libFolder = layout.buildDirectory.dir("dependencies")
+        var serverHome = properties.getProperty("server_home")
 
-        println("copy Dependencies to: " + libFolder.get())
+        delete serverHome + "/appl_data"
+        delete serverHome + "/appl_logs"
+        delete serverHome + "/logs"
+        delete serverHome + "/tranlog"
+        delete serverHome + "/workarea"
+        delete serverHome + "/mqjms.log.0"
 
+        var warFolder = serverHome + "/appl/" + properties.getProperty("deploy_folder")
+        delete warFolder
+        copy {
+            from project.tasks.war
+            into warFolder
+            rename { String fileName ->
+                fileName.replace("-${project.version}", "")
+            }
+        }
+
+        var libFolder = serverHome + "/appl/appl_libs"
         delete libFolder
-
         copy {
             from configurations.runtimeClasspath - configurations.providedCompile {
                 include "*.jar"
@@ -67,22 +89,6 @@ tasks.register("copyDependencies") {
         }
     }
 }
-
-tasks.register("deployApp") {
-    group = "MyTasks"
-    description "Deploy Application"
-
-    dependsOn("build")
-    dependsOn("libertyCreate")
-    dependsOn("copyDependencies")
-    dependsOn("ant-deploy")
-
-    doLast {
-        // Empty
-    }
-}
-
-//build.finalizedBy("copyDependencies", "ant-deploy")
 
 liberty {
     install {

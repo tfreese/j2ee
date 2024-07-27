@@ -4,6 +4,8 @@ package de.freese.j2ee.liberty.config;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.sql.DataSource;
 
@@ -24,15 +26,21 @@ public class StartUp extends AbstractBean {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
 
-    // @PersistenceContext(name = "de.freese.test")
+    // // (unitName = "jpa_unit")
+    // @PersistenceContext
     // private EntityManager entityManager;
 
+    @Resource(lookup = "java:comp/DefaultManagedExecutorService")
+    private ExecutorService executorService;
     /**
      * No-View Beans (without Interface) doesn't work ?!
      * Only if configured in ejb-jar.xml
      */
     //@EJB
     private NoViewBean noViewBean;
+
+    @Resource(lookup = "java:comp/DefaultManagedScheduledExecutorService")
+    private ScheduledExecutorService scheduledExecutorService;
 
     @EJB
     private MyService serviceBean;
@@ -42,7 +50,11 @@ public class StartUp extends AbstractBean {
     public void postConstruct() {
         super.postConstruct();
 
+        this.executorService.execute(() -> getLogger().info("postConstruct with DefaultManagedExecutorService"));
+        this.scheduledExecutorService.execute(() -> getLogger().info("postConstruct with DefaultManagedScheduledExecutorService"));
+
         query(this.dataSource, "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+
         // final Object hibernateResult = entityManager.createNativeQuery("VALUES (CURRENT_TIMESTAMP)").getSingleResult();
         // getLogger().info("HibernateResult: {}", hibernateResult);
 

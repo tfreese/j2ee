@@ -22,7 +22,7 @@
         <timerService missedPersistentTimerAction="ONCE" />
     </ejbContainer>
 
-    <!-- für Arquillian -->
+    <!-- for Arquillian -->
     <!--applicationMonitor updateTrigger="mbean" /-->
 
     <!-- disable hot deployment -->

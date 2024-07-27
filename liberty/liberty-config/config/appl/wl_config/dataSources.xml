@@ -7,7 +7,6 @@
 
     <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" />
 
-    <!-- jdbc driver-->
     <dataSource
             id="hsqldbDS"
             jndiName="jdbc/hsqldbDS">
@@ -23,7 +22,7 @@
                 minPoolSize="1"
                 maxPoolSize="5"
                 maxIdleTime="10m"
-                connectionTimeout="35s" />
+                connectionTimeout="10s" />
     </dataSource>
 
 </server>

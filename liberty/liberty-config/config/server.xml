@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Liberty Basis-Konfiguration">
+<server description="Liberty Basic-Configuration">
 
     <featureManager>
-        <!--        <feature>concurrent-3.0</feature>-->
-        <!--        <feature>jndi-1.0</feature>-->
-        <!--        <feature>localConnector-1.0</feature>-->
-        <!--        <feature>ssl-1.0</feature>-->
+        <!-- <feature>jakartaee-10.0</feature> -->
     </featureManager>
 
     <logging consoleLogLevel="INFO" maxFileSize="50" maxFiles="10" traceFormat="ADVANCED" />
@@ -23,13 +20,13 @@
     <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
 
     <!-- IIOPS Port -->
-    <!--    <iiopEndpoint id="defaultIiopEndpoint" iiopPort="${wl_iiopPort}">-->
-    <!--        <iiopsOptions iiopsPort="${wl_iiopsPort}" sslRef="defaultSSLSettings"/>-->
-    <!--    </iiopEndpoint>-->
+    <!-- <iiopEndpoint id="defaultIiopEndpoint" iiopPort="${wl_iiopPort}"> -->
+    <!--     <iiopsOptions iiopsPort="${wl_iiopsPort}" sslRef="defaultSSLSettings" /> -->
+    <!-- </iiopEndpoint> -->
 
     <!-- JMS Port -->
-    <!--    <wasJmsEndpoint id="InboundJmsEndpoint" wasJmsPort="${wl_jmsPort}" wasJmsSSLPort="${wl_jmsSslPort}">-->
-    <!--    </wasJmsEndpoint>-->
+    <!-- <wasJmsEndpoint id="InboundJmsEndpoint" wasJmsPort="${wl_jmsPort}" wasJmsSSLPort="${wl_jmsSslPort}"> -->
+    <!-- </wasJmsEndpoint> -->
 
     <!-- defaultSSLSettings-->
     <!--keyStore id="defaultKeyStore" location="${server_home}/resources/security/key-default.jks" password="..." readOnly="true" type="jks" />
@@ -39,7 +36,7 @@
         trustStoreRef="defaultTrustStore"
         securityLevel="HIGH" sslProtocol="TLSv1.2" /-->
 
-    <!--    <sslDefault sslRef="defaultSSLSettings" />-->
-    <!--    <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" />-->
+    <!-- <sslDefault sslRef="defaultSSLSettings" /> -->
+    <!-- <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" /> -->
 
 </server>

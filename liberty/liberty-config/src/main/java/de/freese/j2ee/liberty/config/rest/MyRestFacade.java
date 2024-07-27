@@ -1,5 +1,5 @@
 // Created: 20.05.2018
-package de.freese.j2ee.liberty.config;
+package de.freese.j2ee.liberty.config.rest;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutorService;
 
 import javax.naming.Binding;
 import javax.naming.Context;
@@ -17,7 +16,6 @@ import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.ejb.EJB;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -27,6 +25,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import de.freese.j2ee.liberty.config.AbstractBean;
+import de.freese.j2ee.liberty.config.Utils;
 import de.freese.j2ee.liberty.config.service.MyService;
 
 /**
@@ -34,8 +34,6 @@ import de.freese.j2ee.liberty.config.service.MyService;
  */
 @Path("service")
 public class MyRestFacade extends AbstractBean {
-    @Resource(lookup = "java:comp/DefaultManagedExecutorService")
-    private ExecutorService executorService;
 
     @EJB
     private MyService serviceBean;
@@ -108,8 +106,6 @@ public class MyRestFacade extends AbstractBean {
     @PostConstruct
     public void postConstruct() {
         super.postConstruct();
-
-        this.executorService.execute(() -> getLogger().info("postConstruct with ManagedExecutorService"));
     }
 
     private Map<String, Object> dumpContextBinding(final Context ctx) throws Exception {
