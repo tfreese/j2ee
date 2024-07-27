@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Demo für Spring-Services">
+<server description="Demo for Spring-Services">
 
     <featureManager>
+        <!-- <feature>jakartaee-10</feature> -->
         <feature>jdbc-4.3</feature>
         <feature>jndi-1.0</feature>
         <feature>servlet-6.0</feature>

@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Liberty Application-konfiguration">
+<server description="Liberty Application-Konfiguration">
 
     <featureManager>
         <!-- Alles -->
         <feature>jakartaee-10.0</feature>
-
-        <!--        <feature>cdi-4.0</feature>-->
-        <!--        <feature>enterpriseBeans-4.0</feature>-->
-        <!--        <feature>jdbc-4.3</feature>-->
-        <!--        <feature>servlet-6.0</feature>-->
-        <!--        <feature>mail-2.1</feature>-->
-
-        <!-- rest -->
-        <!--        <feature>restfulWS-3.1</feature>-->
-        <!--        <feature>jsonb-3.0</feature>-->
-
     </featureManager>
     <!--
         <feature>passwordUtilities-1.0</feature>
@@ -26,16 +15,15 @@
     <!-- Hierfür darf das Passwort nicht leer sein ! -->
     <!--authData id="authDataHsqlDB" user="${datasource_user}" password="${datasource_pwd}"/ -->
 
-    <!--managedExecutorService jndiName="concurrent/executor">
-        <concurrencyPolicy max="2" maxQueueSize="3"
-        runIfQueueFull="false" maxWaitForEnqueue="0" />
-        </managedExecutorService -->
+    <!-- <managedExecutorService jndiName="concurrent/executor"> -->
+    <!--     <concurrencyPolicy max="2" maxQueueSize="3" runIfQueueFull="false" maxWaitForEnqueue="0" /> -->
+    <!-- </managedExecutorService> -->
 
     <include location="${server_home}/appl/wl_config/stageVariables.xml" optional="false" />
-    <include location="${server_home}/appl/wl_config/webApplication.xml" optional="false" />
     <include location="${server_home}/appl/wl_config/dataSources.xml" optional="false" />
-    <include location="${server_home}/appl/wl_config/mq.xml" optional="false" />
     <include location="${server_home}/appl/wl_config/jndiEntries.xml" optional="false" />
     <include location="${server_home}/appl/wl_config/mail.xml" optional="true" />
+    <include location="${server_home}/appl/wl_config/mq.xml" optional="false" />
+    <include location="${server_home}/appl/wl_config/webApplication.xml" optional="false" />
 
 </server>

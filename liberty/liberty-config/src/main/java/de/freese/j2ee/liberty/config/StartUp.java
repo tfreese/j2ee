@@ -23,12 +23,17 @@ import de.freese.j2ee.liberty.config.service.MyService;
 public class StartUp extends AbstractBean {
     @Resource(lookup = "jdbc/hsqldbDS")
     private DataSource dataSource;
+
+    // @PersistenceContext(name = "de.freese.test")
+    // private EntityManager entityManager;
+
     /**
      * No-View Beans (without Interface) doesn't work ?!
      * Only if configured in ejb-jar.xml
      */
-    //    @EJB
+    //@EJB
     private NoViewBean noViewBean;
+
     @EJB
     private MyService serviceBean;
 
@@ -38,6 +43,8 @@ public class StartUp extends AbstractBean {
         super.postConstruct();
 
         query(this.dataSource, "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+        // final Object hibernateResult = entityManager.createNativeQuery("VALUES (CURRENT_TIMESTAMP)").getSingleResult();
+        // getLogger().info("HibernateResult: {}", hibernateResult);
 
         try {
             getLogger().info("Sysdate: {}", this.serviceBean.getSysDate());

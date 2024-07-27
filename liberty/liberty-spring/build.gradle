@@ -1,12 +1,6 @@
-buildscript {
-    dependencies {
-        classpath("io.openliberty.tools:liberty-ant-tasks:1.9.15")
-    }
-}
-
 plugins {
     id "war"
-    id "io.openliberty.tools.gradle.Liberty"
+    id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
 }
 
 description = "Demo for Spring-Integration"
@@ -23,8 +17,8 @@ configurations {
 }
 
 dependencies {
-    libertyRuntime("io.openliberty:openliberty-kernel:24.0.0.7")
-    // libertyRuntime("io.openliberty:openliberty-runtime:24.0.0.7")
+    libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
+    // libertyRuntime("io.openliberty:openliberty-runtime:%version_openliberty")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
@@ -34,7 +28,6 @@ dependencies {
     jdbcLib("com.h2database:h2")
 
     // providedCompile
-//    compileOnly("jakarta.platform:jakarta.jakartaee-web-api")
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
 //    compileOnly("org.springframework.boot:spring-boot-starter-tomcat")
 }
@@ -49,6 +42,8 @@ tasks.register("copyJDBC", Copy) {
 deploy.dependsOn("copyJDBC")
 
 test {
+    enabled = true
+
     testLogging {
         events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
 //        exceptionFormat = TestExceptionFormat.FULL
@@ -86,9 +81,13 @@ test.dependsOn("libertyStart")
 test.finalizedBy("libertyStop")
 // test.finalizedBy("sleep")
 // test.finalizedBy("openBrowser")
-clean.dependsOn "libertyStop"
+clean.dependsOn("libertyStop")
 
 liberty {
+    // install {
+    //     baseDir = "/tmp"
+    // }
+
     server {
         name = project.name
 
@@ -99,6 +98,14 @@ liberty {
 
         // Wait n seconds to verify application start.
         // verifyAppStartTimeout = 30
+
+        // configDirectory = file("src/resources/config")
+        // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
+        // jvmOptions = ["-Xms128m", "-Xmx512m"]
+        // serverXmlFile = file("src/resources/config/server-test1.xml")
+        // bootstrapPropertiesFile = file("src/resources/config/bootstrap.test.properties")
+        // jvmOptionsFile = file("src/resources/config/jvm.test.options")
+        // serverEnvFile = file("src/resources/config/server.test.env")
     }
 }
 

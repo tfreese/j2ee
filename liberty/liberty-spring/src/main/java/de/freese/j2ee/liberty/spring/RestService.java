@@ -28,20 +28,11 @@ public class RestService {
     private DataSource dataSource;
 
     /**
-     * http://localhost:PORT/liberty-spring/ping
-     */
-    @GetMapping("/ping")
-    public boolean ping() {
-        return true;
-    }
-
-    /**
      * http://localhost:PORT/liberty-spring/sysdate
      */
     @GetMapping("/sysdate")
-    public String sysdate() throws Exception {
-        String sysDate = null;
-        // sysDate = LocalDateTime.now().toString() + " at " + InetAddress.getLocalHost().getHostName() + "/" + InetAddress.getLocalHost().getCanonicalHostName();
+    public String getSysdate() throws Exception {
+        final String sysDate;
 
         try (Connection con = this.dataSource.getConnection();
              Statement stmt = con.createStatement();
@@ -51,5 +42,13 @@ public class RestService {
         }
 
         return sysDate + " at " + InetAddress.getLocalHost().getHostName();
+    }
+
+    /**
+     * http://localhost:PORT/liberty-spring/ping
+     */
+    @GetMapping("/ping")
+    public boolean ping() {
+        return true;
     }
 }

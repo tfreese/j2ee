@@ -10,7 +10,7 @@
     <variable name="datasource_user" value="sa" />
     <variable name="datasource_pwd" value="{xor}" />
 
-    <!--		wlp/bin/securityUtility encode TEXT -> {xor}ENCODED-->
-    <!--		wlp/bin/securityUtility encode &#45;&#45;encoding=aes TEXT -> {aes}ENCODED-->
+    <!-- wlp/bin/securityUtility encode TEXT -> {xor}ENCODED -->
+    <!-- wlp/bin/securityUtility encode &#45;&#45;encoding=aes TEXT -> {aes}ENCODED -->
 
 </server>

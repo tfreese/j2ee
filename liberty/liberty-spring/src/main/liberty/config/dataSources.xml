@@ -8,24 +8,17 @@
 
     <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
 
-    <!-- javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource" -->
-    <!-- javax.sql.DataSource="org.hsqldb.jdbc.JDBCDataSource" -->
-    <!-- user="${datasource_user}" password="${datasource_pwd}" -->
-    <!--containerAuthDataRef="authDataH2DB"-->
-
     <dataSource
             id="h2DS"
             jndiName="jdbc/h2DS">
 
         <jdbcDriver
                 libraryRef="h2Driver"
-                javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"
-        />
+                javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" />
         <properties
                 url="jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true"
                 user="sa"
-                password=""
-        />
+                password="" />
         <connectionManager
                 minPoolSize="1"
                 maxPoolSize="2"

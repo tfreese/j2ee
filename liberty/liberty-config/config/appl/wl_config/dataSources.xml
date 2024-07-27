@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
 
+    <library id="hsqldbDriver">
+        <fileset dir="${server_home}/appl/appl_libs" includes="hsqldb-*.jar" />
+    </library>
+
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" />
+
     <!-- jdbc driver-->
     <dataSource
             id="hsqldbDS"
@@ -19,15 +25,5 @@
                 maxIdleTime="10m"
                 connectionTimeout="35s" />
     </dataSource>
-
-    <library id="hsqldbDriver">
-        <fileset dir="${server_home}/appl/appl_libs" includes="hsqldb-*.jar" />
-    </library>
-
-    <!-- javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource" -->
-    <!-- javax.sql.DataSource="org.hsqldb.jdbc.JDBCDataSource" -->
-    <!-- user="${datasource_user}" password="${datasource_pwd}" -->
-    <!--containerAuthDataRef="authDataHsqlDB"-->
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" />
 
 </server>

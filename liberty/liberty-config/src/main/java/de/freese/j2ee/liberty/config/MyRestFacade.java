@@ -1,6 +1,7 @@
 // Created: 20.05.2018
 package de.freese.j2ee.liberty.config;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -42,9 +43,7 @@ public class MyRestFacade extends AbstractBean {
     public MyRestFacade() {
         super();
 
-        // final ManagedThreadFactory threadFactory =
-        // (ManagedThreadFactory) new InitialContext().lookup(
-        // "java:comp/DefaultManagedThreadFactory");
+        // final ManagedThreadFactory threadFactory =(ManagedThreadFactory) new InitialContext().lookup("java:comp/DefaultManagedThreadFactory");
 
         // <managedExecutorService jndiName="concurrent/executor">
         // <concurrencyPolicy max="2" maxQueueSize="3"
@@ -53,7 +52,7 @@ public class MyRestFacade extends AbstractBean {
     }
 
     /**
-     * http://localhost:9080/config/rest/service/jndi
+     * <a href="http://localhost:9080/config/rest/service/jndi">jndi</a>
      */
     @GET
     @Path("jndi")
@@ -77,7 +76,7 @@ public class MyRestFacade extends AbstractBean {
     }
 
     /**
-     * http://localhost:9080/config/rest/service/sysdate
+     * <a href="http://localhost:9080/config/rest/service/sysdate">sysdate</a>
      */
     @GET
     @Path("sysdate")
@@ -89,7 +88,7 @@ public class MyRestFacade extends AbstractBean {
     }
 
     /**
-     * http://localhost:9080/config/rest/service/properties
+     * <a href="http://localhost:9080/config/rest/service/properties">properties</a>
      */
     @GET
     @Path("properties")
@@ -138,6 +137,8 @@ public class MyRestFacade extends AbstractBean {
             }
         }
 
+        enumeration.close();
+
         return map;
     }
 
@@ -153,7 +154,8 @@ public class MyRestFacade extends AbstractBean {
             boolean isSubContext = false;
 
             try {
-                isSubContext = Class.forName(className).isAssignableFrom(Context.class);
+                isSubContext = MethodHandles.publicLookup().findClass(className).isAssignableFrom(Context.class);
+                // isSubContext = Class.forName(className).isAssignableFrom(Context.class);
             }
             catch (Exception ex) {
                 // Ignore
@@ -174,6 +176,8 @@ public class MyRestFacade extends AbstractBean {
             }
         }
 
+        enumeration.close();
+
         return map;
     }
 
@@ -181,8 +185,8 @@ public class MyRestFacade extends AbstractBean {
         if (this.serviceBean == null) {
             try {
                 this.serviceBean = Utils.lookup("java:module/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService", MyService.class);
-                //                this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService", MyService.class);
-                //                this.serviceBean = Utils.ejb(MyServiceBean.class);
+                // this.serviceBean = Utils.lookup("java:global/liberty-config/MyServiceBean!de.freese.j2ee.liberty.config.service.MyService", MyService.class);
+                // this.serviceBean = Utils.ejb(MyServiceBean.class);
             }
             catch (RuntimeException ex) {
                 getLogger().error(ex.getMessage(), ex.getCause());

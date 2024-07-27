@@ -18,10 +18,6 @@ public class WebSphereLibertyJtaPlatform extends AbstractJtaPlatform {
     @Serial
     private static final long serialVersionUID = 8169121135033680852L;
 
-    public WebSphereLibertyJtaPlatform() {
-        super();
-    }
-
     @Override
     protected TransactionManager locateTransactionManager() {
         return TransactionManagerFactory.getTransactionManager();

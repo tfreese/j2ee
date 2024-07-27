@@ -5,7 +5,7 @@ import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 /**
- * Basis Pfad aller REST-Services.
+ * Base Path under Context-Root for REST-Services.
  *
  * @author Thomas Freese
  */

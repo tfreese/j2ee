@@ -30,13 +30,11 @@ public class MyServiceBean extends AbstractBean implements MyService {
     public LocalDateTime getSysDate() throws SQLException {
         getLogger().info("getSysDate");
 
-        //        String sql = "VALUES (CURRENT_DATE)";
-        final String sql = "VALUES (CURRENT_TIMESTAMP)";
-        LocalDateTime localDateTime = null;
+        final LocalDateTime localDateTime;
 
         try (Connection con = this.dataSource.getConnection();
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             ResultSet rs = stmt.executeQuery("VALUES (CURRENT_TIMESTAMP)")) {
             rs.next();
             localDateTime = rs.getTimestamp(1).toLocalDateTime();
         }
