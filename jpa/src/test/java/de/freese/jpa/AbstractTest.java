@@ -99,6 +99,7 @@ abstract class AbstractTest {
         hikariConfig.setMinimumIdle(1);
         hikariConfig.setMaximumPoolSize(4);
         hikariConfig.setAutoCommit(false);
+        hikariConfig.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
 
         final HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
 
@@ -124,6 +125,7 @@ abstract class AbstractTest {
         // config.put(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:hsqldb:file:hsqldb/person;readonly=true;shutdown=true");
         // config.put(AvailableSettings.JAKARTA_JDBC_USER, "sa");
         // config.put(AvailableSettings.JAKARTA_JDBC_PASSWORD, "");
+        // config.put(AvailableSettings.POOL_SIZE, "3");
 
         // Schema
         // ****************************************************************************************

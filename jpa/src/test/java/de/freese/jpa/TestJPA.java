@@ -27,8 +27,31 @@ class TestJPA extends AbstractTest {
         final Map<String, Object> config = getHibernateConfig();
 
         // resources/META-INF/persistence.xml
-        entityManagerFactory = Persistence.createEntityManagerFactory("de.freese.test", config);
+        entityManagerFactory = Persistence.createEntityManagerFactory("my.emf", config);
     }
+
+    // private static EntityManagerFactory createEntityManagerFactory(final DataSource dataSource) {
+    //     // Properties: org.hibernate.cfg.AvailableSettings
+    //     // Properties config = new Properties();
+    //     //
+    //     // return new Configuration()
+    //     //         .addProperties(config)
+    //     //         .addAnnotatedClass(Employee.class)
+    //     //         .buildSessionFactory();
+    //
+    //     if (dataSource == null) {
+    //         return Persistence.createEntityManagerFactory("my.emf", Map.of(
+    //                 "jakarta.persistence.jdbc.driver", "org.hsqldb.jdbc.JDBCDriver",
+    //                 "jakarta.persistence.jdbc.url", "jdbc:hsqldb:mem:demo;shutdown=true",
+    //                 "jakarta.persistence.jdbc.user", "sa",
+    //                 "jakarta.persistence.jdbc.password", "",
+    //                 "hibernate.connection.pool_size", "3"
+    //         ));
+    //     }
+    //
+    //     // Make jakarta.persistence.jdbc.url obsolete (overwrites).
+    //     return Persistence.createEntityManagerFactory("my.emf", Map.of("jakarta.persistence.jtaDataSource", dataSource));
+    // }
 
     @Override
     protected EntityManagerFactory getEntityManagerFactory() {
