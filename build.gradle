@@ -39,17 +39,12 @@ subprojects {
         }
     }
 
-    afterEvaluate { project ->
-        if (project.plugins.hasPlugin("java")
-                || project.plugins.hasPlugin("java-library")
-                || project.plugins.hasPlugin("application")
-                || project.plugins.hasPlugin("war")) {
-            dependencies {
-                //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+    pluginManager.withPlugin("java") {
+        dependencies {
+            //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
 
-                testImplementation("org.junit.jupiter:junit-jupiter")
-                testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-            }
+            testImplementation("org.junit.jupiter:junit-jupiter")
+            testRuntimeOnly("org.junit.platform:junit-platform-launcher")
         }
     }
 }
