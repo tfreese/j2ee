@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface CloudSession {
     String getSessionValue(String sessionID, String name);
 
-    default Long getSessionValueAsLong(String sessionID, String name) {
+    default Long getSessionValueAsLong(final String sessionID, final String name) {
         final String value = getSessionValue(sessionID, name);
 
         return Optional.ofNullable(value).map(Long::valueOf).orElse(null);

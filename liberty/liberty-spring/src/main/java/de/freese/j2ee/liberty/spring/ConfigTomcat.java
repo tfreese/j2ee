@@ -1,7 +1,6 @@
 // Created: 21.06.2018
 package de.freese.j2ee.liberty.spring;
 
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import jakarta.annotation.Resource;
@@ -22,7 +21,7 @@ public class ConfigTomcat {
     private Environment env;
 
     @Bean
-    public DataSource dataSource() throws NamingException {
+    public DataSource dataSource() {
         final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
         pool.setMaxConnections(3);
 

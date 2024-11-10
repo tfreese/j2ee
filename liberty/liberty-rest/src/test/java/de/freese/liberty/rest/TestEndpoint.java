@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
  */
 class TestEndpoint {
     /**
-     * http://localhost:9080/liberty-rest/my-liberty/service/properties
+     * <a href="http://localhost:9080/liberty-rest/my-liberty/service/properties">localhost</a>
      */
     @Test
     void testGetProperties() throws Exception {
         final String port = System.getProperty("http.port");
         final String context = System.getProperty("context.root");
-        final URI uri = URI.create("http://localhost:%s/liberty-rest/my-liberty/service/properties".formatted(port, context));
+        final URI uri = URI.create("http://localhost:%s/%s/my-liberty/service/properties".formatted(port, context));
 
         try (HttpClient httpClient = HttpClient.newBuilder().build()) {
             final HttpRequest httpRequest = HttpRequest.newBuilder()

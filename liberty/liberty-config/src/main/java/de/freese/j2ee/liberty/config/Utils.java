@@ -29,7 +29,7 @@ public final class Utils {
     public static <T> T inject(final Class<T> type) {
         final Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> {
             final BeanManager bm = CDI.current().getBeanManager();
-            final Bean<T> b = (Bean) bm.getBeans(type).iterator().next();
+            final Bean<T> b = (Bean<T>) bm.getBeans(type).iterator().next();
 
             return bm.getReference(b, type, bm.createCreationalContext(b));
         });

@@ -28,7 +28,7 @@ public class RestService {
     private DataSource dataSource;
 
     /**
-     * http://localhost:PORT/liberty-spring/sysdate
+     * <a href="http://localhost:PORT/liberty-spring/sysdate">localhost</a>
      */
     @GetMapping("/sysdate")
     public String getSysdate() throws Exception {
@@ -45,7 +45,7 @@ public class RestService {
     }
 
     /**
-     * http://localhost:PORT/liberty-spring/ping
+     * <a href="http://localhost:PORT/liberty-spring/ping">localhost</a>
      */
     @GetMapping("/ping")
     public boolean ping() {

@@ -77,7 +77,7 @@ public class CloudSessionLocal implements CloudSession {
                 }
 
                 // Remove old Session-Entries.
-                for (Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
+                for (final Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
                     final Map<String, String> data = iterator.next();
 
                     if (data.get(CloudSessionCache.TIMEOUT) != null) {

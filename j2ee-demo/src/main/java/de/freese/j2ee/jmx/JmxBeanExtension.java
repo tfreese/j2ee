@@ -29,13 +29,12 @@ public class JmxBeanExtension {
     @JmxBean
     // @Any
     private Instance<Object> jmxBeans;
-    private MBeanServer mBeanServer;
 
     @PostConstruct
     public void exportsBean() throws Exception {
         LOGGER.info("JmxBeanExtension.exportsBean()");
 
-        this.mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
         if (this.jmxBeans == null) {
             return;
@@ -49,14 +48,14 @@ public class JmxBeanExtension {
             final String annotationValue = beanClass.getSimpleName();
             ObjectName objectName = null;
 
-            if ("".equals(annotationValue)) {
+            if (annotationValue.isEmpty()) {
                 objectName = new ObjectName(beanClass.getName());
             }
             else {
                 objectName = new ObjectName(annotationValue + ":type=" + beanClass.getName());
             }
 
-            this.mBeanServer.registerMBean(bean, objectName);
+            mBeanServer.registerMBean(bean, objectName);
             LOGGER.info("Registered {}", objectName);
         }
     }

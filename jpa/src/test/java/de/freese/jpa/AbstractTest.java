@@ -87,7 +87,7 @@ abstract class AbstractTest {
     //     return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
     // }
 
-    protected static Map<String, Object> getHibernateConfig() throws Throwable {
+    protected static Map<String, Object> getHibernateConfig() {
         final String id = UUID.randomUUID().toString();
 
         final HikariConfig hikariConfig = new HikariConfig();
