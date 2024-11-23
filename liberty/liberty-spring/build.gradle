@@ -114,7 +114,7 @@ ext.artifactId = project.name
 
 processResources {
     // filesMatching("**/*.properties")
-    filesMatching("application.properties") {
+    filesMatching(["application.properties", "application.yml"]) {
         filteringCharset = "UTF-8"
 
         // Bei Problemen müssen die Platzhalter escaped werden: \${...}
@@ -128,11 +128,5 @@ processResources {
         //filter{ it.replaceAll("@project.description@", project.description)}
         //filter{ it.replaceAll("@project.artifactId@", project.name)}
         //filter{ it.replaceAll("@project.version@", project.version)}
-    }
-
-    filesMatching("application.yml") {
-        filteringCharset = "UTF-8"
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-        expand(project.properties)
     }
 }
