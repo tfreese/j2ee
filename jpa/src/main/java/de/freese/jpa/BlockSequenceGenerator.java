@@ -19,15 +19,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Hibernate SequenceGenerator, der ganze Blöcke von Sequence IDs holt.<br>
- * Das hier ist natürlich Blödsinn ! <br>
- * Man braucht für Blockweises Laden eine entsprechende DB-Funktion !
+ * Das hier ist natürlich Blödsinn!<br>
+ * Man braucht für Blockweises Laden eine entsprechende DB-Funktion!
  *
  * @author Thomas Freese
- *
  * @see IncrementGenerator
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
+
     @Serial
     private static final long serialVersionUID = -8510962789727550315L;
 
@@ -49,37 +49,37 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
 
     // @Override
     // public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException {
-    //     this.sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
-    //     this.blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
+    //     sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
+    //     blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
     //
-    //     if (this.sequenceName == null || this.sequenceName.isBlank()) {
+    //     if (sequenceName == null || sequenceName.isBlank()) {
     //         throw new MappingException("sequenceName required");
     //     }
     //
-    //     if (this.blockSize < 1) {
+    //     if (blockSize < 1) {
     //         throw new MappingException("blockSize >= 1 required");
     //     }
     // }
 
     @Override
     public synchronized Object generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException {
-        LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", this.blockSize, this.sequenceName);
+        LOGGER.debug("Retrieve next {} IDs from Sequence '{}'", blockSize, sequenceName);
 
-        synchronized (this.idQueue) {
-            if (this.idQueue.isEmpty()) {
+        synchronized (idQueue) {
+            if (idQueue.isEmpty()) {
                 session.doWork(connection -> {
                     try (Statement statement = connection.createStatement()) {
-                        for (int i = 0; i < this.blockSize; i++) {
-                            try (ResultSet resultSet = statement.executeQuery("call next value for " + this.sequenceName)) {
+                        for (int i = 0; i < blockSize; i++) {
+                            try (ResultSet resultSet = statement.executeQuery("call next value for " + sequenceName)) {
                                 resultSet.next();
-                                this.idQueue.offer(resultSet.getLong(1));
+                                idQueue.offer(resultSet.getLong(1));
                             }
                         }
                     }
                 });
             }
 
-            return this.idQueue.poll();
+            return idQueue.poll();
         }
     }
 }
