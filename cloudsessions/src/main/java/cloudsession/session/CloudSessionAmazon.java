@@ -23,22 +23,22 @@ public class CloudSessionAmazon implements CloudSession {
     public CloudSessionAmazon() {
         super();
 
-        //        final AWSCredentials credentials;
+        // final AWSCredentials credentials;
         //
-        //        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties")) {
-        //            credentials = new PropertiesCredentials(inputStream);
-        //        }
-        //        catch (IOException ex) {
-        //            throw new AmazonServiceException(ex.getMessage());
-        //        }
+        // try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties")) {
+        //     credentials = new PropertiesCredentials(inputStream);
+        // }
+        // catch (IOException ex) {
+        //     throw new AmazonServiceException(ex.getMessage());
+        // }
         //
-        //        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
-        this.amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new ClasspathPropertiesFileCredentialsProvider()).build();
+        // amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+        amazonClient = AmazonSimpleDBClientBuilder.standard().withCredentials(new ClasspathPropertiesFileCredentialsProvider()).build();
     }
 
     @Override
     public String getSessionValue(final String sessionID, final String name) {
-        final GetAttributesResult gar = this.amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
+        final GetAttributesResult gar = amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
         for (Attribute attribute : gar.getAttributes()) {
             if (attribute.getName().equals(name)) {
@@ -53,7 +53,7 @@ public class CloudSessionAmazon implements CloudSession {
     public void remove(final String sessionID) {
         final DeletableItem deletableItem = new DeletableItem().withName(sessionID);
 
-        this.amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
+        amazonClient.batchDeleteAttributes(new BatchDeleteAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(deletableItem));
     }
 
     @Override
@@ -61,6 +61,6 @@ public class CloudSessionAmazon implements CloudSession {
         final ReplaceableAttribute replaceableAttribute = new ReplaceableAttribute().withName(name).withValue(value).withReplace(Boolean.TRUE);
         final ReplaceableItem replaceableItem = new ReplaceableItem().withName(sessionID).withAttributes(replaceableAttribute);
 
-        this.amazonClient.batchPutAttributes(new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(replaceableItem));
+        amazonClient.batchPutAttributes(new BatchPutAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItems(replaceableItem));
     }
 }

@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cloudsession.utils.ObjectSerializer;
@@ -69,23 +69,15 @@ public class CloudSessionLocal implements CloudSession {
                     final TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<>() {
                     };
 
-                    final Map<String, Map<String, String>> mapJson = ObjectSerializer.fromJson(inputStream, typeRef);
+                    final Map<String, Map<String, String>> mapJson = Optional.ofNullable(ObjectSerializer.fromJson(inputStream, typeRef)).orElse(Map.of());
 
-                    if (mapJson != null) {
-                        mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
-                    }
+                    mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
                 }
 
                 // Remove old Session-Entries.
-                for (final Iterator<Map<String, String>> iterator = map.values().iterator(); iterator.hasNext(); ) {
-                    final Map<String, String> data = iterator.next();
-
-                    if (data.get(CloudSessionCache.TIMEOUT) != null) {
-                        if (System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT))) {
-                            iterator.remove();
-                        }
-                    }
-                }
+                map.values().removeIf(data ->
+                        data.get(CloudSessionCache.TIMEOUT) != null && System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT))
+                );
             }
             catch (IOException ex) {
                 throw new UncheckedIOException(ex);

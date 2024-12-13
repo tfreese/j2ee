@@ -84,6 +84,7 @@ public final class GenericCachingProvider implements CachingProvider {
     }
 
     @Override
+    @SuppressWarnings("java:S2095")
     public CacheManager getCacheManager(final URI uri, final ClassLoader classLoader, final Properties properties) {
         final URI managerURI = getManagerUri(uri);
         final ClassLoader managerClassLoader = getManagerClassLoader(classLoader);

@@ -19,12 +19,14 @@ import org.springframework.jndi.JndiTemplate;
 @Profile("liberty")
 public class ConfigLiberty {
     @Resource
-    private Environment env;
+    private Environment environment;
 
     @Bean
     public DataSource dataSource() throws NamingException {
+        final String jndiName = environment.getProperty("datasource.jndi.name", "");
+
         // JndiObjectFactoryBean
         // JndiDataSourceLookup
-        return (DataSource) new JndiTemplate().lookup(this.env.getProperty("datasource.jndi.name"));
+        return (DataSource) new JndiTemplate().lookup(jndiName);
     }
 }

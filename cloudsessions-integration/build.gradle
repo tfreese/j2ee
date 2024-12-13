@@ -24,19 +24,32 @@ jar {
     enabled = false
 }
 
-tasks.register("syncLibs", Sync) {
-    group = "My Tasks"
+test {
+    enabled = false
+}
+
+tasks.register("copyLibs", Copy) {
+    group = "MyTasks"
+
+    dependsOn(":cloudsessions:build")
+
+    delete(layout.buildDirectory)
+    into(layout.buildDirectory)
 
 //    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    from(configurations.cloudsessionsLibs) {
-        exclude("cloudsessions*.jar")
+    into("libs") {
+        from(configurations.cloudsessionsLibs) {
+            exclude("cloudsessions*.jar")
 
-        // Required, if "providedCompile" is used and not "compileOnly" in the war-Projekt.
-        // exclude(group: "PROVIDED-DEPENDENCY")
+            // Required, if "providedCompile" is used and not "compileOnly" in the war-Projekt.
+            // exclude(group: "PROVIDED-DEPENDENCY")
+        }
     }
-    from(configurations.cloudsessionsWar)
-    rename("cloudsessions-" + project(":cloudsessions").version + ".war", "cloudsessions.war")
-    into(layout.buildDirectory.dir("libs"))
+
+    into("war") {
+        from(configurations.cloudsessionsWar)
+        rename("cloudsessions-" + project(":cloudsessions").version + ".war", "cloudsessions.war")
+    }
 }
-build.finalizedBy("syncLibs")
+build.finalizedBy("copyLibs")

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 @Startup
 @Singleton
+@SuppressWarnings("java:S6813")
 public class JmxBeanExtension {
     private static final Logger LOGGER = LoggerFactory.getLogger(JmxBeanExtension.class);
 

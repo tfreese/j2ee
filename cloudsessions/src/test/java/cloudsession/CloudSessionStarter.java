@@ -17,7 +17,7 @@ public class CloudSessionStarter {
     }
 
     //    /**
-    //     * Ohne @ServletComponentScan, mit WebServlet-Annotation.
+    //     * Without @ServletComponentScan, with WebServlet-Annotation.
     //     */
     //    @Bean
     //    public Servlet session() {
@@ -25,11 +25,10 @@ public class CloudSessionStarter {
     //    }
     //
     //    /**
-    //     * Ohne @ServletComponentScan, ohne WebServlet-Annotation.
+    //     * Without @ServletComponentScan, without WebServlet-Annotation.
     //     */
     //    @Bean
-    //    public ServletRegistrationBean<HttpServlet> nonStickySessionServlet()
-    //    {
+    //    public ServletRegistrationBean<HttpServlet> nonStickySessionServlet() {
     //        ServletRegistrationBean<HttpServlet> servRegBean = new ServletRegistrationBean<>();
     //        servRegBean.setServlet(new NonStickySessionServlet());
     //        servRegBean.addUrlMappings("/session");
@@ -39,11 +38,10 @@ public class CloudSessionStarter {
     //    }
     //
     //    /**
-    //     * Ohne @ServletComponentScan, ohne WebServlet-Annotation mit programmatischer Configuration.
+    //     * Without @ServletComponentScan, without WebServlet-Annotation with programmatic Configuration.
     //     */
     //    @Configuration
     //    public class ConfigureWeb implements ServletContextInitializer {
-    //
     //        @Override
     //        public void onStartup(final ServletContext servletContext) throws ServletException {
     //            registerServlet(servletContext);
