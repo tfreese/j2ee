@@ -39,7 +39,6 @@ import de.freese.j2ee.persistence.MyEntityManager;
 @Stateless
 // (name="Example", mappedName="ejb/SimpleBeanJNDI")
 @Path("/kunde")
-@SuppressWarnings("java:S6813")
 public class RestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
 

@@ -22,7 +22,6 @@ import de.freese.j2ee.persistence.MyEntityManager;
 @Stateless
 // (name="Example", mappedName="ejb/SimpleBeanJNDI")
 @Remote(de.freese.j2ee.rest.KundenService.class)
-@SuppressWarnings("java:S6813")
 public class DefaultKundenService implements KundenService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultKundenService.class);
 
