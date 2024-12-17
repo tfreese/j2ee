@@ -21,7 +21,7 @@ import de.freese.jcache.configuration.GenericConfiguration;
 public final class CacheFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(CacheFactory.class);
 
-    public static BiFunction<CacheManager, String, Cache<?, ?>> from(final GenericConfiguration configuration) {
+    public static BiFunction<CacheManager, String, Cache<Object, Object>> from(final GenericConfiguration configuration) {
         if ("de.freese.jcache.MapCache".equals(configuration.getCacheImplementation())) {
             return fromMap(configuration);
         }
@@ -32,7 +32,7 @@ public final class CacheFactory {
         throw new UnsupportedOperationException("unknown cache implementation: " + configuration.getCacheImplementation());
     }
 
-    private static BiFunction<CacheManager, String, Cache<?, ?>> fromCaffeine(final GenericConfiguration configuration) {
+    private static BiFunction<CacheManager, String, Cache<Object, Object>> fromCaffeine(final GenericConfiguration configuration) {
         final Map<String, String> backends = configuration.getCacheBackends();
 
         return (cacheManager, name) -> {
@@ -50,7 +50,7 @@ public final class CacheFactory {
         };
     }
 
-    private static BiFunction<CacheManager, String, Cache<?, ?>> fromMap(final GenericConfiguration configuration) {
+    private static BiFunction<CacheManager, String, Cache<Object, Object>> fromMap(final GenericConfiguration configuration) {
         final Map<String, String> backends = configuration.getCacheBackends();
 
         return (cacheManager, name) -> {
@@ -64,9 +64,9 @@ public final class CacheFactory {
                 final MethodHandles.Lookup lookup = MethodHandles.publicLookup();
                 final Class<?> mapClazz = lookup.findClass(backend);
                 final Constructor<?> mapConstructor = mapClazz.getConstructor();
-                final Map<?, ?> map = (Map<?, ?>) mapConstructor.newInstance();
+                final Map<Object, Object> map = (Map) mapConstructor.newInstance();
 
-                return new MapCache<>(cacheManager, name, map);
+                return new MapCache(cacheManager, name, map);
             }
             catch (RuntimeException ex) {
                 throw ex;

@@ -13,10 +13,10 @@ import de.freese.jcache.spi.AbstractCache;
 /**
  * @author Thomas Freese
  */
-public final class MapCache<K, V> extends AbstractCache<K, V> {
-    private final Map<K, V> cache;
+public final class MapCache extends AbstractCache<Object, Object> {
+    private final Map<Object, Object> cache;
 
-    public MapCache(final CacheManager cacheManager, final String name, final Map<K, V> cache) {
+    public MapCache(final CacheManager cacheManager, final String name, final Map<Object, Object> cache) {
         super(cacheManager, name);
 
         this.cache = Objects.requireNonNull(cache, "cache required");
@@ -39,26 +39,26 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    public boolean containsKey(final K key) {
+    public boolean containsKey(final Object key) {
         return cache.containsKey(key);
     }
 
     @Override
-    public V get(final K key) {
+    public Object get(final Object key) {
         return cache.get(key);
     }
 
     @Override
-    public V getAndRemove(final K key) {
+    public Object getAndRemove(final Object key) {
         return cache.remove(key);
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
+    public Iterator<Entry<Object, Object>> iterator() {
         requiredNotClosed();
 
         return new Iterator<>() {
-            private final Iterator<Map.Entry<K, V>> iterator = cache.entrySet().iterator();
+            private final Iterator<Map.Entry<Object, Object>> iterator = cache.entrySet().iterator();
 
             @Override
             public boolean hasNext() {
@@ -66,28 +66,28 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
             }
 
             @Override
-            public Entry<K, V> next() {
+            public Entry<Object, Object> next() {
                 return CacheEntry.of(iterator.next());
             }
         };
     }
 
     @Override
-    public void put(final K key, final V value) {
+    public void put(final Object key, final Object value) {
         requiredNotClosed();
 
         cache.put(key, value);
     }
 
     @Override
-    public void putAll(final Map<? extends K, ? extends V> map) {
+    public void putAll(final Map<? extends Object, ? extends Object> map) {
         requiredNotClosed();
 
         cache.putAll(map);
     }
 
     @Override
-    public boolean remove(final K key) {
+    public boolean remove(final Object key) {
         final boolean contains = containsKey(key);
 
         cache.remove(key);
@@ -96,7 +96,7 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    public boolean remove(final K key, final V oldValue) {
+    public boolean remove(final Object key, final Object oldValue) {
         if (containsKey(key) && Objects.equals(get(key), oldValue)) {
             cache.remove(key);
 
@@ -108,7 +108,7 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
     }
 
     @Override
-    public void removeAll(final Set<? extends K> keys) {
+    public void removeAll(final Set<? extends Object> keys) {
         keys.forEach(cache::remove);
     }
 

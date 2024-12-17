@@ -169,7 +169,7 @@ abstract class AbstractTest {
         // config.put(ConfigSettings.PROVIDER, "de.freese.jcache.spi.GenericCachingProvider");
         // config.put(ConfigSettings.CONFIG_URI, "caffeineCacheConfig.properties");
 
-        final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory = (cacheManager, cacheName) -> {
+        final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory = (cacheManager, cacheName) -> {
             final Caffeine<Object, Object> caffeine;
 
             if ((config.get(AvailableSettings.CACHE_REGION_PREFIX) + ".person").equals(cacheName)) {

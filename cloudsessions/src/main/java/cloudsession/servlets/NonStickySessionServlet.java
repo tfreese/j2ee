@@ -132,7 +132,7 @@ public class NonStickySessionServlet extends HttpServlet {
             html.append("<tr><td>cookieSessionID</td><td>").append(cookie).append("</td></tr>").append(System.lineSeparator());
             html.append("<tr><td>sessionID</td><td>").append(session.getId()).append("</td></tr>").append(System.lineSeparator());
 
-            // TODO SessionSwitch ss = new SessionSwitch(session);
+            // SessionSwitch ss = new SessionSwitch(session);
             final Long lat = cloudSession.getSessionValueAsLong(sessionID, LAST_ACCESS_TIME);
 
             if (lat != null) {
@@ -153,14 +153,13 @@ public class NonStickySessionServlet extends HttpServlet {
             html.append("<tr><td>current Time</td><td>").append(LocalDateTime.now()).append("</td></tr>").append(System.lineSeparator());
 
             if (!session.getId().equals(sessionID)) {
-                // check if cookie session has no timeout
-                // TODO
-                // if no timeout set new cookieSessionID and delete old cookieSessionID
+                // Check if cookie session has no timeout.
+                // If no timeout set new cookieSessionID and delete old cookieSessionID.
                 final Long val = cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
 
                 if (val != null) {
                     cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
-                    // TODO cs.remove(cookieSessionID);
+                    // TODO cloudSession.remove(cookieSessionID);
                 }
             }
 

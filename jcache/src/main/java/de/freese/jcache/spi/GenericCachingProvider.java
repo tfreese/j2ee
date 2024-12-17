@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.WeakHashMap;
 import java.util.function.BiFunction;
@@ -76,6 +77,7 @@ public final class GenericCachingProvider implements CachingProvider {
                 if (cacheManager != null) {
                     cacheManager.close();
                 }
+
                 if (cacheManagersByURI.isEmpty()) {
                     cacheManagers.remove(managerClassLoader);
                 }
@@ -84,8 +86,9 @@ public final class GenericCachingProvider implements CachingProvider {
     }
 
     @Override
-    @SuppressWarnings("java:S2095")
     public CacheManager getCacheManager(final URI uri, final ClassLoader classLoader, final Properties properties) {
+        Objects.requireNonNull(classLoader, "classLoader required");
+
         final URI managerURI = getManagerUri(uri);
         final ClassLoader managerClassLoader = getManagerClassLoader(classLoader);
 
@@ -98,6 +101,8 @@ public final class GenericCachingProvider implements CachingProvider {
         try {
             if (managerURI.equals(getDefaultURI())) {
                 final URL defaultUrl = classLoader.getResource("defaultCacheConfig.properties");
+                Objects.requireNonNull(defaultUrl, "defaultUrl required");
+
                 configuration = GenericConfiguration.from(defaultUrl.toURI());
             }
             else {
@@ -108,7 +113,7 @@ public final class GenericCachingProvider implements CachingProvider {
                     .setProperties(properties)
                     .setCachingProvider(this);
 
-            final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory = CacheFactory.from(configuration);
+            final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory = CacheFactory.from(configuration);
 
             final CacheManager cacheManager = new GenericCacheManager(cacheFactory, configuration);
 

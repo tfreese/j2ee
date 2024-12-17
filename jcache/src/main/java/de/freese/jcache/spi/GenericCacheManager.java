@@ -28,13 +28,13 @@ import de.freese.jcache.configuration.GenericConfiguration;
 public final class GenericCacheManager implements CacheManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericCacheManager.class);
 
-    private final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory;
-    private final Map<String, Cache<?, ?>> cacheMap = new ConcurrentHashMap<>(16);
+    private final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory;
+    private final Map<String, Cache<Object, Object>> cacheMap = new ConcurrentHashMap<>(16);
     private final GenericConfiguration configuration;
 
     private boolean closed;
 
-    public GenericCacheManager(final BiFunction<CacheManager, String, Cache<?, ?>> cacheFactory, final GenericConfiguration configuration) {
+    public GenericCacheManager(final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory, final GenericConfiguration configuration) {
         super();
 
         this.cacheFactory = Objects.requireNonNull(cacheFactory, "cacheFactory required");
