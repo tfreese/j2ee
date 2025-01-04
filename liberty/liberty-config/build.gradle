@@ -51,7 +51,7 @@ clean.dependsOn("libertyStop")
 
 tasks.register("deployApp") {
     group = "MyTasks"
-    description "Deploy Application"
+    description = "Deploy Application"
 
     dependsOn("build")
     dependsOn("libertyCreate")

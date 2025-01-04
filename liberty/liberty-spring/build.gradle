@@ -113,17 +113,24 @@ liberty {
 ext.artifactId = project.name
 
 processResources {
+    // def map = [
+    //         "project_description": project.description,
+    //         "project_artifactId" : project.name,
+    //         "project_version"    : project.version
+    // ]
+
     // filesMatching("**/*.properties")
     filesMatching(["application.properties", "application.yml"]) {
         filteringCharset = "UTF-8"
 
         // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-        expand(project.properties)
+        // expand(project.properties)
+        // expand(map)
 
-        //expand ("@project.description@": project.description,
-        //		"@project.artifactId@": project.name,
-        //		"@project.version@": project.version
-        //)
+        expand("project_description": project.description,
+                "project_artifactId": project.name,
+                "project_version": project.version
+        )
 
         //filter{ it.replaceAll("@project.description@", project.description)}
         //filter{ it.replaceAll("@project.artifactId@", project.name)}
