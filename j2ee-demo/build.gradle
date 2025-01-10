@@ -5,14 +5,29 @@ plugins {
 description = "Projekt for J2EE Examples"
 
 dependencies {
-    implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    implementation("jakarta.platform:jakarta.jakartaee-api")
+    // implementation("jakarta.xml.bind:jakarta.xml.bind-api")
+    // implementation("jakarta.ws.rs:jakarta.ws.rs-api")
+
+    implementation("org.glassfish.jersey.core:jersey-client") {
+        // exclude group: "jakarta.*"
+        exclude group: "jakarta.annotation"
+        exclude group: "jakarta.inject"
+        exclude group: "jakarta.ws.rs"
+    }
+    implementation("org.slf4j:jul-to-slf4j")
     implementation("org.slf4j:slf4j-api")
 
-    runtimeOnly("org.slf4j:slf4j-simple")
     runtimeOnly("org.hibernate.orm:hibernate-core")
+    runtimeOnly("org.glassfish.jersey.connectors:jersey-jnh-connector") {
+        // exclude group: "jakarta.*"
+        exclude group: "jakarta.inject"
+        exclude group: "jakarta.ws.rs"
+    }
+    runtimeOnly("org.slf4j:slf4j-simple")
 
     // providedCompile
-    compileOnly("jakarta.platform:jakarta.jakartaee-api")
+    // compileOnly("jakarta.platform:jakarta.jakartaee-api")
 }
 
 war {
