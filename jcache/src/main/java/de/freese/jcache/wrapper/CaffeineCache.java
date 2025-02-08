@@ -1,5 +1,5 @@
 // Created: 06 Juli 2024
-package de.freese.jcache;
+package de.freese.jcache.wrapper;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -8,15 +8,17 @@ import java.util.Set;
 
 import javax.cache.CacheManager;
 
-import de.freese.jcache.spi.AbstractCache;
+import com.github.benmanes.caffeine.cache.Cache;
+
+import de.freese.jcache.CacheEntry;
 
 /**
  * @author Thomas Freese
  */
-public final class MapCache extends AbstractCache<Object, Object> {
-    private final Map<Object, Object> cache;
+final class CaffeineCache<K, V> extends AbstractCache<K, V> {
+    private final Cache<K, V> cache;
 
-    public MapCache(final CacheManager cacheManager, final String name, final Map<Object, Object> cache) {
+    public CaffeineCache(final CacheManager cacheManager, final String name, final Cache<K, V> cache) {
         super(cacheManager, name);
 
         this.cache = Objects.requireNonNull(cache, "cache required");
@@ -26,7 +28,7 @@ public final class MapCache extends AbstractCache<Object, Object> {
     public void clear() {
         getLogger().debug("clear");
 
-        cache.clear();
+        cache.invalidateAll();
     }
 
     @Override
@@ -35,30 +37,39 @@ public final class MapCache extends AbstractCache<Object, Object> {
 
         getLogger().debug("close");
 
-        cache.clear();
+        cache.invalidateAll();
+        cache.cleanUp();
     }
 
     @Override
-    public boolean containsKey(final Object key) {
-        return cache.containsKey(key);
+    public boolean containsKey(final K key) {
+        return cache.getIfPresent(key) != null;
     }
 
     @Override
-    public Object get(final Object key) {
-        return cache.get(key);
+    public V get(final K key) {
+        return cache.getIfPresent(key);
     }
 
     @Override
-    public Object getAndRemove(final Object key) {
-        return cache.remove(key);
+    public V getAndRemove(final K key) {
+        if (containsKey(key)) {
+            final V oldValue = get(key);
+            cache.invalidate(key);
+
+            return oldValue;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public Iterator<Entry<Object, Object>> iterator() {
+    public Iterator<Entry<K, V>> iterator() {
         checkNotClosed();
 
         return new Iterator<>() {
-            private final Iterator<Map.Entry<Object, Object>> iterator = Set.copyOf(cache.entrySet()).iterator();
+            private final Iterator<Map.Entry<K, V>> iterator = Set.copyOf(cache.asMap().entrySet()).iterator();
 
             @Override
             public boolean hasNext() {
@@ -66,39 +77,39 @@ public final class MapCache extends AbstractCache<Object, Object> {
             }
 
             @Override
-            public Entry<Object, Object> next() {
+            public Entry<K, V> next() {
                 return CacheEntry.of(iterator.next());
             }
         };
     }
 
     @Override
-    public void put(final Object key, final Object value) {
+    public void put(final K key, final V value) {
         checkNotClosed();
 
         cache.put(key, value);
     }
 
     @Override
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         checkNotClosed();
 
         cache.putAll(map);
     }
 
     @Override
-    public boolean remove(final Object key) {
+    public boolean remove(final K key) {
         final boolean contains = containsKey(key);
 
-        cache.remove(key);
+        cache.invalidate(key);
 
         return contains;
     }
 
     @Override
-    public boolean remove(final Object key, final Object oldValue) {
+    public boolean remove(final K key, final V oldValue) {
         if (containsKey(key) && Objects.equals(get(key), oldValue)) {
-            cache.remove(key);
+            cache.invalidate(key);
 
             return true;
         }
@@ -108,13 +119,13 @@ public final class MapCache extends AbstractCache<Object, Object> {
     }
 
     @Override
-    public void removeAll(final Set<? extends Object> keys) {
-        keys.forEach(cache::remove);
+    public void removeAll(final Set<? extends K> keys) {
+        cache.invalidateAll(keys);
     }
 
     @Override
     public void removeAll() {
-        cache.clear();
+        cache.invalidateAll();
     }
 
     @Override

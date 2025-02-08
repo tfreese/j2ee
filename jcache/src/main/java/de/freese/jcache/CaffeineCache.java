@@ -66,10 +66,10 @@ public final class CaffeineCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
-        requiredNotClosed();
+        checkNotClosed();
 
         return new Iterator<>() {
-            private final Iterator<Map.Entry<K, V>> iterator = cache.asMap().entrySet().iterator();
+            private final Iterator<Map.Entry<K, V>> iterator = Set.copyOf(cache.asMap().entrySet()).iterator();
 
             @Override
             public boolean hasNext() {
@@ -85,14 +85,14 @@ public final class CaffeineCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public void put(final K key, final V value) {
-        requiredNotClosed();
+        checkNotClosed();
 
         cache.put(key, value);
     }
 
     @Override
     public void putAll(final Map<? extends K, ? extends V> map) {
-        requiredNotClosed();
+        checkNotClosed();
 
         cache.putAll(map);
     }

@@ -1,5 +1,5 @@
 // Created: 06 Juli 2024
-package de.freese.jcache;
+package de.freese.jcache.wrapper;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Set;
 
 import javax.cache.CacheManager;
 
-import de.freese.jcache.spi.AbstractCache;
+import de.freese.jcache.CacheEntry;
 
 /**
  * @author Thomas Freese
