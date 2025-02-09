@@ -37,7 +37,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public void deregisterCacheEntryListener(final CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
-        throw new UnsupportedOperationException("not implemented");
+        // Empty
     }
 
     @Override
@@ -87,7 +87,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public <C extends Configuration<K, V>> C getConfiguration(final Class<C> clazz) {
-        throw new UnsupportedOperationException("not implemented");
+        return null;
     }
 
     public Logger getLogger() {
@@ -101,12 +101,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public <T> T invoke(final K key, final EntryProcessor<K, V, T> entryProcessor, final Object... arguments) throws EntryProcessorException {
-        throw new UnsupportedOperationException("not implemented");
+        return null;
     }
 
     @Override
     public <T> Map<K, EntryProcessorResult<T>> invokeAll(final Set<? extends K> keys, final EntryProcessor<K, V, T> entryProcessor, final Object... arguments) {
-        throw new UnsupportedOperationException("not implemented");
+        return Map.of();
     }
 
     @Override
@@ -116,7 +116,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public void loadAll(final Set<? extends K> keys, final boolean replaceExistingValues, final CompletionListener completionListener) {
-        throw new UnsupportedOperationException("not implemented");
+        // Empty
     }
 
     @Override
@@ -135,7 +135,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public void registerCacheEntryListener(final CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
-        throw new UnsupportedOperationException("not implemented");
+        // Empty
     }
 
     @Override

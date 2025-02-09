@@ -17,28 +17,23 @@ import javax.cache.spi.CachingProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jcache.configuration.GenericConfiguration;
-
 /**
- * Generic CacheManager with CacheFactory.<br>
- * Inspired by CacheManagerImpl (com.github.ben-manes.caffeine:jcache).<br>
- *
  * @author Thomas Freese
  */
-public final class GenericCacheManager implements CacheManager {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericCacheManager.class);
+public final class DefaultCacheManager implements CacheManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCacheManager.class);
 
     private final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory;
     private final Map<String, Cache<Object, Object>> cacheMap = new ConcurrentHashMap<>(16);
-    private final GenericConfiguration configuration;
+    private final CachingProvider cachingProvider;
 
     private boolean closed;
 
-    public GenericCacheManager(final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory, final GenericConfiguration configuration) {
+    public DefaultCacheManager(final CachingProvider cachingProvider, final BiFunction<CacheManager, String, Cache<Object, Object>> cacheFactory) {
         super();
 
+        this.cachingProvider = Objects.requireNonNull(cachingProvider, "cachingProvider required");
         this.cacheFactory = Objects.requireNonNull(cacheFactory, "cacheFactory required");
-        this.configuration = Objects.requireNonNull(configuration, "configuration required");
     }
 
     @Override
@@ -52,18 +47,9 @@ public final class GenericCacheManager implements CacheManager {
         cacheMap.clear();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <K, V, C extends Configuration<K, V>> Cache<K, V> createCache(final String cacheName, final C configuration) throws IllegalArgumentException {
-        if (isClosed()) {
-            throw new IllegalStateException("CacheManager is closed");
-        }
-
-        return (Cache<K, V>) cacheMap.computeIfAbsent(cacheName, key -> {
-            LOGGER.info("create missing cache: {}", cacheName);
-
-            return cacheFactory.apply(this, key);
-        });
+        return getCache(cacheName);
     }
 
     @Override
@@ -80,31 +66,31 @@ public final class GenericCacheManager implements CacheManager {
 
     @Override
     public void enableManagement(final String cacheName, final boolean enabled) {
-        throw new IllegalStateException("not implemented");
+        // Empty
     }
 
     @Override
     public void enableStatistics(final String cacheName, final boolean enabled) {
-        throw new IllegalStateException("not implemented");
+        // Empty
+    }
+
+    @Override
+    public <K, V> Cache<K, V> getCache(final String cacheName, final Class<K> keyType, final Class<V> valueType) {
+        return getCache(cacheName);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <K, V> Cache<K, V> getCache(final String cacheName, final Class<K> keyType, final Class<V> valueType) {
+    public <K, V> Cache<K, V> getCache(final String cacheName) {
         if (isClosed()) {
             throw new IllegalStateException("CacheManager is closed");
         }
 
-        if (configuration.isCreateCachesLazy()) {
-            return createCache(cacheName, null);
-        }
+        return (Cache<K, V>) cacheMap.computeIfAbsent(cacheName, key -> {
+            LOGGER.info("create cache: {}", cacheName);
 
-        return (Cache<K, V>) cacheMap.get(cacheName);
-    }
-
-    @Override
-    public <K, V> Cache<K, V> getCache(final String cacheName) {
-        return getCache(cacheName, null, null);
+            return cacheFactory.apply(this, key);
+        });
     }
 
     @Override
@@ -114,25 +100,21 @@ public final class GenericCacheManager implements CacheManager {
 
     @Override
     public CachingProvider getCachingProvider() {
-        return configuration.getCachingProvider();
+        return cachingProvider;
     }
 
     @Override
     public ClassLoader getClassLoader() {
-        return configuration.getClassLoader();
+        return Thread.currentThread().getContextClassLoader();
     }
 
     @Override
     public Properties getProperties() {
-        return configuration.getProperties();
+        return new Properties();
     }
 
     @Override
     public URI getURI() {
-        if (configuration != null) {
-            return configuration.getUri();
-        }
-
         return URI.create(getClass().getSimpleName());
     }
 

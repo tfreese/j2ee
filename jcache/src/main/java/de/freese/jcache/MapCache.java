@@ -13,10 +13,10 @@ import de.freese.jcache.spi.AbstractCache;
 /**
  * @author Thomas Freese
  */
-public final class MapCache extends AbstractCache<Object, Object> {
-    private final Map<Object, Object> cache;
+public final class MapCache<K, V> extends AbstractCache<K, V> {
+    private final Map<K, V> cache;
 
-    public MapCache(final CacheManager cacheManager, final String name, final Map<Object, Object> cache) {
+    public MapCache(final CacheManager cacheManager, final String name, final Map<K, V> cache) {
         super(cacheManager, name);
 
         this.cache = Objects.requireNonNull(cache, "cache required");
@@ -24,7 +24,7 @@ public final class MapCache extends AbstractCache<Object, Object> {
 
     @Override
     public void clear() {
-        getLogger().debug("clear");
+        getLogger().debug("clear: {}", getName());
 
         cache.clear();
     }
@@ -33,32 +33,32 @@ public final class MapCache extends AbstractCache<Object, Object> {
     public void close() {
         setClosed();
 
-        getLogger().debug("close");
+        getLogger().debug("close: {}", getName());
 
         cache.clear();
     }
 
     @Override
-    public boolean containsKey(final Object key) {
+    public boolean containsKey(final K key) {
         return cache.containsKey(key);
     }
 
     @Override
-    public Object get(final Object key) {
+    public V get(final K key) {
         return cache.get(key);
     }
 
     @Override
-    public Object getAndRemove(final Object key) {
+    public V getAndRemove(final K key) {
         return cache.remove(key);
     }
 
     @Override
-    public Iterator<Entry<Object, Object>> iterator() {
+    public Iterator<Entry<K, V>> iterator() {
         checkNotClosed();
 
         return new Iterator<>() {
-            private final Iterator<Map.Entry<Object, Object>> iterator = Set.copyOf(cache.entrySet()).iterator();
+            private final Iterator<Map.Entry<K, V>> iterator = Set.copyOf(cache.entrySet()).iterator();
 
             @Override
             public boolean hasNext() {
@@ -66,28 +66,28 @@ public final class MapCache extends AbstractCache<Object, Object> {
             }
 
             @Override
-            public Entry<Object, Object> next() {
+            public Entry<K, V> next() {
                 return CacheEntry.of(iterator.next());
             }
         };
     }
 
     @Override
-    public void put(final Object key, final Object value) {
+    public void put(final K key, final V value) {
         checkNotClosed();
 
         cache.put(key, value);
     }
 
     @Override
-    public void putAll(final Map<? extends Object, ? extends Object> map) {
+    public void putAll(final Map<? extends K, ? extends V> map) {
         checkNotClosed();
 
         cache.putAll(map);
     }
 
     @Override
-    public boolean remove(final Object key) {
+    public boolean remove(final K key) {
         final boolean contains = containsKey(key);
 
         cache.remove(key);
@@ -96,7 +96,7 @@ public final class MapCache extends AbstractCache<Object, Object> {
     }
 
     @Override
-    public boolean remove(final Object key, final Object oldValue) {
+    public boolean remove(final K key, final V oldValue) {
         if (containsKey(key) && Objects.equals(get(key), oldValue)) {
             cache.remove(key);
 
@@ -108,7 +108,7 @@ public final class MapCache extends AbstractCache<Object, Object> {
     }
 
     @Override
-    public void removeAll(final Set<? extends Object> keys) {
+    public void removeAll(final Set<? extends K> keys) {
         keys.forEach(cache::remove);
     }
 

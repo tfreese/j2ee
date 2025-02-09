@@ -26,7 +26,7 @@ public final class CaffeineCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public void clear() {
-        getLogger().debug("clear");
+        getLogger().debug("clear: {}", getName());
 
         cache.invalidateAll();
     }
@@ -35,7 +35,7 @@ public final class CaffeineCache<K, V> extends AbstractCache<K, V> {
     public void close() {
         setClosed();
 
-        getLogger().debug("close");
+        getLogger().debug("close: {}", getName());
 
         cache.invalidateAll();
         cache.cleanUp();
