@@ -21,14 +21,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractCache<K, V> implements Cache<K, V> {
+public abstract class AbstractJCache<K, V> implements Cache<K, V> {
     private final CacheManager cacheManager;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String name;
 
     private boolean closed;
 
-    protected AbstractCache(final CacheManager cacheManager, final String name) {
+    protected AbstractJCache(final CacheManager cacheManager, final String name) {
         super();
 
         this.cacheManager = Objects.requireNonNull(cacheManager, "cacheManager required");
@@ -42,6 +42,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public Map<K, V> getAll(final Set<? extends K> keys) {
+        validateNotClosed();
+
         final Map<K, V> map = new HashMap<>();
 
         keys.forEach(key -> {
@@ -57,7 +59,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public V getAndPut(final K key, final V value) {
-        checkNotClosed();
+        validateNotClosed();
 
         final V oldValue = get(key);
         put(key, value);
@@ -67,7 +69,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public V getAndReplace(final K key, final V value) {
-        checkNotClosed();
+        validateNotClosed();
 
         if (containsKey(key)) {
             final V oldValue = get(key);
@@ -121,7 +123,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public boolean putIfAbsent(final K key, final V value) {
-        checkNotClosed();
+        validateNotClosed();
 
         if (!containsKey(key)) {
             put(key, value);
@@ -140,7 +142,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public boolean replace(final K key, final V oldValue, final V newValue) {
-        checkNotClosed();
+        validateNotClosed();
 
         if (containsKey(key) && Objects.equals(get(key), oldValue)) {
             put(key, newValue);
@@ -154,7 +156,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     @Override
     public boolean replace(final K key, final V value) {
-        checkNotClosed();
+        validateNotClosed();
 
         if (containsKey(key)) {
             put(key, value);
@@ -166,13 +168,13 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
         }
     }
 
-    protected void checkNotClosed() {
+    protected void setClosed() {
+        this.closed = true;
+    }
+
+    protected void validateNotClosed() {
         if (isClosed()) {
             throw new IllegalStateException("Cache is closed: " + getName());
         }
-    }
-
-    protected void setClosed() {
-        closed = true;
     }
 }

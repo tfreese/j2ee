@@ -1,5 +1,5 @@
 // Created: 06 Juli 2024
-package de.freese.jcache;
+package de.freese.jcache.impl;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -8,15 +8,18 @@ import java.util.Set;
 
 import javax.cache.CacheManager;
 
-import de.freese.jcache.spi.AbstractCache;
+import com.hazelcast.map.IMap;
+
+import de.freese.jcache.spi.AbstractJCache;
+import de.freese.jcache.spi.CacheEntry;
 
 /**
  * @author Thomas Freese
  */
-public final class MapCache<K, V> extends AbstractCache<K, V> {
-    private final Map<K, V> cache;
+public final class HazelcastJCache<K, V> extends AbstractJCache<K, V> {
+    private final IMap<K, V> cache;
 
-    public MapCache(final CacheManager cacheManager, final String name, final Map<K, V> cache) {
+    public HazelcastJCache(final CacheManager cacheManager, final String name, final IMap<K, V> cache) {
         super(cacheManager, name);
 
         this.cache = Objects.requireNonNull(cache, "cache required");
@@ -36,26 +39,33 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
         getLogger().debug("close: {}", getName());
 
         cache.clear();
+        cache.destroy();
     }
 
     @Override
     public boolean containsKey(final K key) {
-        return cache.containsKey(key);
+        validateNotClosed();
+
+        return cache.get(key) != null;
     }
 
     @Override
     public V get(final K key) {
+        validateNotClosed();
+
         return cache.get(key);
     }
 
     @Override
     public V getAndRemove(final K key) {
+        validateNotClosed();
+
         return cache.remove(key);
     }
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
-        checkNotClosed();
+        validateNotClosed();
 
         return new Iterator<>() {
             private final Iterator<Map.Entry<K, V>> iterator = Set.copyOf(cache.entrySet()).iterator();
@@ -74,20 +84,22 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public void put(final K key, final V value) {
-        checkNotClosed();
+        validateNotClosed();
 
         cache.put(key, value);
     }
 
     @Override
     public void putAll(final Map<? extends K, ? extends V> map) {
-        checkNotClosed();
+        validateNotClosed();
 
         cache.putAll(map);
     }
 
     @Override
     public boolean remove(final K key) {
+        validateNotClosed();
+
         final boolean contains = containsKey(key);
 
         cache.remove(key);
@@ -97,6 +109,8 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public boolean remove(final K key, final V oldValue) {
+        validateNotClosed();
+
         if (containsKey(key) && Objects.equals(get(key), oldValue)) {
             cache.remove(key);
 
@@ -109,11 +123,16 @@ public final class MapCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public void removeAll(final Set<? extends K> keys) {
-        keys.forEach(cache::remove);
+        validateNotClosed();
+
+        cache.removeAll(entry -> keys.contains(entry.getKey()));
+        // keys.forEach(cache::remove);
     }
 
     @Override
     public void removeAll() {
+        validateNotClosed();
+
         cache.clear();
     }
 

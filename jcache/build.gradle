@@ -8,9 +8,9 @@ dependencies {
     api("javax.cache:cache-api")
     implementation("org.slf4j:slf4j-api")
 
-    implementation("com.github.ben-manes.caffeine:caffeine")
-
     // testImplementation("com.github.ben-manes.caffeine:jcache")
+    testImplementation("com.github.ben-manes.caffeine:caffeine")
+    testImplementation("com.hazelcast:hazelcast")
 
     testRuntimeOnly("org.slf4j:slf4j-simple")
 }
