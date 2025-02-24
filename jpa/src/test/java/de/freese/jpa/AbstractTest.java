@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,6 +30,8 @@ import java.util.stream.Stream;
 
 import javax.cache.Cache;
 import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -54,9 +57,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.jcache.CaffeineCache;
-import de.freese.jcache.configuration.GenericConfiguration;
-import de.freese.jcache.spi.GenericCacheManager;
+import de.freese.jcache.impl.CaffeineJCache;
+import de.freese.jcache.spi.SimpleCachingProvider;
 import de.freese.jpa.model.Address;
 import de.freese.jpa.model.MyProjectionVo;
 import de.freese.jpa.model.Person;
@@ -176,7 +178,10 @@ abstract class AbstractTest {
                 caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
             }
             else {
-                caffeine = Caffeine.from("maximumSize=1000,expireAfterAccess=12h");
+                caffeine = Caffeine.newBuilder()
+                        .maximumSize(1000)
+                        .expireAfterAccess(Duration.ofHours(12))
+                        .recordStats();
             }
 
             final com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache = caffeine
@@ -184,9 +189,15 @@ abstract class AbstractTest {
                     .removalListener((key, value, cause) -> LOGGER.info("Removal: {} - {} = {}", cause, key, value))
                     .build();
 
-            return new CaffeineCache<>(cacheManager, cacheName, caffeineCache);
+            return new CaffeineJCache<Object, Object>(cacheManager, cacheName, caffeineCache);
         };
-        config.put(ConfigSettings.CACHE_MANAGER, new GenericCacheManager(cacheFactory, GenericConfiguration.from(true)));
+
+        // System.setProperty(Caching.JAVAX_CACHE_CACHING_PROVIDER, SimpleCachingProvider.class.getName());
+        // final CachingProvider cachingProvider = Caching.getCachingProvider();
+        final CachingProvider cachingProvider = Caching.getCachingProvider(SimpleCachingProvider.class.getName());
+        ((SimpleCachingProvider) cachingProvider).setCacheFactory(cacheFactory);
+
+        config.put(ConfigSettings.CACHE_MANAGER, cachingProvider.getCacheManager());
 
         //
         // final Class<?> clazz = Class.forName("de.freese.jpa.cache.JCachingProvider");

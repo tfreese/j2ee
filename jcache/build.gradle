@@ -6,7 +6,13 @@ description = "JCache Implementation for generic Caches"
 
 dependencies {
     api("javax.cache:cache-api")
-    implementation("org.slf4j:slf4j-api")
+    api("org.slf4j:slf4j-api")
+
+    // compileOnlyApi
+    // testCompileOnly
+
+    compileOnly("com.github.ben-manes.caffeine:caffeine")
+    compileOnly("com.hazelcast:hazelcast")
 
     // testImplementation("com.github.ben-manes.caffeine:jcache")
     testImplementation("com.github.ben-manes.caffeine:caffeine")
