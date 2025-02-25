@@ -89,6 +89,7 @@ liberty {
     // }
 
     server {
+        //baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
 
         stripVersion = true
