@@ -16,7 +16,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedNativeQuery;
-import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -43,10 +42,14 @@ import org.hibernate.annotations.FetchMode;
 @DynamicUpdate
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
-@NamedQueries({@NamedQuery(name = "allPersons", query = "select p from Person p order by p.id asc", hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")}),
-        @NamedQuery(name = "personByVorname", query = "select p from Person p where p.vorname = :vorname order by p.name asc",
-                hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})})
-@NamedNativeQuery(name = "allPersons.native", query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
+@NamedQuery(name = "allPersons",
+        query = "select p from Person p order by p.id asc",
+        hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+@NamedQuery(name = "personByVorname",
+        query = "select p from Person p where p.vorname = :vorname order by p.name asc",
+        hints = {@QueryHint(name = "org.hibernate.cacheable", value = "true")})
+@NamedNativeQuery(name = "allPersons.native",
+        query = "select p.id, p.name, p.vorname from T_PERSON p order by p.id asc")
 // @Immutable // All Attributes over Constructor, no Setter.
 public class Person extends AbstractEntity {
     public static Person of(final String name, final String vorname) {

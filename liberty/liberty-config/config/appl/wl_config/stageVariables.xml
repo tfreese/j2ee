@@ -8,7 +8,7 @@
     <!-- DB Variables-->
     <variable name="datasource_url" value="jdbc:hsqldb:mem:liberty;shutdown=true" />
     <variable name="datasource_user" value="sa" />
-    <variable name="datasource_pwd" value="{xor}" />
+    <variable name="datasource_pwd" value="{aes}" />
 
     <!-- wlp/bin/securityUtility encode TEXT -> {xor}ENCODED -->
     <!-- wlp/bin/securityUtility encode &#45;&#45;encoding=aes TEXT -> {aes}ENCODED -->

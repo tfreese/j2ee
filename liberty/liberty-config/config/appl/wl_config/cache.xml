@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+    <featureManager>
+        <feature>sessionCache-1.0</feature>
+        <feature>appSecurity-3.0</feature>
+    </featureManager>
+
+    <library id="JCacheLib">
+        <file name="${server_home}/appl/appl_libs/jcacheprovider.jar" />
+    </library>
+
+    <cacheManager id="CacheManager" uri="config.xml">
+        <cachingProvider
+                jCacheLibraryRef="JCacheLib"
+                providerClass="org.acme.CachingProvider"
+        />
+        <!-- <properties -->
+        <!--         infinispan.client.hotrod.server_list="infinispan-server:11222" -->
+        <!--         infinispan.client.hotrod.auth_username="sampleUser" -->
+        <!--         infinispan.client.hotrod.auth_password="samplePassword" -->
+        <!--         infinispan.client.hotrod.auth_realm="default" -->
+        <!--         infinispan.client.hotrod.sasl_mechanism="PLAIN" -->
+        <!--         infinispan.client.hotrod.java_serial_whitelist=".*" -->
+        <!--         infinispan.client.hotrod.marshaller="org.infinispan.commons.marshall.JavaSerializationMarshaller" /> -->
+    </cacheManager>
+
+    <cache id="io.openliberty.cache.authentication" name="io.openliberty.cache.authentication" cacheManagerRef="CacheManager" />
+
+    <httpSessionCache cacheManagerRef="CacheManager" uri="file:${shared.resource.dir}/hazelcast/hazelcast.xml" />
+    <authCache cacheRef="io.openliberty.cache.authentication" />
+    <webAppSecurity loggedoutCookieCacheRef="LoggedOutCookieCache" />
+
+</server>

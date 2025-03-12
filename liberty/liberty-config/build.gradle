@@ -13,11 +13,11 @@ dependencies {
     // libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
 
     implementation("org.hibernate.orm:hibernate-core") {
-        exclude group: "jakarta.activation", module: "*"
-        exclude group: "jakarta.inject", module: "*"
-        exclude group: "jakarta.persistence", module: "*"
-        exclude group: "jakarta.transaction", module: "*"
-        exclude group: "jakarta.xml.bind", module: "*"
+        exclude(group: "jakarta.activation", module: "*")
+        exclude(group: "jakarta.inject", module: "*")
+        exclude(group: "jakarta.persistence", module: "*")
+        exclude(group: "jakarta.transaction", module: "*")
+        exclude(group: "jakarta.xml.bind", module: "*")
     }
     implementation("org.slf4j:slf4j-api")
 
@@ -59,33 +59,33 @@ tasks.register("deployApp") {
     doLast {
         var serverHome = properties.getProperty("server_home")
 
-        delete serverHome + "/appl_data"
-        delete serverHome + "/appl_logs"
-        delete serverHome + "/logs"
-        delete serverHome + "/tranlog"
-        delete serverHome + "/workarea"
-        delete serverHome + "/mqjms.log.0"
+        delete(serverHome + "/appl_data")
+        delete(serverHome + "/appl_logs")
+        delete(serverHome + "/logs")
+        delete(serverHome + "/tranlog")
+        delete(serverHome + "/workarea")
+        delete(serverHome + "/mqjms.log.0")
 
         var warFolder = serverHome + "/appl/" + properties.getProperty("deploy_folder")
-        delete warFolder
+        delete(warFolder)
         copy {
-            from project.tasks.war
-            into warFolder
+            from(tasks.war)
+            into(warFolder)
             rename { String fileName ->
-                fileName.replace("-${project.version}", "")
+                fileName.replace("-${version}", "")
             }
         }
 
         var libFolder = serverHome + "/appl/appl_libs"
-        delete libFolder
+        delete(libFolder)
         copy {
-            from configurations.runtimeClasspath - configurations.providedCompile {
-                include "*.jar"
-                include "*.rar"
-                //    exclude "ohj*"
+            from(configurations.runtimeClasspath - configurations.providedCompile) {
+                include("*.jar")
+                include("*.rar")
+                //    exclude("ohj*")
             }
 
-            into libFolder
+            into(libFolder)
         }
     }
 }

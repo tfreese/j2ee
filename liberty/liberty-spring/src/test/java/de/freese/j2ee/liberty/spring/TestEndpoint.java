@@ -19,7 +19,7 @@ class TestEndpoint {
     private static URI uriBase;
 
     @BeforeAll
-    public static void init() {
+    static void init() {
         final String port = System.getProperty("http.port");
         final String context = System.getProperty("context.root");
         uriBase = URI.create("http://localhost:%s/%s".formatted(port, context));

@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Table(name = "T_PERSON")
 public class Person {
     @Id
-    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1)
     @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     @Column(name = "ID", unique = true, nullable = false)
     private long id = -1;
