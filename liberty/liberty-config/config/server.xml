@@ -8,7 +8,9 @@
     <logging consoleLogLevel="INFO" maxFileSize="50" maxFiles="10" traceFormat="ADVANCED" />
     <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="${wl_cookiename}" />
     <webContainer deferServletLoad="false" />
-    <!--    <applicationMonitor dropins="dropins" dropinsEnabled="false" pollingRate="5000ms" updateTrigger="polled" />-->
+    <!-- <applicationMonitor dropins="dropins" dropinsEnabled="false" pollingRate="5000ms" updateTrigger="polled" /> -->
+
+    <variable name="wlp.password.encryption.key" value="my.aes.key" />
 
     <include location="${server_home}/appl/wl_config/appl.xml" />
 
