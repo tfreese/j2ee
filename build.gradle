@@ -56,6 +56,7 @@ subprojects {
         }
 
         dependencies {
+            dependency("com.esotericsoftware:kryo:$version_kryo")
             dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
             dependency("org.glassfish.jersey.connectors:jersey-jnh-connector:" + dependencyManagement.importedProperties["jersey.version"])

@@ -2,9 +2,9 @@
 <server description="Demo for REST-Services">
 
     <featureManager>
-        <!-- <feature>jakartaee-10</feature> -->
-        <feature>restfulWS-3.0</feature>
-        <feature>jsonb-2.0</feature>
+        <!-- <feature>jakartaee-10.0</feature> -->
+        <feature>restfulWS-3.1</feature>
+        <feature>jsonb-3.0</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${http.port}" httpsPort="${https.port}" />

@@ -7,7 +7,7 @@
         <class>de.freese.cdi.weld.tellermachine.JsonRestAtmTransport</class>
     </alternatives-->
     <interceptors>
-        <class>de.freese.j2ee.interceptor.LogInterceptor</class>
+        <class>de.freese.j2ee.interceptor.logging.LogInterceptor</class>
     </interceptors>
 
 </beans>

@@ -12,7 +12,7 @@ import jakarta.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.j2ee.interceptor.MyLogging;
+import de.freese.j2ee.interceptor.logging.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyEntityManager;
 

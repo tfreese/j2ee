@@ -1,5 +1,5 @@
 // Created: 21.05.2013
-package de.freese.j2ee.interceptor;
+package de.freese.j2ee.interceptor.logging;
 
 import java.util.Arrays;
 import java.util.Set;

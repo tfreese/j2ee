@@ -28,7 +28,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.j2ee.interceptor.MyLogging;
+import de.freese.j2ee.interceptor.logging.MyLogging;
 import de.freese.j2ee.model.Kunde;
 import de.freese.j2ee.persistence.MyDataSource;
 import de.freese.j2ee.persistence.MyEntityManager;
