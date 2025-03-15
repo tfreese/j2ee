@@ -16,8 +16,11 @@ dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
 
     implementation("com.esotericsoftware:kryo")
+    implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
+
+    runtimeOnly("org.slf4j:slf4j-simple")
 
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
     // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")

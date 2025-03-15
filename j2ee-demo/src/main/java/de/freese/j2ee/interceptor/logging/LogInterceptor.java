@@ -26,8 +26,7 @@ public class LogInterceptor implements UsageLogMBean {
     private static final Set<String> PARAMETERS = new TreeSet<>();
 
     // @PostConstruct
-    // public void exportsBean() throws Exception
-    // {
+    // public void exportsBean() throws Exception {
     // System.out.println("LogInterceptor.exportsBean()");
     //
     // final ObjectName objectName = new ObjectName("LogInterceptor:type=" + getClass().getName());

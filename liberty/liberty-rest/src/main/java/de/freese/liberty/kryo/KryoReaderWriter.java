@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -23,14 +24,14 @@ import com.esotericsoftware.kryo.io.Output;
  * @author Thomas Freese
  */
 @Provider
-@Consumes(KryoReaderWriter.KRYO_MEDIA_TYPE)
-@Produces(KryoReaderWriter.KRYO_MEDIA_TYPE)
-public final class KryoReaderWriter<T> implements MessageBodyWriter<T>, MessageBodyReader<T> {
+@Consumes({KryoReaderWriter.KRYO_MEDIA_TYPE})
+@Produces({KryoReaderWriter.KRYO_MEDIA_TYPE})
+@SuppressWarnings("all")
+public final class KryoReaderWriter<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
     public static final String KRYO_MEDIA_TYPE = "application/x-kryo";
 
-    // @Inject
-    // private Kryo kryo;
-    private final KryoProvider kryoProvider = new KryoProvider();
+    @Inject
+    private KryoProvider kryoProvider;
 
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
@@ -48,7 +49,10 @@ public final class KryoReaderWriter<T> implements MessageBodyWriter<T>, MessageB
             throws WebApplicationException {
         final Input input = new Input(entityStream);
 
-        return getKryo().readObjectOrNull(input, type);
+        return (T) getKryo().readClassAndObject(input);
+
+        // Needs Registration in Kryo.
+        // return getKryo().readObjectOrNull(input, type);
     }
 
     @Override
@@ -57,11 +61,15 @@ public final class KryoReaderWriter<T> implements MessageBodyWriter<T>, MessageB
             throws WebApplicationException {
         final Output output = new Output(entityStream);
 
-        getKryo().writeObjectOrNull(output, t, type);
+        getKryo().writeClassAndObject(output, t);
+
+        // Needs Registration in Kryo.
+        // getKryo().writeObjectOrNull(output, t, type);
+
+        output.flush();
     }
 
     private Kryo getKryo() {
-        // return kryo;
         return kryoProvider.getKryo();
     }
 }

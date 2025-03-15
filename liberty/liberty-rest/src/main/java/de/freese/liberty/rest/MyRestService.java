@@ -3,6 +3,7 @@ package de.freese.liberty.rest;
 
 import java.util.List;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -13,30 +14,31 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.liberty.kryo.KryoReaderWriter;
 
 /**
  * @author Thomas Freese
  */
+@ApplicationScoped
 @Path("service")
 public class MyRestService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MyRestService.class);
+
     @POST
     @Path("kryo")
     @Consumes(KryoReaderWriter.KRYO_MEDIA_TYPE)
     @Produces(KryoReaderWriter.KRYO_MEDIA_TYPE)
     public List<String> kryo(final List<Long> longValues) {
-        System.out.printf("%s_MyRestService.withKryo%n", Thread.currentThread().getName());
+        LOGGER.info("kryo: {}", longValues);
+
+        if (longValues == null) {
+            return List.of("null");
+        }
 
         return longValues.stream().map(l -> l + "_value").toList();
-
-        // byte[] bytes = null;
-        //
-        // try (Output output = new Output(16_384)) {
-        //     new KryoProvider().getKryo().writeClassAndObject(output, longValues.stream().map(l -> l + "_value").toList());
-        //     bytes = output.toBytes();
-        // }
-        //
-        // return bytes;
     }
 
     /**
@@ -46,7 +48,7 @@ public class MyRestService {
     @Path("properties")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject properties() {
-        System.out.printf("%s_MyRestService.getProperties%n", Thread.currentThread().getName());
+        LOGGER.info("properties");
 
         final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
 

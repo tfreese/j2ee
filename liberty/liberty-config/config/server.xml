@@ -41,4 +41,6 @@
     <!-- <sslDefault sslRef="defaultSSLSettings" /> -->
     <!-- <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" /> -->
 
+    <executor coreThreads="4" maxThreads="8" />
+
 </server>

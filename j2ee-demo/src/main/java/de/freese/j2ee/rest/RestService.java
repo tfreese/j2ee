@@ -44,12 +44,15 @@ public class RestService {
 
     @Context
     private SecurityContext context;
+    
     @Inject
     @MyDataSource
     private DataSource dataSource;
+
     @Inject
     @MyEntityManager
     private EntityManager entityManager;
+
     @Resource
     private UserTransaction ut;
 

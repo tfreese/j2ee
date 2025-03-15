@@ -10,13 +10,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import de.freese.liberty.kryo.KryoProvider;
@@ -39,7 +37,6 @@ class TestEndpoint {
      * <a href="http://localhost:9080/liberty-rest/my-liberty/service/kryo">localhost</a>
      */
     @Test
-    @Disabled("Doesn't work")
     void testKryo() throws Exception {
         final URI uri = URI.create(serverUrl + "/kryo");
 
@@ -63,12 +60,16 @@ class TestEndpoint {
             final HttpResponse<InputStream> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofInputStream());
 
             assertEquals(200, httpResponse.statusCode(), "Incorrect response code from " + uri);
-            // assertTrue(httpResponse.body().length() > 0, "Empty content");
-            assertTrue(httpResponse.body().available() > 0, "Empty content");
 
             try (InputStream inputStream = httpResponse.body();
                  Input input = new Input(inputStream)) {
-                final List<String> stringValues = kryoProvider.getKryo().readObjectOrNull(input, ArrayList.class);
+                assertTrue(inputStream.available() > 0, "Empty content");
+
+                final List<String> stringValues = (List) kryoProvider.getKryo().readClassAndObject(input);
+
+                // Needs Registration in Kryo.
+                // final List<String> stringValues = kryoProvider.getKryo().readObjectOrNull(input, ArrayList.class);
+
                 assertNotNull(stringValues);
                 assertEquals(List.of("1_value", "2_value", "3_value"), stringValues, "Incorrect response from " + uri);
             }
