@@ -4,7 +4,7 @@ plugins {
 
 description = "JPA Demo Project"
 
-configurations.all {
+configurations.configureEach {
     exclude group: "ch.qos.logback", module: "logback-classic"
 }
 // configurations.testImplementation {
@@ -49,6 +49,7 @@ test {
 //        showStackTraces = true
 //        exceptionFormat = TestExceptionFormat.FULL
 //    }
+//
 //    enabled = false
 //    maxParallelForks = 1
 //    forkEvery = 0

@@ -30,6 +30,14 @@ public record CacheEntry<K, V>(K key, V value) implements Cache.Entry<K, V> {
 
     @Override
     public <T> T unwrap(final Class<T> clazz) {
-        return null;
+        if (value() != null && clazz.isAssignableFrom(value().getClass())) {
+            return clazz.cast(value());
+        }
+
+        if (key() != null && clazz.isAssignableFrom(key().getClass())) {
+            return clazz.cast(key());
+        }
+
+        throw new IllegalArgumentException("Unwrapping to '" + clazz + "' is not a supported");
     }
 }

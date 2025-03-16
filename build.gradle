@@ -14,8 +14,8 @@
 //}
 
 plugins {
-    id "de.freese.gradle.java.conventions" version "$version_myJavaConventionPlugin" apply false
-    id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
+    id("de.freese.gradle.java.conventions") version "$version_myJavaConventionPlugin" apply false
+    id("io.spring.dependency-management") version "$version_springDependencyManagement" apply false
 }
 
 allprojects {
@@ -31,8 +31,8 @@ allprojects {
                 if (directory.getAsFile().exists()) {
                     // println("delete: " + directory)
                     logger.lifecycle("delete: {}", directory)
-                    // delete fileTree(directory).include("**/*")
-                    delete directory
+                    // delete(fileTree(directory).include("**/*"))
+                    delete(directory)
                 }
             })
         }

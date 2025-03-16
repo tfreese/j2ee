@@ -26,8 +26,7 @@ import com.esotericsoftware.kryo.io.Output;
 @Provider
 @Consumes({KryoReaderWriter.KRYO_MEDIA_TYPE})
 @Produces({KryoReaderWriter.KRYO_MEDIA_TYPE})
-@SuppressWarnings("all")
-public final class KryoReaderWriter<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
+public final class KryoReaderWriter implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
     public static final String KRYO_MEDIA_TYPE = "application/x-kryo";
 
     @Inject
@@ -44,21 +43,19 @@ public final class KryoReaderWriter<T> implements MessageBodyReader<T>, MessageB
     }
 
     @Override
-    public T readFrom(final Class<T> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, String> httpHeaders,
-                      final InputStream entityStream)
-            throws WebApplicationException {
+    public Object readFrom(final Class<Object> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
+                           final MultivaluedMap<String, String> httpHeaders, final InputStream entityStream) throws WebApplicationException {
         final Input input = new Input(entityStream);
 
-        return (T) getKryo().readClassAndObject(input);
+        return getKryo().readClassAndObject(input);
 
         // Needs Registration in Kryo.
         // return getKryo().readObjectOrNull(input, type);
     }
 
     @Override
-    public void writeTo(final T t, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
-                        final MultivaluedMap<String, Object> httpHeaders, final OutputStream entityStream)
-            throws WebApplicationException {
+    public void writeTo(final Object t, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
+                        final MultivaluedMap<String, Object> httpHeaders, final OutputStream entityStream) throws WebApplicationException {
         final Output output = new Output(entityStream);
 
         getKryo().writeClassAndObject(output, t);

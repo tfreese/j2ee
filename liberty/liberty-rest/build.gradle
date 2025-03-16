@@ -16,6 +16,7 @@ dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
 
     implementation("com.esotericsoftware:kryo")
+    implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")

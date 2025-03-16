@@ -66,12 +66,12 @@ public final class DefaultCacheManager implements CacheManager {
 
     @Override
     public void enableManagement(final String cacheName, final boolean enabled) {
-        // Empty
+        LOGGER.warn("not implemented");
     }
 
     @Override
     public void enableStatistics(final String cacheName, final boolean enabled) {
-        // Empty
+        LOGGER.warn("not implemented");
     }
 
     @Override

@@ -1,8 +1,7 @@
 // Created: 14 März 2025
 package de.freese.liberty.kryo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.ws.rs.Produces;
@@ -11,6 +10,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.SerializerFactory;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
 import com.esotericsoftware.kryo.util.MapReferenceResolver;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,14 @@ import org.slf4j.LoggerFactory;
 // @MyKryo
 @RequestScoped
 public class KryoProvider {
-    private static final Map<String, Kryo> CACHE = new HashMap<>();
+    private static final Cache<String, Kryo> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();
     private static final Logger LOGGER = LoggerFactory.getLogger(KryoProvider.class);
 
     public Kryo getKryo() {
         LOGGER.info("obtain instance");
 
-        return CACHE.computeIfAbsent(Thread.currentThread().getName(), key -> {
-            LOGGER.info("create instance for {}", key);
+        return CACHE.get(Thread.currentThread().getName(), key -> {
+            LOGGER.info("create instance for: {}", key);
 
             final Kryo kryo = new Kryo();
             kryo.setClassLoader(Thread.currentThread().getContextClassLoader());

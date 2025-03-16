@@ -21,7 +21,7 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 /**
  * @author Thomas Freese
  */
-@SuppressWarnings("all")
+// @SuppressWarnings("all")
 public final class RestClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 

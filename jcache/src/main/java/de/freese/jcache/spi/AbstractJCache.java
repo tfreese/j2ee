@@ -37,7 +37,7 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
 
     @Override
     public void deregisterCacheEntryListener(final CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
-        // Empty
+        logger.warn("not implemented");
     }
 
     @Override
@@ -89,6 +89,8 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
 
     @Override
     public <C extends Configuration<K, V>> C getConfiguration(final Class<C> clazz) {
+        logger.warn("not implemented");
+
         return null;
     }
 
@@ -103,11 +105,15 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
 
     @Override
     public <T> T invoke(final K key, final EntryProcessor<K, V, T> entryProcessor, final Object... arguments) throws EntryProcessorException {
+        logger.warn("not implemented");
+
         return null;
     }
 
     @Override
     public <T> Map<K, EntryProcessorResult<T>> invokeAll(final Set<? extends K> keys, final EntryProcessor<K, V, T> entryProcessor, final Object... arguments) {
+        logger.warn("not implemented");
+
         return Map.of();
     }
 
@@ -118,7 +124,7 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
 
     @Override
     public void loadAll(final Set<? extends K> keys, final boolean replaceExistingValues, final CompletionListener completionListener) {
-        // Empty
+        logger.warn("not implemented");
     }
 
     @Override
@@ -137,7 +143,7 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
 
     @Override
     public void registerCacheEntryListener(final CacheEntryListenerConfiguration<K, V> cacheEntryListenerConfiguration) {
-        // Empty
+        logger.warn("not implemented");
     }
 
     @Override

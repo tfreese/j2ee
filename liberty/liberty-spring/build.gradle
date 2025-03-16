@@ -35,9 +35,9 @@ dependencies {
 tasks.register("copyJDBC", Copy) {
     group = "MyTasks"
 
-    from configurations.jdbcLib
-    into layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("jdbc")
-    include "*.jar"
+    from(configurations.jdbcLib)
+    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("jdbc"))
+    include("*.jar")
 }
 deploy.dependsOn("copyJDBC")
 
@@ -114,11 +114,11 @@ liberty {
 ext.artifactId = project.name
 
 processResources {
-    // def map = [
-    //         "project_description": project.description,
-    //         "project_artifactId" : project.name,
-    //         "project_version"    : project.version
-    // ]
+    def map = [
+            "project_description": project.description,
+            "project_artifactId" : project.name,
+            "project_version"    : project.version
+    ]
 
     // filesMatching("**/*.properties")
     filesMatching(["application.properties", "application.yml"]) {
@@ -126,12 +126,12 @@ processResources {
 
         // Bei Problemen müssen die Platzhalter escaped werden: \${...}
         // expand(project.properties)
-        // expand(map)
+        expand(map)
 
-        expand("project_description": project.description,
-                "project_artifactId": project.name,
-                "project_version": project.version
-        )
+        // expand("project_description": project.description,
+        //         "project_artifactId": project.name,
+        //         "project_version": project.version
+        // )
 
         //filter{ it.replaceAll("@project.description@", project.description)}
         //filter{ it.replaceAll("@project.artifactId@", project.name)}

@@ -12,12 +12,5 @@
 
     <webApplication location="liberty-rest.war" contextRoot="${context.root}" />
 
-    <!-- <managedExecutorService jndiName="concurrent/executor"> -->
-    <!--     <concurrencyPolicy max="3" maxQueueSize="100" /> -->
-    <!-- </managedExecutorService> -->
-    <!-- <managedScheduledExecutorService jndiName="concurrent/scheduledExecutorService"> -->
-    <!--     <concurrencyPolicy max="3" maxQueueSize="100" /> -->
-    <!-- </managedScheduledExecutorService> -->
-
     <executor coreThreads="4" maxThreads="5" />
 </server>
