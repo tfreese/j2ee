@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+<!DOCTYPE html>
+
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en"
+>
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, max-age=0, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <title>Login Page</title>
+
+    <!-- facesContext.externalContext.requestContextPath -->
+    <link type="text/css"
+          href="${request.contextPath}/resources/css/style.css"
+          rel="stylesheet"/>
+    <link type="image/x-icon"
+          href="${request.contextPath}/resources/images/favicon.ico"
+          rel="shortcut icon"/>
+</h:head>
+
+<h:body>
+    <div id="message">
+        <p:ajaxStatus style="display:block; margin-top:.5em;">
+            <f:facet name="default">
+                <h:outputText value="Please enter your credentials."/>
+            </f:facet>
+            <f:facet name="start">
+                <h:outputText value="Verify login, please wait #{loginController.userName}"/>
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="Login failed, please try again #{loginController.userName}"/>
+            </f:facet>
+        </p:ajaxStatus>
+    </div>
+
+    <h:form id="loginForm">
+        <p:growl id="msg" showDetail="true" life="4000"/>
+
+        <p:panel id="loginPnl" header="Please login" style="width: 350px; margin: 0 auto;">
+            <p:panelGrid id="loginPanel" columns="1" styleClass="ui-fluid center ui-noborder">
+                <!-- <h:outputLabel for="username" value="Username"/> -->
+                <p:inputText id="username" placeholder="User Name" value="#{loginController.userName}" required="true"/>
+
+                <!-- <p:spacer/> -->
+
+                <!-- <h:outputLabel for="password" value="Password"/> -->
+                <p:password id="password" placeholder="Password" value="#{loginController.password}" required="true" feedback="false"/>
+
+                <!-- style="float: right;" -->
+                <p:commandButton id="loginButton" value="Login" action="#{loginController.login}" update="loginForm" ajax="true"/>
+            </p:panelGrid>
+        </p:panel>
+
+        <p:blockUI block="loginPnl" trigger="loginButton" style="float:right;">
+            <p:graphicImage value="resources/images/loader.gif"/>
+        </p:blockUI>
+    </h:form>
+
+</h:body>
+</html>

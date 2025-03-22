@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Demo for REST-Services">
+
+    <featureManager>
+        <!-- <feature>jakartaee-10.0</feature> -->
+        <feature>enterpriseBeans-4.0</feature>
+        <feature>faces-4.0</feature>
+        <!-- <feature>facesContainer-4.0</feature> -->
+        <!-- <feature>jsf-2.2</feature> -->
+    </featureManager>
+
+    <applicationManager autoExpand="true" />
+
+    <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${http.port}" httpsPort="${https.port}" />
+
+    <webApplication location="liberty-login.war" contextRoot="${context.root}" />
+
+    <executor coreThreads="4" maxThreads="5" />
+</server>

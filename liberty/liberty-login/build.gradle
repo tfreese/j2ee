@@ -3,27 +3,24 @@ plugins {
     id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
 }
 
-description = "Demo for REST-Services"
+description = "Demo for JSF-Login"
 // https://openliberty.io/guides/gradle-intro.html#getting-started
 
 ext {
-    liberty.server.var."http.port" = "9080"
-    liberty.server.var."https.port" = "9443"
+    liberty.server.var."http.port" = "7080"
+    liberty.server.var."https.port" = "7443"
     liberty.server.var."context.root" = project.name
 }
 
 dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
 
-    implementation("com.esotericsoftware:kryo")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    //implementation("com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
-    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("org.primefaces:primefaces::jakarta")
     implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
 
+    runtimeOnly("org.primefaces:primefaces-themes")
     runtimeOnly("org.slf4j:slf4j-simple")
 
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
@@ -51,7 +48,7 @@ tasks.register("openBrowser") {
     doLast {
         String port = liberty.server.var."http.port"
         String context = liberty.server.var."context.root"
-        String url = "http://localhost:" + port + "/" + context + "/my-liberty/service/properties"
+        String url = "http://localhost:" + port + "/" + context + "/login-app/service/properties"
 
         java.awt.Desktop.desktop.browse url.toURI()
         // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()

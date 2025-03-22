@@ -60,6 +60,8 @@ subprojects {
             dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
             dependency("org.glassfish.jersey.connectors:jersey-jnh-connector:" + dependencyManagement.importedProperties["jersey.version"])
+            dependency("org.primefaces:primefaces:$version_primefaces")
+            dependency("org.primefaces:primefaces-themes:$version_primefacesThemes")
         }
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
+        version="4.0">
+
+    <name>myFaces</name>
+
+    <!-- <navigation-rule> -->
+    <!--     <from-view-id>/login.xhtml</from-view-id> -->
+    <!--     <navigation-case> -->
+    <!--         <from-outcome>admin</from-outcome> -->
+    <!--         <to-view-id>/admin.xhtml</to-view-id> -->
+    <!--     </navigation-case> -->
+    <!-- </navigation-rule> -->
+
+    <application>
+        <locale-config>
+            <default-locale>de</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+
+        <resource-bundle>
+            <!--base-name>de.freese.web.resources.MyResourceBundle</base-name -->
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
+
+</faces-config>
