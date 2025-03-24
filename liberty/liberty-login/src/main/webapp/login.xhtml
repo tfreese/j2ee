@@ -17,7 +17,7 @@
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
 
-    <title>Login Page</title>
+    <title>Login</title>
 
     <!-- facesContext.externalContext.requestContextPath -->
     <link type="text/css"
@@ -35,16 +35,19 @@
                 <h:outputText value="Please enter your credentials."/>
             </f:facet>
             <f:facet name="start">
-                <h:outputText value="Verify login, please wait #{loginController.userName}"/>
+                <h:outputText value="Verify login, please wait #{loginController.userName}."/>
             </f:facet>
             <f:facet name="complete">
-                <h:outputText value="Login failed, please try again #{loginController.userName}"/>
+                <h:outputText value="Login failed, please try again #{loginController.userName}."/>
             </f:facet>
         </p:ajaxStatus>
     </div>
 
     <h:form id="loginForm">
-        <p:growl id="msg" showDetail="true" life="4000"/>
+        <!-- <p:messages id="messages" showDetail="true" closable="true" skipDetailIfEqualsSummary="true"> -->
+        <!--     <p:autoUpdate/> -->
+        <!-- </p:messages> -->
+        <p:growl id="messages" showDetail="true" life="4000" closable="false" skipDetailIfEqualsSummary="true"/>
 
         <p:panel id="loginPnl" header="Please login" style="width: 350px; margin: 0 auto;">
             <p:panelGrid id="loginPanel" columns="1" styleClass="ui-fluid center ui-noborder">
@@ -56,8 +59,8 @@
                 <!-- <h:outputLabel for="password" value="Password"/> -->
                 <p:password id="password" placeholder="Password" value="#{loginController.password}" required="true" feedback="false"/>
 
-                <!-- style="float: right;" -->
-                <p:commandButton id="loginButton" value="Login" action="#{loginController.login}" update="loginForm" ajax="true"/>
+                <!-- style="float: right;" update="growl" ajax="true" -->
+                <p:commandButton id="loginButton" value="Login" action="#{loginController.login}" update="loginForm"/>
             </p:panelGrid>
         </p:panel>
 

@@ -14,21 +14,15 @@ import de.freese.liberty.login.LoginController;
  */
 public final class Util {
     public static HttpServletRequest getRequest() {
-        return (HttpServletRequest) FacesContext.
-                getCurrentInstance().
-                getExternalContext()
-                .getRequest();
+        return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     }
 
     public static HttpSession getSession() {
-        return (HttpSession) FacesContext.
-                getCurrentInstance().
-                getExternalContext().
-                getSession(false);
+        return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
     }
 
     public static String getUserName() {
-        return Optional.ofNullable(getSession().getAttribute(LoginController.USER_ATTRIBUTE_NAME)).map(Object::toString).orElse(null);
+        return Optional.ofNullable(getSession().getAttribute(LoginController.ATTRIBUTE_USER_NAME)).map(Object::toString).orElse(null);
     }
 
     private Util() {

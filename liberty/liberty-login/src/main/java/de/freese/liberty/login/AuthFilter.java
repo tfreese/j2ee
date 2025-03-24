@@ -20,24 +20,28 @@ import jakarta.servlet.http.HttpSession;
 public final class AuthFilter implements Filter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-        if (!(request instanceof HttpServletRequest req)) {
+        if (!(request instanceof HttpServletRequest httpServletRequest)) {
             chain.doFilter(request, response);
             return;
         }
 
-        final HttpSession session = req.getSession(false);
+        final HttpSession httpSession = httpServletRequest.getSession(true);
 
-        final boolean isLoggedIn = session != null && session.getAttribute(LoginController.USER_ATTRIBUTE_NAME) != null;
-        final String reqURI = req.getRequestURI();
+        final boolean isLoggedIn = httpSession != null && httpSession.getAttribute(LoginController.ATTRIBUTE_USER_NAME) != null;
+        final String requestedUri = httpServletRequest.getRequestURI();
 
-        if (isLoggedIn || reqURI.contains("login.xhtml") || reqURI.contains("jakarta.faces.resource")) {
+        if (isLoggedIn || requestedUri.contains("login.xhtml") || requestedUri.contains("jakarta.faces.resource")) {
             chain.doFilter(request, response);
         }
         else {
-            // Programmatic Login
-            // session.setAttribute(LoginController.USER_ATTRIBUTE_NAME, "myUserId");
+            // Programmatic Login.
+            // httpSession.setAttribute(LoginController.ATTRIBUTE_USER_NAME, "myUserId");
 
-            ((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/login.xhtml");
+            if (httpSession != null) {
+                httpSession.setAttribute(LoginController.ATTRIBUTE_REQUESTED_URL, requestedUri);
+            }
+
+            ((HttpServletResponse) response).sendRedirect(httpServletRequest.getContextPath() + "/login.xhtml");
         }
     }
 }

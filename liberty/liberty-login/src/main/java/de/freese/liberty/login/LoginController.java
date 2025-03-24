@@ -10,6 +10,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import de.freese.liberty.Util;
@@ -22,7 +23,8 @@ import de.freese.liberty.Util;
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
-    public static final String USER_ATTRIBUTE_NAME = "userName";
+    public static final String ATTRIBUTE_REQUESTED_URL = "REQUESTED_URL";
+    public static final String ATTRIBUTE_USER_NAME = "USER_NAME";
 
     @Serial
     private static final long serialVersionUID = 2284719796428287116L;
@@ -30,13 +32,9 @@ public class LoginController implements Serializable {
     @Inject
     private LoginService loginService;
 
-    private String message;
     private String password;
+    private String requestedUri;
     private String userName;
-
-    public String getMessage() {
-        return message;
-    }
 
     public String getPassword() {
         return password;
@@ -48,38 +46,54 @@ public class LoginController implements Serializable {
 
     @PostConstruct
     public void init() {
-        // requestedUrl = (String) request.getSession().getAttribute(REQUESTED_URL_BEFORE_LOGIN);
+        requestedUri = (String) Util.getSession().getAttribute(ATTRIBUTE_REQUESTED_URL);
     }
 
-    public String login() {
-        final boolean result = loginService.login(userName, password);
+    public void login() {
+        try {
+            final boolean loggedIn = loginService.login(userName, password);
 
-        if (result) {
-            // get Http Session and store username
-            final HttpSession session = Util.getSession();
-            session.setAttribute(USER_ATTRIBUTE_NAME, userName);
+            final HttpServletRequest httpServletRequest = Util.getRequest();
+            final HttpSession httpSession = Util.getSession();
 
-            // FacesContext.getCurrentInstance().getExternalContext().redirect(requestedUrl == null ? contextRoot : requestedUrl);
+            if (loggedIn) {
+                httpSession.setAttribute(ATTRIBUTE_USER_NAME, userName);
 
-            return "index";
+                // return "index";
+                FacesContext.getCurrentInstance().getExternalContext().redirect(requestedUri == null || !requestedUri.contains("login.xhtml")
+                        ? httpServletRequest.getContextPath() + "/index.xhtml"
+                        : requestedUri);
+            }
+            else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid Login", "Please try Again."));
+
+                // Invalidate session.
+                httpSession.invalidate();
+
+                // return "login";
+
+                // FacesMessage will not shown.
+                // FacesContext.getCurrentInstance().getExternalContext().redirect(requestedUri == null ? httpServletRequest.getContextPath() + "/login.xhtml" : requestedUri);
+            }
         }
-        else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid Login!", "Please Try Again!"));
-
-            // invalidate session, and redirect to other pages
-            return "login";
+        catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Login", ex.getMessage()));
         }
     }
 
-    public String logout() {
-        final HttpSession session = Util.getSession();
-        session.invalidate();
+    public void logout() {
+        try {
+            final HttpSession httpSession = Util.getSession();
+            httpSession.invalidate();
 
-        return "login";
-    }
+            final HttpServletRequest httpServletRequest = Util.getRequest();
 
-    public void setMessage(final String message) {
-        this.message = message;
+            // return "login";
+            FacesContext.getCurrentInstance().getExternalContext().redirect(httpServletRequest.getContextPath() + "/login.xhtml");
+        }
+        catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Logout", ex.getMessage()));
+        }
     }
 
     public void setPassword(final String password) {
