@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -34,6 +35,27 @@ class TestEndpoint {
     }
 
     /**
+     * <a href="http://localhost:9080/liberty-rest/my-liberty/service/properties">localhost</a>
+     */
+    @Test
+    void testException() throws Exception {
+        final URI uri = URI.create(serverUrl + "/exception");
+
+        try (HttpClient httpClient = HttpClient.newBuilder().build()) {
+            final HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
+
+            final HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            assertEquals(HttpURLConnection.HTTP_BAD_REQUEST, httpResponse.statusCode(), "Incorrect response code from " + uri);
+            assertNotNull(httpResponse.body());
+            assertTrue(httpResponse.body().contains("Test MyExceptionMapper"));
+        }
+    }
+
+    /**
      * <a href="http://localhost:9080/liberty-rest/my-liberty/service/kryo">localhost</a>
      */
     @Test
@@ -59,7 +81,7 @@ class TestEndpoint {
 
             final HttpResponse<InputStream> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofInputStream());
 
-            assertEquals(200, httpResponse.statusCode(), "Incorrect response code from " + uri);
+            assertEquals(HttpURLConnection.HTTP_OK, httpResponse.statusCode(), "Incorrect response code from " + uri);
 
             try (InputStream inputStream = httpResponse.body();
                  Input input = new Input(inputStream)) {
@@ -91,7 +113,7 @@ class TestEndpoint {
 
             final HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-            assertEquals(200, httpResponse.statusCode(), "Incorrect response code from " + uri);
+            assertEquals(HttpURLConnection.HTTP_OK, httpResponse.statusCode(), "Incorrect response code from " + uri);
             assertNotNull(httpResponse.body());
         }
 
@@ -99,7 +121,7 @@ class TestEndpoint {
         //     final WebTarget webTarget = client.target(uri);
         //
         //     try (Response response = webTarget.request().get()) {
-        //         assertEquals(200, response.getStatus(), "Incorrect response code from " + uri);
+        //         assertEquals(HttpURLConnection.HTTP_OK, response.getStatus(), "Incorrect response code from " + uri);
         //
         //         final String jsonValue = response.readEntity(String.class);
         //         assertNotNull(jsonValue);

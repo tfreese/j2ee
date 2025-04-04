@@ -1,6 +1,7 @@
 // Created: 20.05.2018
 package de.freese.liberty.rest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +27,16 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 @Path("service")
 public class MyRestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRestService.class);
+
+    /**
+     * <a href="http://localhost:9080/liberty-rest/my-liberty/service/exception">exception</a>
+     */
+    @GET
+    @Path("exception")
+    @Produces(MediaType.APPLICATION_JSON)
+    public LocalDateTime exception() {
+        throw new RuntimeException("Test MyExceptionMapper");
+    }
 
     @POST
     @Path("kryo")
