@@ -1,6 +1,6 @@
 plugins {
-    id "war"
-    id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
+    id("war")
+    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
 }
 
 description = "Demo for Liberty-Configuration"
@@ -11,6 +11,8 @@ file("config/bootstrap.properties").withInputStream { properties.load(it) }
 dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
     // libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
+
+    implementation("com.github.ben-manes.caffeine:caffeine")
 
     implementation("org.hibernate.orm:hibernate-core") {
         exclude(group: "jakarta.activation", module: "*")

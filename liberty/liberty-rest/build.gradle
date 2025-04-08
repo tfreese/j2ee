@@ -1,6 +1,9 @@
 plugins {
-    id "war"
-    id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
+    id("war")
+    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
+
+    // build/generateOpenApiSpec
+    id("io.smallrye.openapi")
 }
 
 description = "Demo for REST-Services"
@@ -23,9 +26,11 @@ dependencies {
     implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
+    compileOnly("org.eclipse.microprofile.openapi:microprofile-openapi-api:4.0.2")
 
     runtimeOnly("org.slf4j:slf4j-simple")
 
+    testImplementation("jakarta.platform:jakarta.jakartaee-api")
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
     // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
     // testImplementation("org.glassfish.jersey.core:jersey-client")
@@ -40,8 +45,8 @@ test {
 //        exceptionFormat = TestExceptionFormat.FULL
     }
 
-    systemProperty "http.port", liberty.server.var."http.port"
-    systemProperty "context.root", liberty.server.var."context.root"
+    systemProperty("http.port", liberty.server.var."http.port")
+    systemProperty("context.root", liberty.server.var."context.root")
 }
 
 tasks.register("openBrowser") {
@@ -77,3 +82,27 @@ liberty {
         // verifyAppStartTimeout = 30
     }
 }
+
+war {
+    dependsOn("generateOpenApiSpec")
+
+    // Skinny-War
+    rootSpec.exclude("**/*.jar", "**/*.rar")
+
+    // OpenApi Dateien sollten automatisch im WAR/META-INF landen.
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    metaInf {
+        from(layout.buildDirectory.get().dir("generated").dir("openapi"))
+    }
+}
+
+// build/generated/openapi
+smallryeOpenApi {
+    infoTitle = "My API's"
+    infoVersion = project.version
+    encoding = "UTF-8"
+    scanPackages = ["de.freese.liberty.rest"]
+    // scanClasses = ["CLASS_1", "CLASS_2"]
+    servers = ["http://localhost:9080/liberty-rest"]
+}
+processResources.finalizedBy("generateOpenApiSpec")

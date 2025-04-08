@@ -14,8 +14,11 @@
 //}
 
 plugins {
-    id("de.freese.gradle.java.conventions") version "$version_myJavaConventionPlugin" apply false
-    id("io.spring.dependency-management") version "$version_springDependencyManagementPlugin" apply false
+    id("de.freese.gradle.java.conventions") version("$version_myJavaConventionPlugin") apply(false)
+    id("io.spring.dependency-management") version("$version_springDependencyManagementPlugin") apply(false)
+
+    // build/generateOpenApiSpec
+    id("io.smallrye.openapi") version("4.0.9") apply(false)
 }
 
 allprojects {

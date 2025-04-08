@@ -1,6 +1,6 @@
 plugins {
-    id "war"
-    id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
+    id("war")
+    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
 }
 
 description = "Demo for JSF-Login"
@@ -37,8 +37,8 @@ test {
 //        exceptionFormat = TestExceptionFormat.FULL
     }
 
-    systemProperty "http.port", liberty.server.var."http.port"
-    systemProperty "context.root", liberty.server.var."context.root"
+    systemProperty("http.port", liberty.server.var."http.port")
+    systemProperty("context.root", liberty.server.var."context.root")
 }
 
 tasks.register("openBrowser") {

@@ -1,8 +1,7 @@
 // Created:04.06.2018
 package de.freese.j2ee.liberty.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -12,22 +11,27 @@ import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+
 /***
  * @author Thomas Freese
  */
 @SuppressWarnings("unchecked")
 public final class Utils {
 
-    private static final ThreadLocal<Map<String, Object>> CACHE = ThreadLocal.withInitial(HashMap::new);
+    private static final Cache<String, Object> CACHE = Caffeine.newBuilder()
+            .expireAfterAccess(Duration.ofMinutes(15))
+            .build();
 
     public static <T> T ejb(final Class<T> type) {
-        final Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> lookupBean(type));
+        final Object bean = CACHE.get(type.getName(), key -> lookupBean(type));
 
         return type.cast(bean);
     }
 
     public static <T> T inject(final Class<T> type) {
-        final Object bean = CACHE.get().computeIfAbsent(type.getName(), key -> {
+        final Object bean = CACHE.get(type.getName(), key -> {
             final BeanManager bm = CDI.current().getBeanManager();
             final Bean<T> b = (Bean<T>) bm.getBeans(type).iterator().next();
 
@@ -45,8 +49,8 @@ public final class Utils {
             object = context.lookup(jndiName);
             context.close();
         }
-        catch (NamingException nex) {
-            throw new RuntimeException(nex);
+        catch (NamingException ex) {
+            throw new RuntimeException(ex);
         }
 
         return type.cast(object);

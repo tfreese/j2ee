@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 @Produces
 // @MyKryo
 @RequestScoped
+@SuppressWarnings("rawtypes")
 public class KryoProvider {
     private static final Cache<String, Kryo> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();
     private static final Logger LOGGER = LoggerFactory.getLogger(KryoProvider.class);

@@ -1,6 +1,6 @@
 plugins {
-    id "war"
-    id "io.openliberty.tools.gradle.Liberty" version "$version_libertyGradlePlugin"
+    id("war")
+    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
 }
 
 description = "Demo for Spring-Integration"
@@ -21,7 +21,7 @@ dependencies {
     // libertyRuntime("io.openliberty:openliberty-runtime:%version_openliberty")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+        exclude(group: "org.springframework.boot", module: "spring-boot-starter-tomcat")
     }
 
     implementation("com.h2database:h2")
@@ -49,8 +49,8 @@ test {
 //        exceptionFormat = TestExceptionFormat.FULL
     }
 
-    systemProperty "http.port", liberty.server.var."http.port"
-    systemProperty "context.root", liberty.server.var."context.root"
+    systemProperty("http.port", liberty.server.var."http.port")
+    systemProperty("context.root", liberty.server.var."context.root")
 }
 
 tasks.register("openBrowser") {

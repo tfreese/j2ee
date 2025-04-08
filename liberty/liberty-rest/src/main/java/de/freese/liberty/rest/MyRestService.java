@@ -15,6 +15,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +41,13 @@ public class MyRestService {
     @GET
     @Path("exception")
     @Produces(MediaType.APPLICATION_JSON)
+    @Tag(name = "exception")
+    @Operation(summary = "Wirft eine RuntimeException.")
+    @APIResponse(responseCode = "400", description = "Server-Status",
+            content = {
+                    @Content(mediaType = MediaType.TEXT_PLAIN, schema = @Schema(defaultValue = "false"))
+            }
+    )
     public LocalDateTime exception() {
         throw new RuntimeException("Test MyExceptionMapper");
     }
@@ -42,7 +56,16 @@ public class MyRestService {
     @Path("kryo")
     @Consumes(KryoReaderWriter.KRYO_MEDIA_TYPE)
     @Produces(KryoReaderWriter.KRYO_MEDIA_TYPE)
-    public List<String> kryo(final List<Long> longValues) {
+    @Tag(name = "kryo")
+    @Operation(summary = "Kryo Serialisierung.")
+    @APIResponse(responseCode = "200", description = "Kryo-Values",
+            content = {
+                    @Content(mediaType = KryoReaderWriter.KRYO_MEDIA_TYPE, schema = @Schema(implementation = String.class))
+            }
+    )
+    public List<String> kryo(
+            @Parameter(description = "Long Values ", required = true, schema = @Schema(implementation = Long.class),
+                    examples = {@ExampleObject(name = "1", value = "1 Value"), @ExampleObject(name = "2", value = "2 Value")}) final List<Long> longValues) {
         LOGGER.info("kryo: {}", longValues);
 
         if (longValues == null) {
@@ -58,6 +81,7 @@ public class MyRestService {
     @GET
     @Path("properties")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(hidden = true)
     public JsonObject properties() {
         LOGGER.info("properties");
 

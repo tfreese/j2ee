@@ -1,5 +1,5 @@
 plugins {
-    id "war"
+    id("war")
 }
 
 description = "Example for saving HTTP-Sessions in the Amazon Cloud."

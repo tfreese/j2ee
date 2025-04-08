@@ -24,6 +24,8 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 /**
  * @author Thomas Freese
  */
+// @SuppressWarnings("all")
+@SuppressWarnings({"unchecked", "rawtypes"})
 class TestEndpoint {
     private static String serverUrl;
 
