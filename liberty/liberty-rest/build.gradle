@@ -4,6 +4,7 @@ plugins {
 
     // build/generateOpenApiSpec
     id("io.smallrye.openapi")
+    id("org.openapi.generator")
 }
 
 description = "Demo for REST-Services"
@@ -13,6 +14,16 @@ ext {
     liberty.server.var."http.port" = "9080"
     liberty.server.var."https.port" = "9443"
     liberty.server.var."context.root" = project.name
+}
+
+def destDir = layout.buildDirectory.get().dir("generated-sources")
+
+sourceSets {
+    main {
+        java {
+            srcDir(destDir.dir("src").dir("main").dir("java"))
+        }
+    }
 }
 
 dependencies {
@@ -26,7 +37,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
-    compileOnly("org.eclipse.microprofile.openapi:microprofile-openapi-api:4.0.2")
+    compileOnly("org.eclipse.microprofile.openapi:microprofile-openapi-api")
 
     runtimeOnly("org.slf4j:slf4j-simple")
 
@@ -106,3 +117,59 @@ smallryeOpenApi {
     servers = ["http://localhost:9080/liberty-rest"]
 }
 processResources.finalizedBy("generateOpenApiSpec")
+
+// https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
+// https://b2bsys-ti.vw.vwg/pps-api/ds/swagger-ui/index.html
+openApiGenerate {
+    generatorName = "java"
+    globalProperties = [
+            // force only the models
+            apis    : "false",
+            invokers: "false",
+            models  : ""
+    ]
+    configOptions = [
+            containerDefaultToNull       : "true",
+            dateLibrary                  : "java8-localdatetime",
+            // Eigentlich ist es hier 'microprofile', jedoch wird dann kein Jackson, sondern JsonB generiert.
+            // Jsonb haben wir aber nicht im Server, weshalb die Annotation nicht erkannt werden und die Serialisierung fehlschlägt.
+            // Da wir nur das Model brauchen, nehmen wir einfach 'resteasy' als Workaround.
+            library                      : "resteasy",
+            microprofileRestClientVersion: "3.0",
+            useOneOfInterfaces           : "true",
+            serialisationLibrary         : "jackson",
+            useJakartaEe                 : "true"
+    ]
+    inputSpec = layout.buildDirectory.get().dir("generated").dir("openapi").file("openapi.json").toString()
+    //inputSpec = "$rootDir/libs/openapi/openapi-pps/schema/pps-openapi.json"
+    //inputSpec = "$projectDir/schema/pps-openapi.json"
+    //inputSpec = "schema/pps-openapi.json"
+    outputDir = destDir.toString()
+    apiPackage = "de.api"
+    modelPackage = "de.model"
+    generateModelTests = false
+    generateModelDocumentation = false
+    generateApiTests = false
+    generateApiDocumentation = false
+    logToStderr = true
+}
+compileJava.dependsOn("openApiGenerate")
+
+// tasks.register("prepareGeneratedCode") {
+//     group = "star"
+//     description = "Prepare the generated Code"
+//
+//     dependsOn("openApiGenerate")
+//
+//     doLast {
+//         // Das System hat die Typ-Information manuell in die Objekte eingefuegt.
+//         // So passt das Schema nicht immer mit den Objekten zusammen.
+//         // Hiermit weisen wir Jackson an die Typ-Information in DsObject.type nur zu setzen, wenn wir es explizit setzen.
+//         ant.replaceregexp(
+//                 match: "@JsonTypeInfo\\(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"\", visible = true\\)\n",
+//                 replace: "@JsonTypeInfo\\(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.PROPERTY, property = \"\", visible = true\\)\n") {
+//             fileset(dir: destDir, includes: "**/DsObject.java")
+//         }
+//     }
+// }

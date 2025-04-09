@@ -18,7 +18,10 @@ plugins {
     id("io.spring.dependency-management") version("$version_springDependencyManagementPlugin") apply(false)
 
     // build/generateOpenApiSpec
-    id("io.smallrye.openapi") version("4.0.9") apply(false)
+    id("io.smallrye.openapi") version("${version_ioSmallryeOpenapiGradlePlugin}") apply(false)
+
+    // https://github.com/OpenAPITools/openapi-generator/
+    id("org.openapi.generator") version("${version_openapGeneratorGradlePlugin}") apply(false)
 }
 
 allprojects {
@@ -62,6 +65,7 @@ subprojects {
             dependency("com.esotericsoftware:kryo:$version_kryo")
             dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
             dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
+            dependency("org.eclipse.microprofile.openapi:microprofile-openapi-api:${version_microprofileOpenapiApi}")
             dependency("org.glassfish.jersey.connectors:jersey-jnh-connector:" + dependencyManagement.importedProperties["jersey.version"])
             dependency("org.primefaces:primefaces:$version_primefaces")
             dependency("org.primefaces:primefaces-themes:$version_primefacesThemes")
