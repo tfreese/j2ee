@@ -85,10 +85,10 @@ class TestJCache {
                 }
 
                 case "caffeine" -> {
-                    // final Caffeine<Object, Object> caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
+                    // final Caffeine<Object, Object> caffeine = Caffeine.from("maximumSize=10,expireAfterWrite=3s,recordStats");
                     final Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
                             .maximumSize(100)
-                            .expireAfterAccess(Duration.ofHours(12))
+                            .expireAfterWrite(Duration.ofHours(12))
                             .recordStats();
 
                     final Logger logger = LoggerFactory.getLogger(TestJCache.class);
@@ -131,7 +131,7 @@ class TestJCache {
 
                     return new HazelcastJCache<>(cacheManager, cacheName, hazelcastInstance.getMap(cacheName));
                 }
-                
+
                 default -> throw new UnsupportedOperationException("unsupported cache");
             }
         });
