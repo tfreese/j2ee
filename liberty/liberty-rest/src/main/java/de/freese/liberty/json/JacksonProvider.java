@@ -12,5 +12,5 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class JacksonProvider extends JacksonObjectMapperConfig {
+public class JacksonProvider extends JacksonContextResolver {
 }

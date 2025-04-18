@@ -3,11 +3,12 @@ package de.freese.liberty.rest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -41,11 +42,13 @@ public class MyRestService {
     @GET
     @Path("exception")
     @Produces(MediaType.APPLICATION_JSON)
-    @Tag(name = "exception")
-    @Operation(summary = "Wirft eine RuntimeException.")
-    @APIResponse(responseCode = "400", description = "Server-Status",
+    @Tag(name = "Exception")
+    @Operation(summary = "Throws a RuntimeException.")
+    @APIResponse(responseCode = "200", description = "Will never happen")
+    @APIResponse(responseCode = "400", description = "Server-Time",
             content = {
-                    @Content(mediaType = MediaType.TEXT_PLAIN, schema = @Schema(defaultValue = "false"))
+                    @Content(mediaType = MediaType.TEXT_PLAIN, schema = @Schema(implementation = LocalDateTime.class))
+                    // @Content(mediaType = MediaType.TEXT_PLAIN, schema = @Schema(defaultValue = "false"))
             }
     )
     public LocalDateTime exception() {
@@ -56,16 +59,8 @@ public class MyRestService {
     @Path("kryo")
     @Consumes(KryoReaderWriter.KRYO_MEDIA_TYPE)
     @Produces(KryoReaderWriter.KRYO_MEDIA_TYPE)
-    @Tag(name = "kryo")
-    @Operation(summary = "Kryo Serialisierung.")
-    @APIResponse(responseCode = "200", description = "Kryo-Values",
-            content = {
-                    @Content(mediaType = KryoReaderWriter.KRYO_MEDIA_TYPE, schema = @Schema(implementation = String.class))
-            }
-    )
-    public List<String> kryo(
-            @Parameter(description = "Long Values ", required = true, schema = @Schema(implementation = Long.class),
-                    examples = {@ExampleObject(name = "1", value = "1 Value"), @ExampleObject(name = "2", value = "2 Value")}) final List<Long> longValues) {
+    @Operation(hidden = true)
+    public List<String> kryo(final List<Long> longValues) {
         LOGGER.info("kryo: {}", longValues);
 
         if (longValues == null) {
@@ -81,22 +76,29 @@ public class MyRestService {
     @GET
     @Path("properties")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(hidden = true)
-    public JsonObject properties() {
+    @Tag(name = "Server")
+    @Operation(summary = "Server Properties.")
+    @APIResponse(responseCode = "200", description = "Server Properties",
+            content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Map.class))
+            }
+    )
+    public Map<String, String> properties(@Parameter(description = "Parameter", required = false, schema = @Schema(implementation = String.class),
+            examples = {@ExampleObject(name = "1", value = "1 Value")}) final String parameter) {
         LOGGER.info("properties");
 
-        final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-
-        System.getProperties().keySet().stream()
-                .sorted()
+        return System.getProperties().keySet().stream()
                 .map(String.class::cast)
-                .forEach(key -> jsonObjectBuilder.add(key, System.getProperty(key)))
-        ;
+                .collect(Collectors.toMap(Function.identity(), System::getProperty, (a, b) -> a, TreeMap::new));
 
-        // System.getProperties()
-        //         .forEach((key, value) -> jsonObjectBuilder.add((String) key, (String) value))
+        // final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        //
+        // System.getProperties().keySet().stream()
+        //         .sorted()
+        //         .map(String.class::cast)
+        //         .forEach(key -> jsonObjectBuilder.add(key, System.getProperty(key)))
         // ;
-
-        return jsonObjectBuilder.build();
+        //
+        // return jsonObjectBuilder.build();
     }
 }

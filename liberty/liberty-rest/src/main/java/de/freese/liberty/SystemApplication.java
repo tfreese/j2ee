@@ -1,5 +1,5 @@
 // Created: 20.05.2018
-package de.freese.liberty.rest;
+package de.freese.liberty;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

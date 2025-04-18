@@ -32,6 +32,14 @@ public final class KryoReaderWriter implements MessageBodyReader<Object>, Messag
     @Inject
     private KryoProvider kryoProvider;
 
+    // Der Server ignoriert den Provider de.freese.liberty.kryo.KryoReaderWriter, weil er nicht gültig ist.
+    // @Inject
+    // @KryoQualifier
+    // private Kryo kryo;
+
+    // @Context
+    // private Providers providers;
+
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
         return KRYO_MEDIA_TYPE.equalsIgnoreCase(mediaType.toString());
@@ -66,7 +74,14 @@ public final class KryoReaderWriter implements MessageBodyReader<Object>, Messag
         output.flush();
     }
 
+    // @PostConstruct
+    // void init() {
+    //     final ContextResolver<Kryo> resolver = providers.getContextResolver(Kryo.class, new MediaType("application", "x-kryo"));
+    //     final Kryo k = resolver.getContext(Kryo.class);
+    // }
+
     private Kryo getKryo() {
+        // return kryo;
         return kryoProvider.getKryo();
     }
 }

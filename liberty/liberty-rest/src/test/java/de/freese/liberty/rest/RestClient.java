@@ -3,11 +3,14 @@ package de.freese.liberty.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+
+import jakarta.ws.rs.core.HttpHeaders;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -15,7 +18,7 @@ import com.esotericsoftware.kryo.io.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.liberty.kryo.KryoProvider;
+import de.freese.liberty.kryo.KryoContextResolver;
 import de.freese.liberty.kryo.KryoReaderWriter;
 
 /**
@@ -28,9 +31,8 @@ public final class RestClient {
 
     public static void main(final String[] args) throws IOException, InterruptedException {
         final URI uri = URI.create("http://localhost:9080/liberty-rest/my-liberty/service/kryo");
-        final KryoProvider kryoProvider = new KryoProvider();
-        final Kryo kryo
-                = kryoProvider.getKryo();
+        final KryoContextResolver kryoProvider = new KryoContextResolver();
+        final Kryo kryo = kryoProvider.getKryo();
 
         byte[] bytes = null;
 
@@ -45,14 +47,18 @@ public final class RestClient {
         try (HttpClient httpClient = HttpClient.newBuilder().build()) {
             final HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(uri)
-                    .header("Content-Type", KryoReaderWriter.KRYO_MEDIA_TYPE)
-                    .header("Accept", KryoReaderWriter.KRYO_MEDIA_TYPE)
+                    .header(HttpHeaders.CONTENT_TYPE, KryoReaderWriter.KRYO_MEDIA_TYPE)
+                    .header(HttpHeaders.ACCEPT, KryoReaderWriter.KRYO_MEDIA_TYPE)
                     .POST(HttpRequest.BodyPublishers.ofByteArray(bytes))
                     .build();
 
             final HttpResponse<InputStream> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofInputStream());
             LOGGER.info("statusCode: {}", httpResponse.statusCode());
 
+            if (httpResponse.statusCode() != HttpURLConnection.HTTP_OK) {
+                return;
+            }
+            
             // final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             // httpResponse.body().transferTo(baos);
             // bytes = baos.toByteArray();

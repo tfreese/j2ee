@@ -120,7 +120,7 @@ processResources.finalizedBy("generateOpenApiSpec")
 
 // https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
 // https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
-// https://b2bsys-ti.vw.vwg/pps-api/ds/swagger-ui/index.html
+// http://localhost:9080/liberty-rest/openapi/ui/
 openApiGenerate {
     generatorName = "java"
     globalProperties = [

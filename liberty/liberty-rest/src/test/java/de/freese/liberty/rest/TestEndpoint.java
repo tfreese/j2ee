@@ -13,12 +13,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+import jakarta.ws.rs.core.HttpHeaders;
+
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import de.freese.liberty.kryo.KryoProvider;
+import de.freese.liberty.kryo.KryoContextResolver;
 import de.freese.liberty.kryo.KryoReaderWriter;
 
 /**
@@ -37,7 +39,7 @@ class TestEndpoint {
     }
 
     /**
-     * <a href="http://localhost:9080/liberty-rest/my-liberty/service/properties">localhost</a>
+     * <a href="http://localhost:9080/liberty-rest/my-liberty/service/exception">localhost</a>
      */
     @Test
     void testException() throws Exception {
@@ -64,7 +66,7 @@ class TestEndpoint {
     void testKryo() throws Exception {
         final URI uri = URI.create(serverUrl + "/kryo");
 
-        final KryoProvider kryoProvider = new KryoProvider();
+        final KryoContextResolver kryoProvider = new KryoContextResolver();
 
         byte[] bytes = null;
 
@@ -76,8 +78,8 @@ class TestEndpoint {
         try (HttpClient httpClient = HttpClient.newBuilder().build()) {
             final HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(uri)
-                    .header("Content-Type", KryoReaderWriter.KRYO_MEDIA_TYPE)
-                    .header("Accept", KryoReaderWriter.KRYO_MEDIA_TYPE)
+                    .header(HttpHeaders.CONTENT_TYPE, KryoReaderWriter.KRYO_MEDIA_TYPE)
+                    .header(HttpHeaders.ACCEPT, KryoReaderWriter.KRYO_MEDIA_TYPE)
                     .POST(HttpRequest.BodyPublishers.ofByteArray(bytes))
                     .build();
 
