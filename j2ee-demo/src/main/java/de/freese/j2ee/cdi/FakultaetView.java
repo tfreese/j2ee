@@ -4,18 +4,23 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.Max;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 @Named
 @RequestScoped
 public class FakultaetView {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FakultaetView.class);
+
     // @Inject
     // @Recursive
     private final Fakultaet fakultaet;
 
     private long fakt;
-    
+
     // @Max(5)
     private int n;
 
@@ -27,18 +32,19 @@ public class FakultaetView {
     }
 
     public String calculate() {
-        System.out.println("Test " + getN());
-        setFakt(this.fakultaet.getFakultaet(getN()));
+        LOGGER.info("Test {}", getN());
+
+        setFakt(fakultaet.getFakultaet(getN()));
 
         return null;
     }
 
     public long getFakt() {
-        return this.fakt;
+        return fakt;
     }
 
     public int getN() {
-        return this.n;
+        return n;
     }
 
     public void setFakt(final long fakt) {

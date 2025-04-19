@@ -25,6 +25,7 @@ public class JmxBeanExtension {
 
     // @Inject
     // private LogInterceptor interceptor;
+
     @Inject
     @JmxBean
     // @Any
@@ -36,11 +37,11 @@ public class JmxBeanExtension {
 
         final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
 
-        if (this.jmxBeans == null) {
+        if (jmxBeans == null) {
             return;
         }
 
-        for (Object bean : this.jmxBeans) {
+        for (Object bean : jmxBeans) {
             final Class<?> beanClass = bean.getClass();
             // final Object bean = this.interceptor;
             // final Class<?> beanClass = LogInterceptor.class;
@@ -56,6 +57,7 @@ public class JmxBeanExtension {
             }
 
             mBeanServer.registerMBean(bean, objectName);
+            
             LOGGER.info("Registered {}", objectName);
         }
     }

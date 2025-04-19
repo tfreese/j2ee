@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="Demo for REST-Services">
+<server description="Demo for OpenLiberty">
 
     <featureManager>
         <!-- <feature>jakartaee-10.0</feature> -->

@@ -44,7 +44,7 @@ public class RestService {
 
     @Context
     private SecurityContext context;
-    
+
     @Inject
     @MyDataSource
     private DataSource dataSource;
@@ -64,7 +64,7 @@ public class RestService {
     public void delete(@PathParam("id") final long id) {
         LOGGER.info("id = {}", id);
 
-        this.entityManager.createQuery("delete from Kunde where id = :id").setParameter("id", id).executeUpdate();
+        entityManager.createQuery("delete from Kunde where id = :id").setParameter("id", id).executeUpdate();
     }
 
     @GET
@@ -73,7 +73,7 @@ public class RestService {
     public List<Kunde> getAsXML() {
         LOGGER.info("");
 
-        return this.entityManager.createQuery("select k from Kunde k", Kunde.class).getResultList();
+        return entityManager.createQuery("select k from Kunde k", Kunde.class).getResultList();
     }
 
     @GET
@@ -84,7 +84,7 @@ public class RestService {
     public Kunde getByID(@PathParam("id") final long id) {
         LOGGER.info("id = {}", id);
 
-        final List<Kunde> kunden = this.entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).setParameter("id", id).getResultList();
+        final List<Kunde> kunden = entityManager.createQuery("select k from Kunde k where k.id = :id", Kunde.class).setParameter("id", id).getResultList();
 
         if (kunden.size() == 1) {
             return kunden.getFirst();
@@ -103,7 +103,7 @@ public class RestService {
         kunde.setName(name);
         kunde.setVorname(vorname);
 
-        this.entityManager.persist(kunde);
+        entityManager.persist(kunde);
     }
 
     @POST
@@ -115,7 +115,7 @@ public class RestService {
             LOGGER.info(kunde.toString());
         }
 
-        this.entityManager.merge(kunde);
+        entityManager.merge(kunde);
 
         return "OK";
     }

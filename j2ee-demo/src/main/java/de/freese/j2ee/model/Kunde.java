@@ -38,23 +38,25 @@ public class Kunde implements Serializable {
     @SequenceGenerator(name = "seq", sequenceName = "kunde_SEQ", initialValue = 1, allocationSize = 1)
     @XmlAttribute
     private long id;
+
     @Column(name = "NAME", nullable = false)
     @Size(min = 3)
     private String name;
+
     @Column(name = "VORNAME", nullable = false)
     @Size(min = 3)
     private String vorname;
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getVorname() {
-        return this.vorname;
+        return vorname;
     }
 
     public void setId(final long id) {
@@ -71,6 +73,6 @@ public class Kunde implements Serializable {
 
     @Override
     public String toString() {
-        return "Kunde [id=" + this.id + ", name=" + this.name + ", vorname=" + this.vorname + "]";
+        return "Kunde [id=" + id + ", name=" + name + ", vorname=" + vorname + "]";
     }
 }

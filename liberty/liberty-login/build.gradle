@@ -29,7 +29,7 @@ dependencies {
     // testImplementation("org.glassfish.jersey.media:jersey-media-json-jackson")
 }
 
-test {
+tasks.named("test") {
     enabled = true
 
     testLogging {

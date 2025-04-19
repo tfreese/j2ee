@@ -23,16 +23,18 @@ import de.freese.j2ee.jmx.UsageLogMBean;
 @MyLogging
 @JmxBean
 public class LogInterceptor implements UsageLogMBean {
+    // private static final Logger LOGGER = LoggerFactory.getLogger(LogInterceptor.class);
+
     private static final Set<String> PARAMETERS = new TreeSet<>();
 
     // @PostConstruct
     // public void exportsBean() throws Exception {
-    // System.out.println("LogInterceptor.exportsBean()");
+    //     LOGGER.info("LogInterceptor.exportsBean()");
     //
-    // final ObjectName objectName = new ObjectName("LogInterceptor:type=" + getClass().getName());
+    //     final ObjectName objectName = new ObjectName("LogInterceptor:type=" + getClass().getName());
     //
-    // final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
-    // mBeanServer.registerMBean(this, objectName);
+    //     final MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+    //     mBeanServer.registerMBean(this, objectName);
     // }
 
     @Override

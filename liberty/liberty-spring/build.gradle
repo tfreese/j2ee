@@ -41,7 +41,7 @@ tasks.register("copyJDBC", Copy) {
 }
 deploy.dependsOn("copyJDBC")
 
-test {
+tasks.named("test") {
     enabled = true
 
     testLogging {

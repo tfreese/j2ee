@@ -18,7 +18,7 @@ public class KundeList {
     private List<Kunde> kunden;
 
     public List<Kunde> getKunden() {
-        return this.kunden;
+        return kunden;
     }
 
     public void setKunden(final List<Kunde> kunden) {
