@@ -50,28 +50,28 @@ public class StartUp extends AbstractBean {
     public void postConstruct() {
         super.postConstruct();
 
-        this.executorService.execute(() -> getLogger().info("postConstruct with DefaultManagedExecutorService"));
-        this.scheduledExecutorService.execute(() -> getLogger().info("postConstruct with DefaultManagedScheduledExecutorService"));
+        executorService.execute(() -> getLogger().info("postConstruct with DefaultManagedExecutorService"));
+        scheduledExecutorService.execute(() -> getLogger().info("postConstruct with DefaultManagedScheduledExecutorService"));
 
-        query(this.dataSource, "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+        query(dataSource, "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
 
         // final Object hibernateResult = entityManager.createNativeQuery("VALUES (CURRENT_TIMESTAMP)").getSingleResult();
         // getLogger().info("HibernateResult: {}", hibernateResult);
 
         try {
-            getLogger().info("Sysdate: {}", this.serviceBean.getSysDate());
+            getLogger().info("Sysdate: {}", serviceBean.getSysDate());
         }
         catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
-        if (this.noViewBean == null) {
+        if (noViewBean == null) {
             getLogger().warn("NoViewBean is null, try ejb lookup");
 
             try {
-                this.noViewBean = Utils.ejb(NoViewBean.class);
+                noViewBean = Utils.ejb(NoViewBean.class);
 
-                if (this.noViewBean != null) {
+                if (noViewBean != null) {
                     getLogger().warn("NoViewBean lookup successfully");
                 }
             }
@@ -80,13 +80,13 @@ public class StartUp extends AbstractBean {
             }
         }
 
-        if (this.noViewBean == null) {
+        if (noViewBean == null) {
             getLogger().warn("NoViewBean is null, try inject lookup");
 
             try {
-                this.noViewBean = Utils.inject(NoViewBean.class);
+                noViewBean = Utils.inject(NoViewBean.class);
 
-                if (this.noViewBean != null) {
+                if (noViewBean != null) {
                     getLogger().warn("NoViewBean lookup successfully");
                 }
             }
@@ -95,13 +95,13 @@ public class StartUp extends AbstractBean {
             }
         }
 
-        if (this.noViewBean == null) {
+        if (noViewBean == null) {
             getLogger().warn("NoViewBean is null, try jndi lookup");
 
             try {
-                this.noViewBean = Utils.lookup("java:module/NoViewBean!de.freese.j2ee.liberty.config.NoViewBean", NoViewBean.class);
+                noViewBean = Utils.lookup("java:module/NoViewBean!de.freese.j2ee.liberty.config.NoViewBean", NoViewBean.class);
 
-                if (this.noViewBean != null) {
+                if (noViewBean != null) {
                     getLogger().warn("NoViewBean lookup successfully");
                 }
             }
@@ -111,7 +111,7 @@ public class StartUp extends AbstractBean {
         }
 
         try {
-            getLogger().info("NoViewBean: {}", this.noViewBean.getValue());
+            getLogger().info("NoViewBean: {}", noViewBean.getValue());
         }
         catch (Exception ex) {
             getLogger().error(ex.getMessage());

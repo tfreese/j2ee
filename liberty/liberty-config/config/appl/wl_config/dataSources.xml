@@ -5,7 +5,8 @@
         <fileset dir="${server_home}/appl/appl_libs" includes="hsqldb-*.jar" />
     </library>
 
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" />
+    <!-- <databaseStore id="defaultDatabaseStore" dataSourceRef="hsqldbDS" /> -->
+    <databaseStore id="DefaultDataSource" dataSourceRef="hsqldbDS" />
 
     <dataSource
             id="hsqldbDS"

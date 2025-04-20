@@ -3,6 +3,6 @@
 
     <jndiEntry jndiName="jsf/ProjectStage" value="${STAGE}" />
 
-    <jndiEntry jndiName="my.crypted.secret " value="${my.crypted.secret }" />
+    <jndiEntry jndiName="my.crypted.secret" value="${my.crypted.secret}" />
 
 </server>

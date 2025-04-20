@@ -34,7 +34,8 @@
     <!--keyStore id="defaultKeyStore" location="${server_home}/resources/security/key-default.jks" password="..." readOnly="true" type="jks" />
     <keyStore id="defaultTrustStore" location="${server_home}/resources/security/trust-default.jks" password="..." readOnly="true" type="jks" />
 
-    <ssl id="defaultSSLSettings" clientAuthentication="false" clientAuthenticationSupported="false" keyStoreRef="defaultKeyStore"
+    <ssl id="defaultSSLSettings" clientAuthentication="false" clientAuthenticationSupported="false"
+        keyStoreRef="defaultKeyStore"
         trustStoreRef="defaultTrustStore"
         securityLevel="HIGH" sslProtocol="TLSv1.2" /-->
 

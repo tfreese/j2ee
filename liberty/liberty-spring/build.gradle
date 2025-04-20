@@ -13,7 +13,9 @@ ext {
 }
 
 configurations {
-    jdbcLib
+    jdbcLib {
+        extendsFrom(runtimeOnly)
+    }
 }
 
 dependencies {
@@ -24,7 +26,7 @@ dependencies {
         exclude(group: "org.springframework.boot", module: "spring-boot-starter-tomcat")
     }
 
-    implementation("com.h2database:h2")
+    // implementation("com.h2database:h2")
     jdbcLib("com.h2database:h2")
 
     // providedCompile

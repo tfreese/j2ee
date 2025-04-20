@@ -6,7 +6,8 @@
         <fileset dir="${server.config.dir}/jdbc" includes="h2-*.jar" />
     </library>
 
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
+    <!-- <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" /> -->
+    <databaseStore id="DefaultDataSource" dataSourceRef="h2DS" />
 
     <dataSource
             id="h2DS"

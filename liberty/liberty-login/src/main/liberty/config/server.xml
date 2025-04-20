@@ -15,5 +15,5 @@
 
     <webApplication location="liberty-login.war" contextRoot="${context.root}" />
 
-    <executor coreThreads="4" maxThreads="5" />
+    <executor coreThreads="4" maxThreads="8" />
 </server>
