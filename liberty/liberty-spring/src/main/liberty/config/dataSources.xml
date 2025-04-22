@@ -17,12 +17,12 @@
                 libraryRef="h2Driver"
                 javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" />
         <properties
-                url="jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true"
+                url="jdbc:h2:mem:liberty;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true"
                 user="sa"
                 password="" />
         <connectionManager
                 minPoolSize="1"
-                maxPoolSize="2"
+                maxPoolSize="3"
                 maxIdleTime="10m"
                 connectionTimeout="35s" />
     </dataSource>

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import de.freese.liberty.Util;
 
 /**
- * <a href="http://localhost:7080/liberty-login">localhost</a>
+ * <a href="http://localhost:7080/liberty-login/page">localhost</a>
  *
  * @author Thomas Freese
  */

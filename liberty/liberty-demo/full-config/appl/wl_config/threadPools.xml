@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="ThreadPool configuration">
+    <!-- <managedExecutorService jndiName="concurrent/executor"> -->
+    <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
+    <!-- </managedExecutorService> -->
+
+    <!-- <managedScheduledExecutorService jndiName="concurrent/scheduledExecutorService"> -->
+    <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
+    <!-- </managedScheduledExecutorService > -->
+
+    <executor coreThreads="4" maxThreads="8" />
+
+</server>

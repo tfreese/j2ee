@@ -12,10 +12,8 @@ pluginManagement {
 
 include "cloudsessions"
 include "cloudsessions-integration"
-include "j2ee-demo"
 include "jcache"
 include "jpa"
-include "liberty:liberty-config"
 include "liberty:liberty-login"
-include "liberty:liberty-rest"
+include "liberty:liberty-demo"
 include "liberty:liberty-spring"

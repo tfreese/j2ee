@@ -1,0 +1,309 @@
+plugins {
+    id("war")
+    id("ear")
+
+    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
+
+    // build/generateOpenApiSpec
+    id("io.smallrye.openapi")
+    id("org.openapi.generator")
+}
+
+description = "Demo for OpenLiberty"
+// https://openliberty.io/guides/gradle-intro.html#getting-started
+
+ext {
+    liberty.server.var."http.port" = "9080"
+    liberty.server.var."https.port" = "9443"
+    liberty.server.var."context.root" = project.name
+}
+
+def destDir = layout.buildDirectory.get().dir("generated-sources")
+
+sourceSets {
+    main {
+        java {
+            srcDir(destDir.dir("src").dir("main").dir("java"))
+        }
+    }
+}
+
+configurations {
+    jdbcLib {
+        extendsFrom(runtimeOnly)
+        // extendsFrom(implementation)
+    }
+}
+
+dependencies {
+    // libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
+    libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
+
+    implementation("com.esotericsoftware:kryo")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    //implementation("com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
+    implementation("com.github.ben-manes.caffeine:caffeine")
+
+    implementation("org.hibernate.orm:hibernate-core") {
+        exclude(group: "jakarta.activation", module: "*")
+        exclude(group: "jakarta.inject", module: "*")
+        exclude(group: "jakarta.persistence", module: "*")
+        exclude(group: "jakarta.transaction", module: "*")
+        exclude(group: "jakarta.xml.bind", module: "*")
+    }
+
+    implementation("org.slf4j:slf4j-api")
+
+    // providedCompile
+    compileOnly("io.openliberty.api:io.openliberty.transaction")
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
+    compileOnly("org.eclipse.microprofile.openapi:microprofile-openapi-api")
+
+    jdbcLib("com.h2database:h2")
+    runtimeOnly("org.slf4j:slf4j-simple")
+
+    testImplementation("jakarta.platform:jakarta.jakartaee-api")
+    // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
+    // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
+    // testImplementation("org.glassfish.jersey.core:jersey-client")
+    // testImplementation("org.glassfish.jersey.media:jersey-media-json-jackson")
+}
+
+test {
+    enabled = true
+
+    testLogging {
+        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
+//        exceptionFormat = TestExceptionFormat.FULL
+    }
+
+    systemProperty("http.port", liberty.server.var."http.port")
+    systemProperty("context.root", liberty.server.var."context.root")
+}
+test.dependsOn("libertyStart")
+test.finalizedBy("libertyStop")
+// test.finalizedBy("openBrowser")
+clean.dependsOn("libertyStop")
+
+tasks.named("war") {
+    dependsOn("generateOpenApiSpec")
+
+    // Skinny-War
+    // rootSpec.exclude("**/*.jar", "**/*.rar")
+
+    // OpenApi Dateien sollten automatisch im WAR/META-INF landen.
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    metaInf {
+        from(layout.buildDirectory.get().dir("generated").dir("openapi"))
+    }
+
+    // or by Filter
+//    classpath = classpath.filter { file ->
+//        !file.name.startsWith("slf4j-api") && !file.name.startsWith("aws-java-sdk-simpledb")
+//    }
+
+//    archiveFileName = "sample.war"
+//    webAppDirectory = file("src/main/webapp")
+//    from "src/rootContent'" // adds a file-set to the root of the archive
+//    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
+}
+
+tasks.named("ear") {
+    appDirectory = file("src/main/app")  // use application metadata found in this folder
+
+    libDirName = "APP-INF/lib" // put dependent libraries into APP-INF/lib inside the generated EAR
+
+    deploymentDescriptor {  // custom entries for application.xml:
+//      fileName = "application.xml"  // same as the default value
+//      version = "6"  // same as the default value
+        applicationName = "custom-ear"
+        initializeInOrder = true
+        displayName = "Custom Ear"  // defaults to project.name
+        // defaults to project.description if not set
+        description = "My customized EAR for the Gradle documentation"
+//      libraryDirectory = "APP-INF/lib"  // not needed, above libDirName setting does this
+//      module("my.jar", "java")  // won't deploy as my.jar isn't deploy dependency
+//      webModule("my.war", "/")  // won't deploy as my.war isn't deploy dependency
+        securityRole("admin")
+        securityRole("superadmin")
+
+        withXml { provider -> // add a custom node to the XML
+            provider.asNode().appendNode("data-source", "my/data/source")
+        }
+    }
+}
+
+tasks.register("copyJDBC", Copy) {
+    group = "MyTasks"
+
+    from(configurations.jdbcLib)
+    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("appl").dir("libs"))
+    include("*.jar")
+}
+deploy.dependsOn("copyJDBC")
+
+tasks.register("openBrowser") {
+    group = "MyTasks"
+    description = "Open browser to the running application"
+
+    doLast {
+        String port = liberty.server.var."http.port"
+        String context = liberty.server.var."context.root"
+        String url = "http://localhost:" + port + "/" + context + "/my-liberty/service/properties"
+
+        java.awt.Desktop.desktop.browse url.toURI()
+        // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()
+    }
+}
+
+liberty {
+    // install {
+    //     baseDir = "/tmp"
+    // }
+
+    server {
+        //baseDir = layout.buildDirectory.dir("ibm").get()
+        name = project.name
+
+        stripVersion = true
+
+        // Clean logs, workarea, apps, dropins on server startup
+        clean = true
+
+        // Wait n seconds to verify application start.
+        // verifyAppStartTimeout = 30
+
+        // configDirectory = file("config")
+        // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
+        // jvmOptions = ["-Xms128m", "-Xmx512m"]
+        // serverXmlFile = file("src/resources/config/server-test1.xml")
+        // bootstrapPropertiesFile = file("src/resources/config/bootstrap.test.properties")
+        // jvmOptionsFile = file("src/resources/config/jvm.test.options")
+        // serverEnvFile = file("src/resources/config/server.test.env")
+    }
+}
+
+// build/generated/openapi
+smallryeOpenApi {
+    infoTitle = "My API's"
+    infoVersion = project.version
+    encoding = "UTF-8"
+    scanPackages = ["de.freese.liberty.rest"]
+    // scanClasses = ["CLASS_1", "CLASS_2"]
+    servers = ["http://localhost:9080/liberty-demo"]
+}
+processResources.finalizedBy("generateOpenApiSpec")
+
+// https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+// https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md
+// http://localhost:9080/liberty-demo/openapi/ui/
+openApiGenerate {
+    generatorName = "java"
+    globalProperties = [
+            // force only the models
+            apis    : "false",
+            invokers: "false",
+            models  : ""
+    ]
+    configOptions = [
+            containerDefaultToNull       : "true",
+            dateLibrary                  : "java8-localdatetime",
+            // Eigentlich ist es hier 'microprofile', jedoch wird dann kein Jackson, sondern JsonB generiert.
+            // Jsonb haben wir aber nicht im Server, weshalb die Annotation nicht erkannt werden und die Serialisierung fehlschlägt.
+            // Da wir nur das Model brauchen, nehmen wir einfach 'resteasy' als Workaround.
+            library                      : "resteasy",
+            microprofileRestClientVersion: "3.0",
+            useOneOfInterfaces           : "true",
+            serialisationLibrary         : "jackson",
+            useJakartaEe                 : "true"
+    ]
+    inputSpec = layout.buildDirectory.get().dir("generated").dir("openapi").file("openapi.json").toString()
+    //inputSpec = "$rootDir/libs/openapi/openapi-pps/schema/pps-openapi.json"
+    //inputSpec = "$projectDir/schema/pps-openapi.json"
+    //inputSpec = "schema/pps-openapi.json"
+    outputDir = destDir.toString()
+    apiPackage = "de.freese.liberty.api"
+    modelPackage = "de.freese.liberty.model"
+    generateModelTests = false
+    generateModelDocumentation = false
+    generateApiTests = false
+    generateApiDocumentation = false
+    logToStderr = true
+}
+tasks.openApiGenerate.dependsOn("generateOpenApiSpec")
+tasks.openApiGenerate.mustRunAfter("generateOpenApiSpec")
+// compileJava.finalizedBy("openApiGenerate")
+
+// tasks.register("prepareGeneratedCode") {
+//     group = "star"
+//     description = "Prepare the generated Code"
+//
+//     dependsOn("openApiGenerate")
+//
+//     doLast {
+//         // Das System hat die Typ-Information manuell in die Objekte eingefügt.
+//         // So passt das Schema nicht immer mit den Objekten zusammen.
+//         // Hiermit weisen wir Jackson an die Typ-Information in DsObject.type nur zu setzen, wenn wir es explizit setzen.
+//         ant.replaceregexp(
+//                 match: "@JsonTypeInfo\\(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"\", visible = true\\)\n",
+//                 replace: "@JsonTypeInfo\\(use = JsonTypeInfo.Id.NONE, include = JsonTypeInfo.As.PROPERTY, property = \"\", visible = true\\)\n") {
+//             fileset(dir: destDir, includes: "**/DsObject.java")
+//         }
+//     }
+// }
+
+// ant.lifecycleLogLevel = "INFO"
+//
+// // Register ANT-Tasks as Gradle-Tasks with Prefix "ant-" in Group "other".
+// ant.importBuild("ant_deploy.xml") { antTargetName -> "ant-" + antTargetName }
+// ant.properties["version"] = project.version
+//
+// // Set group property for all Ant tasks.
+// tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = "Ant" }
+//
+// clean.finalizedBy("ant-clean")
+
+tasks.register("deployApp") {
+    group = "MyTasks"
+    description = "Deploy Application"
+
+    dependsOn("build")
+    dependsOn("libertyCreate")
+
+    doLast {
+        Properties properties = new Properties()
+        file("src/main/liberty/config/bootstrap.properties").withInputStream { properties.load(it) }
+
+        var serverHome = properties.getProperty("server_home")
+
+        delete(serverHome + "/appl_data")
+        delete(serverHome + "/appl_logs")
+        delete(serverHome + "/logs")
+        delete(serverHome + "/tranlog")
+        delete(serverHome + "/workarea")
+        delete(serverHome + "/mqjms.log.0")
+
+        var warFolder = serverHome + "/appl/" + properties.getProperty("deploy_folder")
+        delete(warFolder)
+        copy {
+            from(tasks.war)
+            into(warFolder)
+            rename { String fileName ->
+                fileName.replace("-${version}", "")
+            }
+        }
+
+        var libFolder = serverHome + "/appl/appl_libs"
+        delete(libFolder)
+        copy {
+            from(configurations.runtimeClasspath - configurations.providedCompile) {
+                include("*.jar")
+                include("*.rar")
+                //    exclude("ohj*")
+            }
+
+            into(libFolder)
+        }
+    }
+}

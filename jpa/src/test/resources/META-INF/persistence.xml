@@ -4,12 +4,11 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
              version="3.1">
 
-    <!-- transaction-type="JTA" for ApplicationServer -->
+    <!-- transaction-type="JTA" for ApplicationServer. -->
     <persistence-unit name="my.emf" transaction-type="RESOURCE_LOCAL">
         <description>My Persistence Unit</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <!-- transaction-type="JTA" -->
         <!-- <jta-data-source>java:/DefaultDS</jta-data-source> -->
         <!-- <non-jta-data-source>java:/DefaultDS</non-jta-data-source> -->
 
@@ -23,6 +22,7 @@
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <validation-mode>AUTO</validation-mode>
 
         <properties>
             <!-- <property name="jakarta.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" /> -->

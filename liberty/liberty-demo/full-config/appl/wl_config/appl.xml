@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Application Configuration">
+
+    <featureManager>
+        <!-- All -->
+        <feature>jakartaee-10.0</feature>
+    </featureManager>
+    <!--
+        <feature>passwordUtilities-1.0</feature>
+        AuthData authData = AuthDataProvider.getAuthData("auth1");
+        String userName = authData.getUserName();
+        char[] password = authData.getPassword();
+    -->
+
+    <!--authData id="authDataDB" user="${datasource.user}" password="${datasource.pwd}"/ -->
+
+    <include location="${server_home}/appl/wl_config/stageVariables.xml" optional="false" />
+    <!-- <include location="${server_home}/appl/wl_config/dataSources.xml" optional="false" /> -->
+    <include location="${server_home}/appl/wl_config/jndiEntries.xml" optional="false" />
+    <!-- <include location="${server_home}/appl/wl_config/mail.xml" optional="true" /> -->
+    <!-- <include location="${server_home}/appl/wl_config/mq.xml" optional="false" /> -->
+    <include location="${server_home}/appl/wl_config/threadPools.xml" optional="false" />
+    <include location="${server_home}/appl/wl_config/webApplication.xml" optional="false" />
+
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
+
+    <!-- For Arquillian -->
+    <!--applicationMonitor updateTrigger="mbean" /-->
+
+    <!-- disable hot deployment -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
+
+    <!-- Disable configuration file monitoring -->
+    <config updateTrigger="disabled" />
+    <webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
+    <cdi enableImplicitBeanArchives="false" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
+    <transaction totalTranLifetimeTimeout="6h" clientInactivityTimeout="30m" />
+
+</server>

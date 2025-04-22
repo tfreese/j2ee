@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Encryption:
+- Local:
+    securityUtility encode &#45;&#45;encoding=aes &#45;&#45;key=myServer
+- Remote:
+    wladm -a myServer encode
+
+compileOnlyApi("com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.passwordUtil")
+
+final InitialContext ctx = new InitialContext();
+final String value = (String) ctx.lookup("my.crypted.secret");
+final String valueDecoded = PasswordUtil.passwordDecode(value);
+-->
+<server description="Stage specific variables">
+
+    <!-- Stage Name for jndiEntry -->
+    <!-- possible values are dev, int, test, qs, pre, prod -->
+    <variable name="STAGE" value="dev" />
+
+    <variable name="my.crypted.secret" value="{aes}..." />
+
+    <!-- DB Variables-->
+    <variable name="datasource.url" value="jdbc:h2:mem:liberty;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true" />
+    <variable name="datasource.user" value="sa" />
+    <variable name="datasource.pwd" value="{aes}..." />
+
+</server>

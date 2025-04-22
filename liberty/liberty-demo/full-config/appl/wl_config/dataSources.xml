@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+    <library id="h2Driver">
+        <fileset dir="${server_home}/appl/appl_libs" includes="h2-*.jar" />
+    </library>
+
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
+
+    <dataSource
+            id="h2DS"
+            jndiName="jdbc/h2DS"
+            containerAuthDataRef="authDataDB"
+    >
+        <!-- <containerAuthData user="${datasource.user}" password="${datasource.pwd}"></containerAuthData> -->
+        <jdbcDriver
+                libraryRef="h2Driver"
+                javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" />
+        <properties
+                url="${datasource.url}"
+        />
+        <!-- user="${datasource.user}" -->
+        <!-- password="${datasource.pwd}" -->
+        <connectionManager
+                minPoolSize="1"
+                maxPoolSize="3"
+                maxIdleTime="10m"
+                connectionTimeout="10s" />
+    </dataSource>
+
+    <!-- <jpa -->
+    <!--         defaultJtaDataSourceJndiName="jdbc/h2DS" -->
+    <!--         defaultPersistenceProvider="org.hibernate.jpa.HibernatePersistenceProvider" -->
+    <!-- > -->
+    <!--     <defaultProperties> -->
+    <!--         <property name="javax.persistence.schema-generation.database.action" value="update" /> -->
+    <!--         <property name="hibernate.connection.isolation" value="2" /> &lt;!&ndash; Connection.TRANSACTION_READ_COMMITTED &ndash;&gt; -->
+    <!--     </defaultProperties> -->
+    <!-- </jpa> -->
+
+</server>

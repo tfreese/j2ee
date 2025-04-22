@@ -14,7 +14,8 @@ ext {
 
 configurations {
     jdbcLib {
-        extendsFrom(runtimeOnly)
+        // extendsFrom(runtimeOnly)
+        extendsFrom(implementation)
     }
 }
 
@@ -26,7 +27,7 @@ dependencies {
         exclude(group: "org.springframework.boot", module: "spring-boot-starter-tomcat")
     }
 
-    // implementation("com.h2database:h2")
+    implementation("com.h2database:h2")
     jdbcLib("com.h2database:h2")
 
     // providedCompile
@@ -86,10 +87,6 @@ test.finalizedBy("libertyStop")
 clean.dependsOn("libertyStop")
 
 liberty {
-    // install {
-    //     baseDir = "/tmp"
-    // }
-
     server {
         //baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
@@ -98,17 +95,6 @@ liberty {
 
         // Clean logs, workarea, apps, dropins on server startup
         clean = true
-
-        // Wait n seconds to verify application start.
-        // verifyAppStartTimeout = 30
-
-        // configDirectory = file("src/resources/config")
-        // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
-        // jvmOptions = ["-Xms128m", "-Xmx512m"]
-        // serverXmlFile = file("src/resources/config/server-test1.xml")
-        // bootstrapPropertiesFile = file("src/resources/config/bootstrap.test.properties")
-        // jvmOptionsFile = file("src/resources/config/jvm.test.options")
-        // serverEnvFile = file("src/resources/config/server.test.env")
     }
 }
 

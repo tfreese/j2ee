@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <a href="http://localhost:7080/liberty-login">localhost</a>
+ * <a href="http://localhost:7080/liberty-login/page">localhost</a>
  *
  * @author Thomas Freese
  */

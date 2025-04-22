@@ -7,6 +7,8 @@
       lang="en"
 >
 
+<!-- <f:loadBundle basename="messages" var="msg"/> -->
+
 <h:head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,7 +17,8 @@
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
 
-    <title>Index</title>
+    <!-- #{msg.message} without . in Key -->
+    <title>#{msg['title.index']}</title>
 
     <link type="text/css"
           href="${request.contextPath}/resources/css/style.css"
