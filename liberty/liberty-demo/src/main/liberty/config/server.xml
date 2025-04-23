@@ -3,19 +3,21 @@
 
     <featureManager>
         <platform>jakartaee-10.0</platform>
+
         <feature>concurrent</feature>
         <feature>enterpriseBeans</feature>
+        <feature>faces</feature>
         <feature>jdbc</feature>
         <feature>jsonb</feature>
-        <feature>jsonp</feature>
-        <!-- <feature>persistence</feature> -->
         <feature>restfulWS</feature>
         <feature>xmlBinding</feature>
+        <!-- <feature>persistence</feature> -->
 
+        <!-- Not part of the JakartaEE-Platform. -->
         <feature>mpOpenAPI-3.1</feature>
     </featureManager>
 
-    <webApplication location="liberty-demo.war" contextRoot="${context.root}" />
+    <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" />
     <mpOpenAPI docPath="${context.root}/openapi" uiPath="${context.root}/openapi/ui" />
 
     <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${http.port}" httpsPort="${https.port}">

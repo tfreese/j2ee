@@ -15,7 +15,7 @@
     <!--         contextRoot="config"> -->
     <!--     <classloader commonLibraryRef="applicationLib, h2Driver" /> -->
     <!-- </webApplication> -->
-    <webApplication location="liberty-demo.war" contextRoot="${context.root}" />
+    <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" />
 
     <mpOpenAPI docPath="${context.root}/openapi" uiPath="${context.root}/openapi/ui" />
 

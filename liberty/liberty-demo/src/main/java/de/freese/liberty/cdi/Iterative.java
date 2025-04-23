@@ -1,4 +1,4 @@
-package de.freese.j2ee.cdi;
+package de.freese.liberty.cdi;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

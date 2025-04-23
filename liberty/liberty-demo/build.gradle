@@ -63,6 +63,7 @@ dependencies {
     jdbcLib("com.h2database:h2")
     runtimeOnly("org.slf4j:slf4j-simple")
 
+    testImplementation("com.h2database:h2")
     testImplementation("jakarta.platform:jakarta.jakartaee-api")
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
     // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")

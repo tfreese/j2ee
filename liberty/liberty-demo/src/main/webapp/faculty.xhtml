@@ -7,11 +7,11 @@
 <body>
 <h:messages/>
 <h:form>
-    <h:inputText value="#{fakultaetView.n}"/>
-    max. 5<br/>
-    <h:outputText value="#{fakultaetView.fakt}"/>
+    <h:inputText value="#{facultyController.n}"/>
     <br/>
-    <h:commandButton action="#{fakultaetView.calculate}" value="Start"/>
+    <h:outputText value="#{facultyController.result}"/>
+    <br/>
+    <h:commandButton action="#{facultyController.calculate}" value="Start"/>
 </h:form>
 </body>
 </html>

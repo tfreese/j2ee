@@ -24,7 +24,7 @@ public final class PersistenceProducer {
 
     // @Produces
     // @MyEntityManager
-    // @PersistenceContext(unitName = "myJpaUnit")
+    // @PersistenceContext(unitName = "my-pu")
     // private EntityManager entityManager;
 
     private PersistenceProducer() {

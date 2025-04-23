@@ -14,5 +14,5 @@
 
 # Remote debugging
 -Dwas.debug.mode=true
-#-Dcom.ibm.websphere.ras.inject.at.transform=true
+-Dcom.ibm.websphere.ras.inject.at.transform=true
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7778

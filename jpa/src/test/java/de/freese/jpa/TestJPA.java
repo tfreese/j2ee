@@ -27,7 +27,7 @@ class TestJPA extends AbstractTest {
         final Map<String, Object> config = getHibernateConfig();
 
         // resources/META-INF/persistence.xml
-        entityManagerFactory = Persistence.createEntityManagerFactory("my.emf", config);
+        entityManagerFactory = Persistence.createEntityManagerFactory("my.pu", config);
     }
 
     // private static EntityManagerFactory createEntityManagerFactory(final DataSource dataSource) {

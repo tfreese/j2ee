@@ -47,7 +47,7 @@ public class StartUp {
         executorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedExecutorService"));
         scheduledExecutorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedScheduledExecutorService"));
 
-        queryDateTime(dataSource, "select SELECT CURRENT_TIMESTAMP");
+        queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
 
         // final Number result = (Number) entityManager.createQuery("select count(*) from Person", Integer.class).getSingleResult();
         //
