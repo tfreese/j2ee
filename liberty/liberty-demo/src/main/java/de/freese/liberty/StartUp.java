@@ -31,7 +31,7 @@ public class StartUp {
     @Resource(lookup = "jdbc/dbDS")
     private DataSource dataSource;
 
-    // @PersistenceContext(unitName = "myJpaUnit")
+    // @PersistenceContext(unitName = "my-pu")
     // private EntityManager entityManager;
 
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")

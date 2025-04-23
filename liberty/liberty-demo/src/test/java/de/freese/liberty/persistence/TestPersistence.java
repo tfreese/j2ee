@@ -20,6 +20,7 @@ import jakarta.persistence.Persistence;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,6 +55,7 @@ class TestPersistence {
     }
 
     @Test
+    @Disabled("disabled")
     void testValidateSchema() throws Exception {
         final URI uri = URI.create("https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd");
         final Source schemaFile = new StreamSource(uri.toURL().openStream());

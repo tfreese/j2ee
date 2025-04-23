@@ -2,6 +2,9 @@
 <server description="Demo for OpenLiberty">
 
     <featureManager>
+        <!-- Enable ALL -->
+        <!-- <feature>jakartaee-10.0</feature> -->
+
         <platform>jakartaee-10.0</platform>
 
         <feature>concurrent</feature>
@@ -11,7 +14,11 @@
         <feature>jsonb</feature>
         <feature>restfulWS</feature>
         <feature>xmlBinding</feature>
+
+        <!-- Causes Stackoverflow -->
         <!-- <feature>persistence</feature> -->
+
+        <!-- <feature>persistenceContainer</feature> -->
 
         <!-- Not part of the JakartaEE-Platform. -->
         <feature>mpOpenAPI-3.1</feature>

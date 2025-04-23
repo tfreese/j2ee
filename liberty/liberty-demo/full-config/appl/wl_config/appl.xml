@@ -2,8 +2,11 @@
 <server description="Application Configuration">
 
     <featureManager>
-        <!-- All -->
+        <!-- Enable ALL -->
         <feature>jakartaee-10.0</feature>
+
+        <!-- <platform>jakartaee-10.0</platform> -->
+        <!-- <feature>jdbc</feature> -->
     </featureManager>
     <!--
         <feature>passwordUtilities-1.0</feature>

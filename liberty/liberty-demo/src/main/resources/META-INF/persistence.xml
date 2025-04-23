@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="https://jakarta.ee/xml/ns/persistence"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
-             version="3.0">
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.1">
     <!-- <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
     <!--              xmlns="https://jakarta.ee/xml/ns/persistence" -->
     <!--              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd" -->
@@ -18,12 +18,8 @@
 
         <jta-data-source>jdbc/h2DS</jta-data-source>
 
-        <class>de.freese.liberty.model</class> <!-- for package-info.java -->
         <class>de.freese.liberty.model.Person</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
-
-        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
-        <validation-mode>AUTO</validation-mode>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
@@ -43,9 +39,6 @@
         <class>de.freese.liberty.model</class> <!-- for package-info.java -->
         <class>de.freese.liberty.model.Person</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
-
-        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
-        <validation-mode>AUTO</validation-mode>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />

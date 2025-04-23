@@ -2,8 +2,6 @@
 <server description="Demo for OpenLiberty">
 
     <featureManager>
-        <!-- <platform>jakartaee-10.0</platform> -->
-        <!-- <feature>jdbc</feature> -->
     </featureManager>
 
     <logging consoleLogLevel="INFO" maxFileSize="50" maxFiles="10" traceFormat="ADVANCED" />
