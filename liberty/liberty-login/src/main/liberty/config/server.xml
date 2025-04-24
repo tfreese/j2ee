@@ -2,14 +2,14 @@
 <server description="Demo for OpenLiberty">
 
     <featureManager>
+        <!-- Enable ALL -->
         <!-- <feature>jakartaee-10.0</feature> -->
-        <feature>enterpriseBeans-4.0</feature>
-        <feature>faces-4.0</feature>
-        <!-- <feature>facesContainer-4.0</feature> -->
-        <!-- <feature>jsf-2.2</feature> -->
-    </featureManager>
 
-    <applicationManager autoExpand="true" />
+        <platform>jakartaee-10.0</platform>
+
+        <feature>enterpriseBeans</feature>
+        <feature>faces</feature>
+    </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${http.port}" httpsPort="${https.port}" />
 

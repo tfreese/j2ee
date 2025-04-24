@@ -16,7 +16,7 @@
         <description>My Persistence Unit</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <jta-data-source>jdbc/h2DS</jta-data-source>
+        <jta-data-source>jdbc/dbDS</jta-data-source>
 
         <class>de.freese.liberty.model.Person</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

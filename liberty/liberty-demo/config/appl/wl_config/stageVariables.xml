@@ -23,6 +23,7 @@ final String valueDecoded = PasswordUtil.passwordDecode(value);
     <!-- DB Variables-->
     <variable name="datasource.url" value="jdbc:h2:mem:liberty;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true" />
     <variable name="datasource.user" value="sa" />
-    <variable name="datasource.pwd" value="{aes}..." />
+    <variable name="datasource.pwd" value="seecreet" />
+    <!-- <variable name="datasource.pwd" value="{aes}..." /> -->
 
 </server>

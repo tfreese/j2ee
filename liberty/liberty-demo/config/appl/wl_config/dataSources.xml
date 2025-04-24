@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
 
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" />
+
     <library id="h2Driver">
-        <fileset dir="${server_home}/appl/appl_libs" includes="h2-*.jar" />
+        <fileset dir="${server.config.dir}/appl/appl_libs" includes="h2-*.jar" />
     </library>
 
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
-
+    <authData id="authDataDB" user="${datasource.user}" password="${datasource.pwd}" />
     <dataSource
-            id="h2DS"
-            jndiName="jdbc/h2DS"
+            id="dbDS"
+            jndiName="jdbc/dbDS"
             containerAuthDataRef="authDataDB"
     >
         <!-- <containerAuthData user="${datasource.user}" password="${datasource.pwd}"></containerAuthData> -->

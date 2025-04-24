@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloudsession.utils.ObjectSerializer;
+import cloudsession.utils.JsonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
@@ -24,7 +24,7 @@ public class CloudSessionLocal implements CloudSession {
 
     private static void storeProps(final Map<String, Map<String, String>> map) {
         try (OutputStream outputStream = Files.newOutputStream(DATA_PATH, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-            ObjectSerializer.toJson(outputStream, map);
+            JsonUtils.toJson(outputStream, map);
             outputStream.flush();
         }
         catch (IOException ex) {
@@ -69,7 +69,7 @@ public class CloudSessionLocal implements CloudSession {
                     final TypeReference<Map<String, Map<String, String>>> typeRef = new TypeReference<>() {
                     };
 
-                    final Map<String, Map<String, String>> mapJson = Optional.ofNullable(ObjectSerializer.fromJson(inputStream, typeRef)).orElse(Map.of());
+                    final Map<String, Map<String, String>> mapJson = Optional.ofNullable(JsonUtils.fromJson(inputStream, typeRef)).orElse(Map.of());
 
                     mapJson.forEach((key, value) -> map.put(key, new HashMap<>(value)));
                 }

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
 
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" />
+
     <!-- jdbc driver-->
     <library id="h2Driver">
-        <fileset dir="${server.config.dir}/jdbc" includes="h2-*.jar" />
+        <fileset dir="${server.config.dir}/libs" includes="h2-*.jar" />
     </library>
-
-    <!-- <databaseStore id="defaultDatabaseStore" dataSourceRef="h2DS" /> -->
-    <databaseStore id="DefaultDataSource" dataSourceRef="h2DS" />
 
     <dataSource
             id="h2DS"

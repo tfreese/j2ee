@@ -30,7 +30,7 @@ public class LoginController implements Serializable {
     private static final long serialVersionUID = 2284719796428287116L;
 
     @Inject
-    private LoginService loginService;
+    private transient LoginService loginService;
 
     private String password;
     private String requestedUri;

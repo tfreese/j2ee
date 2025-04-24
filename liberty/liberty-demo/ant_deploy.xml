@@ -52,14 +52,15 @@
 
         <!-- Copy App-Config -->
         <copy todir="${server_home}/appl/wl_config" overwrite="true" verbose="true">
-            <fileset id="wl_config.files" dir="/liberty/config/appl/wl_config">
+            <fileset id="wl_config.files" dir="config/appl/wl_config">
                 <include name="appl.xml" />
+                <include name="cache.xml" />
                 <include name="dataSources.xml" />
                 <include name="jndiEntries.xml" />
-                <include name="logback.xml" />
                 <include name="mail.xml" />
                 <include name="mq.xml" />
                 <include name="stageVariables.xml" />
+                <include name="threadPools.xml" />
                 <include name="webApplication.xml" />
             </fileset>
         </copy>
@@ -72,7 +73,7 @@
             </fileset>
         </copy>
 
-        <!-- Copy the WAR -->
+        <!-- Copy WAR -->
         <copy
                 file="${basedir}/build/libs/${appl_name}-${version}.war"
                 tofile="${server_home}/appl/${deploy_folder}/${appl_name}.war"

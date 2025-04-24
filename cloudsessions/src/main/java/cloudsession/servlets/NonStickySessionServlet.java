@@ -154,12 +154,12 @@ public class NonStickySessionServlet extends HttpServlet {
 
             if (!session.getId().equals(sessionID)) {
                 // Check if cookie session has no timeout.
-                // If no timeout set new cookieSessionID and delete old cookieSessionID.
+                // If no timeout set new sessionID and delete old sessionID.
                 final Long val = cloudSession.getSessionValueAsLong(sessionID, CREATION_TIME);
 
                 if (val != null) {
                     cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
-                    // TODO cloudSession.remove(cookieSessionID);
+                    // TODO cloudSession.remove(sessionID);
                 }
             }
 

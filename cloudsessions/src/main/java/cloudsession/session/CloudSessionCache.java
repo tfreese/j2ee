@@ -24,13 +24,13 @@ public class CloudSessionCache implements CloudSession {
     }
 
     private final Map<String, Map<String, String>> cache = new ConcurrentHashMap<>();
-    private final CloudSession cloudSession;
+    private final CloudSession delegate;
     private final long sessionLiveTime;
 
-    public CloudSessionCache(final CloudSession cloudSession, final Duration sessionLiveTime) {
+    public CloudSessionCache(final CloudSession delegate, final Duration sessionLiveTime) {
         super();
 
-        this.cloudSession = cloudSession;
+        this.delegate = delegate;
         this.sessionLiveTime = sessionLiveTime.toMillis();
     }
 
@@ -44,7 +44,7 @@ public class CloudSessionCache implements CloudSession {
         final Map<String, String> entry = cache.get(sessionID);
 
         if (entry == null) {
-            // Not found in Cache.
+            // Not found in the Cache.
             LOGGER.info("no entry [{},{}] found in memory cache!", sessionID, name);
 
             return checkValueInCloudAndUpdateLocal(sessionID, name, null);
@@ -58,7 +58,7 @@ public class CloudSessionCache implements CloudSession {
             LOGGER.info("entry [{},{}] found in memory cache!", sessionID, name);
         }
 
-        // Value found in local cache and timeout not reached -> renew timeout.
+        // Value found in local cache and timeout isn't reached -> renew timeout.
         renewTimeout(sessionID, entry);
 
         return entry.get(name);
@@ -66,7 +66,7 @@ public class CloudSessionCache implements CloudSession {
 
     @Override
     public void remove(final String sessionID) {
-        cloudSession.remove(sessionID);
+        delegate.remove(sessionID);
         cache.remove(sessionID);
     }
 
@@ -79,20 +79,20 @@ public class CloudSessionCache implements CloudSession {
         // Update value in Cache.
         entry.put(name, value);
 
-        // Put value in cloud.
-        cloudSession.setSessionValue(sessionID, name, value);
+        // Put value in the cloud.
+        delegate.setSessionValue(sessionID, name, value);
 
         renewTimeout(sessionID, entry);
     }
 
     private String checkValueInCloudAndUpdateLocal(final String sessionID, final String name, final Map<String, String> entry) {
-        final String cloudSessionValue = cloudSession.getSessionValue(sessionID, name);
+        final String cloudSessionValue = delegate.getSessionValue(sessionID, name);
 
         if (cloudSessionValue != null) {
             LOGGER.info("found value [{}] in persistent cache!", cloudSessionValue);
 
             if (entry == null) {
-                // Set local entry and update timeout in cloud.
+                // Set local entry and update timeout in the cloud.
                 setSessionValue(sessionID, name, cloudSessionValue);
             }
             else {
@@ -113,9 +113,9 @@ public class CloudSessionCache implements CloudSession {
         final String timeout = Long.toString(System.currentTimeMillis() + sessionLiveTime);
 
         // Renew cloud session timeout.
-        cloudSession.setSessionValue(sessionID, TIMEOUT, timeout);
+        delegate.setSessionValue(sessionID, TIMEOUT, timeout);
 
-        LOGGER.info("setting entry [{},{},{}]", sessionID, TIMEOUT, timeout);
+        LOGGER.info("renewTimeout: setting entry [{},{},{}]", sessionID, TIMEOUT, timeout);
 
         // Renew cache timeout.
         entry.put(TIMEOUT, timeout);

@@ -42,7 +42,7 @@ configurations {
         canBeConsumed = true
         canBeResolved = false
 
-//        extendsFrom implementation, runtimeOnly
+//        extendsFrom(implementation, runtimeOnly)
     }
 }
 

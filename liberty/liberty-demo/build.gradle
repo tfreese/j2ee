@@ -12,10 +12,14 @@ plugins {
 description = "Demo for OpenLiberty"
 // https://openliberty.io/guides/gradle-intro.html#getting-started
 
+clean {
+    delete("/tmp/wlp")
+}
+
 ext {
-    liberty.server.var."http.port" = "9080"
-    liberty.server.var."https.port" = "9443"
-    liberty.server.var."context.root" = project.name
+    liberty.server.var."wl_httpPort" = "9080"
+    liberty.server.var."wl_httpsPort" = "9443"
+    liberty.server.var."context_root" = project.name
 }
 
 def destDir = layout.buildDirectory.get().dir("generated-sources")
@@ -28,16 +32,9 @@ sourceSets {
     }
 }
 
-configurations {
-    jdbcLib {
-        extendsFrom(runtimeOnly)
-        // extendsFrom(implementation)
-    }
-}
-
 dependencies {
-    // libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
-    libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
+    libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
+    // libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
 
     implementation("com.esotericsoftware:kryo")
     implementation("com.fasterxml.jackson.core:jackson-databind")
@@ -60,10 +57,9 @@ dependencies {
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
     compileOnly("org.eclipse.microprofile.openapi:microprofile-openapi-api")
 
-    jdbcLib("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
     runtimeOnly("org.slf4j:slf4j-simple")
 
-    testImplementation("com.h2database:h2")
     testImplementation("jakarta.platform:jakarta.jakartaee-api")
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
     // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
@@ -79,8 +75,8 @@ test {
 //        exceptionFormat = TestExceptionFormat.FULL
     }
 
-    systemProperty("http.port", liberty.server.var."http.port")
-    systemProperty("context.root", liberty.server.var."context.root")
+    systemProperty("wl_httpPort", liberty.server.var."wl_httpPort")
+    systemProperty("context_root", liberty.server.var."context_root")
 }
 test.dependsOn("libertyStart")
 test.finalizedBy("libertyStop")
@@ -91,7 +87,7 @@ tasks.named("war") {
     dependsOn("generateOpenApiSpec")
 
     // Skinny-War
-    // rootSpec.exclude("**/*.jar", "**/*.rar")
+    rootSpec.exclude("**/*.jar", "**/*.rar")
 
     // OpenApi Dateien sollten automatisch im WAR/META-INF landen.
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -135,22 +131,13 @@ tasks.named("ear") {
     }
 }
 
-tasks.register("copyJDBC", Copy) {
-    group = "MyTasks"
-
-    from(configurations.jdbcLib)
-    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("appl").dir("libs"))
-    include("*.jar")
-}
-deploy.dependsOn("copyJDBC")
-
 tasks.register("openBrowser") {
     group = "MyTasks"
     description = "Open browser to the running application"
 
     doLast {
-        String port = liberty.server.var."http.port"
-        String context = liberty.server.var."context.root"
+        String port = liberty.server.var."wl_httpPort"
+        String context = liberty.server.var."context_root"
         String url = "http://localhost:" + port + "/" + context + "/my-liberty/service/properties"
 
         java.awt.Desktop.desktop.browse url.toURI()
@@ -159,9 +146,9 @@ tasks.register("openBrowser") {
 }
 
 liberty {
-    // install {
-    //     baseDir = "/tmp"
-    // }
+    install {
+        baseDir = "/tmp"
+    }
 
     server {
         //baseDir = layout.buildDirectory.dir("ibm").get()
@@ -175,13 +162,15 @@ liberty {
         // Wait n seconds to verify application start.
         // verifyAppStartTimeout = 30
 
+        // Embedded config in src/main/liberty
+
         // configDirectory = file("config")
         // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
         // jvmOptions = ["-Xms128m", "-Xmx512m"]
-        // serverXmlFile = file("src/resources/config/server-test1.xml")
-        // bootstrapPropertiesFile = file("src/resources/config/bootstrap.test.properties")
-        // jvmOptionsFile = file("src/resources/config/jvm.test.options")
-        // serverEnvFile = file("src/resources/config/server.test.env")
+        serverXmlFile = file("config/appl/wl_config/appl.xml")
+        bootstrapPropertiesFile = file("config/bootstrap.properties")
+        jvmOptionsFile = file("config/jvm.options")
+        serverEnvFile = file("config/server.env")
     }
 }
 
@@ -236,6 +225,113 @@ tasks.openApiGenerate.dependsOn("generateOpenApiSpec")
 tasks.openApiGenerate.mustRunAfter("generateOpenApiSpec")
 // compileJava.finalizedBy("openApiGenerate")
 
+tasks.register("deployApp") {
+    group = "MyTasks"
+    description = "Deploy Application"
+
+    dependsOn("war")
+    dependsOn("libertyCreate")
+
+    doLast {
+        Properties properties = new Properties()
+        file("config/bootstrap.properties").withInputStream { properties.load(it) }
+
+        var serverHome = properties.getProperty("server_home")
+        println("server_home = " + serverHome)
+        mkdir(serverHome)
+
+        delete(serverHome + "/appl")
+        delete(serverHome + "/appl_data")
+        delete(serverHome + "/appl_logs")
+        delete(serverHome + "/logs")
+        delete(serverHome + "/tranlog")
+        delete(serverHome + "/workarea")
+        delete(serverHome + "/resources/security")
+        delete(serverHome + "/mqjms.log.0")
+
+        mkdir(serverHome + "/appl_data")
+        mkdir(serverHome + "/appl_logs")
+        mkdir(serverHome + "/resources/security")
+
+        // Copy Certificates.
+        var serverConfigFolder = serverHome
+        copy {
+            from(layout.getProjectDirectory().dir("config").dir("application").dir("security"))
+            into(serverConfigFolder + "/resources/security")
+        }
+
+        // Copy Server Config.
+        copy {
+            from(layout.getProjectDirectory().dir("config")) {
+                include("*.env")
+                include("*.options")
+                include("*.properties")
+                include("*.xml")
+            }
+            into(serverConfigFolder)
+        }
+
+        // Copy Appl Config.
+        var applConfigFolder = serverHome + "/appl/wl_config"
+        copy {
+            from(layout.getProjectDirectory().dir("config").dir("appl").dir("wl_config")) {
+                include("*.properties")
+                include("*.xml")
+            }
+            into(applConfigFolder)
+        }
+
+        // Copy WAR.
+        var warFolder = serverHome + "/appl/" + properties.getProperty("deploy_folder")
+        copy {
+            from(tasks.war)
+            into(warFolder)
+            rename { String fileName ->
+                fileName.replace("-${version}", "")
+            }
+        }
+
+        // Copy Libs.
+        var libFolder = serverHome + "/appl/appl_libs"
+        copy {
+            from(configurations.runtimeClasspath - configurations.providedCompile) {
+                include("*.jar")
+                include("*.rar")
+                //    exclude("ohj*")
+            }
+            into(libFolder)
+        }
+    }
+}
+
+// ant.lifecycleLogLevel = "INFO"
+//
+// // Register ANT-Tasks as Gradle-Tasks with Prefix "ant-" in Group "other".
+// ant.importBuild("ant_deploy.xml") { antTargetName -> "ant-" + antTargetName }
+// ant.properties["version"] = project.version
+//
+// // Set group property for all Ant tasks.
+// tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = "Ant" }
+//
+// clean.finalizedBy("ant-clean")
+
+tasks.register("copyLibs", Copy) {
+    group = "MyTasks"
+
+    // doLast {
+    Properties properties = new Properties()
+    file("config/bootstrap.properties").withInputStream { properties.load(it) }
+
+    println("server_home = " + properties.getProperty("server_home"))
+
+    from(configurations.runtimeClasspath - configurations.providedCompile)
+    into(properties.getProperty("server_home") + "/appl/appl_libs")
+    include("*.jar")
+    include("*.rar")
+    // }
+}
+deploy.dependsOn("copyLibs")
+
 // tasks.register("prepareGeneratedCode") {
 //     group = "star"
 //     description = "Prepare the generated Code"
@@ -253,58 +349,3 @@ tasks.openApiGenerate.mustRunAfter("generateOpenApiSpec")
 //         }
 //     }
 // }
-
-// ant.lifecycleLogLevel = "INFO"
-//
-// // Register ANT-Tasks as Gradle-Tasks with Prefix "ant-" in Group "other".
-// ant.importBuild("ant_deploy.xml") { antTargetName -> "ant-" + antTargetName }
-// ant.properties["version"] = project.version
-//
-// // Set group property for all Ant tasks.
-// tasks.matching { task -> task.name.startsWith("ant-") }.configureEach { group = "Ant" }
-//
-// clean.finalizedBy("ant-clean")
-
-tasks.register("deployApp") {
-    group = "MyTasks"
-    description = "Deploy Application"
-
-    dependsOn("build")
-    dependsOn("libertyCreate")
-
-    doLast {
-        Properties properties = new Properties()
-        file("src/main/liberty/config/bootstrap.properties").withInputStream { properties.load(it) }
-
-        var serverHome = properties.getProperty("server_home")
-
-        delete(serverHome + "/appl_data")
-        delete(serverHome + "/appl_logs")
-        delete(serverHome + "/logs")
-        delete(serverHome + "/tranlog")
-        delete(serverHome + "/workarea")
-        delete(serverHome + "/mqjms.log.0")
-
-        var warFolder = serverHome + "/appl/" + properties.getProperty("deploy_folder")
-        delete(warFolder)
-        copy {
-            from(tasks.war)
-            into(warFolder)
-            rename { String fileName ->
-                fileName.replace("-${version}", "")
-            }
-        }
-
-        var libFolder = serverHome + "/appl/appl_libs"
-        delete(libFolder)
-        copy {
-            from(configurations.runtimeClasspath - configurations.providedCompile) {
-                include("*.jar")
-                include("*.rar")
-                //    exclude("ohj*")
-            }
-
-            into(libFolder)
-        }
-    }
-}

@@ -7,7 +7,7 @@
     </featureManager>
 
     <library id="JCacheLib">
-        <file name="${server_home}/appl/appl_libs/jcacheprovider.jar" />
+        <file name="${server.config.dir}/appl/appl_libs/jcacheprovider.jar" />
     </library>
 
     <cacheManager id="CacheManager" uri="config.xml">

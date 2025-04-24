@@ -39,7 +39,7 @@ tasks.register("copyJDBC", Copy) {
     group = "MyTasks"
 
     from(configurations.jdbcLib)
-    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("jdbc"))
+    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
     include("*.jar")
 }
 deploy.dependsOn("copyJDBC")
@@ -65,7 +65,7 @@ tasks.register("openBrowser") {
         String context = liberty.server.var."context.root"
         String url = "http://localhost:" + port + "/" + context + "/sysdate"
 
-        java.awt.Desktop.desktop.browse url.toURI()
+        java.awt.Desktop.desktop.browse(url.toURI())
         // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()
     }
 }
@@ -95,6 +95,8 @@ liberty {
 
         // Clean logs, workarea, apps, dropins on server startup
         clean = true
+
+        // Embedded config in src/main/liberty
     }
 }
 

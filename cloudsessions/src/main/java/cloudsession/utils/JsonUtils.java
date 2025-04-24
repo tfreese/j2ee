@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class ObjectSerializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger(ObjectSerializer.class);
+public final class JsonUtils {
+    public static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper()
             .configure(SerializationFeature.INDENT_OUTPUT, true)
@@ -66,7 +66,7 @@ public final class ObjectSerializer {
         }
     }
 
-    private ObjectSerializer() {
+    private JsonUtils() {
         super();
     }
 }

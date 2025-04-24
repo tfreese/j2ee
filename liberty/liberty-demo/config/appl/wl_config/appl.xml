@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Application Configuration">
+
+    <featureManager>
+        <!-- Application Configuration -->
+
+        <!-- Enable ALL -->
+        <!-- <feature>jakartaee-10.0</feature> -->
+
+        <platform>jakartaee-10.0</platform>
+
+        <feature>concurrent</feature>
+        <feature>enterpriseBeans</feature>
+        <feature>faces</feature>
+        <feature>jdbc</feature>
+        <feature>jsonb</feature>
+        <feature>restfulWS</feature>
+        <feature>xmlBinding</feature>
+
+        <!-- Causes Stackoverflow. -->
+        <!-- <feature>persistence</feature> -->
+        <!-- <feature>persistenceContainer</feature> -->
+
+        <!-- Not part of the JakartaEE-Platform. -->
+        <feature>mpOpenAPI-3.1</feature>
+    </featureManager>
+    <!--
+        <feature>passwordUtilities-1.0</feature>
+        AuthData authData = AuthDataProvider.getAuthData("auth1");
+        String userName = authData.getUserName();
+        char[] password = authData.getPassword();
+    -->
+
+    <include location="${server.config.dir}/appl/wl_config/stageVariables.xml" optional="false" />
+    <!-- <include location="${server.config.dir}/appl/wl_config/cache.xml" optional="false" /> -->
+    <include location="${server.config.dir}/appl/wl_config/dataSources.xml" optional="false" />
+    <include location="${server.config.dir}/appl/wl_config/jndiEntries.xml" optional="false" />
+    <include location="${server.config.dir}/appl/wl_config/mail.xml" optional="true" />
+    <include location="${server.config.dir}/appl/wl_config/mq.xml" optional="false" />
+    <include location="${server.config.dir}/appl/wl_config/threadPools.xml" optional="false" />
+    <include location="${server.config.dir}/appl/wl_config/webApplication.xml" optional="false" />
+
+</server>

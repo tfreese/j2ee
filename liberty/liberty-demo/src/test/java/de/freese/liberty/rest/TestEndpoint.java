@@ -33,8 +33,8 @@ class TestEndpoint {
 
     @BeforeAll
     static void beforeAll() {
-        final String port = System.getProperty("http.port");
-        final String context = System.getProperty("context.root");
+        final String port = System.getProperty("wl_httpPort");
+        final String context = System.getProperty("context_root");
         serverUrl = "http://localhost:%s/%s/my-app/service".formatted(port, context);
     }
 

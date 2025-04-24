@@ -72,5 +72,7 @@ liberty {
 
         // Wait n seconds to verify application start.
         // verifyAppStartTimeout = 30
+
+        // Embedded config in src/main/liberty
     }
 }

@@ -17,6 +17,9 @@
 -Dcom.ibm.websphere.ras.inject.at.transform=true
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7778
 
+# Hibernate Compatibility
+#-Dcom.ibm.websphere.jpa.hibernate-cdi-compatibility=true
+
 # Debug Connection Settings
 #-Djavax.net.debug=all
 

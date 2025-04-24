@@ -2,26 +2,26 @@
 <server description="Demo for OpenLiberty">
 
     <featureManager>
-        <!-- <feature>jakartaee-10</feature> -->
-        <feature>jdbc-4.3</feature>
+        <!-- Enable ALL -->
+        <!-- <feature>jakartaee-10.0</feature> -->
+
+        <platform>jakartaee-10.0</platform>
+
+        <feature>jdbc</feature>
+        <feature>servlet</feature>
+
+        <!-- Not part of the JakartaEE-Platform. -->
         <feature>jndi-1.0</feature>
-        <feature>servlet-6.0</feature>
         <!-- <feature>springBoot-3.0</feature> -->
     </featureManager>
 
-    <!--library id="applicationLib">
-        <fileset dir="${server.config.dir}/apps_libs" includes="*.*" excludes="h2*.jar"
-        />
-        <folder dir="${server.config.dir}/apps_resources" />
-        </library -->
+    <include location="${server.config.dir}/dataSources.xml" optional="false" />
 
     <httpEndpoint id="defaultHttpEndpoint" httpPort="${http.port}" httpsPort="${https.port}" host="localhost">
         <tcpOptions soReuseAddr="true" />
     </httpEndpoint>
 
-    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="${context.root}">
-        <!--classloader commonLibraryRef="applicationLib" / -->
-    </webApplication>
+    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="${context.root}" />
 
-    <include location="${server.config.dir}/dataSources.xml" optional="false" />
+    <executor coreThreads="4" maxThreads="8" />
 </server>
