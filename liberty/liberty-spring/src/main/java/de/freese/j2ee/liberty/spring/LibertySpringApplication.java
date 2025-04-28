@@ -30,7 +30,7 @@ public class LibertySpringApplication extends SpringBootServletInitializer {
      * <pre>{@code
      * <packaging>war<packaging>
      * }</pre>
-     * Exclude Tomcat from spring-boot-starter-web and set explicitly to provided.<br>
+     * Exclude Tomcat from spring-boot-starter-web and set explicitly to provide.<br>
      * All other JEE-Jars are provided.
      */
     @Override

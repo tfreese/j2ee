@@ -12,37 +12,51 @@ ext {
     liberty.server.var."context.root" = project.name
 }
 
-configurations {
-    jdbcLib {
-        // extendsFrom(runtimeOnly)
-        extendsFrom(implementation)
-    }
-}
+// configurations {
+//     jdbcLib {
+//         canBeConsumed = true
+//         canBeResolved = true // false = No Dependencies
+//
+//         extendsFrom(implementation)
+//         transitive(true)
+//     }
+// }
 
 dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
     // libertyRuntime("io.openliberty:openliberty-runtime:%version_openliberty")
 
+    implementation("com.zaxxer:HikariCP")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(group: "org.springframework.boot", module: "spring-boot-starter-tomcat")
     }
 
-    implementation("com.h2database:h2")
-    jdbcLib("com.h2database:h2")
+    // jdbcLib("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
 
     // providedCompile
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
-//    compileOnly("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
-tasks.register("copyJDBC", Copy) {
+// tasks.register("copyDependenciesJdbc", Sync) {
+//     group = "MyTasks"
+//
+//     from(configurations.jdbcLib)
+//     into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
+//     include("*.jar")
+// }
+// deploy.dependsOn("copyDependenciesJdbc")
+
+tasks.register("copyDependencies", Sync) {
     group = "MyTasks"
 
-    from(configurations.jdbcLib)
+    from(configurations.runtimeClasspath - configurations.providedCompile)
     into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
-    include("*.jar")
+    include("h2-**.jar")
+    // include("*.jar")
+    // include("*.rar")
 }
-deploy.dependsOn("copyJDBC")
+deploy.dependsOn("copyDependencies")
 
 tasks.named("test") {
     enabled = true
@@ -66,7 +80,7 @@ tasks.register("openBrowser") {
         String url = "http://localhost:" + port + "/" + context + "/sysdate"
 
         java.awt.Desktop.desktop.browse(url.toURI())
-        // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()
+        // java.awt.Desktop.desktop.browse(file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI())
     }
 }
 
@@ -76,7 +90,7 @@ tasks.register("sleep") {
 
     doLast {
         logger.lifecycle("sleeping: {} seconds", 5)
-        sleep(5000)
+        sleep(5_000)
     }
 }
 

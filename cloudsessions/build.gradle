@@ -40,9 +40,10 @@ war {
 configurations {
     cloudsessionsWar {
         canBeConsumed = true
-        canBeResolved = false
+        canBeResolved = false // No Dependencies.
 
 //        extendsFrom(implementation, runtimeOnly)
+        transitive(true)
     }
 }
 

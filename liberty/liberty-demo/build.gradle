@@ -140,8 +140,8 @@ tasks.register("openBrowser") {
         String context = liberty.server.var."context_root"
         String url = "http://localhost:" + port + "/" + context + "/my-liberty/service/properties"
 
-        java.awt.Desktop.desktop.browse url.toURI()
-        // java.awt.Desktop.desktop.browse file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI()
+        java.awt.Desktop.desktop.browse(url.toURI())
+        // java.awt.Desktop.desktop.browse(file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI())
     }
 }
 
