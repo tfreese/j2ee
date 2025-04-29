@@ -3,7 +3,7 @@
 
     <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" />
 
-    <library id="h2Driver">
+    <library id="dbDriver">
         <fileset dir="${server.config.dir}/appl/appl_libs" includes="h2-*.jar" />
     </library>
 
@@ -15,7 +15,7 @@
     >
         <!-- <containerAuthData user="${datasource.user}" password="${datasource.pwd}"></containerAuthData> -->
         <jdbcDriver
-                libraryRef="h2Driver"
+                libraryRef="dbDriver"
                 javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" />
         <properties
                 url="${datasource.url}"

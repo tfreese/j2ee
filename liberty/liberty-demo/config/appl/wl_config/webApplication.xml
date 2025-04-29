@@ -12,8 +12,9 @@
             id="liberty-demo"
             name="liberty-demo"
             location="${server.config.dir}/appl/${deploy_folder}/liberty-demo.war"
-            contextRoot="liberty-demo">
-        <classloader commonLibraryRef="applicationLib, h2Driver" />
+            contextRoot="liberty-demo"
+            type="war">
+        <classloader commonLibraryRef="applicationLib, dbDriver" />
     </webApplication>
     <!-- <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" /> -->
 
