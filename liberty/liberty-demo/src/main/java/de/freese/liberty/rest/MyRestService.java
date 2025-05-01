@@ -27,7 +27,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.SecurityContext;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -49,9 +48,6 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 @Path("service")
 public class MyRestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRestService.class);
-
-    @jakarta.ws.rs.core.Context
-    private SecurityContext context;
 
     @Resource
     private UserTransaction ut;

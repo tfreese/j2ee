@@ -31,6 +31,9 @@ public class StartUp {
     @Resource(lookup = "jdbc/dbDS")
     private DataSource dataSource;
 
+    // @jakarta.ws.rs.core.Context
+    // private SecurityContext context;
+
     // @PersistenceContext(unitName = "my-pu")
     // private EntityManager entityManager;
 
