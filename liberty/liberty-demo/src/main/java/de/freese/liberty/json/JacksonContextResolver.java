@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-@Provider
+@Provider // Must bei part of the WAR, and not in a Dependency.
 @RequestScoped
 public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
     private static final Cache<String, ObjectMapper> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();

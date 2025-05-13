@@ -9,8 +9,15 @@ import jakarta.ws.rs.ext.Provider;
 /**
  * @author Thomas Freese
  */
-@Provider
+@Provider // Must bei part of the WAR, and not in a Dependency.
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class JacksonProvider extends JacksonContextResolver {
 }
+
+// An alternative is JacksonJsonProvider from com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider.
+// public class JacksonProvider extends JacksonJsonProvider {
+//     public JacksonProvider() {
+//         super(new JacksonContextResolver().getObjectMapper());
+//     }
+// }

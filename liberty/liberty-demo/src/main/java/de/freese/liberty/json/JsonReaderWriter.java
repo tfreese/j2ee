@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Thomas Freese
  */
-@Provider
+@Provider // Must bei part of the WAR, and not in a Dependency.
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyWriter<Object> {

@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-@Provider
+@Provider // Must bei part of the WAR, and not in a Dependency.
 @RequestScoped
 @SuppressWarnings("rawtypes")
 public class KryoContextResolver implements ContextResolver<Kryo> {

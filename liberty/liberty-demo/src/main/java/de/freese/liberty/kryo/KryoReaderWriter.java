@@ -23,7 +23,7 @@ import com.esotericsoftware.kryo.io.Output;
 /**
  * @author Thomas Freese
  */
-@Provider
+@Provider // Must bei part of the WAR, and not in a Dependency.
 @Consumes({KryoReaderWriter.KRYO_MEDIA_TYPE})
 @Produces({KryoReaderWriter.KRYO_MEDIA_TYPE})
 public final class KryoReaderWriter implements MessageBodyReader<Object>, MessageBodyWriter<Object> {

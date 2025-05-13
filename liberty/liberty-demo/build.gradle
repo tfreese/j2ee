@@ -39,7 +39,7 @@ dependencies {
     implementation("com.esotericsoftware:kryo")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    //implementation("com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
+    implementation("com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
     implementation("com.github.ben-manes.caffeine:caffeine")
 
     implementation("org.hibernate.orm:hibernate-core") {
@@ -64,7 +64,6 @@ dependencies {
 
     testImplementation("jakarta.platform:jakarta.jakartaee-api")
     // // testImplementation("org.eclipse.microprofile:microprofile:6.1")
-    // testImplementation("com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider")
     // testImplementation("org.glassfish.jersey.core:jersey-client")
     // testImplementation("org.glassfish.jersey.media:jersey-media-json-jackson")
 }
