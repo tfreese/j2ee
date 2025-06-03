@@ -80,7 +80,7 @@ abstract class AbstractTest {
 
         try (Stream<Path> stream = Files.walk(ehCachePath)) {
             stream.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-            //            stream.sorted(Comparator.reverseOrder()).forEach(Files::delete);
+            // stream.sorted(Comparator.reverseOrder()).forEach(Files::delete);
         }
     }
 
