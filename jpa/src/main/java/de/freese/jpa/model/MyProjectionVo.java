@@ -36,11 +36,11 @@ public class MyProjectionVo implements Serializable {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
@@ -52,8 +52,8 @@ public class MyProjectionVo implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
         sb.append("[");
-        sb.append("id = ").append(this.id);
-        sb.append(",name = ").append(this.name);
+        sb.append("id = ").append(id);
+        sb.append(",name = ").append(name);
         sb.append("]");
 
         return sb.toString();

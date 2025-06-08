@@ -34,7 +34,7 @@ public class RestService {
     public String getSysdate() throws Exception {
         final String sysDate;
 
-        try (Connection con = this.dataSource.getConnection();
+        try (Connection con = dataSource.getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery("VALUES (CURRENT_TIMESTAMP)")) {
             rs.next();

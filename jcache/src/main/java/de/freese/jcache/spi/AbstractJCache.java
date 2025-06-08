@@ -175,7 +175,7 @@ public abstract class AbstractJCache<K, V> implements Cache<K, V> {
     }
 
     protected void setClosed() {
-        this.closed = true;
+        closed = true;
     }
 
     protected void validateNotClosed() {

@@ -95,7 +95,7 @@ public class Person extends AbstractEntity {
     private String vorname;
 
     public void addAddress(final Address address) {
-        this.addresses.add(address);
+        addresses.add(address);
 
         address.setPerson(this);
     }
@@ -114,19 +114,19 @@ public class Person extends AbstractEntity {
     }
 
     public List<Address> getAddresses() {
-        return this.addresses;
+        return addresses;
     }
 
     public long getID() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getVorname() {
-        return this.vorname;
+        return vorname;
     }
 
     @Override
@@ -150,10 +150,10 @@ public class Person extends AbstractEntity {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Person [");
-        builder.append("id=").append(this.id);
-        builder.append(", name=").append(this.name);
-        builder.append(", vorname=").append(this.vorname);
-        builder.append(", addresses=").append(this.addresses);
+        builder.append("id=").append(id);
+        builder.append(", name=").append(name);
+        builder.append(", vorname=").append(vorname);
+        builder.append(", addresses=").append(addresses);
         builder.append("]");
 
         return builder.toString();
@@ -161,8 +161,8 @@ public class Person extends AbstractEntity {
 
     @PrePersist
     void preInsert() {
-        if (this.cool == null) {
-            this.cool = false;
+        if (cool == null) {
+            cool = false;
         }
     }
 }

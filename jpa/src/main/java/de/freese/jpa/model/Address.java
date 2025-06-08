@@ -57,15 +57,15 @@ public class Address extends AbstractEntity {
     private String street;
 
     public long getID() {
-        return this.id;
+        return id;
     }
 
     public Person getPerson() {
-        return this.person;
+        return person;
     }
 
     public String getStreet() {
-        return this.street;
+        return street;
     }
 
     public void setID(final long id) {
@@ -80,11 +80,11 @@ public class Address extends AbstractEntity {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Address [");
-        builder.append("id=").append(this.id);
-        builder.append(", street=").append(this.street);
+        builder.append("id=").append(id);
+        builder.append(", street=").append(street);
 
-        if (this.person != null) {
-            builder.append(", person=").append(this.person.getID());
+        if (person != null) {
+            builder.append(", person=").append(person.getID());
         }
 
         builder.append("]");

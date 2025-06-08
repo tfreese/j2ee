@@ -170,7 +170,7 @@ public class NonStickySessionServlet extends HttpServlet {
                 html.append("<tr><td>user</td><td>").append(reqUser).append("</td></tr>").append(System.lineSeparator());
             }
             else {
-                final String csUser = this.cloudSession.getSessionValue(sessionID, USER);
+                final String csUser = cloudSession.getSessionValue(sessionID, USER);
                 html.append("<tr><td>user</td><td>").append(csUser).append("</td></tr>").append(System.lineSeparator());
             }
         }

@@ -45,7 +45,7 @@ public class JmxBeanExtension {
         try {
             for (Object bean : jmxBeans) {
                 final Class<?> beanClass = bean.getClass();
-                // final Object bean = this.interceptor;
+                // final Object bean = interceptor;
                 // final Class<?> beanClass = LogInterceptor.class;
                 // final String annotationValue = beanClass.getAnnotation(JmxBean.class).objectName();
                 final String annotationValue = beanClass.getSimpleName();
