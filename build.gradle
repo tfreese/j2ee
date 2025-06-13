@@ -21,7 +21,7 @@ plugins {
     id("io.smallrye.openapi") version("${version_ioSmallryeOpenapiGradlePlugin}") apply(false)
 
     // https://github.com/OpenAPITools/openapi-generator/
-    id("org.openapi.generator") version("${version_openapGeneratorGradlePlugin}") apply(false)
+    id("org.openapi.generator") version("${version_openApiGeneratorGradlePlugin}") apply(false)
 }
 
 allprojects {
