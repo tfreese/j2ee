@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="https://jakarta.ee/xml/ns/persistence"
-             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
              version="3.1">
     <!-- <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
     <!--              xmlns="https://jakarta.ee/xml/ns/persistence" -->
@@ -42,10 +42,10 @@
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:liberty-2;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:liberty-2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" />
             <property name="jakarta.persistence.jdbc.user" value="sa" />
             <property name="jakarta.persistence.jdbc.password" value="" />
-            <property name="hibernate.connection.pool_size" value="3" />
+            <property name="hibernate.connection.pool_size" value="5" />
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 

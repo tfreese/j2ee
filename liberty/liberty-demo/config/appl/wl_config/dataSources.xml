@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
 
-    <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" />
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" createTables="true" />
 
     <library id="dbDriver">
         <fileset dir="${server.config.dir}/appl/appl_libs" includes="h2-*.jar" />
@@ -22,19 +22,20 @@
         />
         <!-- user="${datasource.user}" -->
         <!-- password="${datasource.pwd}" -->
+
         <connectionManager
                 minPoolSize="1"
-                maxPoolSize="3"
+                maxPoolSize="5"
                 maxIdleTime="10m"
                 connectionTimeout="10s" />
     </dataSource>
 
+    <!-- defaultJtaDataSourceJndiName="jdbc/h2DS" -->
     <!-- <jpa -->
-    <!--         defaultJtaDataSourceJndiName="jdbc/h2DS" -->
     <!--         defaultPersistenceProvider="org.hibernate.jpa.HibernatePersistenceProvider" -->
     <!-- > -->
     <!--     <defaultProperties> -->
-    <!--         <property name="javax.persistence.schema-generation.database.action" value="update" /> -->
+    <!--         <property name="jakarta.persistence.schema-generation.database.action" value="update" /> -->
     <!--         <property name="hibernate.connection.isolation" value="2" /> &lt;!&ndash; Connection.TRANSACTION_READ_COMMITTED &ndash;&gt; -->
     <!--     </defaultProperties> -->
     <!-- </jpa> -->

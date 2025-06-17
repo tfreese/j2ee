@@ -7,7 +7,7 @@
         <folder dir="${server.config.dir}/appl/wl_config" />
     </library>
 
-    <!-- War file application which uses shared library. Deployment directory like appl_monitor must be created by project. -->
+    <!-- War file application which uses a shared library. Deployment directory like appl_monitor must be created by project. -->
     <webApplication
             id="liberty-demo"
             name="liberty-demo"
@@ -19,5 +19,15 @@
     <!-- <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" /> -->
 
     <mpOpenAPI docPath="liberty-demo/openapi" uiPath="liberty-demo/openapi/ui" />
+
+    <!-- Timer, needs databaseStore for persistence Timers
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="..." />
+    -->
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" />
+    <!-- <databaseStore id="ejbTimerDatabaseStore" dataSourceRef="dbDS" createTables="true" /> -->
+    <!-- <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" taskStoreRef="ejbTimerDatabaseStore" /> -->
 
 </server>

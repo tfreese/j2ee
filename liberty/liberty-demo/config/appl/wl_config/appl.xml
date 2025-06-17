@@ -11,6 +11,7 @@
 
         <feature>concurrent</feature>
         <feature>enterpriseBeans</feature>
+        <feature>enterpriseBeansPersistentTimer</feature>
         <feature>faces</feature>
         <feature>jdbc</feature>
         <feature>jsonb</feature>
@@ -20,6 +21,7 @@
         <!-- Causes Stackoverflow. -->
         <!-- <feature>persistence</feature> -->
         <!-- <feature>persistenceContainer</feature> -->
+        <!-- <feature>bells-1.0</feature> -->
 
         <!-- Not part of the JakartaEE-Platform. -->
         <feature>mpOpenAPI-3.1</feature>
