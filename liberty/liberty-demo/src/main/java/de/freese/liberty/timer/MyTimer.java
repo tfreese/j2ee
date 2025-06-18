@@ -30,7 +30,7 @@ public class MyTimer {
     //     LOGGER.info("Hello World");
     // }
 
-    @Schedule(hour = "*", minute = "*/1", persistent = false)
+    @Schedule(hour = "*", minute = "*/1", persistent = true)
     public void schedule() {
         LOGGER.info("Hello World");
     }

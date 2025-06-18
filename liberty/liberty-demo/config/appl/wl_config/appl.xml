@@ -19,8 +19,8 @@
         <feature>xmlBinding</feature>
 
         <!-- Causes Stackoverflow. -->
-        <!-- <feature>persistence</feature> -->
-        <!-- <feature>persistenceContainer</feature> -->
+        <feature>persistence</feature>
+        <feature>persistenceContainer</feature>
         <!-- <feature>bells-1.0</feature> -->
 
         <!-- Not part of the JakartaEE-Platform. -->

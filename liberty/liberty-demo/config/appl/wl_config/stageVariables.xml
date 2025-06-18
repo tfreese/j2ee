@@ -21,9 +21,9 @@ final String valueDecoded = PasswordUtil.passwordDecode(value);
     <variable name="my.crypted.secret" value="{aes}..." />
 
     <!-- DB Variables-->
-    <variable name="datasource.url" value="jdbc:h2:/tmp/liberty/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" />
-    <!-- <variable name="datasource.url" value="jdbc:h2:mem:liberty;INIT=CREATE SCHEMA IF NOT EXISTS test AUTHORIZATION sa\\;SET SCHEMA test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" /> -->
-    <!-- <variable name="datasource.url" value="jdbc:h2:mem:liberty;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" /> -->
+    <variable name="datasource.url" value="jdbc:hsqldb:file:/tmp/liberty/hsqldb;create=true;shutdown=true" />
+    <!-- <variable name="datasource.url" value="jdbc:h2:/tmp/liberty/h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" /> -->
+    <!-- <variable name="datasource.url" value="jdbc:h2:mem:liberty;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true" /> -->
     <variable name="datasource.user" value="sa" />
     <variable name="datasource.pwd" value="seecreet" />
     <!-- <variable name="datasource.pwd" value="{aes}..." /> -->

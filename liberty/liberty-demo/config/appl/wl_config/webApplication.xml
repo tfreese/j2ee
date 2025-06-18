@@ -3,7 +3,7 @@
 
     <!-- Shared libraries; move global libraries from lib/global to somewhere else. -->
     <library id="applicationLib">
-        <fileset dir="${server.config.dir}/appl/appl_libs" includes="*.*" excludes="h2*.jar" />
+        <fileset dir="${server.config.dir}/appl/appl_libs" includes="*.*" excludes="h2*.jar,hsqldb*.jar" />
         <folder dir="${server.config.dir}/appl/wl_config" />
     </library>
 

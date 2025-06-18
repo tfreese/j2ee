@@ -4,24 +4,40 @@
     <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" createTables="true" />
 
     <library id="dbDriver">
-        <fileset dir="${server.config.dir}/appl/appl_libs" includes="h2-*.jar" />
+        <fileset dir="${server.config.dir}/appl/appl_libs" includes="h2-*.jar,hsqldb-*.jar" />
     </library>
 
     <authData id="authDataDB" user="${datasource.user}" password="${datasource.pwd}" />
+    <!--
+    containerAuthDataRef="authDataDB"
+
+    type="javax.sql.XADataSource"
+    This is only required for Databases that are unknown for OpenLiberty.
+    -->
     <dataSource
             id="dbDS"
             jndiName="jdbc/dbDS"
-            containerAuthDataRef="authDataDB"
+            type="javax.sql.XADataSource"
     >
         <!-- <containerAuthData user="${datasource.user}" password="${datasource.pwd}"></containerAuthData> -->
+        <!--
+            javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"
+            javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource"
+        -->
         <jdbcDriver
                 libraryRef="dbDriver"
-                javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" />
+                javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource"
+        />
         <properties
                 url="${datasource.url}"
+                user="${datasource.user}"
+                password="${datasource.pwd}"
         />
-        <!-- user="${datasource.user}" -->
-        <!-- password="${datasource.pwd}" -->
+        <!--
+            databaseName="PUBLIC"
+            user="${datasource.user}"
+            password="${datasource.pwd}"
+        -->
 
         <connectionManager
                 minPoolSize="1"
@@ -30,7 +46,7 @@
                 connectionTimeout="10s" />
     </dataSource>
 
-    <!-- defaultJtaDataSourceJndiName="jdbc/h2DS" -->
+    <!-- defaultJtaDataSourceJndiName="jdbc/dbDS" -->
     <!-- <jpa -->
     <!--         defaultPersistenceProvider="org.hibernate.jpa.HibernatePersistenceProvider" -->
     <!-- > -->

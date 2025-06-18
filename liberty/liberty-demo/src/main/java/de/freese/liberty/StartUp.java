@@ -50,7 +50,11 @@ public class StartUp {
         executorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedExecutorService"));
         scheduledExecutorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedScheduledExecutorService"));
 
-        queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
+        // H2; SELECT 1
+        // queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
+
+        // HSQLDB; SELECT COUNT(*) FROM INFORMATION_SCHEMA.SYSTEM_USERS
+        queryDateTime(dataSource, "VALUES (CURRENT_TIMESTAMP)");
 
         // final Number result = (Number) entityManager.createQuery("select count(*) from Person", Integer.class).getSingleResult();
         //
@@ -76,7 +80,8 @@ public class StartUp {
                  Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(sql)) {
                 rs.next();
-                localDateTime = rs.getTimestamp(1).toLocalDateTime();
+                // localDateTime = rs.getTimestamp(1).toLocalDateTime();
+                localDateTime = rs.getObject(1, LocalDateTime.class);
             }
 
             LOGGER.info("Database LocalDateTime: {}", localDateTime);

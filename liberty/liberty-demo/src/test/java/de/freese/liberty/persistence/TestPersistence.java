@@ -41,8 +41,14 @@ class TestPersistence {
 
     @Test
     void testTimestamp() {
+        // H2
+        // String sql = "select CURRENT_TIMESTAMP";
+
+        // HSQLDB
+        final String sql = "VALUES (CURRENT_TIMESTAMP)";
+
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            final LocalDateTime localDateTime = (LocalDateTime) entityManager.createNativeQuery("select CURRENT_TIMESTAMP", LocalDateTime.class).getSingleResult();
+            final LocalDateTime localDateTime = (LocalDateTime) entityManager.createNativeQuery(sql, LocalDateTime.class).getSingleResult();
             final LocalDateTime localDateTimeNow = LocalDateTime.now();
 
             assertEquals(localDateTimeNow.getYear(), localDateTime.getYear());
@@ -57,7 +63,7 @@ class TestPersistence {
     @Test
     @Disabled("disabled")
     void testValidateSchema() throws Exception {
-        final URI uri = URI.create("https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd");
+        final URI uri = URI.create("https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd");
         final Source schemaFile = new StreamSource(uri.toURL().openStream());
 
         final URL url = ClassLoader.getSystemResource("META-INF/persistence.xml");
