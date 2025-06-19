@@ -14,7 +14,8 @@
             location="${server.config.dir}/appl/${deploy_folder}/liberty-demo.war"
             contextRoot="liberty-demo"
             type="war">
-        <classloader commonLibraryRef="applicationLib, dbDriver" />
+        <classloader commonLibraryRef="dbDriver,applicationLib" />
+        <!-- <classloader privateLibraryRef="dbDriver,applicationLib" /> -->
     </webApplication>
     <!-- <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" /> -->
 

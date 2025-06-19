@@ -1,0 +1,179 @@
+<server description="Sample Liberty server">
+    <featureManager>
+        <platform>jakartaee-10.0</platform>
+
+        <feature>appSecurity</feature>
+        <feature>ssl</feature>
+        <feature>transportSecurity</feature>
+
+        <feature>enterpriseBeans</feature>
+        <!-- <feature>enterpriseBeansHome</feature> -->
+        <!-- <feature>enterpriseBeansLite</feature> -->
+        <feature>enterpriseBeansPersistentTimer</feature>
+        <!-- <feature>enterpriseBeansRemote0</feature> -->
+
+        <feature>jndi</feature>
+        <feature>cdi</feature>
+        <feature>managedBeans</feature>
+        <feature>concurrent</feature>
+        <!-- <feature>distributedMap-1.0</feature> -->
+
+        <feature>restfulWS</feature>
+        <feature>restfulWSClient</feature>
+
+        <feature>jsonp</feature>
+        <feature>jsonb</feature>
+        <feature>xmlWS</feature>
+        <feature>xmlBinding</feature>
+
+        <feature>servlet</feature>
+        <feature>faces</feature>
+        <feature>pages</feature>
+        <feature>expressionLanguage</feature>
+
+        <feature>mdb</feature>
+        <feature>messaging</feature>
+        <feature>messagingClient</feature>
+        <feature>messagingServer</feature>
+        <feature>mail</feature>
+        <feature>connectors</feature>
+
+        <feature>persistence</feature>
+        <feature>persistenceContainer</feature>
+        <feature>jdbc</feature>
+
+        <!-- additional features -->
+        <!-- <feature>localConnector-1.0</feature> -->
+        <!-- <feature>restConnector-2.0</feature> -->
+        <!-- <feature>monitor-1.0</feature> -->
+        <!-- <feature>beanValidation-3.0</feature> -->
+        <!-- <feature>mpOpenAPI-3.1</feature> -->
+        <!-- <feature>mpConfig-3.0</feature> -->
+        <!-- <feature>passwordUtilities-1.0</feature> -->
+    </featureManager>
+
+    <httpEndpoint httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" host="*">
+        <tcpOptions soReuseAddr="true" />
+    </httpEndpoint>
+    <httpOptions removeServerHeader="true" />
+    <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
+
+    <!-- <library id="applicationLib"> -->
+    <!--     <fileset dir="${appl_path}/appl_libs" includes="*.*" excludes="dbDriver1*.jar,dbDriver2*.jar" /> -->
+    <!--     <folder dir="${appl_path}/wl_config" /> -->
+    <!-- </library> -->
+
+    <webApplication id="liberty-demo" name="liberty-demo" location="liberty-demo.war" contextRoot="${app.context.root}">
+        <!--     <classloader commonLibraryRef="dbDriver" /> -->
+        <!--     <classloader privateLibraryRef="applicationLib" /> -->
+    </webApplication>
+    <!-- <mpOpenAPI docPath="/app/openapi" uiPath="/app/openapi/ui" /> -->
+
+    <logging consoleLogLevel="INFO" maxFileSize="100" maxFiles="10" traceFormat="ADVANCED" />
+    <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="my_app" />
+    <webContainer deferServletLoad="false" />
+    <!-- <applicationMonitor dropins="dropins" dropinsEnabled="true" pollingRate="5000ms" updateTrigger="polled"/> -->
+
+    <iiopEndpoint id="defaultIiopEndpoint" iiopPort="25401">
+        <iiopsOptions iiopsPort="25401" sslRef="defaultSSLSettings" />
+    </iiopEndpoint>
+
+    <!-- <keyStore id="inboundWebKeyStore" location="${server.output.dir}/resources/security/key-inbound.jks" password="{aes}..." readOnly="true" type="jks" /> -->
+    <!-- <keyStore id="inboundWebTrustStore" location="${server.output.dir}/resources/security/trust-inbound.jks" password="{aes}..." readOnly="true" type="jks" /> -->
+    <!-- <ssl id="inboundWebSSLSettings" keyStoreRef="inboundWebKeyStore" securityLevel="HIGH" sslProtocol="TLSv1.2" trustStoreRef="inboundWebTrustStore" /> -->
+    <!-- <sslOptions id="inboundWebSSLConfig" sslRef="inboundWebSSLSettings" /> -->
+
+    <!-- <keyStore id="defaultKeyStore" location="${server.output.dir}/resources/security/key-default.jks" password="{aes}..." readOnly="true" type="jks" /> -->
+    <!-- <keyStore id="defaultTrustStore" location="${server.output.dir}/resources/security/trust-default.jks" password="{aes}..." readOnly="true" type="jks" /> -->
+    <!-- <sslDefault sslRef="defaultSSLSettings" /> -->
+    <!-- <ssl clientAuthentication="false" clientAuthenticationSupported="false" id="defaultSSLSettings" keyStoreRef="defaultKeyStore" securityLevel="HIGH" sslProtocol="TLSv1.2" -->
+    <!--      trustStoreRef="defaultTrustStore" /> -->
+    <!-- <sslOptions id="defaultSSLConfig" sslRef="defaultSSLSettings" /> -->
+
+    <!-- <ssl id="clusterSyncSSLSettings" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" verifyHostname="true" -->
+    <!--      skipHostnameVerificationForHosts="${app.cluster.hosts}" /> -->
+    <!-- <httpOptions readTimeout="5m" writeTimeout="5m" /> -->
+
+    <!-- Datasource -->
+    <!-- <library id="dbDriver"> -->
+    <!--     <fileset dir="${appl_path}/appl_libs" includes="dbDriver1*.jar,dbDriver2*.jar"/> -->
+    <!-- </library> -->
+
+    <!-- <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS"/> -->
+
+    <!-- <dataSource id="dbDS" jndiName="jdbc/dbDS"> -->
+    <!--     <jdbcDriver libraryRef="dbDriver" javax.sql.ConnectionPoolDataSource="..."/> -->
+    <!--     <properties.oracle URL="..." user="..." password="..."/> -->
+    <!--     <connectionManager maxPoolSize="10" maxIdleTime="10m" connectionTimeout="35s"/> -->
+    <!-- </dataSource> -->
+
+    <!-- MQ -->
+    <!-- <variable name="wmqJmsClient.rar.location" value="${appl_path}/appl_libs/wmq.jakarta.jmsra-9.3.0.27.rar"/> -->
+    <!-- <resourceAdapter id="wmqJakartaJms" location="${wmqJmsClient.rar.location}"/> -->
+
+    <!-- Nur bei Verwendung von lokalen Queues notwendi. -->
+    <!-- <wasJmsEndpoint host="localhost" wasJmsPort="27271" wasJmsSSLPort="28271" /> -->
+    <!-- <wasJmsOutbound id="AppLocalBasicMessaging" useSSL="false" /> -->
+
+    <!-- <messagingEngine> -->
+    <!--     <alias id="LocalMessagingEngine" /> -->
+    <!--     <fileStore path="${appl_data_path}/messageStore" fileStoreSize="800" logFileSize="200" /> -->
+
+    <!--     &lt;!&ndash; Async Queue &ndash;&gt; -->
+    <!--     <queue id="Q.APP.ASYNC.LOCAL" exceptionDestination="Q.APP.ASYNC.LOCAL.BACKOUT" maxMessageDepth="100000" /> -->
+    <!--     <queue id="Q.APP.ASYNC.LOCAL.BACKOUT" maxMessageDepth="100000" /> -->
+    <!-- </messagingEngine> -->
+
+    <!-- &lt;!&ndash; QCF fuer MQ &ndash;&gt; -->
+    <!-- <jmsQueueConnectionFactory id="APPQCF" jndiName="jms/app/QCF"> -->
+    <!--     <properties.wasJms busName="LocalMessagingEngine" /> -->
+    <!--     <connectionManager connectionTimeout="2m" maxPoolSize="10" /> -->
+    <!-- </jmsQueueConnectionFactory> -->
+
+    <!-- &lt;!&ndash; QCF fuer lokale JMS &ndash;&gt; -->
+    <!-- <jmsQueueConnectionFactory id="APPRLQCF" jndiName="jms/app/LQCF"> -->
+    <!--     <properties.wasJms busName="LocalMessagingEngine" /> -->
+    <!--     <connectionManager connectionTimeout="2m" maxPoolSize="50" /> -->
+    <!-- </jmsQueueConnectionFactory> -->
+
+    <!-- <jmsQueue id="OtherSystemReceiveQueue" jndiName="jms/app/otherSystem/ReceiveQ"> -->
+    <!--     <properties.wasJms queueName="Q.OTHERSYSTEM.APP.LOCAL" /> -->
+    <!-- </jmsQueue> -->
+    <!-- <jmsQueue id="OtherSysteBackoutQueue" jndiName="jms/app/otherSystem/BackoutQ"> -->
+    <!--     <properties.wasJms queueName="Q.OTHERSYSTEM.APP.LOCAL.BACKOUT" /> -->
+    <!-- </jmsQueue> -->
+    <!-- <jmsActivationSpec id="my-app/OtherSystemMDB" autoStart="false"> -->
+    <!--     <properties.wasJms connectionFactoryLookup="jms/app/QCF" destinationRef="OtherSystemReceiveQueues" maxConcurrency="1" /> -->
+    <!-- </jmsActivationSpec> -->
+
+    <!-- disable hot deployment -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
+    <!-- disable configuration file monitoring -->
+    <config updateTrigger="disabled" />
+    <webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="1" />
+    <cdi enableImplicitBeanArchives="false" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
+    <transaction totalTranLifetimeTimeout="1h" clientInactivityTimeout="30m" />
+
+    <!-- <managedExecutorService jndiName="concurrent/executor"> -->
+    <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
+    <!-- </managedExecutorService> -->
+
+    <!-- <managedScheduledExecutorService jndiName="concurrent/scheduledExecutorService"> -->
+    <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
+    <!-- </managedScheduledExecutorService > -->
+
+    <executor coreThreads="4" maxThreads="16" />
+
+    <jndiEntry jndiName="jsf/ProjectStage" value="${STAGE}" />
+
+    <jndiEntry jndiName="my.crypted.secret" value="${my.crypted.secret}" />
+
+</server>

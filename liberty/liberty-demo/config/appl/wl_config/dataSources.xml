@@ -23,10 +23,12 @@
         <!--
             javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"
             javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource"
+            javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource"
+            javax.sql.ConnectionPoolDataSource="org.h2.jdbcx.JdbcDataSource"
         -->
         <jdbcDriver
                 libraryRef="dbDriver"
-                javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource"
+                javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource"
         />
         <properties
                 url="${datasource.url}"

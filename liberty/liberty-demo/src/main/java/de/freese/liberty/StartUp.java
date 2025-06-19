@@ -15,9 +15,13 @@ import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.liberty.model.Person;
 
 /**
  * @author Thomas Freese
@@ -34,8 +38,8 @@ public class StartUp {
     // @jakarta.ws.rs.core.Context
     // private SecurityContext context;
 
-    // @PersistenceContext(unitName = "my-pu")
-    // private EntityManager entityManager;
+    @PersistenceContext(unitName = "my-pu")
+    private EntityManager entityManager;
 
     @Resource(lookup = "java:comp/DefaultManagedExecutorService")
     private ExecutorService executorService;
@@ -56,15 +60,15 @@ public class StartUp {
         // HSQLDB; SELECT COUNT(*) FROM INFORMATION_SCHEMA.SYSTEM_USERS
         queryDateTime(dataSource, "VALUES (CURRENT_TIMESTAMP)");
 
-        // final Number result = (Number) entityManager.createQuery("select count(*) from Person", Integer.class).getSingleResult();
-        //
-        // if (result.intValue() == 0) {
-        //     StartUp.LOGGER.info("fill DataBase");
-        //
-        //     final Person person = new Person();
-        //     person.setName("Freese");
-        //     entityManager.persist(person);
-        // }
+        final Number result = entityManager.createQuery("select count(*) from Person", Long.class).getSingleResult();
+
+        if (result.intValue() == 0) {
+            LOGGER.info("fill DataBase");
+
+            final Person person = new Person();
+            person.setName("Freese");
+            entityManager.persist(person);
+        }
     }
 
     @PreDestroy
