@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.sql.DataSource;
 
@@ -18,6 +19,7 @@ import jakarta.ejb.Startup;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,15 +56,31 @@ public class StartUp {
         executorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedExecutorService"));
         scheduledExecutorService.execute(() -> LOGGER.info("postConstruct with DefaultManagedScheduledExecutorService"));
 
-        // H2; SELECT 1
-        // queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
+        final AtomicReference<String> databaseName = new AtomicReference<>("");
 
-        // HSQLDB; SELECT COUNT(*) FROM INFORMATION_SCHEMA.SYSTEM_USERS
-        queryDateTime(dataSource, "VALUES (CURRENT_TIMESTAMP)");
+        // try (Session session = entityManager.unwrap(Session.class)) {
+        final Session session = entityManager.unwrap(Session.class);
+        session.doWork(connection -> {
+            databaseName.set(connection.getMetaData().getDatabaseProductName());
+            LOGGER.info(databaseName.get());
+        });
+        // }
+        // catch (Exception ex) {
+        //     LOGGER.error(ex.getMessage());
+        // }
 
-        final Number result = entityManager.createQuery("select count(*) from Person", Long.class).getSingleResult();
+        if (databaseName.get().contains("HSQL")) {
+            // HSQLDB; SELECT COUNT(*) FROM INFORMATION_SCHEMA.SYSTEM_USERS
+            queryDateTime(dataSource, "VALUES (CURRENT_TIMESTAMP)");
+        }
+        else {
+            // H2; SELECT 1
+            // queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
+        }
 
-        if (result.intValue() == 0) {
+        final Long result = entityManager.createQuery("select count(*) from Person", Long.class).getSingleResult();
+
+        if (result == 0L) {
             LOGGER.info("fill DataBase");
 
             final Person person = new Person();
@@ -84,6 +102,7 @@ public class StartUp {
                  Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(sql)) {
                 rs.next();
+
                 // localDateTime = rs.getTimestamp(1).toLocalDateTime();
                 localDateTime = rs.getObject(1, LocalDateTime.class);
             }
