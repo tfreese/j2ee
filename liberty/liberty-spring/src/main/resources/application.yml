@@ -1,0 +1,42 @@
+# ===================================================================
+# COMMON SPRING BOOT PROPERTIES
+# https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+datasource:
+    jndi:
+        name: jdbc/dbDS
+
+spring:
+    main:
+        banner-mode: CONSOLE
+    mvc:
+        locale: de_DE
+        throw-exception-if-no-handler-found: true
+    output:
+        ansi:
+            enabled: DETECT
+    profiles:
+        active: liberty
+
+info:
+    app:
+        description: ${project_description}
+        name: ${project_artifactId}
+        version: ${project_version}
+
+debug: false
+logging:
+    config: classpath:logback.xml
+
+# view-source:http://localhost:9081/liberty-spring/actuator
+management:
+    endpoints:
+        access:
+            default: NONE
+
+# Only for embedded Tomcat.
+#server:
+#    port: 9090
+#    servlet:
+#        context-path: /liberty-spring

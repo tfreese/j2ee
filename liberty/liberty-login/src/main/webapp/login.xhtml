@@ -36,10 +36,10 @@
                 <h:outputText value="Please enter your credentials."/>
             </f:facet>
             <f:facet name="start">
-                <h:outputText value="Verify login, please wait #{loginController.userName}."/>
+                <h:outputText value="Verify login, please wait '#{loginController.userName}'."/>
             </f:facet>
             <f:facet name="complete">
-                <h:outputText value="Login failed, please try again #{loginController.userName}."/>
+                <h:outputText value="Login failed, please try again '#{loginController.userName}'."/>
             </f:facet>
         </p:ajaxStatus>
     </div>

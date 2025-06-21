@@ -17,8 +17,8 @@
 
     <application>
         <locale-config>
-            <default-locale>de</default-locale>
-            <supported-locale>en</supported-locale>
+            <default-locale>en</default-locale>
+            <supported-locale>de</supported-locale>
         </locale-config>
 
         <resource-bundle>

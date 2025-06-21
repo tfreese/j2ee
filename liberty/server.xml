@@ -52,12 +52,6 @@
         <!-- <feature>passwordUtilities-1.0</feature> -->
     </featureManager>
 
-    <httpEndpoint httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" host="*">
-        <tcpOptions soReuseAddr="true" />
-    </httpEndpoint>
-    <httpOptions removeServerHeader="true" />
-    <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
-
     <!-- <library id="applicationLib"> -->
     <!--     <fileset dir="${appl_path}/appl_libs" includes="*.*" excludes="dbDriver1*.jar,dbDriver2*.jar" /> -->
     <!--     <folder dir="${appl_path}/wl_config" /> -->
@@ -69,10 +63,32 @@
     </webApplication>
     <!-- <mpOpenAPI docPath="/app/openapi" uiPath="/app/openapi/ui" /> -->
 
-    <logging consoleLogLevel="INFO" maxFileSize="100" maxFiles="10" traceFormat="ADVANCED" />
-    <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="my_app" />
-    <webContainer deferServletLoad="false" />
+    <httpEndpoint httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint" host="*">
+        <tcpOptions soReuseAddr="true" />
+    </httpEndpoint>
+    <httpOptions removeServerHeader="true" />
+    <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
+
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
+
+    <!-- disable hot deployment -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
     <!-- <applicationMonitor dropins="dropins" dropinsEnabled="true" pollingRate="5000ms" updateTrigger="polled"/> -->
+
+    <!-- disable configuration file monitoring -->
+    <config updateTrigger="disabled" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+    <cdi enableImplicitBeanArchives="false" />
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
+    <executor coreThreads="4" maxThreads="8" />
+    <logging consoleLogLevel="INFO" maxFileSize="100" maxFiles="10" traceFormat="ADVANCED" />
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="1" />
+    <transaction totalTranLifetimeTimeout="1h" clientInactivityTimeout="30m" />
+    <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="my_app" />
+    <webContainer deferServletLoad="false" com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
 
     <iiopEndpoint id="defaultIiopEndpoint" iiopPort="25401">
         <iiopsOptions iiopsPort="25401" sslRef="defaultSSLSettings" />
@@ -146,22 +162,6 @@
     <!--     <properties.wasJms connectionFactoryLookup="jms/app/QCF" destinationRef="OtherSystemReceiveQueues" maxConcurrency="1" /> -->
     <!-- </jmsActivationSpec> -->
 
-    <!-- disable hot deployment -->
-    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
-    <!-- disable configuration file monitoring -->
-    <config updateTrigger="disabled" />
-    <webContainer com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
-    <ejbContainer>
-        <timerService missedPersistentTimerAction="ONCE" />
-    </ejbContainer>
-    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="1" />
-    <cdi enableImplicitBeanArchives="false" />
-
-    <basicRegistry id="defaultBasicRegistry" />
-
-    <applicationManager startTimeout="5m" stopTimeout="5m" />
-    <transaction totalTranLifetimeTimeout="1h" clientInactivityTimeout="30m" />
-
     <!-- <managedExecutorService jndiName="concurrent/executor"> -->
     <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
     <!-- </managedExecutorService> -->
@@ -169,8 +169,6 @@
     <!-- <managedScheduledExecutorService jndiName="concurrent/scheduledExecutorService"> -->
     <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
     <!-- </managedScheduledExecutorService > -->
-
-    <executor coreThreads="4" maxThreads="16" />
 
     <jndiEntry jndiName="jsf/ProjectStage" value="${STAGE}" />
 

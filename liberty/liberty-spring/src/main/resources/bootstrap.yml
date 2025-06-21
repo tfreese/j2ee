@@ -5,4 +5,6 @@
 #
 # Technically, bootstrap.yml is loaded by a parent Spring ApplicationContext.
 # That parent ApplicationContext is loaded before the one that uses application.yml
-spring.application.name = liberty-spring
+spring:
+    application:
+        name: liberty-spring

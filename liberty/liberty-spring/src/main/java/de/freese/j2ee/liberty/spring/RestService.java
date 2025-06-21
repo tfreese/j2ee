@@ -1,10 +1,10 @@
 // Created: 14.02.2017
 package de.freese.j2ee.liberty.spring;
 
-import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 import javax.sql.DataSource;
 
@@ -31,17 +31,20 @@ public class RestService {
      * <a href="http://localhost:PORT/liberty-spring/sysdate">localhost</a>
      */
     @GetMapping("/sysdate")
-    public String getSysdate() throws Exception {
-        final String sysDate;
+    public LocalDateTime getSysdate() throws Exception {
+        final LocalDateTime sysDate;
 
+        // select CURRENT_TIMESTAMP
         try (Connection con = dataSource.getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery("VALUES (CURRENT_TIMESTAMP)")) {
             rs.next();
-            sysDate = rs.getTimestamp(1).toString();
+            // sysDate = rs.getTimestamp(1).toLocalDateTime();
+            sysDate = rs.getObject(1, LocalDateTime.class);
         }
 
-        return sysDate + " at " + InetAddress.getLocalHost().getHostName();
+        return sysDate;
+        // return sysDate + " at " + InetAddress.getLocalHost().getHostName();
     }
 
     /**

@@ -11,9 +11,31 @@
         <feature>faces</feature>
     </featureManager>
 
-    <httpEndpoint id="defaultHttpEndpoint" host="localhost" httpPort="${http.port}" httpsPort="${https.port}" />
-
     <webApplication location="liberty-login.war" contextRoot="${context.root}" />
 
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="${http.port}" httpsPort="${https.port}" host="localhost">
+        <tcpOptions soReuseAddr="true" />
+    </httpEndpoint>
+    <httpOptions removeServerHeader="true" />
+    <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
+
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
+
+    <!-- Disable hot deployment. -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
+
+    <!-- Disable configuration file monitoring. -->
+    <config updateTrigger="disabled" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+    <cdi enableImplicitBeanArchives="false" />
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
     <executor coreThreads="4" maxThreads="8" />
+    <logging consoleLogLevel="INFO" maxFileSize="100" maxFiles="10" traceFormat="ADVANCED" />
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="1" />
+    <transaction totalTranLifetimeTimeout="1h" clientInactivityTimeout="30m" />
+    <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="my_app" />
+    <webContainer deferServletLoad="false" com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
 </server>

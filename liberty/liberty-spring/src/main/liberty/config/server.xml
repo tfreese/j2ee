@@ -15,13 +15,59 @@
         <!-- <feature>springBoot-3.0</feature> -->
     </featureManager>
 
-    <include location="${server.config.dir}/dataSources.xml" optional="false" />
+    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="${context.root}" />
 
     <httpEndpoint id="defaultHttpEndpoint" httpPort="${http.port}" httpsPort="${https.port}" host="localhost">
         <tcpOptions soReuseAddr="true" />
     </httpEndpoint>
+    <httpOptions removeServerHeader="true" />
+    <httpDispatcher appOrContextRootMissingMessage="nothing here" enableWelcomePage="false" />
 
-    <webApplication id="liberty-spring" name="liberty-spring" location="liberty-spring.war" contextRoot="${context.root}" />
+    <applicationManager startTimeout="5m" stopTimeout="5m" />
 
+    <!-- Disable hot deployment. -->
+    <applicationMonitor updateTrigger="disabled" dropinsEnabled="false" />
+
+    <!-- Disable configuration file monitoring. -->
+    <config updateTrigger="disabled" />
+
+    <basicRegistry id="defaultBasicRegistry" />
+    <cdi enableImplicitBeanArchives="false" />
+    <ejbContainer>
+        <timerService missedPersistentTimerAction="ONCE" />
+    </ejbContainer>
     <executor coreThreads="4" maxThreads="8" />
+    <logging consoleLogLevel="INFO" maxFileSize="100" maxFiles="10" traceFormat="ADVANCED" />
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="1" />
+    <transaction totalTranLifetimeTimeout="1h" clientInactivityTimeout="30m" />
+    <webAppSecurity logoutOnHttpSessionExpire="true" ssoCookieName="my_app" />
+    <webContainer deferServletLoad="false" com.ibm.ws.webcontainer.skipMetaInfResourcesProcessing="true" />
+
+    <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" />
+
+    <!-- Jdbc driver-->
+    <library id="dbDriver">
+        <fileset dir="${server.config.dir}/libs" includes="h2-*.jar" />
+    </library>
+
+    <dataSource
+            id="dbDS"
+            jndiName="jdbc/dbDS">
+
+        <!-- javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" -->
+        <jdbcDriver
+                libraryRef="dbDriver"
+                javax.sql.ConnectionPoolDataSource="org.h2.jdbcx.JdbcDataSource"
+        />
+        <properties
+                url="jdbc:h2:mem:liberty;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true"
+                user="sa"
+                password="" />
+        <connectionManager
+                minPoolSize="1"
+                maxPoolSize="3"
+                maxIdleTime="10m"
+                connectionTimeout="35s" />
+    </dataSource>
+
 </server>

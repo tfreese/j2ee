@@ -111,6 +111,14 @@ liberty {
         clean = true
 
         // Embedded config in src/main/liberty
+
+        // configDirectory = file("config")
+        // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
+        // jvmOptions = ["-Xms128m", "-Xmx512m"]
+        // serverXmlFile = file("config/appl/wl_config/appl.xml")
+        // bootstrapPropertiesFile = file("config/bootstrap.properties")
+        // jvmOptionsFile = file("config/jvm.options")
+        // serverEnvFile = file("config/server.env")
     }
 }
 

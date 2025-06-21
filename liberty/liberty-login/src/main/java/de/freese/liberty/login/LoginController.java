@@ -72,7 +72,7 @@ public class LoginController implements Serializable {
 
                 // return "login";
 
-                // FacesMessage will not shown.
+                // FacesMessage will not show.
                 // FacesContext.getCurrentInstance().getExternalContext().redirect(requestedUri == null ? httpServletRequest.getContextPath() + "/login.xhtml" : requestedUri);
             }
         }

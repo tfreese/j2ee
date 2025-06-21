@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,16 +30,29 @@ class TestEndpoint {
     void testRestService() throws Exception {
         final URI uriRestService = URI.create(uriBase.toString() + "/sysdate");
 
-        try (HttpClient httpClient = HttpClient.newBuilder().build()) {
-            final HttpRequest httpRequest = HttpRequest.newBuilder()
+        try (HttpClient client = HttpClient.newBuilder().build()) {
+            final HttpRequest request = HttpRequest.newBuilder()
                     .uri(uriRestService)
                     .GET()
                     .build();
 
-            final HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            assertEquals(200, httpResponse.statusCode(), "Incorrect response code from " + uriRestService);
-            assertNotNull(httpResponse.body());
+            assertEquals(200, response.statusCode(), "Incorrect response code from " + uriRestService);
+            assertNotNull(response.body());
+
+            final String remoteSysDate = response.body().replace("\"", "");
+
+            // 2025-06-21T10:30:21.728828
+            final LocalDateTime remoteDateTime = LocalDateTime.parse(remoteSysDate);
+            // final LocalDateTime remoteDateTime =LocalDateTime.parse(remoteSysDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"));
+
+            final LocalDateTime now = LocalDateTime.now();
+            assertEquals(now.getYear(), remoteDateTime.getYear());
+            assertEquals(now.getMonth(), remoteDateTime.getMonth());
+            assertEquals(now.getDayOfWeek(), remoteDateTime.getDayOfWeek());
+            assertEquals(now.getHour(), remoteDateTime.getHour());
+            assertEquals(now.getMinute(), remoteDateTime.getMinute());
         }
     }
 }

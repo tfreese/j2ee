@@ -27,19 +27,21 @@ public final class AuthFilter implements Filter {
 
         final HttpSession httpSession = httpServletRequest.getSession(true);
 
-        final boolean isLoggedIn = httpSession != null && httpSession.getAttribute(LoginController.ATTRIBUTE_USER_NAME) != null;
+        final boolean isLoggedIn = httpSession.getAttribute(LoginController.ATTRIBUTE_USER_NAME) != null;
         final String requestedUri = httpServletRequest.getRequestURI();
 
-        if (isLoggedIn || requestedUri.contains("login.xhtml") || requestedUri.contains("jakarta.faces.resource")) {
+        if (isLoggedIn
+                || requestedUri.contains("login.xhtml")
+                || requestedUri.contains("jakarta.faces.resource")
+                || requestedUri.endsWith(".css")
+                || requestedUri.endsWith(".gif")
+        ) {
             chain.doFilter(request, response);
         }
         else {
             // Programmatic Login.
             // httpSession.setAttribute(LoginController.ATTRIBUTE_USER_NAME, "myUserId");
-
-            if (httpSession != null) {
-                httpSession.setAttribute(LoginController.ATTRIBUTE_REQUESTED_URL, requestedUri);
-            }
+            httpSession.setAttribute(LoginController.ATTRIBUTE_REQUESTED_URL, requestedUri);
 
             ((HttpServletResponse) response).sendRedirect(httpServletRequest.getContextPath() + "/login.xhtml");
         }

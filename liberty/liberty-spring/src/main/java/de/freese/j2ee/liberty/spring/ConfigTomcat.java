@@ -21,7 +21,7 @@ public class ConfigTomcat {
         // hikariConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         // hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:liberty-spring;shutdown=true");
         hikariConfig.setDriverClassName("org.h2.jdbcx.JdbcDataSource");
-        hikariConfig.setJdbcUrl("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true");
+        hikariConfig.setJdbcUrl("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true");
         hikariConfig.setUsername("sa");
         hikariConfig.setPassword("");
         hikariConfig.setPoolName("hikari-" + hikariConfig.getJdbcUrl());
@@ -33,7 +33,7 @@ public class ConfigTomcat {
         return new HikariDataSource(hikariConfig);
 
         // H2
-        // final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
+        // final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:liberty-spring;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true", "sa", null);
         // pool.setMaxConnections(3);
 
         // HSQLDB
