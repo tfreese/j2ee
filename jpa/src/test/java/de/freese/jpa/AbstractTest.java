@@ -175,12 +175,12 @@ abstract class AbstractTest {
             final Caffeine<Object, Object> caffeine;
 
             if ((config.get(AvailableSettings.CACHE_REGION_PREFIX) + ".person").equals(cacheName)) {
-                caffeine = Caffeine.from("maximumSize=10,expireAfterAccess=3s,recordStats");
+                caffeine = Caffeine.from("maximumSize=10,expireAfterWrite=3s,recordStats");
             }
             else {
                 caffeine = Caffeine.newBuilder()
                         .maximumSize(1000)
-                        .expireAfterAccess(Duration.ofHours(12))
+                        .expireAfterWrite(Duration.ofHours(12))
                         .recordStats();
             }
 
@@ -220,7 +220,7 @@ abstract class AbstractTest {
         config.put(AvailableSettings.DEFAULT_BATCH_FETCH_SIZE, "32");
         config.put(AvailableSettings.ISOLATION, String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
 
-        config.put(AvailableSettings.FLUSH_BEFORE_COMPLETION, "true");
+        // config.put(AvailableSettings.FLUSH_BEFORE_COMPLETION, "true");
         // config.put(AvailableSettings.JTA_PLATFORM, "<CLASS_NAME>");
 
         // config.put(AvailableSettings.QUERY_SUBSTITUTIONS, "true 1, false 0");

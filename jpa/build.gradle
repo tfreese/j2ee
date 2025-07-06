@@ -15,7 +15,7 @@ dependencies {
     // Minimum
     implementation("com.zaxxer:HikariCP")
     implementation("org.hibernate.orm:hibernate-core")
-    // implementation("org.slf4j:slf4j-api")
+    implementation("org.slf4j:slf4j-api")
 
     implementation(project(":jcache"))
     // implementation("javax.cache:cache-api")
