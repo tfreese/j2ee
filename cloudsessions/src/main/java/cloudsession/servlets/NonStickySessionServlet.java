@@ -159,7 +159,7 @@ public class NonStickySessionServlet extends HttpServlet {
 
                 if (val != null) {
                     cloudSession.setSessionValue(sessionID, CREATION_TIME, val.toString());
-                    // TODO cloudSession.remove(sessionID);
+                    // cloudSession.remove(sessionID);
                 }
             }
 

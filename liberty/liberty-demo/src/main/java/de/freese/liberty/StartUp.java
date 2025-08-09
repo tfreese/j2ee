@@ -75,7 +75,7 @@ public class StartUp {
         }
         else {
             // H2; SELECT 1
-            // queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
+            queryDateTime(dataSource, "select CURRENT_TIMESTAMP");
         }
 
         final Long result = entityManager.createQuery("select count(*) from Person", Long.class).getSingleResult();
