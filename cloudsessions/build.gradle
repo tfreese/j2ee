@@ -50,7 +50,7 @@ configurations {
 artifacts {
 //    sharedConfig(TaskName with outputs.file(sharedFile))
 
-    cloudsessionsWar(project.tasks.war) {
+    cloudsessionsWar(tasks.war) {
 //        builtBy(build)
     }
 

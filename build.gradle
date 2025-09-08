@@ -22,6 +22,8 @@ plugins {
 
     // https://github.com/OpenAPITools/openapi-generator/
     id("org.openapi.generator") version("${version_openApiGeneratorGradlePlugin}") apply(false)
+
+    id("project-report")
 }
 
 allprojects {
