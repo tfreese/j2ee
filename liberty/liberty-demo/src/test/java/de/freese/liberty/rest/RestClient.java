@@ -29,7 +29,7 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 public final class RestClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestClient.class);
 
-    public static void main(final String[] args) throws IOException, InterruptedException {
+    static void main() throws IOException, InterruptedException {
         final URI uri = URI.create("http://localhost:9080/liberty-demo/my-app/service/kryo");
         final KryoContextResolver kryoProvider = new KryoContextResolver();
         final Kryo kryo = kryoProvider.getKryo();

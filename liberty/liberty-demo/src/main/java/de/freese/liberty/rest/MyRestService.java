@@ -180,7 +180,7 @@ public class MyRestService {
             try {
                 tmp = binding.getObject();
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 tmp = binding.getClassName();
             }
 
@@ -212,7 +212,7 @@ public class MyRestService {
                 isSubContext = MethodHandles.publicLookup().findClass(className).isAssignableFrom(Context.class);
                 // isSubContext = Class.forName(className).isAssignableFrom(Context.class);
             }
-            catch (Exception ex) {
+            catch (Exception _) {
                 // Ignore
             }
 
@@ -225,7 +225,7 @@ public class MyRestService {
                 try {
                     map.put(name, ctx.lookup(name).toString());
                 }
-                catch (Exception ex) {
+                catch (Exception _) {
                     map.put(name, className);
                 }
             }

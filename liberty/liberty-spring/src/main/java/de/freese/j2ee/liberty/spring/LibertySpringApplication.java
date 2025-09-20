@@ -10,7 +10,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 public class LibertySpringApplication extends SpringBootServletInitializer {
-    public static void main(final String[] args) {
+    static void main(final String[] args) {
         configureApplication(new SpringApplicationBuilder()).run(args);
     }
 
