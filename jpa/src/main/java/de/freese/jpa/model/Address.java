@@ -41,7 +41,7 @@ public class Address extends AbstractEntity {
     }
 
     @Id
-    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "seq_gen_address", sequenceName = "ADDRESS_SEQ", initialValue = 10, allocationSize = 1)
     @GeneratedValue(generator = "seq_gen_address", strategy = GenerationType.SEQUENCE)
     // @BlockSequence(name = "seq_gen_address", blockSize = 10) // Sequence won't be generated and must exist.
     @Column(name = "ID", unique = true, nullable = false)

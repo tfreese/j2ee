@@ -47,6 +47,9 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
         blockSize = config.blockSize();
     }
 
+    // /**
+    //  * Hibernate 6.x
+    //  */
     // @Override
     // public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException {
     //     sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);

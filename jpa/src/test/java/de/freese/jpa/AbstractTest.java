@@ -48,6 +48,8 @@ import org.hibernate.boot.SchemaAutoTooling;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.MissingCacheStrategy;
 import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.BatchSettings;
+import org.hibernate.cfg.FetchSettings;
 import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.stat.Statistics;
 import org.junit.jupiter.api.AfterAll;
@@ -90,11 +92,9 @@ abstract class AbstractTest {
     // }
 
     protected static Map<String, Object> getHibernateConfig() {
-        final String id = UUID.randomUUID().toString();
-
         final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:" + id + ";shutdown=true");
+        hikariConfig.setJdbcUrl("jdbc:hsqldb:mem:" + UUID.randomUUID() + ";shutdown=true");
         hikariConfig.setUsername("sa");
         hikariConfig.setPassword("");
         hikariConfig.setPoolName("hikari-" + hikariConfig.getJdbcUrl());
@@ -135,6 +135,15 @@ abstract class AbstractTest {
         config.put(AvailableSettings.HBM2DDL_AUTO, SchemaAutoTooling.UPDATE.name().toLowerCase());
         // config.put(AvailableSettings.HBM2DDL_AUTO, "create-drop");
         // config.put(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
+
+        // Batch
+        // ****************************************************************************************
+        config.put(BatchSettings.STATEMENT_BATCH_SIZE, "10");
+        config.put(BatchSettings.BATCH_VERSIONED_DATA, "true");
+        config.put(BatchSettings.ORDER_INSERTS, "true");
+        config.put(BatchSettings.ORDER_UPDATES, "true");
+        config.put(FetchSettings.DEFAULT_BATCH_FETCH_SIZE, "32");
+        config.put(JdbcSettings.STATEMENT_FETCH_SIZE, "100");
 
         // Logging
         // ****************************************************************************************
@@ -216,18 +225,12 @@ abstract class AbstractTest {
         // ****************************************************************************************
         // config.put(AvailableSettings.DEFAULT_SCHEMA, "...");
         // config.put(AvailableSettings.SESSION_FACTORY_NAME, "de.freese.test"); // JNDI-Name
-        config.put(AvailableSettings.BATCH_VERSIONED_DATA, "true");
-        config.put(AvailableSettings.DEFAULT_BATCH_FETCH_SIZE, "32");
-        config.put(AvailableSettings.ISOLATION, String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
+        config.put(JdbcSettings.ISOLATION, String.valueOf(Connection.TRANSACTION_READ_COMMITTED));
 
         // config.put(AvailableSettings.FLUSH_BEFORE_COMPLETION, "true");
         // config.put(AvailableSettings.JTA_PLATFORM, "<CLASS_NAME>");
 
         // config.put(AvailableSettings.QUERY_SUBSTITUTIONS, "true 1, false 0");
-        config.put(AvailableSettings.ORDER_INSERTS, "true");
-        config.put(AvailableSettings.ORDER_UPDATES, "true");
-        config.put(AvailableSettings.STATEMENT_BATCH_SIZE, "30");
-        config.put(AvailableSettings.STATEMENT_FETCH_SIZE, "100");
 
         // config.put(AvailableSettings.USE_STREAMS_FOR_BINARY, "true");
         // config.put(ENTITY_INTERCEPTOR_CLASS, "... extends org.hibernate.EmptyInterceptor");
@@ -247,6 +250,8 @@ abstract class AbstractTest {
     @Test
     void test010Insert() {
         try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            entityManager.unwrap(Session.class).setJdbcBatchSize(10);
+
             entityManager.getTransaction().begin();
 
             final List<Person> persons = new ArrayList<>();
@@ -262,6 +267,12 @@ abstract class AbstractTest {
                 }
 
                 entityManager.persist(person);
+
+                // if (i % 2 == 0) {
+                //     // Flush a batch of inserts and release memory.
+                //     entityManager.flush();
+                //     entityManager.clear();
+                // }
             }
 
             validatePersons(persons);
@@ -292,6 +303,8 @@ abstract class AbstractTest {
         final String vorname = "Vorname1";
 
         try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            final long lowestId = getLowestId(entityManager);
+
             // Caching is enabled in Mapping.
             final Person person = entityManager.createNamedQuery("personByVorname", Person.class).setParameter("vorname", vorname).getSingleResult();
 
@@ -301,7 +314,7 @@ abstract class AbstractTest {
             // session.createQuery("from Person where vorname=:vorname order by name asc").setCacheable(true).setCacheRegion("person").getSingleResult();
 
             assertNotNull(person);
-            assertEquals(1, person.getID());
+            assertEquals(lowestId, person.getID());
             assertEquals(vorname, person.getVorname());
             assertEquals(3, person.getAddresses().size());
 
@@ -386,10 +399,12 @@ abstract class AbstractTest {
     @Test
     void test060Update() {
         try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            final long lowestId = getLowestId(entityManager);
+
             entityManager.getTransaction().begin();
 
             // With additional Select.
-            final Person person = entityManager.find(Person.class, 1);
+            final Person person = entityManager.find(Person.class, lowestId);
             assertNotNull(person);
             person.setName("newName");
             entityManager.persist(person);
@@ -397,7 +412,7 @@ abstract class AbstractTest {
             // Does not update Timestamps (@UpdateTimestamp).
             // final int affectedRows = entityManager.createQuery("update Person p set p.name = :name where p.id = :id")
             //         .setParameter("name", "newName")
-            //         .setParameter("id", 1)
+            //         .setParameter("id", lowestId)
             //         .executeUpdate();
             // assertEquals(1, affectedRows);
 
@@ -410,15 +425,17 @@ abstract class AbstractTest {
     @Test
     void test070Delete() {
         try (EntityManager entityManager = getEntityManagerFactory().createEntityManager()) {
+            final long lowestId = getLowestId(entityManager);
+
             entityManager.getTransaction().begin();
 
             // Plain delete.
-            final Person person = entityManager.getReference(Person.class, 1);
+            final Person person = entityManager.getReference(Person.class, lowestId);
             assertNotNull(person);
             entityManager.remove(person);
 
             // Alternative with additional Select.
-            // final Person person = entityManager.find(Person.class, 1);
+            // final Person person = entityManager.find(Person.class, lowestId);
             // assertNotNull(person);
             // entityManager.remove(person);
 
@@ -426,13 +443,13 @@ abstract class AbstractTest {
             // final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             // final CriteriaDelete<Person> delete = builder.createCriteriaDelete(Person.class);
             // final Root<Person> root = delete.from(Person.class);
-            // delete.where(builder.equal(root.get("id"), 1));
+            // delete.where(builder.equal(root.get("id"), lowestId));
             // final int affectedRows = entityManager.createQuery(delete).executeUpdate();
             // assertEquals(1, affectedRows);
 
             // Plain delete, doesn't delete Associations.
             // final int affectedRows = entityManager.createQuery("delete Person p where p.id = :id")
-            //         .setParameter("id", 1)
+            //         .setParameter("id", lowestId)
             //         .executeUpdate();
             // assertEquals(1, affectedRows);
 
@@ -627,7 +644,7 @@ abstract class AbstractTest {
         for (int i = 0; i < persons.size(); i++) {
             final Person person = persons.get(i);
 
-            assertEquals(1 + i, person.getID());
+            assertEquals(10 + i, person.getID());
             assertEquals(3, person.getAddresses().size());
 
             final List<Address> addresses = new ArrayList<>(person.getAddresses());
@@ -636,10 +653,14 @@ abstract class AbstractTest {
             for (int j = 0; j < addresses.size(); j++) {
                 final Address address = addresses.get(j);
 
-                final long addressIdExpected = ((person.getID() - 1) * addresses.size()) + j + 1;
+                final long addressIdExpected = ((long) i * addresses.size()) + j + 10;
                 assertEquals(addressIdExpected, address.getID());
                 assertEquals(person, address.getPerson());
             }
         }
+    }
+
+    private long getLowestId(final EntityManager entityManager) {
+        return entityManager.createQuery("select min(p.id) from Person p", long.class).getSingleResult();
     }
 }

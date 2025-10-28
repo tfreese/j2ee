@@ -28,8 +28,6 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -38,8 +36,9 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "T_PERSON", schema = "PUBLIC", uniqueConstraints = {@UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames = {"NAME", "VORNAME"})})
-@DynamicInsert
-@DynamicUpdate
+// @DynamicInsert
+// @DynamicUpdate
+// @BatchSize(size = 20)
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "person")
 @NamedQuery(name = "allPersons",
@@ -68,6 +67,7 @@ public class Person extends AbstractEntity {
     @OrderBy("street desc")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "collections")
     @Fetch(FetchMode.SELECT)
+    // @BatchSize(size = 2)
     private final List<Address> addresses = new ArrayList<>();
 
     /**
@@ -80,7 +80,7 @@ public class Person extends AbstractEntity {
     // @BlockSequence(name = "seq_gen_person", blockSize = 10) // Sequence won't be generated and must exist.
     // @GeneratedValue(generator = "increment", strategy = GenerationType.AUTO) // select max(id) from
     @Id
-    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "seq_gen_person", sequenceName = "PERSON_SEQ", initialValue = 10, allocationSize = 1)
     @GeneratedValue(generator = "seq_gen_person", strategy = GenerationType.SEQUENCE)
     @Column(name = "ID", unique = true, nullable = false)
     @Access(AccessType.FIELD)
