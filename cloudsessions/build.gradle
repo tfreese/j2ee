@@ -43,7 +43,7 @@ configurations {
         canBeResolved = false // No Dependencies.
 
 //        extendsFrom(implementation, runtimeOnly)
-        transitive(true)
+        transitive = true
     }
 }
 

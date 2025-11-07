@@ -14,20 +14,20 @@
 //}
 
 plugins {
-    id("de.freese.gradle.java.conventions") version("$version_myJavaConventionPlugin") apply(false)
-    id("io.spring.dependency-management") version("$version_springDependencyManagementPlugin") apply(false)
+    id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
+    id("io.spring.dependency-management").version("$version_springDependencyManagementPlugin").apply(false)
 
     // build/generateOpenApiSpec
-    id("io.smallrye.openapi") version("${version_ioSmallryeOpenapiGradlePlugin}") apply(false)
+    id("io.smallrye.openapi").version("${version_ioSmallryeOpenapiGradlePlugin}").apply(false)
 
     // https://github.com/OpenAPITools/openapi-generator/
-    id("org.openapi.generator") version("${version_openApiGeneratorGradlePlugin}") apply(false)
+    id("org.openapi.generator").version("${version_openApiGeneratorGradlePlugin}").apply(false)
 
     id("project-report")
 }
 
 allprojects {
-    apply plugin: "base"
+    apply(plugin: "base")
 
     clean {
         doFirst {
@@ -54,8 +54,8 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: "de.freese.gradle.java.conventions"
-    apply plugin: "io.spring.dependency-management"
+    apply(plugin: "de.freese.gradle.conventions")
+    apply(plugin: "io.spring.dependency-management")
 
     dependencyManagement {
         imports {
