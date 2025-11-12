@@ -134,7 +134,7 @@ processResources {
 
     // filesMatching("**/*.properties")
     filesMatching(["application.properties", "application.yml"]) {
-        filteringCharset = "UTF-8"
+        // filteringCharset = "UTF-8"
 
         // Bei Problemen müssen die Platzhalter escaped werden: \${...}
         // expand(project.properties)
