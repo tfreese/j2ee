@@ -44,7 +44,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.SchemaAutoTooling;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.hibernate.cache.jcache.MissingCacheStrategy;
 import org.hibernate.cfg.AvailableSettings;
@@ -52,6 +51,7 @@ import org.hibernate.cfg.BatchSettings;
 import org.hibernate.cfg.FetchSettings;
 import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.stat.Statistics;
+import org.hibernate.tool.schema.Action;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -132,14 +132,14 @@ abstract class AbstractTest {
         // Schema
         // ****************************************************************************************
         // config.put(AvailableSettings.HBM2DDL_AUTO, "none");
-        config.put(AvailableSettings.HBM2DDL_AUTO, SchemaAutoTooling.UPDATE.name().toLowerCase());
+        config.put(AvailableSettings.HBM2DDL_AUTO, Action.UPDATE.name().toLowerCase());
         // config.put(AvailableSettings.HBM2DDL_AUTO, "create-drop");
         // config.put(AvailableSettings.HBM2DDL_IMPORT_FILES, "import.sql");
 
         // Batch
         // ****************************************************************************************
         config.put(BatchSettings.STATEMENT_BATCH_SIZE, "10");
-        config.put(BatchSettings.BATCH_VERSIONED_DATA, "true");
+        // config.put(BatchSettings.BATCH_VERSIONED_DATA, "true");
         config.put(BatchSettings.ORDER_INSERTS, "true");
         config.put(BatchSettings.ORDER_UPDATES, "true");
         config.put(FetchSettings.DEFAULT_BATCH_FETCH_SIZE, "32");

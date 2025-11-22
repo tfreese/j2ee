@@ -2,7 +2,7 @@ package cloudsession;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 
 /**
  * <a href="http://localhost:8088/session">session-demo</a>

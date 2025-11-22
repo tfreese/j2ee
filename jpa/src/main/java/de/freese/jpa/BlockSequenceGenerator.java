@@ -7,13 +7,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.Queue;
 
 import org.hibernate.HibernateException;
+import org.hibernate.MappingException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.generator.GeneratorCreationContext;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.id.IncrementGenerator;
-import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +37,7 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
     private final String sequenceName;
     private int blockSize;
 
-    public BlockSequenceGenerator(final BlockSequence config, final Member annotatedMember, final CustomIdGeneratorCreationContext context) {
+    public BlockSequenceGenerator(final BlockSequence config, final Member annotatedMember) {
         super();
 
         sequenceName = Objects.requireNonNull(config.name(), "sequenceName required");
@@ -47,22 +49,21 @@ public class BlockSequenceGenerator implements IdentifierGenerator {
         blockSize = config.blockSize();
     }
 
-    // /**
-    //  * Hibernate 6.x
-    //  */
-    // @Override
-    // public void configure(final Type type, final Properties params, final ServiceRegistry serviceRegistry) throws MappingException {
-    //     sequenceName = ConfigurationHelper.getString("sequenceName", params, (String) null);
-    //     blockSize = ConfigurationHelper.getInt("blockSize", params, 1);
-    //
-    //     if (sequenceName == null || sequenceName.isBlank()) {
-    //         throw new MappingException("sequenceName required");
-    //     }
-    //
-    //     if (blockSize < 1) {
-    //         throw new MappingException("blockSize >= 1 required");
-    //     }
-    // }
+    @Override
+    public void configure(final GeneratorCreationContext creationContext, final Properties parameters) throws MappingException {
+        IdentifierGenerator.super.configure(creationContext, parameters);
+
+        // sequenceName = ConfigurationHelper.getString("sequenceName", parameters, (String) null);
+        // blockSize = ConfigurationHelper.getInt("blockSize", parameters, 1);
+        //
+        // if (sequenceName == null || sequenceName.isBlank()) {
+        //     throw new MappingException("sequenceName required");
+        // }
+        //
+        // if (blockSize < 1) {
+        //     throw new MappingException("blockSize >= 1 required");
+        // }
+    }
 
     @Override
     public synchronized Object generate(final SharedSessionContractImplementor session, final Object object) throws HibernateException {

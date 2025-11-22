@@ -6,7 +6,7 @@ description = "Example for saving HTTP-Sessions in the Amazon Cloud."
 
 dependencies {
     implementation("com.amazonaws:aws-java-sdk-simpledb")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("tools.jackson.core:jackson-databind")
     implementation("org.slf4j:slf4j-api")
 
     runtimeOnly("org.slf4j:jcl-over-slf4j")
@@ -14,7 +14,7 @@ dependencies {
     // providedCompile
     compileOnly("jakarta.servlet:jakarta.servlet-api")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
 jar {
