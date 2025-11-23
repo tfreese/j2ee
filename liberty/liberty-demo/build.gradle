@@ -37,9 +37,8 @@ dependencies {
     // libertyRuntime("io.openliberty:openliberty-runtime:$version_openliberty")
 
     implementation("com.esotericsoftware:kryo")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
+    implementation("tools.jackson.core:jackson-databind")
+    implementation("tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
     implementation("com.github.ben-manes.caffeine:caffeine")
 
     implementation("org.hibernate.orm:hibernate-core") {
@@ -47,7 +46,7 @@ dependencies {
         exclude(group: "jakarta.inject", module: "*")
         exclude(group: "jakarta.persistence", module: "*")
         exclude(group: "jakarta.transaction", module: "*")
-        exclude(group: "jakarta.xml.bind", module: "*")
+        // exclude(group: "jakarta.xml.bind", module: "*")
     }
 
     implementation("org.slf4j:slf4j-api")

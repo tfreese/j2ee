@@ -18,6 +18,6 @@ public class JacksonProvider extends JacksonContextResolver {
 // An alternative is JacksonJsonProvider from com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider.
 // public class JacksonProvider extends JacksonJsonProvider {
 //     public JacksonProvider() {
-//         super(new JacksonContextResolver().getObjectMapper());
+//         super(new JacksonContextResolver().getJsonMapper());
 //     }
 // }

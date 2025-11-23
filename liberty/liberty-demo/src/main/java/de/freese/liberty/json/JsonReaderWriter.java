@@ -17,7 +17,7 @@ import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
@@ -30,8 +30,8 @@ public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyW
     // private JacksonProvider jacksonProvider;
 
     @Inject
-    @ObjectMapperQualifier
-    private ObjectMapper objectMapper;
+    @JsonMapperQualifier
+    private JsonMapper jsonMapper;
 
     // @Context
     // private Providers providers;
@@ -50,14 +50,14 @@ public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyW
     public Object readFrom(final Class<Object> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
                            final MultivaluedMap<String, String> httpHeaders,
                            final InputStream entityStream) throws IOException, WebApplicationException {
-        return getObjectMapper().readValue(entityStream, type);
+        return getJsonMapper().readValue(entityStream, type);
     }
 
     @Override
     public void writeTo(final Object t, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType,
                         final MultivaluedMap<String, Object> httpHeaders,
                         final OutputStream entityStream) throws IOException, WebApplicationException {
-        getObjectMapper().writeValue(entityStream, t);
+        getJsonMapper().writeValue(entityStream, t);
     }
 
     // @PostConstruct
@@ -66,8 +66,8 @@ public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyW
     //     final ObjectMapper om = resolver.getContext(ObjectMapper.class);
     // }
 
-    private ObjectMapper getObjectMapper() {
-        return objectMapper;
+    private JsonMapper getJsonMapper() {
+        return jsonMapper;
         // return jacksonProvider.getObjectMapper();
     }
 }

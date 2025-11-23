@@ -10,48 +10,46 @@ import jakarta.ws.rs.ext.ContextResolver;
 import jakarta.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
  */
 @Provider // Must bei part of the WAR, and not in a Dependency.
 @RequestScoped
-public class JacksonContextResolver implements ContextResolver<ObjectMapper> {
-    private static final Cache<String, ObjectMapper> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();
+public class JacksonContextResolver implements ContextResolver<JsonMapper> {
+    private static final Cache<String, JsonMapper> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonContextResolver.class);
 
-    private static ObjectMapper createObjectMapper() {
+    private static JsonMapper createJsonMapper() {
         LOGGER.info("create instance: {}", Thread.currentThread().getName());
 
-        return new ObjectMapper()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .registerModule(new JavaTimeModule())
-                .setTimeZone(TimeZone.getDefault())
+        return JsonMapper.builder()
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_NULL))
+                .defaultTimeZone(TimeZone.getDefault())
                 .disable(SerializationFeature.INDENT_OUTPUT)
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+                .build();
     }
 
     @Override
-    public ObjectMapper getContext(final Class<?> type) {
+    public JsonMapper getContext(final Class<?> type) {
         LOGGER.info("obtain instance for type: {}", Optional.ofNullable(type).map(Class::getSimpleName).orElse("null"));
 
-        return CACHE.get(Thread.currentThread().getName(), key -> createObjectMapper());
+        return CACHE.get(Thread.currentThread().getName(), key -> createJsonMapper());
     }
 
     @jakarta.enterprise.inject.Produces
-    @ObjectMapperQualifier
-    public ObjectMapper getObjectMapper() {
+    @JsonMapperQualifier
+    public JsonMapper getJsonMapper() {
         return getContext(Object.class);
     }
 }
