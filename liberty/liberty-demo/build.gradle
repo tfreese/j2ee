@@ -40,6 +40,7 @@ dependencies {
     implementation("tools.jackson.core:jackson-databind")
     implementation("tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider")
     implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.github.ben-manes.caffeine:jcache")
 
     implementation("org.hibernate.orm:hibernate-core") {
         exclude(group: "jakarta.activation", module: "*")

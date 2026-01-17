@@ -87,8 +87,8 @@ class TestJCache {
                 case "caffeine" -> {
                     // final Caffeine<Object, Object> caffeine = Caffeine.from("maximumSize=10,expireAfterWrite=3s,recordStats");
                     final Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
-                            .maximumSize(100)
-                            .expireAfterWrite(Duration.ofHours(12))
+                            .maximumSize(100L)
+                            .expireAfterWrite(Duration.ofHours(12L))
                             .recordStats();
 
                     final Logger logger = LoggerFactory.getLogger(TestJCache.class);
