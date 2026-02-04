@@ -1,146 +1,92 @@
-// Created: 17 Jan. 2026
+// Created: 04 Feb. 2026
 package de.freese.liberty.cache;
 
 import java.time.Duration;
 import java.util.Map;
-import java.util.OptionalLong;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-
-import javax.cache.Caching;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.annotation.Resource;
-import jakarta.ejb.Singleton;
-import jakarta.ejb.Startup;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.CDI;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Consumer;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.jcache.configuration.CaffeineConfiguration;
+import com.github.benmanes.caffeine.cache.stats.CacheStats;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-@Startup // Create on startup.
-@Singleton
-// @DependsOn({"OtherBean"})
-// @ApplicationScoped // Create on first Access.
 @SuppressWarnings("unchecked")
-public class CacheManager {
+public final class CacheManager {
+    private static final Map<String, Cache<?, ?>> CACHES = new ConcurrentSkipListMap<>();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CacheManager.class);
 
-    public static CacheManager getInstance() {
-        return CDI.current().select(CacheManager.class).get();
-    }
-
-    /**
-     * Self provided Cache.
-     **/
-    private final Map<String, Cache<?, ?>> caches = new ConcurrentHashMap<>();
-
-    /**
-     * JCache-API.
-     **/
-    private javax.cache.CacheManager cacheManager;
-    /**
-     * JCache-API.
-     **/
-    private javax.cache.spi.CachingProvider cachingProvider;
-
-    @Resource(lookup = "java:comp/DefaultManagedExecutorService")
-    private ExecutorService executorService;
-
-    /**
-     * JCache-API.
-     **/
-    private javax.cache.Cache<String, String> jCache;
-
-    /**
-     * Self provided Cache.
-     **/
-    @Produces // For Injection and using Annotations in javax.cache.annotation, like {@link CacheResult}.
-    @NamedCache("countryByCode")
-    @ApplicationScoped
-    public Cache<String, String> getCountryByCodeCache() {
-        return (Cache<String, String>) caches.computeIfAbsent("countryByCode", key -> {
-            LOGGER.info("Create CountryByCode cache");
-
-            return Caffeine.newBuilder()
-                    .expireAfterWrite(Duration.ofMinutes(10))
-                    .recordStats()
-                    .executor(executorService)
-                    .build();
-        });
-    }
-
-    /**
-     * JCache-API.
-     **/
-    @Produces
-    @NamedCache("jCache")
-    @ApplicationScoped
-    public synchronized javax.cache.Cache<String, String> getJCache() {
-        if (jCache == null) {
-            LOGGER.info("Create JCache");
-
-            jCache = cacheManager.getCache("jCache", String.class, String.class);
-
-            if (jCache == null) {
-                final CaffeineConfiguration<String, String> configuration = new CaffeineConfiguration<String, String>()
-                        .setTypes(String.class, String.class)
-                        .setStoreByValue(false)
-                        .setStatisticsEnabled(true)
-                        .setExpireAfterWrite(OptionalLong.of(Duration.ofMinutes(10).toNanos()))
-                        .setExecutorFactory(() -> executorService);
-
-                jCache = cacheManager.createCache("jCache", configuration);
-            }
-        }
-
-        return jCache;
-    }
-
-    @PostConstruct
-    void afterStartup() {
-        LOGGER.info("Startup CacheManager");
-
-        // JCache-API.
-        this.cachingProvider = Caching.getCachingProvider();
-        this.cacheManager = cachingProvider.getCacheManager();
-    }
-
-    @PreDestroy
-    void beforeShutdown() {
+    public static void close() {
         LOGGER.info("Closing all caches");
 
-        caches.forEach((name, cache) -> {
-            LOGGER.info("Closing Cache: {}, Size={}, Stats={}", name, cache.estimatedSize(), cache.stats());
+        CACHES.forEach((name, cache) -> {
+            if (LOGGER.isInfoEnabled()) {
+                final CacheStats cacheStats = cache.stats();
+                final String stats = "hitCount=%d, hitRate=%f%%, missCount=%d, missRate=%f%%, evictionCount=%d, requestCount=%d".formatted(
+                        cacheStats.hitCount(),
+                        cacheStats.hitRate() * 100D,
+                        cacheStats.missCount(),
+                        cacheStats.missRate() * 100D,
+                        cacheStats.evictionCount(),
+                        cacheStats.requestCount()
+                );
+
+                LOGGER.info("Closing Cache: {}, Size={}, Stats=[{}]", name, cache.estimatedSize(), stats);
+            }
 
             cache.invalidateAll();
             cache.cleanUp();
         });
 
-        caches.clear();
+        CACHES.clear();
+    }
 
-        // JCache-API.
-        if (jCache != null) {
-            // Would be done by com.github.benmanes.caffeine.jcache.CacheManagerImpl automatically.
-            jCache.clear();
-            jCache.close();
+    public static <K, V> Cache<K, V> createCache(final String name, final Duration expiry) {
+        return createCache(name, expiry, null);
+    }
+
+    /**
+     * @param cacheConfigurer Optional
+     */
+    public static <K, V> Cache<K, V> createCache(final String name, final Duration expiry, @Nullable final Consumer<Caffeine<Object, Object>> cacheConfigurer) {
+        Cache<K, V> cache = (Cache<K, V>) CACHES.get(name);
+
+        if (cache != null) {
+            throw new IllegalStateException("Cache already exists: " + name);
         }
 
-        if (cacheManager != null) {
-            cacheManager.close();
+        final Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
+                .expireAfterWrite(expiry)
+                .recordStats();
+
+        if (cacheConfigurer != null) {
+            cacheConfigurer.accept(caffeine);
         }
 
-        if (cachingProvider != null) {
-            cachingProvider.close();
+        cache = caffeine.build();
+
+        CACHES.put(name, cache);
+
+        return cache;
+    }
+
+    public static <K, V> Cache<K, V> getCache(final String name) {
+        final Cache<K, V> cache = (Cache<K, V>) CACHES.get(name);
+
+        if (cache == null) {
+            throw new IllegalStateException("Cache not found: " + name);
         }
+
+        return cache;
+    }
+
+    private CacheManager() {
+        super();
     }
 }

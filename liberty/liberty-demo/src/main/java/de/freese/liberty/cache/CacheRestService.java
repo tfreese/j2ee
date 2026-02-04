@@ -20,18 +20,26 @@ public class CacheRestService {
 
     // @Inject
     // private javax.cache.CacheManager cacheManager;
-
-    @Inject
-    private CacheManager cacheManagerBean;
-
+    //
     // @Inject
     // @NamedCache("countryByCode")
-    // private Cache<String, String> countryByCodeCache;
+    // private final Cache<String, String> countryByCodeCache;
+
+    @Inject
+    private CacheManagerBean cacheManagerBean;
+
+    // @Inject
+    // public CacheRestService(@NamedCache("countryByCode") final Cache<String, String> countryByCodeCache) {
+    //     super();
+    //
+    //     this.countryByCodeCache = Objects.requireNonNull(countryByCodeCache, "countryByCodeCache required");
+    // }
 
     @Path("country/{code}")
     @CacheResult(cacheName = "countryByCode")
     public String getCountry(@PathParam("code") final String code) {
         return code.substring(0, 1).toUpperCase() + code.substring(1);
+        // return countryByCodeCache.get(code, key -> code.substring(0, 1).toUpperCase() + code.substring(1));
     }
 
     @PostConstruct
