@@ -81,7 +81,10 @@ public final class KryoReaderWriter implements MessageBodyReader<Object>, Messag
     // }
 
     private Kryo getKryo() {
-        // return kryo;
-        return kryoProvider.getKryo();
+        final Kryo kryo = kryoProvider.getKryo();
+        kryo.setClassLoader(Thread.currentThread().getContextClassLoader()); // Must be called each time for pooled Instances!
+        kryo.reset(); // Must be called each time for pooled Instances!
+
+        return kryo;
     }
 }

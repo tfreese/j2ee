@@ -32,11 +32,11 @@ public class KryoContextResolver implements ContextResolver<Kryo> {
         LOGGER.info("create instance: {}", Thread.currentThread().getName());
 
         final Kryo kryo = new Kryo();
-        kryo.setClassLoader(Thread.currentThread().getContextClassLoader());
+        kryo.setClassLoader(Thread.currentThread().getContextClassLoader()); // Must be called each time for pooled Instances!
         kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
+        kryo.setOptimizedGenerics(true);
         kryo.setReferences(true); // Avoid Recursion.
         kryo.setCopyReferences(true); // Avoid Recursion.
-        kryo.setOptimizedGenerics(false);
         kryo.setReferenceResolver(new MapReferenceResolver() {
             @Override
             public boolean useReferences(final Class type) {
@@ -44,8 +44,9 @@ public class KryoContextResolver implements ContextResolver<Kryo> {
             }
         });
 
-        kryo.setRegistrationRequired(false);
-        kryo.setWarnUnregisteredClasses(false);
+        final boolean registration = false;
+        kryo.setRegistrationRequired(registration);
+        kryo.setWarnUnregisteredClasses(registration);
 
         // Supports different JRE Versions and different order of fields.
         final SerializerFactory.CompatibleFieldSerializerFactory serializerFactory = new SerializerFactory.CompatibleFieldSerializerFactory();
@@ -54,6 +55,8 @@ public class KryoContextResolver implements ContextResolver<Kryo> {
         serializerFactory.getConfig().setReadUnknownFieldData(true);
         // serializerFactory.getConfig().setChunkedEncoding(true);
         kryo.setDefaultSerializer(serializerFactory);
+
+        kryo.reset(); // Must be called each time for pooled Instances!
 
         // final Set<Class<?>> registrationClasses = Set.of(
         //         // java.lang.Object.class,
