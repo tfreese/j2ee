@@ -15,6 +15,9 @@
         <timerService missedPersistentTimerAction="ONCE" />
     </ejbContainer>
 
+    <!-- <executor id="DefaultExecutor" coreThreads="4" maxThreads="8" keepAlive="60s"/> -->
+    <executor id="DefaultExecutor" coreThreads="4" maxThreads="8" />
+
     <!-- For Arquillian. -->
     <!--applicationMonitor updateTrigger="mbean" /-->
 
