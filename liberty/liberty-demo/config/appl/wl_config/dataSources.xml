@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
 
+    <!-- Storage for persistent Timers. -->
     <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" createTables="true" />
 
     <library id="dbDriver">
@@ -28,18 +29,14 @@
         -->
         <jdbcDriver
                 libraryRef="dbDriver"
-                javax.sql.ConnectionPoolDataSource="org.hsqldb.jdbc.pool.JDBCPooledDataSource"
+                javax.sql.XADataSource="org.hsqldb.jdbc.pool.JDBCXADataSource"
         />
+        <!-- databaseName="PUBLIC" -->
         <properties
                 url="${datasource.url}"
                 user="${datasource.user}"
                 password="${datasource.pwd}"
         />
-        <!--
-            databaseName="PUBLIC"
-            user="${datasource.user}"
-            password="${datasource.pwd}"
-        -->
 
         <connectionManager
                 minPoolSize="1"

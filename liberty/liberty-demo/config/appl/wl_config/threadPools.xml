@@ -8,6 +8,10 @@
     <!--     <concurrencyPolicy max="12" maxQueueSize="100" /> -->
     <!-- </managedScheduledExecutorService > -->
 
-    <executor coreThreads="4" maxThreads="8" />
+    <!-- <executor id="DefaultExecutor" coreThreads="4" maxThreads="8" keepAlive="60s"/> -->
+    <executor id="DefaultExecutor" coreThreads="4" maxThreads="8" />
+
+    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" />
+    <!-- <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" taskStoreRef="ejbTimerDatabaseStore" /> -->
 
 </server>

@@ -4,6 +4,8 @@
     <!-- Shared libraries; move global libraries from lib/global to somewhere else. -->
     <library id="applicationLib">
         <fileset dir="${server.config.dir}/appl/appl_libs" includes="*.*" excludes="h2*.jar,hsqldb*.jar" />
+
+        <!-- Resources -->
         <folder dir="${server.config.dir}/appl/wl_config" />
     </library>
 
@@ -16,8 +18,17 @@
             type="war">
         <classloader commonLibraryRef="dbDriver,applicationLib" />
         <!-- <classloader privateLibraryRef="dbDriver,applicationLib" /> -->
+        <classloader delegation="parentLast" />
     </webApplication>
-    <!-- <webApplication location="liberty-demo.war" type="war" contextRoot="${context.root}" /> -->
+
+    <!-- <enterpriseApplication id="appl-ear" -->
+    <!--                        name="appl-ear" -->
+    <!--                        location="${server.config.dir}/appl/${deploy_folder}/appl.ear" -->
+    <!--                        contextRoot="appl"> -->
+    <!--     <classloader commonLibraryRef="dbDriver,applicationLib" /> -->
+    <!--     &lt;!&ndash; <classloader privateLibraryRef="dbDriver,applicationLib" /> &ndash;&gt; -->
+    <!--     <classloader delegation="parentLast" /> -->
+    <!-- </enterpriseApplication> -->
 
     <mpOpenAPI docPath="liberty-demo/openapi" uiPath="liberty-demo/openapi/ui" />
 
@@ -27,8 +38,5 @@
     <ejbContainer>
         <timerService missedPersistentTimerAction="ONCE" />
     </ejbContainer>
-    <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" />
-    <!-- <databaseStore id="ejbTimerDatabaseStore" dataSourceRef="dbDS" createTables="true" /> -->
-    <!-- <persistentExecutor id="defaultEJBPersistentTimerExecutor" missedTaskThreshold="90m" retryLimit="3" taskStoreRef="ejbTimerDatabaseStore" /> -->
 
 </server>
