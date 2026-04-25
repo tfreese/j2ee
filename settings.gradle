@@ -8,12 +8,12 @@ pluginManagement {
 }
 
 // Without rootProject.name the Name of the Projekt-Directory is used.
-//rootProject.name = "j2ee"
+// rootProject.name = "j2ee"
 
-include "cloudsessions"
-include "cloudsessions-integration"
-include "jcache"
-include "jpa"
-include "liberty:liberty-demo"
-include "liberty:liberty-login"
-include "liberty:liberty-spring"
+include("cloudsessions")
+include("cloudsessions-integration")
+include("jcache")
+include("jpa")
+include("liberty:liberty-demo")
+include("liberty:liberty-login")
+include("liberty:liberty-spring")
