@@ -40,12 +40,14 @@ import org.slf4j.LoggerFactory;
 
 import de.freese.liberty.interceptor.logging.MyLogging;
 import de.freese.liberty.kryo.KryoReaderWriter;
+import de.freese.liberty.security.protection.OverloadProtected;
 
 /**
  * @author Thomas Freese
  */
 @ApplicationScoped
 @Path("service")
+@OverloadProtected
 public class MyRestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyRestService.class);
 
@@ -85,7 +87,7 @@ public class MyRestService {
         final Map<String, Object> map = new TreeMap<>();
         final InitialContext initialContext = new InitialContext();
 
-        for (String name : names) {
+        for (final String name : names) {
             final Context context = (Context) initialContext.lookup(name);
             map.put(name, dumpContextNameClassPair(context));
             // map.put(name, dumpContextBinding(context));
@@ -184,10 +186,9 @@ public class MyRestService {
                 tmp = binding.getClassName();
             }
 
-            if (tmp instanceof Context subContext) {
+            if (tmp instanceof final Context subContext) {
                 map.put(name, dumpContextBinding(subContext));
-            }
-            else {
+            } else {
                 map.put(name, tmp.toString());
             }
         }
@@ -220,8 +221,7 @@ public class MyRestService {
                 final Context subContext = (Context) ctx.lookup(name);
 
                 map.put(name, dumpContextNameClassPair(subContext));
-            }
-            else {
+            } else {
                 try {
                     map.put(name, ctx.lookup(name).toString());
                 }
