@@ -122,9 +122,6 @@ liberty {
     }
 }
 
-//Für Platzhalter in application.properties/application.yml
-ext.artifactId = project.name
-
 processResources {
     def map = [
             "project_description": project.description,
@@ -132,21 +129,9 @@ processResources {
             "project_version"    : project.version
     ]
 
-    // filesMatching("**/*.properties")
     filesMatching(["application.properties", "application.yml"]) {
-        // filteringCharset = "UTF-8"
-
         // Bei Problemen müssen die Platzhalter escaped werden: \${...}
         // expand(project.properties)
         expand(map)
-
-        // expand("project_description": project.description,
-        //         "project_artifactId": project.name,
-        //         "project_version": project.version
-        // )
-
-        //filter{ it.replaceAll("@project.description@", project.description)}
-        //filter{ it.replaceAll("@project.artifactId@", project.name)}
-        //filter{ it.replaceAll("@project.version@", project.version)}
     }
 }

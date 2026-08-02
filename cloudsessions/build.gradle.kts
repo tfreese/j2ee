@@ -17,11 +17,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 }
 
-jar {
-    enabled = false
+tasks.withType<Jar> {
+    isEnabled = false
 }
 
-war {
+tasks.withType<War> {
     // Skinny-War
     rootSpec.exclude("**/*.jar", "**/*.rar")
 
@@ -37,23 +37,16 @@ war {
 //    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
 }
 
-configurations {
-    cloudsessionsWar {
-        canBeConsumed = true
-        canBeResolved = false // No Dependencies.
+val cloudsessionsWar = configurations.create("cloudsessionsWar") {
+    isCanBeConsumed = true
+    isCanBeResolved = false // No Dependencies.
 
 //        extendsFrom(implementation, runtimeOnly)
-        transitive = true
-    }
+    isTransitive = true
 }
 
 artifacts {
 //    sharedConfig(TaskName with outputs.file(sharedFile))
 
-    cloudsessionsWar(tasks.war) {
-//        builtBy(build)
-    }
-
-    // same as
-    // cloudsessionsWar(layout.buildDirectory.get().dir("libs").file("cloudsessions- " + project.version + ".war"))
+    add(cloudsessionsWar.name, tasks.named("war"))
 }

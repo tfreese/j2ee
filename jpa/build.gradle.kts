@@ -5,7 +5,7 @@ plugins {
 description = "JPA Demo Project"
 
 configurations.configureEach {
-    exclude(group: "ch.qos.logback", module: "logback-classic")
+    exclude(group = "ch.qos.logback", module = "logback-classic")
 }
 // configurations.testImplementation {
 //     exclude group: "ch.qos.logback", module: "logback-classic"
@@ -38,21 +38,4 @@ dependencies {
     testImplementation("org.hsqldb:hsqldb")
 
     testRuntimeOnly("org.slf4j:slf4j-simple")
-}
-
-test {
-//    testLogging {
-//        showStandardStreams = true
-//        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR"]
-//        showExceptions = true
-//        showCauses = true
-//        showStackTraces = true
-//        exceptionFormat = TestExceptionFormat.FULL
-//    }
-//
-//    enabled = false
-//    maxParallelForks = 1
-//    forkEvery = 0
-//    exclude "org/boo/**"
-//    exclude "**/Bar.class"
 }

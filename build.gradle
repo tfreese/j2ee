@@ -1,18 +1,4 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
-//buildscript {
-//    repositories {
-//        mavenLocal()
-//        mavenCentral()
-//        gradlePluginPortal()
-//    }
-//
-//    dependencies {
-//        classpath("de.freese.gradle:gradle-plugins:$version_myConventionPlugin")
-//        classpath("io.openliberty.tools:liberty-gradle-plugin:$version_libertyGradlePlugin")
-//        classpath("io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement")
-//    }
-//}
-
 plugins {
     id("de.freese.gradle.conventions").version("$version_myJavaConventionPlugin").apply(false)
     id("io.spring.dependency-management").version("$version_springDependencyManagementPlugin").apply(false)
@@ -27,7 +13,7 @@ plugins {
 }
 
 allprojects {
-    apply(plugin: "base")
+    plugins.apply("base")
 
     clean {
         doFirst {
@@ -45,32 +31,26 @@ allprojects {
             })
         }
     }
-
-    ant.lifecycleLogLevel = "INFO"
-
-    // repositories {
-    //
-    // }
 }
 
 subprojects {
-    apply(plugin: "de.freese.gradle.conventions")
-    apply(plugin: "io.spring.dependency-management")
+    plugins.apply("de.freese.gradle.conventions")
+    plugins.apply("io.spring.dependency-management")
 
     dependencyManagement {
         imports {
-            mavenBom("com.amazonaws:aws-java-sdk-bom:$version_amazonAws")
-            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            mavenBom("com.amazonaws:aws-java-sdk-bom:" + property("version_amazonAws"))
+            mavenBom("org.springframework.boot:spring-boot-dependencies:" + property("version_springBoot"))
         }
 
         dependencies {
-            dependency("com.esotericsoftware:kryo:$version_kryo")
-            dependency("io.openliberty.api:io.openliberty.transaction:$version_openlibertyApi")
-            dependency("jakarta.platform:jakarta.jakartaee-api:$version_jakartaApi")
-            dependency("org.eclipse.microprofile.openapi:microprofile-openapi-api:$version_microprofileOpenapiApi")
+            dependency("com.esotericsoftware:kryo:" + property("version_kryo"))
+            dependency("io.openliberty.api:io.openliberty.transaction:" + property("version_openlibertyApi"))
+            dependency("jakarta.platform:jakarta.jakartaee-api:" + property("version_jakartaApi"))
+            dependency("org.eclipse.microprofile.openapi:microprofile-openapi-api:" + property("version_microprofileOpenapiApi"))
             // dependency("org.glassfish.jersey.connectors:jersey-jnh-connector:" + dependencyManagement.importedProperties["jersey.version"])
-            dependency("org.primefaces:primefaces:$version_primefaces")
-            dependency("org.primefaces:primefaces-themes:$version_primefacesThemes")
+            dependency("org.primefaces:primefaces:" + property("version_primefaces"))
+            dependency("org.primefaces:primefaces-themes:" + property("version_primefacesThemes"))
         }
     }
 
@@ -84,10 +64,3 @@ subprojects {
     }
 }
 
-// For Composite Build.
-tasks.register("cleanAll", GradleBuild) {
-    tasks = ["clean"]
-}
-tasks.register("buildAll", GradleBuild) {
-    tasks = ["build"]
-}

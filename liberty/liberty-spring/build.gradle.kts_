@@ -1,0 +1,156 @@
+plugins {
+    id("war")
+    id("io.openliberty.tools.gradle.Liberty")
+}
+
+description = "Demo for Spring-Integration"
+// https://openliberty.io/guides/gradle-intro.html#getting-started
+
+val http_port = "9081"
+val https_port = "9444"
+val context_root = project.name
+
+// configurations {
+//     jdbcLib {
+//         canBeConsumed = true
+//         canBeResolved = true // false = No Dependencies
+//
+//         extendsFrom(implementation)
+//         transitive(true)
+//     }
+// }
+
+dependencies {
+//    libertyRuntime("io.openliberty:openliberty-kernel:" + property("version_openliberty"))
+    // libertyRuntime("io.openliberty:openliberty-runtime:" + property("version_openliberty"))
+
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+    }
+    implementation("com.zaxxer:HikariCP")
+
+    // jdbcLib("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
+
+    // providedCompile
+    compileOnly("jakarta.platform:jakarta.jakartaee-api")
+}
+
+// tasks.register("copyDependenciesJdbc", Sync) {
+//     group = "MyTasks"
+//
+//     from(configurations.jdbcLib)
+//     into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
+//     include("*.jar")
+// }
+// deploy.dependsOn("copyDependenciesJdbc")
+
+tasks.register<Sync>("copyDependencies") {
+    group = "MyTasks"
+
+    from(configurations.runtimeClasspath.get() - configurations.providedCompile.get())
+    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
+    include("h2-**.jar")
+    // include("*.jar")
+    // include("*.rar")
+}
+tasks.named("deploy").configure {
+    dependsOn("copyDependencies")
+}
+
+tasks.withType<Test>().configureEach {
+    isEnabled = true
+
+    testLogging {
+        events("PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR")
+    }
+
+    systemProperty("http.port", http_port)
+    systemProperty("context.root", context_root)
+}
+
+tasks.register("openBrowser") {
+    group = "MyTasks"
+    description = "Open browser to the running application"
+
+    doLast {
+        val url = "http://localhost:$http_port/$context_root/sysdate"
+
+//        if (java.awt.Desktop.isDesktopSupported()) {
+//            val desktop = java.awt.Desktop.getDesktop()
+//            desktop.browse(java.net.URI.create(url))
+//            // desktop.browse(file("${layout.buildDirectory.get()}/reports/tests/test/index.html").toURI())
+//        }
+        val os = System.getProperty("os.name").lowercase()
+        val processBuilder = when {
+            os.contains("win") -> ProcessBuilder("cmd", "/c", "start", url)
+            os.contains("mac") -> ProcessBuilder("open", url)
+            else -> ProcessBuilder("xdg-open", url) // Linux (Ubuntu, Debian, etc.)
+        }
+        processBuilder.start()
+    }
+}
+
+tasks.register("sleep") {
+    group = "MyTasks"
+    description = "Sleeps some seconds"
+
+    doLast {
+        logger.lifecycle("sleeping: {} seconds", 5)
+        sleep(5_000)
+    }
+}
+
+tasks.named("test").configure {
+    dependsOn("libertyStart")
+    finalizedBy("libertyStop")
+    //finalizedBy("sleep")
+    //finalizedBy("openBrowser")
+}
+tasks.named("test").get().dependsOn("libertyStop")
+
+liberty {
+    server {
+        //baseDir = layout.buildDirectory.dir("ibm").get()
+        name = project.name
+
+        stripVersion = true
+
+        // Clean logs, workarea, apps, dropins on server startup
+        clean = true
+
+        // Embedded config in src/main/liberty
+
+        // configDirectory = file("config")
+        // bootstrapProperties = ["default.http.port":"9080", "default.https.port":"9443"]
+        // jvmOptions = ["-Xms128m", "-Xmx512m"]
+        // serverXmlFile = file("config/appl/wl_config/appl.xml")
+        // bootstrapPropertiesFile = file("config/bootstrap.properties")
+        // jvmOptionsFile = file("config/jvm.options")
+        // serverEnvFile = file("config/server.env")
+
+        bootstrapProperties = mapOf(
+            "http.port" to http_port,
+            "https.port" to https_port
+        )
+    }
+}
+
+tasks.named<ProcessResources>("processResources") {
+    val map = mapOf(
+        "project_description" to project.description,
+        "project_artifactId" to project.name,
+        "project_version" to project.version.toString()
+    )
+
+    filesMatching("application.properties", "application.yml") {
+        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
+        // expand(project.properties)
+//        expand(map)
+
+        filter(
+            mapOf("tokens" to map),
+            org.apache.tools.ant.filters.ReplaceTokens::class.java
+        )
+    }
+}
