@@ -1,5 +1,8 @@
 package de.freese.liberty.security.protection;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 import java.time.Clock;
@@ -7,9 +10,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.function.DoubleSupplier;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * @author Thomas Freese

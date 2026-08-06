@@ -12,6 +12,8 @@ import jakarta.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  * @author Thomas Freese
  */
@@ -21,8 +23,15 @@ import org.slf4j.LoggerFactory;
 public class OverloadProtectionFilter implements ContainerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(OverloadProtectionFilter.class);
 
+    //    @Inject
+    private final MemoryGuard memoryGuard;
+
     @Inject
-    private MemoryGuard memoryGuard;
+    public OverloadProtectionFilter(final MemoryGuard memoryGuard) {
+        super();
+
+        this.memoryGuard = Objects.requireNonNull(memoryGuard, "memoryGuard required");
+    }
 
     @Override
     public void filter(final ContainerRequestContext ctx) {

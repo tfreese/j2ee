@@ -1,11 +1,9 @@
 // Created: 14 März 2025
 package de.freese.liberty.kryo;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
@@ -16,9 +14,11 @@ import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -29,8 +29,8 @@ import com.esotericsoftware.kryo.io.Output;
 public final class KryoReaderWriter implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
     public static final String KRYO_MEDIA_TYPE = "application/x-kryo";
 
-    @Inject
-    private KryoProvider kryoProvider;
+    //    @Inject
+    private final KryoProvider kryoProvider;
 
     // Der Server ignoriert den Provider de.freese.liberty.kryo.KryoReaderWriter, weil er nicht gültig ist.
     // @Inject
@@ -39,6 +39,13 @@ public final class KryoReaderWriter implements MessageBodyReader<Object>, Messag
 
     // @Context
     // private Providers providers;
+
+    @Inject
+    public KryoReaderWriter(final KryoProvider kryoProvider) {
+        super();
+
+        this.kryoProvider = Objects.requireNonNull(kryoProvider, "kryoProvider required");
+    }
 
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {

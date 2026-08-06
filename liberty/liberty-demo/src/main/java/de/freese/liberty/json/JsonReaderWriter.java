@@ -1,12 +1,6 @@
 // Created: 18 Apr. 2025
 package de.freese.liberty.json;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
@@ -16,8 +10,14 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-
 import tools.jackson.databind.json.JsonMapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -29,12 +29,19 @@ public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyW
     // @Inject
     // private JacksonProvider jacksonProvider;
 
-    @Inject
-    @JsonMapperQualifier
-    private JsonMapper jsonMapper;
+    //    @Inject
+//    @JsonMapperQualifier
+    private final JsonMapper jsonMapper;
 
     // @Context
     // private Providers providers;
+
+    @Inject
+    public JsonReaderWriter(@JsonMapperQualifier final JsonMapper jsonMapper) {
+        super();
+
+        this.jsonMapper = Objects.requireNonNull(jsonMapper, "jsonMapper required");
+    }
 
     @Override
     public boolean isReadable(final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
