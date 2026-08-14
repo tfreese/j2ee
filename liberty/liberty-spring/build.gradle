@@ -1,6 +1,6 @@
 plugins {
     id("war")
-    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
+    id("io.openliberty.tools.gradle.Liberty").version("$version_libertyGradlePlugin")
 }
 
 description = "Demo for Spring-Integration"
@@ -9,7 +9,7 @@ description = "Demo for Spring-Integration"
 ext {
     liberty.server.var."http.port" = "9081"
     liberty.server.var."https.port" = "9444"
-    liberty.server.var."context.root" = project.name
+    liberty.server.var."context.root" = name
 }
 
 // configurations {
@@ -23,8 +23,8 @@ ext {
 // }
 
 dependencies {
-    libertyRuntime("io.openliberty:openliberty-kernel:$version_openliberty")
-    // libertyRuntime("io.openliberty:openliberty-runtime:%version_openliberty")
+    libertyRuntime("io.openliberty:openliberty-kernel:" + property("version_openliberty"))
+    // libertyRuntime("io.openliberty:openliberty-runtime:"+ property("version_openliberty"))
 
     implementation("com.zaxxer:HikariCP")
     implementation("org.springframework.boot:spring-boot-starter-web") {
@@ -51,7 +51,7 @@ tasks.register("copyDependencies", Sync) {
     group = "MyTasks"
 
     from(configurations.runtimeClasspath - configurations.providedCompile)
-    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(project.name).dir("libs"))
+    into(layout.buildDirectory.get().dir("wlp").dir("usr").dir("servers").dir(name).dir("libs"))
     include("h2-**.jar")
     // include("*.jar")
     // include("*.rar")
@@ -102,7 +102,7 @@ clean.dependsOn("libertyStop")
 
 liberty {
     server {
-        //baseDir = layout.buildDirectory.dir("ibm").get()
+        // baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
 
         stripVersion = true
@@ -124,14 +124,12 @@ liberty {
 
 processResources {
     def map = [
-            "project_description": project.description,
-            "project_artifactId" : project.name,
-            "project_version"    : project.version
+            "project_description": description,
+            "project_artifactId" : name,
+            "project_version"    : version
     ]
 
     filesMatching(["application.properties", "application.yml"]) {
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-        // expand(project.properties)
         expand(map)
     }
 }

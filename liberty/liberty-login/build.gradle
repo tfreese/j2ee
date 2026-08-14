@@ -1,6 +1,6 @@
 plugins {
     id("war")
-    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
+    id("io.openliberty.tools.gradle.Liberty").version("$version_libertyGradlePlugin")
 }
 
 description = "Demo for JSF-Login"
@@ -9,7 +9,7 @@ description = "Demo for JSF-Login"
 ext {
     liberty.server.var."http.port" = "7080"
     liberty.server.var."https.port" = "7443"
-    liberty.server.var."context.root" = project.name
+    liberty.server.var."context.root" = name
 }
 
 dependencies {
@@ -61,7 +61,7 @@ clean.dependsOn("libertyStop")
 
 liberty {
     server {
-        //baseDir = layout.buildDirectory.dir("ibm").get()
+        // baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
 
         stripVersion = true

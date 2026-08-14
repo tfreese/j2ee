@@ -2,7 +2,7 @@ plugins {
     id("war")
     id("ear")
 
-    id("io.openliberty.tools.gradle.Liberty") version("$version_libertyGradlePlugin")
+    id("io.openliberty.tools.gradle.Liberty").version("$version_libertyGradlePlugin")
 
     // build/generateOpenApiSpec
     id("io.smallrye.openapi")
@@ -19,7 +19,7 @@ clean {
 ext {
     liberty.server.var."wl_httpPort" = "9080"
     liberty.server.var."wl_httpsPort" = "9443"
-    liberty.server.var."context_root" = project.name
+    liberty.server.var."context_root" = name
 }
 
 def destDir = layout.buildDirectory.get().dir("generated-sources")
@@ -153,7 +153,7 @@ liberty {
     }
 
     server {
-        //baseDir = layout.buildDirectory.dir("ibm").get()
+        // baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
 
         stripVersion = true
@@ -179,7 +179,7 @@ liberty {
 // build/generated/openapi
 smallryeOpenApi {
     infoTitle = "My API's"
-    infoVersion = project.version
+    infoVersion = version
     encoding = "UTF-8"
     scanPackages = ["de.freese.liberty.rest"]
     // scanClasses = ["CLASS_1", "CLASS_2"]
@@ -211,9 +211,9 @@ openApiGenerate {
             useJakartaEe                 : "true"
     ]
     inputSpec = layout.buildDirectory.get().dir("generated").dir("openapi").file("openapi.json").toString()
-    //inputSpec = "$rootDir/libs/openapi/openapi-pps/schema/pps-openapi.json"
-    //inputSpec = "$projectDir/schema/pps-openapi.json"
-    //inputSpec = "schema/pps-openapi.json"
+    // inputSpec = "$rootDir/libs/openapi/openapi-pps/schema/pps-openapi.json"
+    // inputSpec = "$projectDir/schema/pps-openapi.json"
+    // inputSpec = "schema/pps-openapi.json"
     outputDir = destDir.toString()
     apiPackage = "de.freese.liberty.api"
     modelPackage = "de.freese.liberty.model"
