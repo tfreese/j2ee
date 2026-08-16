@@ -3,8 +3,13 @@ plugins {
     id("io.openliberty.tools.gradle.Liberty").version("$version_libertyGradlePlugin")
 }
 
-description = "Demo for JSF-Login"
 // https://openliberty.io/guides/gradle-intro.html#getting-started
+description = "Demo for JSF-Login"
+
+tasks.withType(io.openliberty.tools.gradle.tasks.DeployTask).configureEach {
+    notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
+}
+
 
 ext {
     liberty.server.var."http.port" = "7080"

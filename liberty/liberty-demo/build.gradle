@@ -9,8 +9,13 @@ plugins {
     id("org.openapi.generator")
 }
 
-description = "Demo for OpenLiberty"
+
 // https://openliberty.io/guides/gradle-intro.html#getting-started
+description = "Demo for OpenLiberty"
+
+tasks.withType(io.openliberty.tools.gradle.tasks.DeployTask).configureEach {
+    notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
+}
 
 clean {
     delete("/tmp/wlp")
