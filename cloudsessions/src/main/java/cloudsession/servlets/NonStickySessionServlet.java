@@ -19,7 +19,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
 
 /**
  * <a href="http://localhost:8088/session">session-demo</a>
@@ -31,7 +30,7 @@ public class NonStickySessionServlet extends HttpServlet {
     private static final String CREATION_TIME = "creationTime";
     private static final String LAST_ACCESS_TIME = "lastAccessTime";
     private static final Logger LOGGER = LoggerFactory.getLogger(NonStickySessionServlet.class);
-    private static final Duration SESSION_LIVE_TIME = Duration.ofSeconds(15);
+    private static final Duration SESSION_LIVE_TIME = Duration.ofSeconds(15L);
     private static final String USER = "user";
 
     @Serial
@@ -47,10 +46,7 @@ public class NonStickySessionServlet extends HttpServlet {
     }
 
     static String formatDate(final long creationTime) {
-        final GregorianCalendar gc = new GregorianCalendar();
-        gc.setTimeInMillis(creationTime);
-
-        return gc.getTime().toString();
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(creationTime), ZoneId.systemDefault()).toString();
     }
 
     static StringBuilder printHeaders(final HttpServletRequest request) {

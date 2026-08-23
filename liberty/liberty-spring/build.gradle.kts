@@ -1,3 +1,5 @@
+import java.util.*
+
 plugins {
     id("war")
     id("io.openliberty.tools.gradle.Liberty")
@@ -10,9 +12,9 @@ tasks.withType<io.openliberty.tools.gradle.tasks.DeployTask>().configureEach {
     notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
 }
 
-val http_port = "9081"
-val https_port = "9444"
-val context_root = project.name
+val libertyServerHttpPort = "9081"
+val libertyServerHttpsPort = "9444"
+val libertyContextRoot = project.name
 
 // configurations {
 //     jdbcLib {
@@ -69,8 +71,8 @@ tasks.withType<Test>().configureEach {
         events("PASSED", "FAILED", "SKIPPED", "STANDARD_OUT", "STANDARD_ERROR")
     }
 
-    systemProperty("http.port", http_port)
-    systemProperty("context.root", context_root)
+    systemProperty("http.port", libertyServerHttpPort)
+    systemProperty("context.root", libertyContextRoot)
 }
 
 tasks.register("openBrowser") {
@@ -78,7 +80,7 @@ tasks.register("openBrowser") {
     description = "Open browser to the running application"
 
     doLast {
-        val url = "http://localhost:$http_port/$context_root/sysdate"
+        val url = "http://localhost:$libertyServerHttpPort/$libertyContextRoot/sysdate"
 
 //        if (java.awt.Desktop.isDesktopSupported()) {
 //            val desktop = java.awt.Desktop.getDesktop()
@@ -101,21 +103,21 @@ tasks.register("sleep") {
 
     doLast {
         logger.lifecycle("sleeping: {} seconds", 5)
-        sleep(5_000)
+        Thread.sleep(5_000L)
     }
 }
 
 tasks.named("test").configure {
     dependsOn("libertyStart")
-    finalizedBy("libertyStop")
-    //finalizedBy("sleep")
-    //finalizedBy("openBrowser")
+    // finalizedBy("libertyStop")
+    // finalizedBy("sleep")
+    // finalizedBy("openBrowser")
 }
 tasks.named("test").get().dependsOn("libertyStop")
 
 liberty {
-    server {
-        //baseDir = layout.buildDirectory.dir("ibm").get()
+    server.apply {
+        // baseDir = layout.buildDirectory.dir("ibm").get()
         name = project.name
 
         stripVersion = true
@@ -133,28 +135,21 @@ liberty {
         // jvmOptionsFile = file("config/jvm.options")
         // serverEnvFile = file("config/server.env")
 
-        bootstrapProperties = mapOf(
-            "http.port" to http_port,
-            "https.port" to https_port
-        )
+        bootstrapProperties = Properties().apply {
+            put("http.port", libertyServerHttpPort)
+            put("https.port", libertyServerHttpsPort)
+        }
     }
 }
 
 tasks.named<ProcessResources>("processResources") {
     val map = mapOf(
-        "project_description" to project.description,
-        "project_artifactId" to project.name,
-        "project_version" to project.version.toString()
+        "project_description" to project.description, "project_artifactId" to project.name, "project_version" to project.version.toString()
     )
 
-    filesMatching("application.properties", "application.yml") {
-        // Bei Problemen müssen die Platzhalter escaped werden: \${...}
-        // expand(project.properties)
-//        expand(map)
-
+    filesMatching(listOf("application.properties", "application.yml")) {
         filter(
-            mapOf("tokens" to map),
-            org.apache.tools.ant.filters.ReplaceTokens::class.java
+            mapOf("tokens" to map), org.apache.tools.ant.filters.ReplaceTokens::class.java
         )
     }
 }
