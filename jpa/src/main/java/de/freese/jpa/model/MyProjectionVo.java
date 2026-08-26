@@ -1,4 +1,3 @@
-// Created: 2020-03-22
 package de.freese.jpa.model;
 
 import java.io.Serial;
@@ -7,20 +6,11 @@ import java.util.Objects;
 
 /**
  * @author Thomas Freese
+ * @since 22.03.2020
  */
-public class MyProjectionVo implements Serializable {
+public record MyProjectionVo(Long id, String name) implements Serializable {
     @Serial
     private static final long serialVersionUID = 8195470174423798274L;
-
-    private final Long id;
-    private final String name;
-
-    public MyProjectionVo(final Long id, final String name) {
-        super();
-
-        this.id = id;
-        this.name = name;
-    }
 
     @Override
     public boolean equals(final Object o) {
@@ -28,34 +18,23 @@ public class MyProjectionVo implements Serializable {
             return true;
         }
 
-        if (!(o instanceof MyProjectionVo dto)) {
+        if (!(o instanceof MyProjectionVo(final Long id1, final String name1))) {
             return false;
         }
 
-        return Objects.equals(getId(), dto.getId()) && Objects.equals(getName(), dto.getName());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+        return Objects.equals(id(), id1) && Objects.equals(name(), name1);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(id(), name());
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(getClass().getSimpleName());
-        sb.append("[");
-        sb.append("id = ").append(id);
-        sb.append(",name = ").append(name);
-        sb.append("]");
-
-        return sb.toString();
+        return getClass().getSimpleName() + "["
+                + "id = " + id
+                + ",name = " + name
+                + "]";
     }
 }

@@ -26,10 +26,10 @@ public final class JsonUtils {
         try {
             return JSON_MAPPER.readValue(inputStream, valueType);
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -38,10 +38,10 @@ public final class JsonUtils {
         try {
             return JSON_MAPPER.readValue(inputStream, typeReference);
         }
-        catch (RuntimeException ex) {
+        catch (final RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             throw new RuntimeException(ex);
         }
     }

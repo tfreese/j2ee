@@ -1,4 +1,3 @@
-// Created: 23 Apr. 2025
 package de.freese.liberty.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 23.04.2025
  */
 class TestPersistence {
     private static EntityManagerFactory entityManagerFactory;

@@ -1,7 +1,7 @@
-// Created: 11.07.23
 package de.freese.jpa.converter;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * Convert a value into another.<br>
@@ -23,7 +23,9 @@ import jakarta.persistence.AttributeConverter;
  * </pre>
  *
  * @author Thomas Freese
+ * @since 11.07.23
  */
+@Converter
 public class StringStripConverter implements AttributeConverter<String, String> {
     @Override
     public String convertToDatabaseColumn(final String attribute) {

@@ -1,4 +1,3 @@
-// Created: 21 Jan. 2026
 package de.freese.liberty.cache;
 
 import java.lang.annotation.ElementType;
@@ -10,6 +9,7 @@ import jakarta.inject.Qualifier;
 
 /**
  * @author Thomas Freese
+ * @since 21.01.2026
  */
 @Qualifier
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})

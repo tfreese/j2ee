@@ -1,4 +1,3 @@
-// Created: 05 Juli 2024
 package de.freese.jcache.spi;
 
 import java.util.Map;
@@ -8,6 +7,7 @@ import javax.cache.Cache;
 
 /**
  * @author Thomas Freese
+ * @since 05.07.2024
  */
 public record CacheEntry<K, V>(K key, V value) implements Cache.Entry<K, V> {
     public static <A, B> Cache.Entry<A, B> of(final Map.Entry<A, B> entry) {

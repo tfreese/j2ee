@@ -1,4 +1,3 @@
-// Created: 14.12.2012
 package de.freese.liberty;
 
 import java.sql.Connection;
@@ -27,6 +26,7 @@ import de.freese.liberty.model.Person;
 
 /**
  * @author Thomas Freese
+ * @since 14.12.2012
  */
 @Startup
 @Singleton
@@ -109,7 +109,7 @@ public class StartUp {
 
             LOGGER.info("Database LocalDateTime: {}", localDateTime);
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
     }

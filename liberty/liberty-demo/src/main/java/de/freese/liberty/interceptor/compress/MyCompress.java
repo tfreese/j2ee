@@ -1,4 +1,3 @@
-// Created: 14 März 2025
 package de.freese.liberty.interceptor.compress;
 
 import java.lang.annotation.Retention;
@@ -8,6 +7,7 @@ import jakarta.ws.rs.NameBinding;
 
 /**
  * @author Thomas Freese
+ * @since 14.03.2025
  */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)

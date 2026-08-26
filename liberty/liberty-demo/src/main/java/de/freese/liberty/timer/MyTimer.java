@@ -1,4 +1,3 @@
-// Created: 17 Juni 2025
 package de.freese.liberty.timer;
 
 import jakarta.ejb.Schedule;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 17.06.2025
  */
 @Singleton
 // @Startup

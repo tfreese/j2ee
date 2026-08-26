@@ -1,4 +1,3 @@
-// Created: 21.05.2013
 package de.freese.liberty.interceptor.logging;
 
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import de.freese.liberty.jmx.UsageLogMBean;
  * }</pre>
  *
  * @author Thomas Freese
+ * @since 21.05.2013
  */
 @Interceptor
 @MyLogging

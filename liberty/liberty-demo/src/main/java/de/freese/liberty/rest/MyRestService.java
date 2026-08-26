@@ -1,4 +1,3 @@
-// Created: 20.05.2018
 package de.freese.liberty.rest;
 
 import java.lang.invoke.MethodHandles;
@@ -44,6 +43,7 @@ import de.freese.liberty.security.protection.OverloadProtected;
 
 /**
  * @author Thomas Freese
+ * @since 20.05.2018
  */
 @ApplicationScoped
 @Path("service")
@@ -188,7 +188,8 @@ public class MyRestService {
 
             if (tmp instanceof final Context subContext) {
                 map.put(name, dumpContextBinding(subContext));
-            } else {
+            }
+            else {
                 map.put(name, tmp.toString());
             }
         }
@@ -221,7 +222,8 @@ public class MyRestService {
                 final Context subContext = (Context) ctx.lookup(name);
 
                 map.put(name, dumpContextNameClassPair(subContext));
-            } else {
+            }
+            else {
                 try {
                     map.put(name, ctx.lookup(name).toString());
                 }

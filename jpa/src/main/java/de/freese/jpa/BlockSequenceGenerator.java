@@ -1,4 +1,3 @@
-// Created: 11.07.2018
 package de.freese.jpa;
 
 import java.io.Serial;
@@ -26,25 +25,25 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  * @see IncrementGenerator
+ * @since 11.07.2018
  */
 public class BlockSequenceGenerator implements IdentifierGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(BlockSequenceGenerator.class);
 
     @Serial
     private static final long serialVersionUID = -8510962789727550315L;
-
+    private final int blockSize;
     private final transient Queue<Long> idQueue = new LinkedList<>();
     private final String sequenceName;
-    private int blockSize;
 
     public BlockSequenceGenerator(final BlockSequence config, final Member annotatedMember) {
+        if (config.blockSize() < 1) {
+            throw new IllegalArgumentException("blockSize < 1: " + config.blockSize());
+        }
+
         super();
 
         sequenceName = Objects.requireNonNull(config.name(), "sequenceName required");
-
-        if (config.blockSize() < 1) {
-            throw new IllegalArgumentException("blockSize < 1: " + blockSize);
-        }
 
         blockSize = config.blockSize();
     }

@@ -1,4 +1,3 @@
-// Created: 14.12.2012
 package de.freese.liberty;
 
 import jakarta.annotation.PostConstruct;
@@ -11,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 14.12.2012
  */
 @Startup
 @Singleton

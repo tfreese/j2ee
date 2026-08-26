@@ -1,4 +1,3 @@
-// Created: 14 März 2025
 package de.freese.liberty.interceptor.compress;
 
 import java.io.IOException;
@@ -20,6 +19,7 @@ import jakarta.ws.rs.ext.WriterInterceptorContext;
  * }</pre>
  *
  * @author Thomas Freese
+ * @since 14.03.2025
  */
 @Provider
 @MyCompress

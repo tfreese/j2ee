@@ -40,7 +40,7 @@ public class CloudSessionAmazon implements CloudSession {
     public String getSessionValue(final String sessionID, final String name) {
         final GetAttributesResult gar = amazonClient.getAttributes(new GetAttributesRequest().withDomainName(SESSIONS_DOMAIN).withItemName(sessionID));
 
-        for (Attribute attribute : gar.getAttributes()) {
+        for (final Attribute attribute : gar.getAttributes()) {
             if (attribute.getName().equals(name)) {
                 return attribute.getValue();
             }

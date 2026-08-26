@@ -1,4 +1,3 @@
-// Created: 06 Juli 2024
 package de.freese.jcache;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,6 +56,7 @@ import de.freese.jcache.spi.SimpleCachingProvider;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2024
  */
 class TestJCache {
     private static CachingProvider cachingProvider;

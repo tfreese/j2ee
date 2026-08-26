@@ -1,4 +1,3 @@
-// Created: 26.06.2018
 package de.freese.liberty.jta;
 
 import java.io.Serial;
@@ -11,8 +10,10 @@ import com.ibm.tx.jta.UserTransactionFactory;
 import org.hibernate.engine.transaction.jta.platform.internal.AbstractJtaPlatform;
 
 /**
- * @author Thomas Freese
  * <a href="https://hibernate.atlassian.net/browse/HHH-10388">Hibernate Bug</a>
+ *
+ * @author Thomas Freese
+ * @since 26.06.2018
  */
 public class WebSphereLibertyJtaPlatform extends AbstractJtaPlatform {
     @Serial

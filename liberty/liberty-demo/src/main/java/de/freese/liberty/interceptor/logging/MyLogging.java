@@ -1,4 +1,3 @@
-// Created: 21.05.2013
 package de.freese.liberty.interceptor.logging;
 
 import java.lang.annotation.ElementType;
@@ -11,6 +10,7 @@ import jakarta.interceptor.InterceptorBinding;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2013
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

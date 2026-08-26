@@ -1,4 +1,3 @@
-// Created: 22 März 2025
 package de.freese.liberty;
 
 import java.util.Optional;
@@ -11,6 +10,7 @@ import de.freese.liberty.login.LoginController;
 
 /**
  * @author Thomas Freese
+ * @since 22.03.2025
  */
 public final class Util {
     public static HttpServletRequest getRequest() {

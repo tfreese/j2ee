@@ -1,4 +1,3 @@
-// Created: 14 März 2025
 package de.freese.liberty.kryo;
 
 import java.time.Duration;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 14.03.2025
  */
 @Provider // Must bei part of the WAR, and not in a Dependency.
 @RequestScoped
@@ -75,7 +75,7 @@ public class KryoContextResolver implements ContextResolver<Kryo> {
 
     @Override
     public Kryo getContext(final Class<?> type) {
-        LOGGER.info("obtain instance for type: {}", Optional.ofNullable(type).map(Class::getSimpleName).orElse("null"));
+        LOGGER.atInfo().log("obtain instance for type: {}", Optional.ofNullable(type).map(Class::getSimpleName).orElse("null"));
 
         return CACHE.get(Thread.currentThread().getName(), key -> createKryo());
     }

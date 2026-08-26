@@ -1,4 +1,3 @@
-// Created: 16.08.2006
 package de.freese.jpa.model;
 
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ import org.hibernate.annotations.FetchMode;
 
 /**
  * @author Thomas Freese
+ * @since 16.08.2006
  */
 @Entity
 @Table(name = "T_PERSON", schema = "PUBLIC", uniqueConstraints = {@UniqueConstraint(name = "UNQ_PERSON_NAME_VORNAME", columnNames = {"NAME", "VORNAME"})})
@@ -148,15 +148,12 @@ public class Person extends AbstractEntity {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Person [");
-        builder.append("id=").append(id);
-        builder.append(", name=").append(name);
-        builder.append(", vorname=").append(vorname);
-        builder.append(", addresses=").append(addresses);
-        builder.append("]");
-
-        return builder.toString();
+        return "Person ["
+                + "id=" + id
+                + ", name=" + name
+                + ", vorname=" + vorname
+                + ", addresses=" + addresses
+                + "]";
     }
 
     @PrePersist

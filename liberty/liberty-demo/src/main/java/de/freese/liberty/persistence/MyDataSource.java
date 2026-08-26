@@ -1,4 +1,3 @@
-// Created: 21.05.2013
 package de.freese.liberty.persistence;
 
 import java.lang.annotation.ElementType;
@@ -10,6 +9,7 @@ import jakarta.inject.Qualifier;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2013
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

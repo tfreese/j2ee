@@ -1,4 +1,3 @@
-// Created: 21.05.2013
 package de.freese.liberty.jmx;
 
 import java.lang.management.ManagementFactory;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2013
  */
 @Startup
 @Singleton
@@ -43,7 +43,7 @@ public class JmxBeanExtension {
         }
 
         try {
-            for (Object bean : jmxBeans) {
+            for (final Object bean : jmxBeans) {
                 final Class<?> beanClass = bean.getClass();
                 // final Object bean = interceptor;
                 // final Class<?> beanClass = LogInterceptor.class;
@@ -63,7 +63,7 @@ public class JmxBeanExtension {
                 LOGGER.info("Registered {}", objectName);
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             LOGGER.error(ex.getMessage());
         }
     }

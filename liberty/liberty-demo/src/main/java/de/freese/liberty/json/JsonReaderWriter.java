@@ -1,5 +1,11 @@
-// Created: 18 Apr. 2025
 package de.freese.liberty.json;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Objects;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -10,17 +16,12 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.util.Objects;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * @author Thomas Freese
+ * @since 18.04.2025
  */
 @Provider // Must bei part of the WAR, and not in a Dependency.
 @Consumes({MediaType.APPLICATION_JSON})
@@ -30,7 +31,7 @@ public class JsonReaderWriter implements MessageBodyReader<Object>, MessageBodyW
     // private JacksonProvider jacksonProvider;
 
     //    @Inject
-//    @JsonMapperQualifier
+    //    @JsonMapperQualifier
     private final JsonMapper jsonMapper;
 
     // @Context

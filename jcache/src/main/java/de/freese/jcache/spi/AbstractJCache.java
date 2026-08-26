@@ -1,4 +1,3 @@
-// Created: 05 Juli 2024
 package de.freese.jcache.spi;
 
 import java.util.HashMap;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 05.07.2024
  */
 public abstract class AbstractJCache<K, V> implements Cache<K, V> {
     private final CacheManager cacheManager;

@@ -1,4 +1,3 @@
-// Created: 26 Juli 2024
 package de.freese.j2ee.liberty.spring;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
+ * @since 26.07.2024
  */
 class TestEndpoint {
     private static URI uriBase;

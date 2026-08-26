@@ -1,4 +1,3 @@
-// Created: 22 März 2025
 package de.freese.liberty.login;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
  * <a href="http://localhost:7080/liberty-login/page">localhost</a>
  *
  * @author Thomas Freese
+ * @since 22.03.2025
  */
 @Stateless
 public class LoginService {
@@ -21,7 +21,7 @@ public class LoginService {
         try {
             TimeUnit.SECONDS.sleep(3);
         }
-        catch (InterruptedException ex) {
+        catch (final InterruptedException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             // Restore interrupted state.

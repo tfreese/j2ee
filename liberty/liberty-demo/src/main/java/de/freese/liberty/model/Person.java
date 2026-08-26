@@ -1,4 +1,3 @@
-// Created: 27 Juli 2024
 package de.freese.liberty.model;
 
 import jakarta.persistence.Column;
@@ -11,6 +10,7 @@ import jakarta.persistence.Table;
 
 /**
  * @author Thomas Freese
+ * @since 27.07.2024
  */
 @Entity
 @Table(name = "T_PERSON")

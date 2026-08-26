@@ -1,4 +1,3 @@
-// Created: 20.05.2018
 package de.freese.liberty;
 
 import jakarta.servlet.ServletContextEvent;
@@ -11,6 +10,7 @@ import jakarta.ws.rs.core.Application;
  * Base Path under Context-Root for REST-Services.
  *
  * @author Thomas Freese
+ * @since 20.05.2018
  */
 @ApplicationPath("my-app")
 @WebListener

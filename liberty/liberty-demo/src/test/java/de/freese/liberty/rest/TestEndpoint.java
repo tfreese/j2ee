@@ -1,4 +1,3 @@
-// Created: 20.05.2018
 package de.freese.liberty.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +24,7 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 
 /**
  * @author Thomas Freese
+ * @since 20.05.2018
  */
 // @SuppressWarnings("all")
 @SuppressWarnings({"unchecked", "rawtypes"})

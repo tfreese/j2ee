@@ -1,4 +1,3 @@
-// Created: 15 März 2025
 package de.freese.liberty.rest;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import de.freese.liberty.kryo.KryoReaderWriter;
 
 /**
  * @author Thomas Freese
+ * @since 15.03.2025
  */
 // @SuppressWarnings("all")
 @SuppressWarnings({"unchecked", "rawtypes"})

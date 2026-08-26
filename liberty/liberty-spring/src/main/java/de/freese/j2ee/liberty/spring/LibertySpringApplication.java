@@ -1,5 +1,6 @@
 package de.freese.j2ee.liberty.spring;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -34,7 +35,7 @@ public class LibertySpringApplication extends SpringBootServletInitializer {
      * All other JEE-Jars are provided.
      */
     @Override
-    protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+    protected SpringApplicationBuilder configure(final @NonNull SpringApplicationBuilder application) {
         return configureApplication(application);
     }
 }

@@ -1,4 +1,3 @@
-// Created: 15 Mai 2024
 package de.freese.jpa;
 
 import java.lang.annotation.ElementType;
@@ -12,6 +11,7 @@ import org.hibernate.annotations.IdGeneratorType;
  * Sequence won't be generated and must exist.
  *
  * @author Thomas Freese
+ * @since 15.05.2024
  */
 @IdGeneratorType(BlockSequenceGenerator.class)
 @Retention(RetentionPolicy.RUNTIME)

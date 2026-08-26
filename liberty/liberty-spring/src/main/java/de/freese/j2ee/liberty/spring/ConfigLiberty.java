@@ -1,4 +1,3 @@
-// Created: 21.06.2018
 package de.freese.j2ee.liberty.spring;
 
 import javax.naming.NamingException;
@@ -14,6 +13,7 @@ import org.springframework.jndi.JndiTemplate;
 
 /**
  * @author Thomas Freese
+ * @since 21.06.2018
  */
 @Configuration
 @Profile("liberty")

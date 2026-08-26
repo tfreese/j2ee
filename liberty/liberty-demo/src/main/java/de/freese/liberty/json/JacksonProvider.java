@@ -1,4 +1,3 @@
-// Created: 22 März 2025
 package de.freese.liberty.json;
 
 import jakarta.ws.rs.Consumes;
@@ -8,6 +7,7 @@ import jakarta.ws.rs.ext.Provider;
 
 /**
  * @author Thomas Freese
+ * @since 22.03.2025
  */
 @Provider // Must bei part of the WAR, and not in a Dependency.
 @Consumes(MediaType.APPLICATION_JSON)

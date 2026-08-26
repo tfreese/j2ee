@@ -1,4 +1,3 @@
-// Created: 13.03.2010
 package de.freese.jpa.model;
 
 import jakarta.persistence.Cacheable;
@@ -23,6 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * @author Thomas Freese
+ * @since 13.03.2010
  */
 @Entity
 @Table(name = "T_ADDRESS", schema = "PUBLIC", uniqueConstraints = {@UniqueConstraint(name = "UNQ_ADDRESS_PERSON_STREET", columnNames = {"PERSON_ID", "STREET"})})

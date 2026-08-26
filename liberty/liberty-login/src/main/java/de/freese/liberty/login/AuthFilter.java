@@ -1,4 +1,3 @@
-// Created: 22 März 2025
 package de.freese.liberty.login;
 
 import java.io.IOException;
@@ -15,12 +14,13 @@ import jakarta.servlet.http.HttpSession;
 
 /**
  * @author Thomas Freese
+ * @since 22.03.2025
  */
 @WebFilter(filterName = "AuthFilter", urlPatterns = {"/*"})
 public final class AuthFilter implements Filter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-        if (!(request instanceof HttpServletRequest httpServletRequest)) {
+        if (!(request instanceof final HttpServletRequest httpServletRequest)) {
             chain.doFilter(request, response);
             return;
         }

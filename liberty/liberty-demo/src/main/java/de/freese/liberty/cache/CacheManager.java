@@ -1,4 +1,3 @@
-// Created: 04 Feb. 2026
 package de.freese.liberty.cache;
 
 import java.time.Duration;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 04.02.2026
  */
 @SuppressWarnings("unchecked")
 public final class CacheManager {

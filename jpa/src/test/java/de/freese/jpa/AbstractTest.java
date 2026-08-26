@@ -1,4 +1,3 @@
-// Created: 22.11.2015
 package de.freese.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,6 +66,7 @@ import de.freese.jpa.model.Person;
 
 /**
  * @author Thomas Freese
+ * @since 22.11.2015
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 abstract class AbstractTest {
@@ -188,8 +188,8 @@ abstract class AbstractTest {
             }
             else {
                 caffeine = Caffeine.newBuilder()
-                        .maximumSize(1000)
-                        .expireAfterWrite(Duration.ofHours(12))
+                        .maximumSize(1000L)
+                        .expireAfterWrite(Duration.ofHours(12L))
                         .recordStats();
             }
 
@@ -345,7 +345,7 @@ abstract class AbstractTest {
             final Query queryAddress = entityManager.createNativeQuery("select id, street from T_ADDRESS where person_id = :personId order by street desc", Object[].class);
             // query.setHint(QueryHints.CACHEABLE, Boolean.TRUE).setHint(QueryHints.CACHE_REGION, "address");
 
-            for (Person person : persons) {
+            for (final Person person : persons) {
                 // query.setParameter("personId", person.getID()).getResultStream().map(Object[].class::cast).map(row -> {
                 //     final Address address = new Address((String) row[1]);
                 //     address.setID((long) row[0]);
@@ -391,7 +391,7 @@ abstract class AbstractTest {
             for (int i = 1; i <= result.size(); i++) {
                 final MyProjectionVo dto = result.get(i - 1);
 
-                assertEquals("Name" + i, dto.getName());
+                assertEquals("Name" + i, dto.name());
             }
         }
     }
@@ -456,7 +456,7 @@ abstract class AbstractTest {
             entityManager.getTransaction().commit();
 
             final long count = entityManager.createQuery("select count(*) from Person", long.class).getSingleResult();
-            assertEquals(2, count);
+            assertEquals(2L, count);
         }
     }
 
@@ -470,7 +470,7 @@ abstract class AbstractTest {
     protected void dumpStatistics(final PrintWriter pw, final SessionFactory sessionFactory) {
         Object jdbcUrl = null;
 
-        for (String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
+        for (final String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
             jdbcUrl = sessionFactory.getProperties().get(key);
 
             if (jdbcUrl != null) {
@@ -547,7 +547,7 @@ abstract class AbstractTest {
 
         pw.println();
         pw.println("CollectionStatistics");
-        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(Objects::nonNull).forEach(collectionStatistics -> {
+        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).forEach(collectionStatistics -> {
             final long hCount = collectionStatistics.getCacheHitCount();
             final long mCount = collectionStatistics.getCacheMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);
@@ -591,7 +591,7 @@ abstract class AbstractTest {
 
         pw.println();
         pw.println("EntityStatistics");
-        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(entityStatistics -> {
+        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).forEach(entityStatistics -> {
             final long hCount = entityStatistics.getCacheHitCount();
             final long mCount = entityStatistics.getCacheMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);

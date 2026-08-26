@@ -1,4 +1,3 @@
-// Created: 21.06.2018
 package de.freese.j2ee.liberty.spring;
 
 import javax.sql.DataSource;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 /**
  * @author Thomas Freese
+ * @since 21.06.2018
  */
 @Configuration
 @Profile("tomcat")

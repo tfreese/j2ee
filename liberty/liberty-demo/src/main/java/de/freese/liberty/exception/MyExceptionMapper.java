@@ -1,4 +1,3 @@
-// Created: 04 Apr. 2025
 package de.freese.liberty.exception;
 
 import java.util.stream.Collectors;
@@ -14,6 +13,7 @@ import jakarta.ws.rs.ext.Provider;
 
 /**
  * @author Thomas Freese
+ * @since 04.04.2025
  */
 @Provider
 public final class MyExceptionMapper implements ExceptionMapper<Exception> {

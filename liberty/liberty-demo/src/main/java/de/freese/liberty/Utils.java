@@ -1,4 +1,3 @@
-// Created:04.06.2018
 package de.freese.liberty;
 
 import java.time.Duration;
@@ -16,6 +15,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 /***
  * @author Thomas Freese
+ * @since 04.06.2018
  */
 @SuppressWarnings("unchecked")
 public final class Utils {
@@ -49,7 +49,7 @@ public final class Utils {
             object = context.lookup(jndiName);
             context.close();
         }
-        catch (NamingException ex) {
+        catch (final NamingException ex) {
             throw new RuntimeException(ex);
         }
 

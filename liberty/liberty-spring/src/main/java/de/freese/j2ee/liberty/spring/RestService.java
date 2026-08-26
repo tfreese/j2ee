@@ -1,4 +1,3 @@
-// Created: 14.02.2017
 package de.freese.j2ee.liberty.spring;
 
 import java.sql.Connection;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * curl -X GET "http://localhost:PORT/liberty-spring/sysdate"
  *
  * @author Thomas Freese
+ * @since 14.02.2017
  */
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)

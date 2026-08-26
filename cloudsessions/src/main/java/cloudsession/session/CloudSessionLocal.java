@@ -27,7 +27,7 @@ public class CloudSessionLocal implements CloudSession {
             JsonUtils.toJson(outputStream, map);
             outputStream.flush();
         }
-        catch (IOException ex) {
+        catch (final IOException ex) {
             throw new UncheckedIOException(ex);
         }
     }
@@ -79,7 +79,7 @@ public class CloudSessionLocal implements CloudSession {
                         data.get(CloudSessionCache.TIMEOUT) != null && System.currentTimeMillis() > Long.parseLong(data.get(CloudSessionCache.TIMEOUT))
                 );
             }
-            catch (IOException ex) {
+            catch (final IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

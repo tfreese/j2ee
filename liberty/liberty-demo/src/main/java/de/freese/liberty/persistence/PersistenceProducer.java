@@ -1,4 +1,3 @@
-// Created: 21.05.2013
 package de.freese.liberty.persistence;
 
 import javax.sql.DataSource;
@@ -8,6 +7,7 @@ import jakarta.enterprise.inject.Produces;
 
 /**
  * @author Thomas Freese
+ * @since 21.05.2013
  */
 public final class PersistenceProducer {
     /**

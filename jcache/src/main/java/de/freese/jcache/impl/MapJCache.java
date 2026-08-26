@@ -1,4 +1,3 @@
-// Created: 06 Juli 2024
 package de.freese.jcache.impl;
 
 import java.util.Iterator;
@@ -8,11 +7,14 @@ import java.util.Set;
 
 import javax.cache.CacheManager;
 
+import org.jspecify.annotations.NonNull;
+
 import de.freese.jcache.spi.AbstractJCache;
 import de.freese.jcache.spi.CacheEntry;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2024
  */
 public final class MapJCache<K, V> extends AbstractJCache<K, V> {
     private final Map<K, V> cache;
@@ -61,7 +63,7 @@ public final class MapJCache<K, V> extends AbstractJCache<K, V> {
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
+    public @NonNull Iterator<Entry<K, V>> iterator() {
         validateNotClosed();
 
         return new Iterator<>() {

@@ -1,4 +1,3 @@
-// Created: 11.03.24
 package de.freese.jpa.model;
 
 import java.time.LocalDateTime;
@@ -14,6 +13,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * @author Thomas Freese
+ * @since 11.03.24
  */
 @MappedSuperclass
 public abstract class AbstractEntity {

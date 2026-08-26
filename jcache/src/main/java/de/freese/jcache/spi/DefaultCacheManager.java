@@ -1,4 +1,3 @@
-// Created: 06 Juli 2024
 package de.freese.jcache.spi;
 
 import java.net.URI;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 06.07.2024
  */
 public final class DefaultCacheManager implements CacheManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCacheManager.class);

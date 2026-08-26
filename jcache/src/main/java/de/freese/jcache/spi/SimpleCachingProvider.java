@@ -1,4 +1,3 @@
-// Created: 08 Feb. 2025
 package de.freese.jcache.spi;
 
 import static javax.cache.configuration.OptionalFeature.STORE_BY_REFERENCE;
@@ -18,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 08.02.2025
  */
 public final class SimpleCachingProvider implements CachingProvider {
     private final Logger logger = LoggerFactory.getLogger(getClass());

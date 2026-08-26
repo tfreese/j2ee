@@ -1,4 +1,3 @@
-// Created: 17 Jan. 2026
 package de.freese.liberty.cache;
 
 import javax.cache.annotation.CacheResult;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 17.01.2026
  */
 @Path("cache")
 public class CacheRestService {

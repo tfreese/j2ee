@@ -1,13 +1,15 @@
-// Created: 11.07.23
 package de.freese.jpa.converter;
 
 import java.awt.Color;
 
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 /**
  * @author Thomas Freese
+ * @since 11.07.23
  */
+@Converter
 public class ColorConverter implements AttributeConverter<Color, String> {
 
     @Override

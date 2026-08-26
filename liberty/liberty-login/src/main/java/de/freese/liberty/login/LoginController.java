@@ -1,4 +1,3 @@
-// Created: 22 März 2025
 package de.freese.liberty.login;
 
 import java.io.Serial;
@@ -19,6 +18,7 @@ import de.freese.liberty.Util;
  * <a href="http://localhost:7080/liberty-login/page">localhost</a>
  *
  * @author Thomas Freese
+ * @since 22.03.2025
  */
 @Named
 @SessionScoped
@@ -76,7 +76,7 @@ public class LoginController implements Serializable {
                 // FacesContext.getCurrentInstance().getExternalContext().redirect(requestedUri == null ? httpServletRequest.getContextPath() + "/login.xhtml" : requestedUri);
             }
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Login", ex.getMessage()));
         }
     }
@@ -91,7 +91,7 @@ public class LoginController implements Serializable {
             // return "login";
             FacesContext.getCurrentInstance().getExternalContext().redirect(httpServletRequest.getContextPath() + "/login.xhtml");
         }
-        catch (Exception ex) {
+        catch (final Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Logout", ex.getMessage()));
         }
     }

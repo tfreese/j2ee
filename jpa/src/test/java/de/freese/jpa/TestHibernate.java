@@ -1,4 +1,3 @@
-// Created: 12.11.2015
 package de.freese.jpa;
 
 import java.util.Map;
@@ -19,6 +18,7 @@ import de.freese.jpa.model.Person;
  * Session extends EntityManager
  *
  * @author Thomas Freese
+ * @since 12.11.2015
  */
 class TestHibernate extends AbstractTest {
     private static SessionFactory sessionFactory;

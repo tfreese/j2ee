@@ -1,4 +1,3 @@
-// Created: 17 Jan. 2026
 package de.freese.liberty.cache;
 
 import java.time.Duration;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
+ * @since 17.02.2026
  */
 @Startup // Create on startup.
 @Singleton

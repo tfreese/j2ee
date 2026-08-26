@@ -1,4 +1,3 @@
-// Created: 12.11.2015
 package de.freese.jpa;
 
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * @author Thomas Freese
+ * @since 12.11.2015
  */
 class TestJPA extends AbstractTest {
     private static EntityManagerFactory entityManagerFactory;
