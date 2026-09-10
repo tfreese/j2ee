@@ -41,6 +41,7 @@ subprojects {
             // dependency("org.glassfish.jersey.connectors:jersey-jnh-connector:" + dependencyManagement.importedProperties["jersey.version"])
             dependency("org.primefaces:primefaces:" + property("version_primefaces"))
             dependency("org.primefaces:primefaces-themes:" + property("version_primefacesThemes"))
+            dependency("org.primefaces.extensions:primefaces-extensions:" + property("version_primefacesExtensions"))
         }
     }
 

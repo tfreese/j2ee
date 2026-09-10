@@ -20,7 +20,8 @@ val libertyContextRoot = name
 dependencies {
     libertyRuntime("io.openliberty:openliberty-kernel:" + property("version_openliberty"))
 
-    implementation("org.primefaces:primefaces::jakarta")
+    implementation("org.primefaces:primefaces")
+    // implementation("org.primefaces:primefaces::jakarta")
     implementation("org.slf4j:slf4j-api")
 
     compileOnly("jakarta.platform:jakarta.jakartaee-api")
