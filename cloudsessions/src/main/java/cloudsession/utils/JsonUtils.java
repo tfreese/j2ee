@@ -3,6 +3,7 @@ package cloudsession.utils;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.core.type.TypeReference;
@@ -17,9 +18,12 @@ public final class JsonUtils {
     public static final Logger LOGGER = LoggerFactory.getLogger(JsonUtils.class);
 
     private static final JsonMapper JSON_MAPPER = JsonMapper.builder()
-            .configure(SerializationFeature.INDENT_OUTPUT, true)
-            .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            // Don't serialize empty values.
+            .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
             .build();
 
     public static <T> T fromJson(final InputStream inputStream, final Class<T> valueType) {

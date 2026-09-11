@@ -27,29 +27,30 @@ public class JacksonContextResolver implements ContextResolver<JsonMapper> {
     private static final Cache<String, JsonMapper> CACHE = Caffeine.newBuilder().expireAfterWrite(Duration.ofHours(1L)).build();
     private static final Logger LOGGER = LoggerFactory.getLogger(JacksonContextResolver.class);
 
-    private static JsonMapper createJsonMapper() {
+    private static JsonMapper.Builder createJsonMapperBuilder() {
         LOGGER.info("create instance: {}", Thread.currentThread().getName());
 
         return JsonMapper.builder()
-                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_NULL))
+                // Don't serialize empty values.
+                .changeDefaultPropertyInclusion(value -> value.withValueInclusion(JsonInclude.Include.NON_EMPTY))
                 .defaultTimeZone(TimeZone.getDefault())
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)
                 .disable(SerializationFeature.INDENT_OUTPUT)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-                .build();
+                ;
     }
 
     @Override
     public JsonMapper getContext(final Class<?> type) {
         LOGGER.atInfo().log("obtain instance for type: {}", Optional.ofNullable(type).map(Class::getSimpleName).orElse("null"));
 
-        return CACHE.get(Thread.currentThread().getName(), key -> createJsonMapper());
+        return CACHE.get(Thread.currentThread().getName(), key -> createJsonMapperBuilder().build());
     }
 
     @jakarta.enterprise.inject.Produces
     @JsonMapperQualifier
     public JsonMapper getJsonMapper() {
-        return getContext(Object.class);
+        return getContext(JsonMapper.class);
     }
 }
