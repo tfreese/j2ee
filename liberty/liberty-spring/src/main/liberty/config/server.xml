@@ -50,17 +50,17 @@
     <databaseStore id="defaultDatabaseStore" dataSourceRef="dbDS" />
 
     <!-- Jdbc driver-->
-    <library id="dbDriver">
-        <fileset dir="${server.config.dir}/libs" includes="h2-*.jar" />
-    </library>
+    <!-- <library id="dbDriver"> -->
+    <!--     <fileset dir="${server.config.dir}/libs" includes="h2-*.jar" /> -->
+    <!-- </library> -->
 
     <dataSource
             id="dbDS"
             jndiName="jdbc/dbDS">
 
         <!-- javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource" -->
+        <!-- libraryRef="dbDriver" -->
         <jdbcDriver
-                libraryRef="dbDriver"
                 javax.sql.ConnectionPoolDataSource="org.h2.jdbcx.JdbcDataSource"
         />
         <properties

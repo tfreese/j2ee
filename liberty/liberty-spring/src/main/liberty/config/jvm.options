@@ -3,12 +3,12 @@
 -Xmx512m
 
 # java tempdir
--Djava.io.tmpdir=/tmp/wlp/usr/servers/liberty-config/java.io.tmpdir
+-Djava.io.tmpdir=/tmp/wlp/usr/servers/liberty-spring/java.io.tmpdir
 
 # Remote debugging
 -Dwas.debug.mode=true
 -Dcom.ibm.websphere.ras.inject.at.transform=true
--agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777
+#-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7777
 
 -Duser.language=de
 -Duser.region=DE

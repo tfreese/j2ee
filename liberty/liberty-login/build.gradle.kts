@@ -9,10 +9,6 @@ plugins {
 // https://openliberty.io/guides/gradle-intro.html#getting-started
 description = "Demo for JSF-Login"
 
-tasks.withType<io.openliberty.tools.gradle.tasks.DeployTask>().configureEach {
-    notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
-}
-
 val libertyServerHttpPort = "7080"
 val libertyServerHttpsPort = "7443"
 val libertyContextRoot = name
@@ -70,9 +66,22 @@ tasks.clean {
     dependsOn("libertyStop")
 }
 
+// tasks.withType<io.openliberty.tools.gradle.tasks.DeployTask>().configureEach {
+//     notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
+// }
+tasks.configureEach {
+    if (this::class.java.name.startsWith("io.openliberty.tools.gradle.tasks.")) {
+        // println(this::class.java.name)
+        notCompatibleWithConfigurationCache("Das Liberty-Plugin unterstützt den Configuration Cache noch nicht.")
+    }
+}
 liberty {
+    // install {
+    //     baseDir = "/tmp"
+    // }
     server.apply {
-        // baseDir = layout.buildDirectory.dir("ibm").get()
+        configDirectory = file("src/main/liberty/config")
+        baseDir = layout.buildDirectory.dir("ibm").get().toString()
         name = project.name
 
         stripVersion = true
@@ -93,4 +102,11 @@ liberty {
         // jvmOptionsFile = file("config/jvm.options")
         // serverEnvFile = file("config/server.env")
     }
+}
+
+tasks.named<io.openliberty.tools.gradle.tasks.DevTask>("libertyDev") {
+    // Debug-Port für den Java-Debugger festlegen (Standard wäre 7777).
+    setLibertyDebugPort("7778")
+
+    // debug = false // Würde den Debug-Modus komplett deaktivieren.
 }
